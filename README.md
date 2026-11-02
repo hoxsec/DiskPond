@@ -8,7 +8,7 @@ DiskPond's target is encrypted, versioned backups to storage you provide: local/
 
 **M1 complete — verified Windows development baseline.** The pinned engine, desktop and installer pass local checks and [clean Windows CI](https://github.com/hoxsec/DiskPond/actions/runs/41521154820). Built, development and installed smoke checks reach the inherited local workspace and probe the real engine. Backup/restore certification is still ahead.
 
-The imported interface still contains BlinkDisk branding and account/cloud features. M2 will replace those with DiskPond's local workspace and original design, remove service/analytics code, and verify the first complete backup/restore journey. Encrypted setup export/import follows in M5. There is no DiskPond stable installer release yet.
+**M2 is in progress.** The desktop now uses the owner's DiskPond artwork and a local workspace, with hosted login, CloudBlink, billing, configuration sync and telemetry integrations removed. [Branding/workspace evidence](docs/verification/m2-branding-workspace.md) records passing local checks, Windows packaging and built/development/installed smoke for this working tree. The first complete backup/restore certification remains open; encrypted setup export/import follows in M5. There is no DiskPond stable installer release yet.
 
 See [ROADMAP.md](ROADMAP.md) for milestone gates and [PLAN.md](PLAN.md) for the full requirement inventory.
 
@@ -22,7 +22,7 @@ pnpm install --frozen-lockfile
 pnpm dev:desktop
 ```
 
-On the inherited welcome screen, choose **Continue without account**, then **Continue anyway** to reach the local workspace. Desktop development starts the renderer and Electron; the bundled engine starts when storage is probed or a vault connects.
+Choose **Open DiskPond** on first launch. Existing local workspaces reopen directly. Desktop development starts the renderer and Electron; the bundled engine starts when storage is probed or a vault connects.
 
 Full commands, prerequisites and isolated smoke checks: [DEVELOPMENT.md](DEVELOPMENT.md).
 

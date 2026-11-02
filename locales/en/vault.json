@@ -12,34 +12,15 @@
     "count_other": "{{count}} vaults found"
   },
   "createDialog": {
+    "back": "Back",
     "title": {
       "default": "Create new vault",
       "first": "Create your first vault"
     },
     "description": "Create a new vault.",
-    "variant": {
-      "cloudblink": {
-        "readMore": "Read more",
-        "features": {
-          "trialStorage": "{{trialStorage}} free for {{trialDays}} days",
-          "noSetup": "No setup required",
-          "cheaper": "80% cheaper than S3"
-        },
-        "continue": "Continue",
-        "signIn": "Sign in",
-        "selectAccount": "Select account"
-      },
-      "custom": {
-        "title": "Custom storage provider",
-        "features": {
-          "noFreeStorage": "No free storage",
-          "manualSetup": "Manual setup required"
-        },
-        "button": "Setup"
-      }
-    },
     "providers": {
       "search": {
+        "label": "Search storage providers",
         "placeholder": "Search providers..."
       }
     },
@@ -51,7 +32,7 @@
       },
       "existsError": {
         "title": "Vault already exists",
-        "description": "This vault is already connected to your account under the name \"{{name}}\"."
+        "description": "This vault is already connected on this computer under the name \"{{name}}\"."
       }
     },
     "details": {
@@ -69,11 +50,7 @@
       },
       "warning": {
         "title": "Never forget this password",
-        "description": "We never store this password on our servers and there is no way to recover it. If you lose this password, you might not be able to restore your backups."
-      },
-      "storage": {
-        "description": "BlinkDisk manages the cloud storage for this vault.",
-        "change": "Change storage"
+        "description": "Keep this encryption password somewhere safe. DiskPond cannot reset it. You will need it to restore your backups on another computer."
       },
       "submit": "Create vault"
     }
@@ -102,8 +79,8 @@
   },
   "providers": {
     "CLOUDBLINK": {
-      "name": "CloudBlink",
-      "shortName": "CloudBlink"
+      "name": "Unsupported managed storage",
+      "shortName": "Unsupported storage"
     },
     "INTERNAL_DRIVE": {
       "name": "This computer",
@@ -402,7 +379,6 @@
     "title": "Home",
     "vault": "Vault",
     "settings": "Settings",
-    "upgrade": "Upgrade storage",
     "currentProfile": {
       "title": "Current profile"
     },
@@ -453,8 +429,8 @@
         "description": "Your backup setup is configured correctly."
       },
       "localOnly": {
-        "category": "No cloud backup",
-        "description": "Add a cloud vault to protect against drive failure or loss."
+        "category": "Local destinations only",
+        "description": "Consider another copy on a separate device or off-site storage you provide."
       },
       "unavailable": {
         "category": "Status unavailable",
@@ -465,46 +441,28 @@
         "description_one": "{{count}} backup ran into problems. Open your vault list to see what went wrong.",
         "description_other": "{{count}} backups ran into problems. Open your vault list to see what went wrong."
       }
-    },
-    "usedStorage": {
-      "title": "CloudBlink usage",
-      "amount": "{{used}} of {{capacity}} used"
     }
   },
   "remoteTooltip": {
     "title": "Different profile",
     "description": "You are viewing a different profile. You can't perform this action."
   },
-  "moveDialog": {
-    "title": "Move vaults",
-    "description": "Move selected vaults to a different account.",
-    "vaults": "Select vaults",
-    "from": "From account",
-    "to": "To account",
-    "selectAccount": "Select account",
-    "changeAccount": "Change",
-    "submit": "Move vaults"
-  },
   "deleteDialog": {
-    "title": "Delete vault",
-    "description": "Are you sure you want to delete this vault? This action cannot be undone.",
+    "title": "Disconnect vault",
+    "description": "Remove this vault connection from this computer? Its stored backups will remain in your storage.",
     "confirm": {
       "label": "To confirm, type \"{{vaultName}}\" below:",
       "placeholder": "Enter vault name",
       "error": {
-        "empty": "Please type \"{{vaultName}}\" to confirm deletion.",
+        "empty": "Please type \"{{vaultName}}\" to confirm disconnection.",
         "mismatch": "The vault name you entered does not match."
       }
     },
     "storageAlert": {
       "title": "Backup files won't be deleted",
-      "description": "Your vault will be removed from BlinkDisk, but your backup files will be kept in your custom storage."
+      "description": "DiskPond will stop backing up to this vault. You can reconnect using its storage settings and encryption password."
     },
     "cancel": "Cancel",
-    "continue": "Delete vault"
-  },
-  "syncedToast": {
-    "title": "Successfully synced vaults",
-    "description": "Your vaults have been successfully synced."
+    "continue": "Disconnect vault"
   }
 }

@@ -1,7 +1,6 @@
 import { AmazonS3Icon } from "@desktop/components/icons/providers/amazon-s3";
 import { AzureBlobStorageIcon } from "@desktop/components/icons/providers/azure-blob-storage";
 import { BackblazeIcon } from "@desktop/components/icons/providers/backblaze";
-import { CloudBlinkIcon } from "@desktop/components/icons/providers/cloudblink";
 import { ExternalDriveIcon } from "@desktop/components/icons/providers/external-drive";
 import { GoogleCloudStorageIcon } from "@desktop/components/icons/providers/google-cloud-storage";
 import { InternalDriveIcon } from "@desktop/components/icons/providers/internal-drive";
@@ -12,7 +11,7 @@ import { SftpIcon } from "@desktop/components/icons/providers/sftp";
 import { WebdavIcon } from "@desktop/components/icons/providers/webdav";
 
 export const providerIcons = {
-  CLOUDBLINK: CloudBlinkIcon,
+  CLOUDBLINK: InternalDriveIcon,
   INTERNAL_DRIVE: InternalDriveIcon,
   EXTERNAL_DRIVE: ExternalDriveIcon,
   NETWORK_DRIVE: NetworkDriveIcon,

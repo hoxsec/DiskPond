@@ -179,7 +179,7 @@ try {
   assert.ok(page, "No packaged frontend target");
   client = await connect(page.webSocketDebuggerUrl);
   mainClient = await connect(inspector);
-  await waitText("Continue without account");
+  await waitText("Open DiskPond");
   const registration = spawnSync(
     "reg",
     ["query", `${schemeKey}\\shell\\open\\command`, "/ve"],
@@ -188,9 +188,11 @@ try {
   assert.equal(registration.status, 0, "Packaged URI registration is missing");
   assert.ok(registration.stdout.includes(join(destination, "DiskPond.exe")));
   assert.equal(await evaluate("window.electron.app.version()"), "0.0.0");
-  await click("Continue without account");
-  await waitText("Continue anyway");
-  await click("Continue anyway");
+  assert.equal(
+    await evaluate("'auth' in window.electron || 'sync' in window.electron"),
+    false,
+  );
+  await click("Open DiskPond");
   await waitText("Create your vault");
   const probe = join(temp, "destination");
   await mkdir(probe);
@@ -199,6 +201,10 @@ try {
   );
   assert.equal(result.code, "NOT_INITIALIZED");
   assert.deepEqual(await readdir(probe), [".shards"]);
+  assert.deepEqual(
+    await readFile(join(destination, "resources/assets/icon.png")),
+    await readFile("apps/electron/icon/icon.png"),
+  );
   assert.equal(
     await readFile(
       join(destination, "resources/licenses/DiskPond-AGPL-3.0.txt"),

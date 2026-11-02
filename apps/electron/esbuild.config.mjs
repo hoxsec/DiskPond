@@ -12,10 +12,6 @@ const isDev = process.argv[2] === "development";
 const values = {
   NODE_ENV: isDev ? "development" : "production",
   DESKTOP_URL: "http://127.0.0.1:3002",
-  API_URL: process.env.API_URL || "http://127.0.0.1:4000",
-  CLOUD_URL: process.env.CLOUD_URL || "http://127.0.0.1:4001",
-  WEB_URL: process.env.WEB_URL || "http://127.0.0.1:3001",
-  SENTRY_DESKTOP_DSN: "",
 };
 const env = Object.fromEntries(
   Object.entries(values).map(([key, value]) => [

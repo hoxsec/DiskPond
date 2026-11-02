@@ -1,6 +1,6 @@
 {
   "title": "There's a new update!",
-  "description": "A new version of BlinkDisk is available. Upgrade now to get the latest features and bug fixes.",
+  "description": "A new version of DiskPond is available.",
   "restart": "Restart",
   "downloading": "Downloading update...",
   "error": {
@@ -11,7 +11,7 @@
     "title": "Dismiss update?",
     "warning": {
       "title": "Things might break",
-      "description": "Install the update as soon as you can to keep BlinkDisk working correctly."
+      "description": "You can install the DiskPond update later."
     },
     "cancel": "Cancel",
     "confirm": "Dismiss update"

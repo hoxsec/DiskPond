@@ -13,9 +13,8 @@ import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as AccountIdRouteRouteImport } from './routes/$accountId/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountIdIndexRouteImport } from './routes/$accountId/index'
+import { Route as AccountIdSettingsRouteImport } from './routes/$accountId/settings'
 import { Route as AccountIdLoadingRouteImport } from './routes/$accountId/loading'
-import { Route as AccountIdCloudblinkRouteImport } from './routes/$accountId/cloudblink'
-import { Route as AccountIdAccountRouteImport } from './routes/$accountId/account'
 import { Route as AccountIdVaultIdRouteRouteImport } from './routes/$accountId/$vaultId/route'
 import { Route as AccountIdVaultIdIndexRouteImport } from './routes/$accountId/$vaultId/index'
 import { Route as AccountIdVaultIdPoliciesRouteImport } from './routes/$accountId/$vaultId/policies'
@@ -45,19 +44,14 @@ const AccountIdIndexRoute = AccountIdIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AccountIdRouteRoute,
 } as any)
+const AccountIdSettingsRoute = AccountIdSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AccountIdRouteRoute,
+} as any)
 const AccountIdLoadingRoute = AccountIdLoadingRouteImport.update({
   id: '/loading',
   path: '/loading',
-  getParentRoute: () => AccountIdRouteRoute,
-} as any)
-const AccountIdCloudblinkRoute = AccountIdCloudblinkRouteImport.update({
-  id: '/cloudblink',
-  path: '/cloudblink',
-  getParentRoute: () => AccountIdRouteRoute,
-} as any)
-const AccountIdAccountRoute = AccountIdAccountRouteImport.update({
-  id: '/account',
-  path: '/account',
   getParentRoute: () => AccountIdRouteRoute,
 } as any)
 const AccountIdVaultIdRouteRoute = AccountIdVaultIdRouteRouteImport.update({
@@ -112,9 +106,8 @@ export interface FileRoutesByFullPath {
   '/$accountId': typeof AccountIdRouteRouteWithChildren
   '/welcome': typeof WelcomeRoute
   '/$accountId/$vaultId': typeof AccountIdVaultIdRouteRouteWithChildren
-  '/$accountId/account': typeof AccountIdAccountRoute
-  '/$accountId/cloudblink': typeof AccountIdCloudblinkRoute
   '/$accountId/loading': typeof AccountIdLoadingRoute
+  '/$accountId/settings': typeof AccountIdSettingsRoute
   '/$accountId/': typeof AccountIdIndexRoute
   '/$accountId/$vaultId/$sourceId': typeof AccountIdVaultIdSourceIdRouteRouteWithChildren
   '/$accountId/$vaultId/settings': typeof AccountIdVaultIdSettingsRouteRoute
@@ -127,9 +120,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/welcome': typeof WelcomeRoute
-  '/$accountId/account': typeof AccountIdAccountRoute
-  '/$accountId/cloudblink': typeof AccountIdCloudblinkRoute
   '/$accountId/loading': typeof AccountIdLoadingRoute
+  '/$accountId/settings': typeof AccountIdSettingsRoute
   '/$accountId': typeof AccountIdIndexRoute
   '/$accountId/$vaultId/settings': typeof AccountIdVaultIdSettingsRouteRoute
   '/$accountId/$vaultId/policies': typeof AccountIdVaultIdPoliciesRoute
@@ -143,9 +135,8 @@ export interface FileRoutesById {
   '/$accountId': typeof AccountIdRouteRouteWithChildren
   '/welcome': typeof WelcomeRoute
   '/$accountId/$vaultId': typeof AccountIdVaultIdRouteRouteWithChildren
-  '/$accountId/account': typeof AccountIdAccountRoute
-  '/$accountId/cloudblink': typeof AccountIdCloudblinkRoute
   '/$accountId/loading': typeof AccountIdLoadingRoute
+  '/$accountId/settings': typeof AccountIdSettingsRoute
   '/$accountId/': typeof AccountIdIndexRoute
   '/$accountId/$vaultId/$sourceId': typeof AccountIdVaultIdSourceIdRouteRouteWithChildren
   '/$accountId/$vaultId/settings': typeof AccountIdVaultIdSettingsRouteRoute
@@ -162,9 +153,8 @@ export interface FileRouteTypes {
     | '/$accountId'
     | '/welcome'
     | '/$accountId/$vaultId'
-    | '/$accountId/account'
-    | '/$accountId/cloudblink'
     | '/$accountId/loading'
+    | '/$accountId/settings'
     | '/$accountId/'
     | '/$accountId/$vaultId/$sourceId'
     | '/$accountId/$vaultId/settings'
@@ -177,9 +167,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/welcome'
-    | '/$accountId/account'
-    | '/$accountId/cloudblink'
     | '/$accountId/loading'
+    | '/$accountId/settings'
     | '/$accountId'
     | '/$accountId/$vaultId/settings'
     | '/$accountId/$vaultId/policies'
@@ -192,9 +181,8 @@ export interface FileRouteTypes {
     | '/$accountId'
     | '/welcome'
     | '/$accountId/$vaultId'
-    | '/$accountId/account'
-    | '/$accountId/cloudblink'
     | '/$accountId/loading'
+    | '/$accountId/settings'
     | '/$accountId/'
     | '/$accountId/$vaultId/$sourceId'
     | '/$accountId/$vaultId/settings'
@@ -241,25 +229,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountIdIndexRouteImport
       parentRoute: typeof AccountIdRouteRoute
     }
+    '/$accountId/settings': {
+      id: '/$accountId/settings'
+      path: '/settings'
+      fullPath: '/$accountId/settings'
+      preLoaderRoute: typeof AccountIdSettingsRouteImport
+      parentRoute: typeof AccountIdRouteRoute
+    }
     '/$accountId/loading': {
       id: '/$accountId/loading'
       path: '/loading'
       fullPath: '/$accountId/loading'
       preLoaderRoute: typeof AccountIdLoadingRouteImport
-      parentRoute: typeof AccountIdRouteRoute
-    }
-    '/$accountId/cloudblink': {
-      id: '/$accountId/cloudblink'
-      path: '/cloudblink'
-      fullPath: '/$accountId/cloudblink'
-      preLoaderRoute: typeof AccountIdCloudblinkRouteImport
-      parentRoute: typeof AccountIdRouteRoute
-    }
-    '/$accountId/account': {
-      id: '/$accountId/account'
-      path: '/account'
-      fullPath: '/$accountId/account'
-      preLoaderRoute: typeof AccountIdAccountRouteImport
       parentRoute: typeof AccountIdRouteRoute
     }
     '/$accountId/$vaultId': {
@@ -375,17 +356,15 @@ const AccountIdVaultIdRouteRouteWithChildren =
 
 interface AccountIdRouteRouteChildren {
   AccountIdVaultIdRouteRoute: typeof AccountIdVaultIdRouteRouteWithChildren
-  AccountIdAccountRoute: typeof AccountIdAccountRoute
-  AccountIdCloudblinkRoute: typeof AccountIdCloudblinkRoute
   AccountIdLoadingRoute: typeof AccountIdLoadingRoute
+  AccountIdSettingsRoute: typeof AccountIdSettingsRoute
   AccountIdIndexRoute: typeof AccountIdIndexRoute
 }
 
 const AccountIdRouteRouteChildren: AccountIdRouteRouteChildren = {
   AccountIdVaultIdRouteRoute: AccountIdVaultIdRouteRouteWithChildren,
-  AccountIdAccountRoute: AccountIdAccountRoute,
-  AccountIdCloudblinkRoute: AccountIdCloudblinkRoute,
   AccountIdLoadingRoute: AccountIdLoadingRoute,
+  AccountIdSettingsRoute: AccountIdSettingsRoute,
   AccountIdIndexRoute: AccountIdIndexRoute,
 }
 

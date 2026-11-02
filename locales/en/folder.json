@@ -37,12 +37,6 @@
       "file": "Add file"
     },
     "changePolicy": "Change policy",
-    "exceedingAlert": {
-      "title": "Not enough cloud storage",
-      "description": "This file or folder likely can’t be backed up because it would exceed your available CloudBlink storage. To back it up, you’ll need to upgrade your CloudBlink plan.",
-      "continue": "Add anyway",
-      "upgrade": "Upgrade storage"
-    },
     "size": {
       "title": "Calculate size",
       "description": "Estimate the size of this file or folder.",
@@ -92,7 +86,7 @@
     },
     "alert": {
       "title": "Cleanup happens over time",
-      "description": "Storage space won’t be freed instantly. BlinkDisk cleans up unused data later to ensure reliability."
+      "description": "Storage space won’t be freed instantly. DiskPond cleans up unused data later to ensure reliability."
     },
     "cancel": "Cancel",
     "continue": {
@@ -125,8 +119,8 @@
         "file": "This file couldn't be found. It may have been moved, renamed, or be on a drive that isn't connected."
       },
       "permission": {
-        "folder": "BlinkDisk isn't allowed to read this folder. Check its permissions and try again.",
-        "file": "BlinkDisk isn't allowed to read this file. Check its permissions and try again."
+        "folder": "DiskPond isn't allowed to read this folder. Check its permissions and try again.",
+        "file": "DiskPond isn't allowed to read this file. Check its permissions and try again."
       },
       "failed": {
         "folder": "The last backup couldn't be completed. Try again, and check the details if it keeps failing.",

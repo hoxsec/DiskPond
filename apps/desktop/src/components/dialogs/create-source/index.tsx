@@ -1,20 +1,18 @@
 import { useStore } from "@blinkdisk/forms/use-app-form";
 import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import type { ZCreateSourceFormType } from "@blinkdisk/schemas/source";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
 } from "@blinkdisk/ui/dialog";
-import { ExceedingAlert } from "@desktop/components/dialogs/create-source/exceeding-alert";
 import { CreateSourceGeneral } from "@desktop/components/dialogs/create-source/general";
 import { useCreateSourceForm } from "@desktop/hooks/forms/use-create-source-form";
 import { useCreateSource } from "@desktop/hooks/mutations/core/use-create-source";
 import { useCreateSourceDraftPolicy } from "@desktop/hooks/mutations/core/use-create-source-draft-policy";
 import { useCreateSourceDialog } from "@desktop/hooks/state/use-create-source-dialog";
 import { useLocalProfile } from "@desktop/hooks/use-local-profile";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 
 type CreateSourceAction = "CREATE" | "POLICY";
 
@@ -26,9 +24,6 @@ export function CreateSourceDialog() {
     useCreateSourceDialog();
 
   const actionRef = useRef<CreateSourceAction>("CREATE");
-  const [alertShown, setAlertShown] = useState(false);
-  const [pendingValues, setPendingValues] =
-    useState<ZCreateSourceFormType | null>(null);
 
   const onSuccess = useCallback(() => {
     setIsOpen(false);
@@ -36,16 +31,6 @@ export function CreateSourceDialog() {
 
   const { mutateAsync: createSource, isPending: isCreatingSource } =
     useCreateSource({
-      onError: (error) => {
-        if (
-          error &&
-          typeof error === "object" &&
-          "message" in error &&
-          error.message === "SOURCE_TOO_LARGE"
-        ) {
-          setAlertShown(true);
-        }
-      },
       onSuccess,
     });
 
@@ -66,8 +51,7 @@ export function CreateSourceDialog() {
         return;
       }
 
-      setPendingValues(value);
-      await createSource({ ...value, size: null });
+      await createSource(value);
     },
   });
 
@@ -76,8 +60,6 @@ export function CreateSourceDialog() {
   const reset = useCallback(() => {
     form.reset();
     clearDefaultValues();
-    setAlertShown(false);
-    setPendingValues(null);
     actionRef.current = "CREATE";
   }, [form, clearDefaultValues]);
 
@@ -96,15 +78,6 @@ export function CreateSourceDialog() {
           onAction={(action) => {
             actionRef.current = action;
           }}
-        />
-        <ExceedingAlert
-          open={alertShown}
-          setOpen={setAlertShown}
-          loading={isCreatingSource}
-          submit={() =>
-            pendingValues &&
-            createSource({ ...pendingValues, force: true, size: null })
-          }
         />
       </DialogContent>
     </Dialog>

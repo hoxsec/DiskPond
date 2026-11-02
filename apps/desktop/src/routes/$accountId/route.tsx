@@ -1,20 +1,21 @@
-import { MoveVaultsDialog } from "@desktop/components/dialogs/move-vaults";
+import { LOCAL_ACCOUNT_ID } from "@blinkdisk/constants/account";
 import { Layout } from "@desktop/components/layout";
-import { useSubscriptionWatch } from "@desktop/hooks/use-subscription-watch";
-import { useSyncListener } from "@desktop/hooks/use-sync-listener";
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/$accountId")({
+  beforeLoad: ({ params }) => {
+    if (params.accountId !== LOCAL_ACCOUNT_ID)
+      throw redirect({
+        to: "/$accountId",
+        params: { accountId: LOCAL_ACCOUNT_ID },
+      });
+  },
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  useSubscriptionWatch();
-  useSyncListener();
-
   return (
     <Layout>
-      <MoveVaultsDialog />
       <Outlet />
     </Layout>
   );

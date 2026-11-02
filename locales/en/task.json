@@ -10,7 +10,7 @@
     "logs": {
       "waiting": "Waiting for logs...",
       "empty": "No logs available",
-      "unavailable": "Task logs couldn’t be loaded. Older tasks expire, and task history is cleared when BlinkDisk restarts."
+      "unavailable": "Task logs couldn’t be loaded. Older tasks expire, and task history is cleared when DiskPond restarts."
     },
     "close": "Close",
     "cancel": "Cancel Task",

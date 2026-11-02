@@ -4,10 +4,6 @@ vi.mock("@blinkdisk/constants/app", () => ({
   PROTOCOL_FRONTEND_NS: "frontend",
   PROTOCOL_VAULT_NS: "vault",
 }));
-vi.mock("@blinkdisk/constants/header", () => ({
-  ACCOUNT_ID_HEADER: "x-account-id",
-}));
-vi.mock("@electron/auth", () => ({ getAccountCookie: vi.fn() }));
 vi.mock("@electron/vault/fetch", () => ({ fetchVaultRaw: vi.fn() }));
 vi.mock("@electron/vault/manage", () => ({ getVault: vi.fn() }));
 vi.mock("electron", () => ({
@@ -20,10 +16,19 @@ import path from "node:path";
 import { INTERNAL_SCHEME } from "@blinkdisk/constants/app";
 import {
   isPathSafe,
+  listenProtocol,
   registerProtcol,
   resolveProtocolPath,
 } from "@electron/protocol";
 import { protocol } from "electron";
+
+it("does not proxy the retired hosted API", async () => {
+  listenProtocol();
+  const handler = vi.mocked(protocol.handle).mock.calls.at(-1)?.[1];
+  expect(handler).toBeDefined();
+  const response = await handler?.(new Request("app://api/trpc"));
+  expect(response?.status).toBe(404);
+});
 
 describe("registerProtcol", () => {
   it("registers the internal scheme as fetch and CORS capable", () => {

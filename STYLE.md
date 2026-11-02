@@ -2,7 +2,7 @@
 
 - **Updated:** 2026-11-02
 - **Direction:** A calm, polished backup utility with an original DiskPond identity.
-- **Status:** Design specification; tokens and components are implemented beginning in M2.
+- **Status:** M2 foundation: owner-supplied branding, shared light/dark tokens and account-free shell implemented. Full workflow/accessibility certification remains open.
 
 ## 1. Design principles
 
@@ -17,7 +17,7 @@
 - Display name: **DiskPond**. Use this capitalization in headings, menus, installers and prose.
 - Machine identifiers: lowercase `diskpond`; M1 uses `io.github.hoxsec.diskpond` for app/URI identity and `diskpondapp` internally. Private inherited workspace package names remain until deliberate extraction/rebranding.
 - Visual character: trustworthy, clear, restrained, slightly warm. Teal is the primary accent; blue denotes information/secondary emphasis.
-- Use original assets. A simple pond/ripple or disk-and-water mark is a possible direction, not a completed logo requirement.
+- Use the owner's graphite/silver hard-drive icon and bold outlined DiskPond wordmark from `libs/assets/brand`. Keep the supplied geometry/colors; use the white-wordmark variant on dark surfaces. Generate native sizes with `pnpm build:branding`.
 - Retain BlinkDisk/Kopia attribution in source, licenses and About; product branding is DiskPond.
 - Keep surfaces flat with subtle separation. Avoid heavy gradients, glass effects, decorative charts and large promotional illustrations in working screens.
 - No account avatar, cloud subscription banner, upsell, or sign-in placeholder in the local workspace.

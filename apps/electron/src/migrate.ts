@@ -1,21 +1,12 @@
 import { tryCatch } from "@blinkdisk/utils/try-catch";
 import { log } from "@electron/log";
-import { migrateAuthV1 } from "@electron/migrations/auth_v1";
-import { migrateAuthV2 } from "@electron/migrations/auth_v2";
 import { migrateStoreV1 } from "@electron/migrations/store_v1";
+import { migrateWorkspaceV1 } from "@electron/migrations/workspace-v1";
 import { type GlobalStorageType, store } from "@electron/store";
-import { captureException } from "@sentry/electron/main";
 
 const migrations = [
   { id: "store_v1", execute: migrateStoreV1 },
-  {
-    id: "auth_v1",
-    execute: migrateAuthV1,
-  },
-  {
-    id: "auth_v2",
-    execute: migrateAuthV2,
-  },
+  { id: "workspace_v1", execute: migrateWorkspaceV1 },
 ];
 
 export async function runMigrations() {
@@ -35,7 +26,6 @@ export async function runMigrations() {
 
     if (error) {
       log.error(`Failed to execute migration ${migration.id}:`, error);
-      captureException(error);
       continue;
     }
 

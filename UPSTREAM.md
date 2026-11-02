@@ -48,10 +48,20 @@ New implementation files are `scripts/` build/dev/smoke runners, `libs/constants
 
 The lockfile was regenerated with pnpm 11.7.0 after removing the two desktop upload-plugin imports. The resulting diff removes the unused esbuild plugin, collapses duplicate existing optional `@emnapi/runtime` peer snapshots to the already-locked 1.11.3 resolution, and refreshes two deprecation annotations. No broad dependency update was requested. Use frozen installation thereafter.
 
+## M2 branding/local-workspace changes
+
+The owner-supplied DiskPond SVG wordmark/drive icon replaces inherited product artwork in the shared logo, favicons, native app/installer and tray. `scripts/build-branding.mjs` generates the derivatives with pinned resvg. Shared light/dark tokens follow STYLE.md.
+
+Desktop auth/account switching, CloudBlink, billing, quotas, promotions and telemetry UI/hooks are removed. Electron no longer imports hosted auth/sync/tRPC clients, token migrations, hosted API proxying or Sentry. Local collection filenames and encrypted configuration formats are retained; a local-only migration selects the workspace without touching dormant hosted account collections. Shared config-level/vault-status contracts no longer import the hosted database schema. Engine source/gitlink and license material are preserved.
+
+Verification and outstanding M2 work: [branding/workspace record](docs/verification/m2-branding-workspace.md). Retained service applications and their own dependencies are not desktop deliverables.
+
+The M2 lockfile was regenerated with pnpm 11.7.0 from the baseline resolutions. Its only new package family is the pinned artwork renderer `@resvg/resvg-js@2.6.2` and platform bindings; removed entries follow the retired desktop dependencies. The local-engine cookie dependencies remain at `tough-cookie@6.0.1` and `tldts`/`tldts-core@7.4.4`.
+
 ## Distribution and later updates
 
 DiskPond's source/release namespace is `hoxsec/DiskPond`. Runtime identifiers are documented in [the M1 evidence](docs/verification/m1-windows-baseline.md). Existing BlinkDisk settings are not imported automatically.
 
-Before distributing binaries, publish matching application and core source, build instructions, license/copyright material, dependency notices and checksums. Current development packaging includes both project license texts and this provenance record; a complete third-party notice review, original UI assets and release signing are M5 gates. Build instructions are in [DEVELOPMENT.md](DEVELOPMENT.md).
+Before distributing binaries, publish matching application and core source, build instructions, license/copyright material, dependency notices and checksums. Current development packaging includes both project license texts, owner artwork and this provenance record; a complete third-party notice review and release signing remain M5 gates. Build instructions are in [DEVELOPMENT.md](DEVELOPMENT.md).
 
 Review upstream fixes deliberately. Advance application/core pins with compatibility evidence, rather than replacing the fork with stock Kopia or following a moving engine branch.

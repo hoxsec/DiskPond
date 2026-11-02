@@ -40,7 +40,7 @@ pnpm install --frozen-lockfile
 
 The engine revision must be `e8955e7280edd9526b9f104f1592f233cfe6789b`. Do not use `git submodule update --remote` or substitute a globally installed Kopia binary. `pnpm build:core` checks the checkout against the recorded gitlink.
 
-Installation uses the inherited workspace lockfile and approved dependency build scripts. It still installs service-era packages because M2 extraction has not happened. Run installation once after intentional manifest changes, before starting parallel checks: pnpm 11 may auto-install on subsequent commands and concurrent installation can race on Windows shims. Regenerate the lockfile with pnpm rather than editing it manually.
+Installation uses the pinned workspace lockfile and approved dependency build scripts. Retained hosted-service source packages still install their own dependencies; the desktop no longer imports their API/database contracts. Run installation once after intentional manifest changes, before starting parallel checks: pnpm 11 may auto-install on subsequent commands and concurrent installation can race on Windows shims. Regenerate the lockfile with pnpm rather than editing it manually.
 
 Electron 42 exposes `install-electron`; its binary is not downloaded by this dependency's ordinary installation script. The dev/preview/smoke runners call it explicitly. To download it separately:
 
@@ -56,6 +56,7 @@ First setup/build needs network access for package/Go modules, Electron and pack
 | --- | --- |
 | `pnpm dev:desktop` | Builds the pinned native core and initial main/preload; starts Vite at `http://127.0.0.1:3002`, the main/preload compiler watcher and Electron. |
 | `pnpm build:core` | Builds the native pinned engine with version/revision metadata and prints `--version`. Windows output: `apps/core/dist/kopia_windows_amd64/kopia.exe`. |
+| `pnpm build:branding` | Regenerates desktop/favicons/tray artwork from the owner's SVGs. See [asset instructions](libs/assets/brand/README.md). |
 | `pnpm build:desktop` | Rebuilds core, renderer, copied frontend and production main/preload. Type-checks the Electron package. |
 | `pnpm preview:desktop` | Launches the existing build using `diskpondapp://frontend`; run `build:desktop` first. |
 | `pnpm smoke:desktop` | Exercises the built renderer, preload, local onboarding and engine discovery in temporary app data. |
@@ -63,17 +64,17 @@ First setup/build needs network access for package/Go modules, Electron and pack
 | `pnpm smoke:windows` | Installs the development NSIS artifact into a disposable directory, checks installed startup/engine/resources, quits and uninstalls. Requires a Windows user with no existing DiskPond installation/data/registration. |
 | `pnpm build:windows` | Builds desktop/core, then invokes electron-builder's Windows NSIS target with `--publish never`. Outputs under `apps/electron/dist/`. |
 | `pnpm lint:ci` | Whole imported application lint/format check; excludes generated routes, worker types and the Go submodule. |
-| `pnpm types` / `pnpm types:desktop` | Type-checks desktop, Electron and inherited libraries with a `types` script. API types remain transitively referenced. |
+| `pnpm types` / `pnpm types:desktop` | Type-checks desktop, Electron and inherited libraries with a `types` script. |
 | `pnpm test` / `pnpm test:desktop` | Existing Electron, renderer, schema and utility Vitest suites. |
 | `pnpm unused` | Whole-workspace dependency/export analysis, including inherited service sources. |
 
 `pnpm dev` and `pnpm build` alias the desktop commands. They no longer launch the upstream hosted stack. Use the root packaging wrapper: the inherited package-level `build:windows` invokes the packager without building its inputs.
 
-Renderer edits use Vite HMR. Main/preload edits recompile; quit and restart the dev command to load them. **Quit** in the tray exits Electron and stops the development servers; closing the window keeps the inherited tray process alive. Ctrl+C stops the runner's process tree on Windows. A busy port 3002 is an error, rather than silently selecting another port.
+Renderer edits use Vite HMR. Main/preload edits recompile; quit and restart the dev command to load them. Development compilation replaces `apps/electron/build`; rebuild production before a later built smoke/preview or repackaging. **Quit** in the tray exits Electron and stops the development servers; closing the window keeps the inherited tray process alive. Ctrl+C stops the runner's process tree on Windows. A busy port 3002 is an error, rather than silently selecting another port.
 
 ## Isolated development and smoke checks
 
-On the welcome screen select **Continue without account → Continue anyway**. Do not sign into an upstream account. Repository/recovery exercises use disposable sources and destinations.
+On the welcome screen select **Open DiskPond**. Existing local collections and preferences are preserved. Cached hosted-account collections stay on disk but are neither opened nor synchronized. Repository/recovery exercises use disposable sources and destinations.
 
 The default development data root is `%APPDATA%\diskpond-dev`; packaged builds use `%APPDATA%\diskpond`. For an isolated unpackaged run:
 
@@ -83,17 +84,17 @@ pnpm dev:desktop
 Remove-Item Env:DISKPOND_DATA_DIR
 ```
 
-The override must be absolute and is ignored in packaged builds. `DISKPOND_TEST_TMP` optionally sets the parent directory for smoke fixtures; it must already exist. The smoke runner deletes only the temporary directory it created. It blocks and fails on remote renderer HTTP(S) requests, tests actual onboarding buttons and IPC, and asks the engine to discover an empty disposable destination. The pinned discovery call writes `.shards`; see the [recorded compatibility gap](docs/verification/m1-dependencies.md). This smoke does not certify backup recovery or every network path.
+The override must be absolute and is ignored in packaged builds. `DISKPOND_TEST_TMP` optionally sets the parent directory for smoke fixtures; it must already exist. The smoke runner deletes only the temporary directory it created. It blocks and fails on remote renderer HTTP(S) and main-process fetch requests, exercises keyboard onboarding, provider selection, settings/theme persistence and retired API rejection, and asks the engine to discover an empty disposable destination. Set `DISKPOND_SMOKE_CAPTURE_DIR` to retain screenshots. The pinned discovery call writes `.shards`; see the [recorded compatibility gap](docs/verification/m1-dependencies.md). This smoke does not certify backup recovery or every network path.
 
 Only packaged builds register the public DiskPond URI handler. Development/preview launches preserve any installed registration; Windows built/dev smoke checks compare its registry state before and after each run. Run the smoke commands sequentially in CI order: built, development, installed.
 
-`.env.template` documents the desktop defaults. The old API/cloud/web values resolve to loopback by default while their source is awaiting M2 extraction. Sentry is disabled and desktop analytics keys are forced empty at build time; SDKs and inherited UI are still present. For a local verification run, leave `.env` absent.
+`.env.template` documents the desktop defaults. Desktop builds no longer consume hosted API/cloud/web URLs or analytics keys. Auth, remote configuration sync, PostHog, LogSnag and Sentry execution have been removed from the desktop/main/preload dependency paths. Packaged update checks still use the DiskPond release feed; update preferences remain an M5 task.
 
 ## Windows packaging
 
 `pnpm build:windows` is a development packaging command, with local version `0.0.0` when no release tag is supplied. Expected output is `apps/electron/dist/DiskPond-Windows.exe` plus `win-unpacked/`. It packages the engine, both project license texts and provenance record. GitHub publishing is disabled by the wrapper.
 
-Signing remains a release task. The inherited optional `CERTUM_*` signing environment variables are retained; the M1 check uses no certificate. Installer identity/feed metadata belongs to `hoxsec/DiskPond`. Inherited visual assets and some UI text still show BlinkDisk, so these builds are internal integration artifacts.
+Signing remains a release task. The inherited optional `CERTUM_*` signing environment variables are retained; local checks use no certificate. Installer identity/feed metadata belongs to `hoxsec/DiskPond`, with the owner's DiskPond application and tray artwork. These builds remain internal integration artifacts pending recovery/release certification.
 
 After building, `pnpm smoke:windows` exercises the installed `0.0.0` development artifact on a fresh test user/runner. It temporarily registers the DiskPond installer/URI/startup entry, checks the installed executable via loopback debug connections, and cleans its marked data/install fixtures. The inherited uninstaller leaves app-created startup/URI entries; the harness records that gap and removes only entries pointing to its own fixture. The command refuses to replace an existing DiskPond installation or data directory.
 

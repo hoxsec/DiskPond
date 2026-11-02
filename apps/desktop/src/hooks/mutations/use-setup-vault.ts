@@ -10,7 +10,6 @@ import type { VaultItem } from "@desktop/hooks/queries/use-vault";
 import { useAccountId } from "@desktop/hooks/use-account-id";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
 import { getConfigCollection } from "@desktop/lib/db";
-import { trpc } from "@desktop/lib/trpc";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useSetupVault({
@@ -38,58 +37,42 @@ export function useSetupVault({
 
       const provider = getStorageProvider(values.vault.provider);
 
-      if (!provider) throw new Error("Invalid provider");
+      if (!provider || provider.type === "CLOUDBLINK")
+        throw new Error("Invalid provider");
 
       if (!config) {
-        if (provider.type === "CLOUDBLINK") config = {};
-        else {
-          const configs = getConfigCollection(accountId).find().fetch();
+        const configs = getConfigCollection(accountId).find().fetch();
 
-          // Pick the newest config for the vault
-          const encryptedConfig = configs
-            .sort(
-              (a, b) =>
-                new Date(b.createdAt).getTime() -
-                new Date(a.createdAt).getTime(),
-            )
-            .find((config) => config.vaultId === values.vault.id);
+        // Pick the newest config for the vault
+        const encryptedConfig = configs
+          .sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+          )
+          .find((config) => config.vaultId === values.vault.id);
 
-          // This shouldn't happen in theory
-          if (!encryptedConfig) return setStep("CONFIG");
-          if (!values.password) throw new CustomError("MISSING_REQUIRED_VALUE");
+        // This shouldn't happen in theory
+        if (!encryptedConfig) return setStep("CONFIG");
+        if (!values.password) throw new CustomError("MISSING_REQUIRED_VALUE");
 
-          const [decryptedConfig, err] = await tryCatch(
-            window.electron.vault.config.decrypt({
-              password: values.password,
-              encrypted: encryptedConfig.data,
-            }) as Promise<ProviderConfig>,
-          );
-
-          // Very likely the password is incorrect
-          if (err) {
-            setStep("PASSWORD");
-            throw new CustomError("INVALID_PASSWORD");
-          }
-
-          if (values.vault.configLevel === "VAULT") config = decryptedConfig;
-          else {
-            setInitialConfig(decryptedConfig);
-            return setStep("CONFIG");
-          }
-        }
-      }
-
-      let cloudBlinkToken: string | undefined;
-      if (provider.type === "CLOUDBLINK") {
-        const [res, err] = await tryCatch(
-          trpc.cloudblink.getVaultToken.query({
-            vaultId: values.vault.id,
-          }),
+        const [decryptedConfig, err] = await tryCatch(
+          window.electron.vault.config.decrypt({
+            password: values.password,
+            encrypted: encryptedConfig.data,
+          }) as Promise<ProviderConfig>,
         );
 
-        if (err) throw err;
+        // Very likely the password is incorrect
+        if (err) {
+          setStep("PASSWORD");
+          throw new CustomError("INVALID_PASSWORD");
+        }
 
-        cloudBlinkToken = res.token;
+        if (values.vault.configLevel === "VAULT") config = decryptedConfig;
+        else {
+          setInitialConfig(decryptedConfig);
+          return setStep("CONFIG");
+        }
       }
 
       // This shouldn't happen in theory
@@ -99,7 +82,6 @@ export function useSetupVault({
         type: provider.type,
         version: values.vault.version,
         password: values.password,
-        token: cloudBlinkToken,
         config,
       });
 
@@ -125,7 +107,6 @@ export function useSetupVault({
         provider: provider.type,
         version: values.vault.version,
         password: values.password,
-        token: cloudBlinkToken,
         config,
       });
 

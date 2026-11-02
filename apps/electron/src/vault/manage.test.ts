@@ -6,24 +6,14 @@ const mocks = vi.hoisted(() => ({
   fetchVault: vi.fn(
     async (_vault: unknown, _options: unknown): Promise<unknown> => undefined,
   ),
-  getAccountCache: vi.fn((): unknown[] => []),
   getHostName: vi.fn((id: string) => `host-${id}`),
   getUserName: vi.fn((id: string) => `user-${id}`),
   killValidationVault: vi.fn(() => undefined),
   logError: vi.fn((_message: unknown, _error?: unknown) => undefined),
   logWarn: vi.fn((_message: unknown) => undefined),
-  mapConfigFields: vi.fn(
-    (
-      _provider: string,
-      _config: unknown,
-      version: number | undefined,
-      token: string | null | undefined,
-    ) => ({
-      mapped: true,
-      token,
-      version,
-    }),
-  ),
+  mapConfigFields: vi.fn((_provider: string, _config: unknown) => ({
+    mapped: true,
+  })),
   mapProviderType: vi.fn((provider: string) => `mapped-${provider}`),
   startVaultServer: vi.fn(async (id: string) => ({
     address: `https://127.0.0.1/${id}`,
@@ -33,10 +23,6 @@ const mocks = vi.hoisted(() => ({
       kill: vi.fn(),
     },
   })),
-}));
-
-vi.mock("@electron/cache", () => ({
-  getAccountCache: () => mocks.getAccountCache(),
 }));
 
 vi.mock("@electron/db", () => ({
@@ -62,12 +48,8 @@ vi.mock("@electron/vault/fetch", () => ({
 }));
 
 vi.mock("@electron/vault/mapping", () => ({
-  mapConfigFields: (
-    provider: string,
-    config: unknown,
-    version: number | undefined,
-    token: string | null | undefined,
-  ) => mocks.mapConfigFields(provider, config, version, token),
+  mapConfigFields: (provider: string, config: unknown) =>
+    mocks.mapConfigFields(provider, config),
   mapProviderType: (provider: string) => mocks.mapProviderType(provider),
 }));
 
@@ -117,7 +99,6 @@ describe("vault management", () => {
     for (const key of Object.keys(mocks.collections))
       delete mocks.collections[key];
     mocks.fetchVault.mockResolvedValue({ success: true });
-    mocks.getAccountCache.mockReturnValue([]);
   });
 
   it("creates a vault server and sends the repo create payload", async () => {
@@ -125,7 +106,7 @@ describe("vault management", () => {
       vault: {
         id: "vlt_1",
         name: "Backups",
-        provider: "CLOUDBLINK",
+        provider: "INTERNAL_DRIVE",
         config: {},
         options: {
           version: 2,
@@ -136,7 +117,6 @@ describe("vault management", () => {
           errorCorrectionOverhead: 10,
         },
         password: "secret",
-        token: "service-token",
       },
       userPolicy: { schedule: "user" },
       globalPolicy: { retention: "global" },
@@ -158,11 +138,9 @@ describe("vault management", () => {
             hostname: "host-vlt_1",
           },
           storage: {
-            type: "mapped-CLOUDBLINK",
+            type: "mapped-INTERNAL_DRIVE",
             config: {
               mapped: true,
-              token: "service-token",
-              version: 2,
             },
           },
           password: "secret",
@@ -179,7 +157,7 @@ describe("vault management", () => {
       vault: {
         id: "vlt_1",
         name: "Backups",
-        provider: "CLOUDBLINK",
+        provider: "INTERNAL_DRIVE",
         config: {},
         options: {
           version: 2,
@@ -219,11 +197,10 @@ describe("vault management", () => {
       connectVault({
         id: "vlt_1",
         name: "Backups",
-        provider: "CLOUDBLINK",
+        provider: "INTERNAL_DRIVE",
         config: {},
         password: "secret",
         version: 2,
-        token: "service-token",
       }),
     ).resolves.toEqual({ success: true });
 
@@ -235,11 +212,9 @@ describe("vault management", () => {
         path: "/api/v1/repo/connect",
         data: expect.objectContaining({
           storage: {
-            type: "mapped-CLOUDBLINK",
+            type: "mapped-INTERNAL_DRIVE",
             config: {
               mapped: true,
-              token: "service-token",
-              version: 2,
             },
           },
           password: "secret",
@@ -248,14 +223,13 @@ describe("vault management", () => {
     );
   });
 
-  it("starts active local/account vaults and shuts down stale vaults", async () => {
+  it("starts only local vaults, ignores cached hosted accounts and shuts down stale vaults", async () => {
     const staleKill = vi.fn();
     vaults.stale = {
       id: "stale",
       status: "RUNNING",
       server: { process: { kill: staleKill } },
     } as never;
-    mocks.getAccountCache.mockReturnValue([{ id: "acct_1" }]);
     mocks.collections.local = vaultCollection(["local_active"]);
     mocks.collections.acct_1 = vaultCollection(["remote_active"]);
     mocks.collections.acct_missing = vaultCollection(["missing_active"]);
@@ -263,12 +237,12 @@ describe("vault management", () => {
     await initVaults();
 
     expect(mocks.startVaultServer).toHaveBeenCalledWith("local_active");
-    expect(mocks.startVaultServer).toHaveBeenCalledWith("remote_active");
+    expect(mocks.startVaultServer).not.toHaveBeenCalledWith("remote_active");
     expect(mocks.startVaultServer).not.toHaveBeenCalledWith("missing_active");
     expect(staleKill).toHaveBeenCalled();
     expect(vaults.stale).toBeUndefined();
     expect(vaults.local_active).toMatchObject({ status: "STARTING" });
-    expect(vaults.remote_active).toMatchObject({ status: "STARTING" });
+    expect(vaults.remote_active).toBeUndefined();
   });
 
   it("reports status for running vaults and null for missing vaults", () => {

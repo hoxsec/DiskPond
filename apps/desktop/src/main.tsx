@@ -3,12 +3,6 @@ import "./styles.css";
 import { DefaultErrorPage } from "@blinkdisk/components/errors/default";
 import { NotFoundPage } from "@blinkdisk/components/errors/not-found";
 import { routeTree } from "@desktop/routeTree.gen";
-import { init } from "@sentry/electron/renderer";
-import {
-  reactErrorHandler,
-  init as reactInit,
-  tanstackRouterBrowserTracingIntegration,
-} from "@sentry/react";
 import {
   createHashHistory,
   createRouter,
@@ -26,15 +20,6 @@ const router = createRouter({
   defaultNotFoundComponent: NotFoundPage,
 });
 
-init(
-  {
-    dsn: process.env.SENTRY_DESKTOP_DSN,
-    enabled: false,
-    integrations: [tanstackRouterBrowserTracingIntegration(router)],
-  },
-  reactInit,
-);
-
 declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;
@@ -44,12 +29,16 @@ declare module "@tanstack/react-router" {
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("Root element not found");
 
+const savedTheme = window.electron.store.get("preferences.theme");
+document.body.classList.toggle(
+  "dark",
+  savedTheme === "dark" ||
+    (savedTheme !== "light" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches),
+);
+
 if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement, {
-    onUncaughtError: reactErrorHandler(console.error),
-    onCaughtError: reactErrorHandler(console.error),
-    onRecoverableError: reactErrorHandler(console.error),
-  });
+  const root = ReactDOM.createRoot(rootElement);
 
   root.render(
     <StrictMode>

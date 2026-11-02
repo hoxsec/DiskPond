@@ -12,8 +12,5 @@
     "@blinkdisk/typescript": "workspace:*",
     "@types/node": "catalog:",
     "typescript": "catalog:"
-  },
-  "dependencies": {
-    "@blinkdisk/db": "workspace:*"
   }
 }

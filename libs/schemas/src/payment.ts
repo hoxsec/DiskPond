@@ -5,8 +5,6 @@ export const ZCreateCheckout = z.object({
   priceId: ZAnyExternalId,
 });
 
-export type ZCreateCheckoutType = z.infer<typeof ZCreateCheckout>;
-
 export const ZChangePlan = z.object({
   priceId: ZAnyExternalId,
 });

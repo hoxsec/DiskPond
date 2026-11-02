@@ -1,4 +1,3 @@
-import { ConfigLevel } from "@blinkdisk/db/schema";
 import { ZDateString } from "@schemas/shared/date";
 import { ZVaultId } from "@schemas/shared/id";
 import { ZKopiaHostName, ZKopiaUserName } from "@schemas/shared/profile";
@@ -6,7 +5,7 @@ import { z } from "zod";
 
 const ZConfigId = z.string().min(1);
 
-export const ZConfigLevel = z.enum(ConfigLevel);
+export const ZConfigLevel = z.enum(["VAULT", "PROFILE"]);
 
 export const ZVaultEncryptedConfig = z.object({
   iv: z.string().min(1),

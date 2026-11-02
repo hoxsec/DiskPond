@@ -1,14 +1,6 @@
 import { platform } from "node:os";
 import { basename, dirname, join } from "node:path";
-import {
-  getAccount,
-  logout,
-  openAuth,
-  tryAuthenticateToken,
-  updateAccount,
-} from "@electron/auth";
 import { readClipboard } from "@electron/clipboard";
-import { syncAccount } from "@electron/db/sync";
 import { decryptVaultConfig, encryptVaultConfig } from "@electron/encryption";
 import { folderSize, isDirectory, sourceSize, sourceType } from "@electron/fs";
 import { getPasswordCache, setPasswordCache } from "@electron/password";
@@ -32,9 +24,20 @@ import {
 } from "@electron/vault/manage";
 import { validateVaultConfig } from "@electron/vault/validate";
 import { setProgressBar, window } from "@electron/window";
+import { openWorkspace } from "@electron/workspace";
 import { app, dialog, ipcMain, shell } from "electron";
 
 ipcMain.handle("app.version", () => app.getVersion());
+ipcMain.handle("workspace.open", (event, ...args: unknown[]) => {
+  if (
+    !window ||
+    event.sender !== window.webContents ||
+    event.senderFrame !== window.webContents.mainFrame ||
+    args.length !== 0
+  )
+    throw new Error("Invalid workspace request");
+  openWorkspace();
+});
 
 ipcMain.on("window.console", () => window?.webContents.toggleDevTools());
 ipcMain.on("window.reload", () => window?.reload());
@@ -99,11 +102,3 @@ ipcMain.handle("update.status", () => getUpdateStatus());
 ipcMain.handle("update.install", () => installUpdate());
 
 ipcMain.handle("clipboard.read", () => readClipboard());
-
-ipcMain.handle("auth.open", () => openAuth());
-ipcMain.handle("auth.logout", (_, accountId) => logout(accountId));
-ipcMain.handle("auth.token", (_, payload) => tryAuthenticateToken(payload));
-ipcMain.handle("auth.account.update", (_, payload) => updateAccount(payload));
-ipcMain.handle("auth.account.get", (_, accountId) => getAccount(accountId));
-
-ipcMain.handle("sync.account", (_, accountId) => syncAccount(accountId));

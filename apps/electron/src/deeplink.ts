@@ -1,5 +1,4 @@
 import { APP_SCHEME, APP_SCHEME_PROTOCOL } from "@blinkdisk/constants/app";
-import { authenticateToken } from "@electron/auth";
 import { focusWindow, sendWindow } from "@electron/window";
 import { app } from "electron";
 
@@ -18,21 +17,11 @@ export async function onDeeplinkOpen(rawUrl: string) {
   if (!url) return;
 
   if (url.protocol !== APP_SCHEME_PROTOCOL) return;
+  if (url.host !== "settings") return;
 
   sendWindow("deeplink.onOpen", {
     event: url.host,
   });
-
-  if (url.hostname === "auth") {
-    if (url.pathname === "/callback") {
-      if (!url.hash.startsWith("#token=")) return;
-      const token = url.hash.substring("#token=".length);
-
-      await authenticateToken({
-        token,
-      });
-    }
-  }
 }
 
 app.on("open-url", (_, url) => {

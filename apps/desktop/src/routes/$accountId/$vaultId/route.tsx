@@ -10,7 +10,6 @@ import { VaultStarting } from "@desktop/components/vaults/starting";
 import { useVault } from "@desktop/hooks/queries/use-vault";
 import { useVaultStatus } from "@desktop/hooks/queries/use-vault-status";
 import { useAccountStorage } from "@desktop/hooks/use-account-storage";
-import { useSpaceUpdate } from "@desktop/hooks/use-space-update";
 import { useTaskbarProgress } from "@desktop/hooks/use-taskbar-progress";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { useEffect } from "react";
@@ -27,8 +26,6 @@ export const Route = createFileRoute("/$accountId/$vaultId")({
 function RouteComponent() {
   const { data: vault } = useVault();
   const { status } = useVaultStatus();
-
-  useSpaceUpdate();
 
   useTaskbarProgress();
 

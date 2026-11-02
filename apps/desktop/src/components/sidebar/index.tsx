@@ -9,30 +9,22 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@blinkdisk/ui/sidebar";
-import { AccountPreview } from "@desktop/components/accounts/preview";
-import { AccountSelectDropdown } from "@desktop/components/accounts/select-dropdown";
 import { SidebarAlerts } from "@desktop/components/sidebar/alerts";
 import { SidebarSkeletonTheme } from "@desktop/components/sidebar/skeleton-theme";
 import { VaultMenuDropdown } from "@desktop/components/vaults/menu-dropdown";
 import { VaultPreview } from "@desktop/components/vaults/preview";
-import { useAccount } from "@desktop/hooks/queries/use-account";
 import { useVault } from "@desktop/hooks/queries/use-vault";
-import { useAccountId } from "@desktop/hooks/use-account-id";
 import { Link, useLocation, useParams } from "@tanstack/react-router";
 import {
   ArrowLeftIcon,
-  CloudIcon,
   FileCogIcon,
   HomeIcon,
   LayoutDashboardIcon,
   SettingsIcon,
-  UserIcon,
 } from "lucide-react";
 import type { ComponentProps } from "react";
 
 export function Sidebar({ ...props }: ComponentProps<typeof SidebarContainer>) {
-  const { isLocalAccount, isOnlineAccount } = useAccountId();
-  const { data: account } = useAccount();
   const { data: vault } = useVault();
 
   const { accountId, vaultId } = useParams({
@@ -79,28 +71,14 @@ export function Sidebar({ ...props }: ComponentProps<typeof SidebarContainer>) {
                   }
                 />
               </SidebarMenuItem>
-              {isOnlineAccount ? (
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    className="px-3"
-                    isActive={pathname === `/${accountId}/cloudblink`}
-                    render={
-                      <Link to="/$accountId/cloudblink" from="/$accountId">
-                        <CloudIcon />
-                        {t("cloudblink")}
-                      </Link>
-                    }
-                  />
-                </SidebarMenuItem>
-              ) : null}
               <SidebarMenuItem>
                 <SidebarMenuButton
                   className="px-3"
-                  isActive={pathname === `/${accountId}/account`}
+                  isActive={pathname === `/${accountId}/settings`}
                   render={
-                    <Link to="/$accountId/account" from="/$accountId">
-                      <UserIcon />
-                      {t("account")}
+                    <Link to="/$accountId/settings" from="/$accountId">
+                      <SettingsIcon />
+                      {t("settings")}
                     </Link>
                   }
                 />
@@ -114,7 +92,7 @@ export function Sidebar({ ...props }: ComponentProps<typeof SidebarContainer>) {
                   render={
                     <Link to="/$accountId" from="/$accountId">
                       <ArrowLeftIcon />
-                      {t("backToAccount")}
+                      {t("home")}
                     </Link>
                   }
                 />
@@ -198,16 +176,6 @@ export function Sidebar({ ...props }: ComponentProps<typeof SidebarContainer>) {
         <SidebarFooter>
           <SidebarMenu className="gap-4">
             <SidebarAlerts />
-            <SidebarMenuItem className="flex items-center">
-              <AccountSelectDropdown>
-                <SidebarMenuButton size="lg">
-                  <AccountPreview
-                    account={account}
-                    local={isLocalAccount || false}
-                  />
-                </SidebarMenuButton>
-              </AccountSelectDropdown>
-            </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>
       </SidebarContainer>

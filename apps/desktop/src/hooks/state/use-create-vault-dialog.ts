@@ -3,17 +3,16 @@ import type { ProviderConfig } from "@blinkdisk/schemas/providers";
 import { Store, useStore } from "@tanstack/react-store";
 import { useCallback } from "react";
 
-export type CreateVaultStep = "VARIANT" | "PROVIDER" | "CONFIG" | "DETAILS";
+export type CreateVaultStep = "PROVIDER" | "CONFIG" | "DETAILS";
 
 type CreateVaultDialogOptions = {
   step: CreateVaultStep;
   provider?: StorageProviderType;
   config?: ProviderConfig;
-  autoSelectedProvider?: boolean;
 };
 
 const defaultOptions: CreateVaultDialogOptions = {
-  step: "VARIANT",
+  step: "PROVIDER",
 };
 
 const store = new Store<{

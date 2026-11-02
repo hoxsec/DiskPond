@@ -37,7 +37,7 @@
       },
       "initial": {
         "title": "Running initial backup",
-        "description": "This is the initial backup, so it may take a while. BlinkDisk only uploads changed files after this, making all future backups much faster and lighter."
+        "description": "This is the initial backup, so it may take a while. DiskPond uploads changed files in subsequent backups."
       },
       "canceling": {
         "title": "Canceling backup",
@@ -72,7 +72,7 @@
     "description": "Are you sure you want to delete this backup? This action cannot be undone.",
     "alert": {
       "title": "Cleanup happens over time",
-      "description": "Storage space won’t be freed instantly. BlinkDisk cleans up unused data later to ensure reliability."
+      "description": "Storage space won’t be freed instantly. DiskPond cleans up unused data later to ensure reliability."
     },
     "cancel": "Cancel",
     "continue": "Delete backup"

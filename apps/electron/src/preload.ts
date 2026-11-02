@@ -1,24 +1,8 @@
-import * as Sentry from "@sentry/electron/renderer";
-
-Sentry.init({
-  enabled: false,
-});
-
-import { setupRenderer } from "@better-auth/electron/preload";
 import { setupSignalDBPreload } from "@blinkdisk/signaldb-electron/preload";
 
-setupRenderer();
 setupSignalDBPreload(ipcRenderer, contextBridge);
 
-import type {
-  getAccount,
-  logout,
-  openAuth,
-  tryAuthenticateToken,
-  updateAccount,
-} from "@electron/auth";
 import type { readClipboard } from "@electron/clipboard";
-import type { syncAccount } from "@electron/db/sync";
 import type {
   decryptVaultConfig,
   encryptVaultConfig,
@@ -78,6 +62,9 @@ const api = {
   app: {
     version: () => ipcRenderer.invoke("app.version") as Promise<string>,
   },
+  workspace: {
+    open: () => ipcRenderer.invoke("workspace.open") as Promise<void>,
+  },
   window: {
     reload: () => ipcRenderer.send("window.reload"),
     console: () => ipcRenderer.send("window.console"),
@@ -93,15 +80,6 @@ const api = {
     set: setStorage,
     change: listener<void>("store.change"),
     clear: () => ipcRenderer.invoke("store.clear") as Promise<void>,
-  },
-  space: {
-    update: listener<{
-      vaultId: string;
-      space: {
-        used: number;
-        capacity: number;
-      };
-    }>("space.update"),
   },
   clipboard: {
     read: () =>
@@ -224,35 +202,6 @@ const api = {
     change: listener<UpdateStatus>("update.available"),
     status: () => ipcRenderer.invoke("update.status") as Promise<UpdateStatus>,
     install: () => ipcRenderer.invoke("update.install") as Promise<void>,
-  },
-  auth: {
-    open: () =>
-      ipcRenderer.invoke("auth.open") as Promise<ReturnType<typeof openAuth>>,
-    logout: (accountId: string) =>
-      ipcRenderer.invoke("auth.logout", accountId) as Promise<
-        ReturnType<typeof logout>
-      >,
-    token: (payload: Parameters<typeof tryAuthenticateToken>[0]) =>
-      ipcRenderer.invoke("auth.token", payload) as Promise<
-        ReturnType<typeof tryAuthenticateToken>
-      >,
-    account: {
-      update: (payload: Parameters<typeof updateAccount>[0]) =>
-        ipcRenderer.invoke("auth.account.update", payload) as Promise<
-          ReturnType<typeof updateAccount>
-        >,
-      get: (accountId: string) =>
-        ipcRenderer.invoke("auth.account.get", accountId) as Promise<
-          ReturnType<typeof getAccount>
-        >,
-    },
-    onAccountAdd: listener<{ accountId: string }>("auth.onAccountAdd"),
-  },
-  sync: {
-    account: (payload: Parameters<typeof syncAccount>[0]) =>
-      ipcRenderer.invoke("sync.account", payload) as Promise<
-        ReturnType<typeof syncAccount>
-      >,
   },
 };
 

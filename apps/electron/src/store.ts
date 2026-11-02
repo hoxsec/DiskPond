@@ -1,12 +1,11 @@
 import type { EncryptedString } from "@electron/encryption";
 import { globalConfigDirectory } from "@electron/path";
-import { initVaults } from "@electron/vault/manage";
 import { sendWindow } from "@electron/window";
 import { app } from "electron";
 import Store from "electron-store";
 
 export type GlobalStorageType = {
-  authenticated: boolean;
+  workspaceReady: boolean;
   currentAccountId: string | null;
   dismissedUpdateVersion?: string | null;
   sidebarAlerts: {
@@ -15,20 +14,14 @@ export type GlobalStorageType = {
       cloudBackup?: string | null;
     };
   };
-  hasSkippedAuth: boolean;
   preferences: {
     theme: "system" | "dark" | "light";
     mode?: "basic" | "advanced";
+    language?: string;
     hideEmail?: boolean;
   };
   passwords: {
     [vaultId: string]: EncryptedString;
-  };
-  auth: {
-    // Managed by better-auth
-    cookie: string;
-    // Managed by better-auth
-    local_cache: string;
   };
   migrations: {
     id: string;
@@ -112,21 +105,4 @@ export const store = new Store({
 
 store.onDidAnyChange(() => {
   sendWindow("store.change");
-});
-
-store.onDidChange("accounts", (newValue, oldValue) => {
-  if (!newValue || !oldValue) {
-    initVaults();
-    return;
-  }
-
-  const oldActiveCount = Object.values(oldValue).filter(
-    (a) => !!a.active,
-  ).length;
-
-  const newActiveCount = Object.values(newValue).filter(
-    (a) => !!a.active,
-  ).length;
-
-  if (oldActiveCount !== newActiveCount) initVaults();
 });

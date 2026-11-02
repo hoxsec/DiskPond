@@ -4,7 +4,7 @@
 
 DiskPond is an AGPL-3.0 fork of BlinkDisk focused on account-free desktop backups to user-provided storage. It uses Electron/React/TypeScript and a pinned Kopia-derived Go sidecar. Windows is first; macOS and Linux are required later targets.
 
-**Current repository state:** M1 is complete on `integrate/blinkdisk-baseline`: source/core import, desktop/core builds, local smoke checks and clean Windows CI reproduction pass. M2 is next; imported account/cloud UI and SDKs remain. Do not describe unverified backup/restore or platform parity as complete. See `docs/verification/m1-windows-baseline.md`.
+**Current repository state:** M1 is complete on `integrate/blinkdisk-baseline`. M2 branding/local-workspace extraction is implemented and locally verified: the desktop account/cloud UI and auth/sync/telemetry paths have been removed. Retained service source packages are outside the desktop runtime. M2's recovery gate remains open. Do not describe unverified backup/restore or platform parity as complete. See `docs/verification/m1-windows-baseline.md` and `docs/verification/m2-branding-workspace.md`.
 
 Read these documents before implementation:
 
@@ -106,6 +106,7 @@ Use Node 24.15.0 (`.nvmrc`), pnpm 11.7.0 and Go 1.25.5 as documented in DEVELOPM
 | `pnpm unused` | Dependency/export checks after extraction or package changes. |
 | `pnpm dev:desktop` | Renderer + main/compiler; builds the pinned engine, started on demand. No hosted service requirements for the local path. |
 | `pnpm build:core` | Build the pinned native engine into expected resource paths; validates checkout against gitlink. |
+| `pnpm build:branding` | Generate native/favicons/tray assets from the owner's canonical SVGs. |
 | `pnpm build:desktop` | Core + renderer/main/preload and copied frontend. |
 | `pnpm smoke:desktop` | Built-app onboarding/IPC/engine probe using temporary settings and an empty destination. |
 | `pnpm smoke:desktop --dev` | Exercise the actual development wrapper and its process cleanup. |

@@ -19,17 +19,24 @@ describe("mapProviderType", () => {
     expect(mapProviderType("SFTP")).toBe("sftp");
     expect(mapProviderType("RCLONE")).toBe("rclone");
     expect(mapProviderType("WEBDAV")).toBe("webdav");
-    expect(mapProviderType("CLOUDBLINK")).toBe("bdc");
   });
 
-  it("resolves aliases", () => {
-    expect(mapProviderType("BLINKDISK_CLOUD")).toBe("bdc");
-    expect(mapProviderType("BLINKCLOUD")).toBe("bdc");
+  it.each([
+    "CLOUDBLINK",
+    "BLINKDISK_CLOUD",
+    "BLINKCLOUD",
+  ])("rejects retired managed storage, including alias %s", (provider) => {
+    expect(() => mapProviderType(provider)).toThrow(
+      "Unsupported storage provider",
+    );
+    expect(() => mapConfigFields(provider, {})).toThrow(
+      "Unsupported storage provider",
+    );
   });
 
   it("throws for unknown provider", () => {
     expect(() => mapProviderType("UNKNOWN")).toThrow(
-      "Provider UNKNOWN not found",
+      "Unsupported storage provider",
     );
   });
 });
@@ -48,16 +55,6 @@ describe("storage provider compatibility", () => {
 });
 
 describe("mapConfigFields", () => {
-  it("returns CloudBlink config with url, token, version", () => {
-    const result = mapConfigFields("CLOUDBLINK", {}, 3, "test-token");
-
-    expect(result).toEqual({
-      url: process.env.CLOUD_URL,
-      token: "test-token",
-      version: 3,
-    });
-  });
-
   it("maps S3-compatible fields using coreMapping", () => {
     const result = mapConfigFields("S3_COMPATIBLE", {
       endpoint: "https://s3.example.com",
@@ -144,7 +141,7 @@ describe("mapConfigFields", () => {
 
   it("throws for unknown provider", () => {
     expect(() => mapConfigFields("UNKNOWN", {})).toThrow(
-      "Provider UNKNOWN not found",
+      "Unsupported storage provider",
     );
   });
 });

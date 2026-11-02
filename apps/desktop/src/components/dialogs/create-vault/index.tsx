@@ -9,7 +9,6 @@ import {
 import { CreateVaultConfig } from "@desktop/components/dialogs/create-vault/config";
 import { CreateVaultDetails } from "@desktop/components/dialogs/create-vault/details";
 import { CreateVaultProviders } from "@desktop/components/dialogs/create-vault/providers";
-import { CreateVaultVariant } from "@desktop/components/dialogs/create-vault/variant";
 import { useVaultList } from "@desktop/hooks/queries/use-vault-list";
 import {
   type CreateVaultStep,
@@ -19,8 +18,7 @@ import { ArrowLeftIcon } from "lucide-react";
 import { useCallback } from "react";
 
 const backButton: Record<CreateVaultStep, CreateVaultStep> = {
-  VARIANT: "VARIANT",
-  PROVIDER: "VARIANT",
+  PROVIDER: "PROVIDER",
   CONFIG: "PROVIDER",
   DETAILS: "CONFIG",
 };
@@ -30,7 +28,7 @@ export function CreateVaultDialog() {
   const { data: vaults } = useVaultList();
   const { isOpen, setIsOpen, options, setOptions, resetOptions } =
     useCreateVaultDialog();
-  const { step, provider, config, autoSelectedProvider } = options;
+  const { step, provider, config } = options;
 
   const close = useCallback(() => {
     setIsOpen(false);
@@ -46,22 +44,12 @@ export function CreateVaultDialog() {
     <Dialog open={isOpen} onOpenChange={setIsOpen} onClosed={reset}>
       <DialogContent className="w-120 block max-h-[80vh] overflow-y-auto">
         <div className="flex items-center gap-3">
-          {step !== "VARIANT" && !autoSelectedProvider ? (
+          {step !== "PROVIDER" ? (
             <Button
-              onClick={() => {
-                if (step === "DETAILS" && provider === "CLOUDBLINK")
-                  setOptions({
-                    step: "VARIANT",
-                    autoSelectedProvider: false,
-                  });
-                else
-                  setOptions({
-                    step: backButton[step],
-                    autoSelectedProvider: false,
-                  });
-              }}
+              aria-label={t("back")}
+              onClick={() => setOptions({ step: backButton[step] })}
               variant="ghost"
-              size="icon-xs"
+              size="icon-sm"
             >
               <ArrowLeftIcon />
             </Button>
@@ -73,28 +61,13 @@ export function CreateVaultDialog() {
         <DialogDescription className="sr-only">
           {t("description")}
         </DialogDescription>
-        {step === "VARIANT" ? (
-          <CreateVaultVariant
-            selectCloud={() => {
-              setOptions({
-                provider: "CLOUDBLINK",
-                config: undefined,
-                step: "DETAILS",
-                autoSelectedProvider: false,
-              });
-            }}
-            selectCustom={() =>
-              setOptions({ step: "PROVIDER", autoSelectedProvider: false })
-            }
-          />
-        ) : step === "PROVIDER" ? (
+        {step === "PROVIDER" ? (
           <CreateVaultProviders
             selectProvider={(newProvider) => {
               setOptions({
                 provider: newProvider,
                 config: provider !== newProvider ? undefined : config,
                 step: "CONFIG",
-                autoSelectedProvider: false,
               });
             }}
           />
@@ -106,7 +79,6 @@ export function CreateVaultDialog() {
               setOptions({
                 config,
                 step: "DETAILS",
-                autoSelectedProvider: false,
               });
             }}
           />
@@ -118,13 +90,6 @@ export function CreateVaultDialog() {
               setTimeout(reset, 100);
             }}
             config={config}
-            autoSelectedProvider={autoSelectedProvider}
-            onChangeStorage={() =>
-              setOptions({
-                step: "VARIANT",
-                autoSelectedProvider: false,
-              })
-            }
           />
         ) : null}
       </DialogContent>

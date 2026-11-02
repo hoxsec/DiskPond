@@ -1,5 +1,4 @@
 import { LATEST_VAULT_VERSION } from "@blinkdisk/constants/vault";
-import { VaultStatus } from "@blinkdisk/db/schema";
 import { ZConfigLevel, ZVaultEncryptedConfig } from "@schemas/config";
 import { ZProviderType } from "@schemas/providers";
 import { ZDateString } from "@schemas/shared/date";
@@ -9,7 +8,7 @@ import { z } from "zod";
 
 const ZVaultName = z.string().min(1).max(30);
 
-const ZVaultStatus = z.enum(VaultStatus);
+const ZVaultStatus = z.enum(["ACTIVE", "DELETED"]);
 
 const ZVaultPassword = z.string().min(1).max(128);
 

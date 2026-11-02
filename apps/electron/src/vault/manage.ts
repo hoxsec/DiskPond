@@ -1,9 +1,7 @@
 import { LOCAL_ACCOUNT_ID } from "@blinkdisk/constants/account";
 import type { StorageProviderType } from "@blinkdisk/constants/providers";
-import { LATEST_VAULT_VERSION } from "@blinkdisk/constants/vault";
 import type { ProviderConfig } from "@blinkdisk/schemas/providers";
 import type { ZVaultOptionsType } from "@blinkdisk/schemas/vault";
-import { getAccountCache } from "@electron/cache";
 import { collections } from "@electron/db";
 import { log } from "@electron/log";
 import { getHostName, getUserName } from "@electron/profile";
@@ -40,12 +38,12 @@ export async function createVault(payload: {
     config: ProviderConfig;
     options: ZVaultOptionsType;
     password: string;
-    token?: string | null;
   };
   userPolicy: object;
   globalPolicy: object;
 }) {
   const options = payload.vault.options;
+  const providerType = mapProviderType(payload.vault.provider);
 
   let vault: VaultInstance;
   const existingVault = vaults[payload.vault.id];
@@ -83,13 +81,8 @@ export async function createVault(payload: {
           },
         },
         storage: {
-          type: mapProviderType(payload.vault.provider),
-          config: mapConfigFields(
-            payload.vault.provider,
-            payload.vault.config,
-            LATEST_VAULT_VERSION,
-            payload.vault.token,
-          ),
+          type: providerType,
+          config: mapConfigFields(payload.vault.provider, payload.vault.config),
         },
         password: payload.vault.password,
       },
@@ -112,8 +105,6 @@ export async function connectVault({
   config,
   password,
   provider,
-  token,
-  version,
 }: {
   id: string;
   name: string;
@@ -121,9 +112,9 @@ export async function connectVault({
   config: ProviderConfig;
   password: string;
   version?: number;
-  token?: string | null;
 }) {
   try {
+    const providerType = mapProviderType(provider);
     let vault: VaultInstance;
     const existingVault = vaults[id];
     if (existingVault) vault = existingVault;
@@ -144,8 +135,8 @@ export async function connectVault({
           hostname: getHostName(id),
         },
         storage: {
-          type: mapProviderType(provider),
-          config: mapConfigFields(provider, config, version, token),
+          type: providerType,
+          config: mapConfigFields(provider, config),
         },
         password,
       },
@@ -173,16 +164,10 @@ export function retryVault(id: string) {
 }
 
 async function reconcileVaults(vaultId?: string) {
-  const accounts = getAccountCache();
-
   const activeVaultIds: string[] = [];
 
   for (const [accountId, collection] of Object.entries(collections)) {
-    const isLocalAccount = accountId === LOCAL_ACCOUNT_ID;
-
-    const account = accounts.find((account) => account.id === accountId);
-
-    if (!isLocalAccount && !account) continue;
+    if (accountId !== LOCAL_ACCOUNT_ID) continue;
 
     const vaultCache = collection.vault.find({ status: "ACTIVE" }).fetch();
 

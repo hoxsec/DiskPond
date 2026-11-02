@@ -20,9 +20,7 @@ export function UpdateDialog() {
   const [confirmDismissOpen, setConfirmDismissOpen] = useState(false);
 
   const downloadManually = useCallback(async () => {
-    await window.electron.shell.open.browser(
-      `${process.env.MARKETING_URL}/download`,
-    );
+    await window.electron.shell.open.browser(`${SOURCE_URL}/releases`);
   }, []);
 
   const confirmDismiss = useCallback(async () => {
@@ -148,3 +146,5 @@ export function UpdateDialog() {
     </>
   );
 }
+
+import { SOURCE_URL } from "@blinkdisk/constants/app";

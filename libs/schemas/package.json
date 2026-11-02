@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "@blinkdisk/constants": "workspace:*",
-    "@blinkdisk/db": "workspace:*",
     "zod": "catalog:"
   }
 }

@@ -5,8 +5,6 @@ import type { DependencyList } from "react";
 
 const useReactivity = createUseReactivityHook(effect);
 
-export { useReactivity };
-
 export function useAccountReactivity<T>(
   reactiveFunction: (accountId: string | undefined) => T,
   deps?: DependencyList,

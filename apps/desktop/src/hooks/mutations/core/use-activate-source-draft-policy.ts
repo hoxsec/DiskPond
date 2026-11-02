@@ -1,9 +1,6 @@
 import type { ZPolicyType } from "@blinkdisk/schemas/policy";
 import { CustomError } from "@blinkdisk/utils/error";
 import { showErrorToast } from "@blinkdisk/utils/error-toast";
-import { tryCatch } from "@blinkdisk/utils/try-catch";
-import { useSpace } from "@desktop/hooks/queries/use-space";
-import { useVault } from "@desktop/hooks/queries/use-vault";
 import { useAccountId } from "@desktop/hooks/use-account-id";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
 import { useVaultId } from "@desktop/hooks/use-vault-id";
@@ -16,7 +13,6 @@ import { buildSourceId } from "@desktop/lib/source";
 import { vaultApi } from "@desktop/lib/vault";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { usePostHog } from "posthog-js/react";
 
 export function useActivateSourceDraftPolicy({
   target,
@@ -27,39 +23,19 @@ export function useActivateSourceDraftPolicy({
   onError?: (error: unknown) => void;
   onSuccess?: () => void;
 }) {
-  const posthog = usePostHog();
   const navigate = useNavigate({ from: "/$accountId/$vaultId" });
   const queryClient = useQueryClient();
   const { queryKeys } = useQueryKey();
   const { accountId } = useAccountId();
   const { vaultId } = useVaultId();
-  const { data: vault } = useVault();
-  const { data: space } = useSpace();
 
   return useMutation({
     mutationKey: ["core", "source", "policy", "draft", "activate"],
-    mutationFn: async ({
-      policy,
-      force,
-    }: {
-      policy: ZPolicyType;
-      force?: boolean;
-    }) => {
+    mutationFn: async ({ policy }: { policy: ZPolicyType }) => {
       const draftTarget = target;
 
       if (!accountId || !vaultId || !draftTarget)
         throw new CustomError("MISSING_REQUIRED_VALUE");
-
-      if (!force && space && vault && vault.provider === "CLOUDBLINK") {
-        const [size] = await tryCatch(
-          async () => await window.electron.fs.sourceSize(draftTarget.path),
-        );
-
-        if (size !== null && size !== undefined) {
-          const available = space.capacity - space.used;
-          if (size > available) throw new Error("SOURCE_TOO_LARGE");
-        }
-      }
 
       await vaultApi(vaultId).post("/api/v1/sources", {
         path: draftTarget.path,
@@ -82,21 +58,9 @@ export function useActivateSourceDraftPolicy({
     onError: (error) => {
       onError?.(error);
 
-      if (
-        error &&
-        typeof error === "object" &&
-        "message" in error &&
-        error.message === "SOURCE_TOO_LARGE"
-      )
-        return;
-
       showErrorToast(error);
     },
     onSuccess: async (res) => {
-      posthog.capture("source_add", {
-        vaultId: res.vaultId,
-      });
-
       await Promise.all([
         queryClient.invalidateQueries({
           queryKey: queryKeys.source.list(res.vaultId, {

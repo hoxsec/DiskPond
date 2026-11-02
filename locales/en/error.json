@@ -2,26 +2,26 @@
   "pages": {
     "default": {
       "title": "Something went wrong",
-      "description": "An unexpected error has occurred. Please try again later. If this error persists, please contact <0>support@blinkdisk.com</o>.",
+      "description": "An unexpected error occurred. Try again. If it persists, <0>report an issue</0>.",
       "button": "Back to home"
     },
     "not-found": {
       "title": "404",
-      "description": "The page you are looking for does not exist. If this error persists, please contact <0>support@blinkdisk.com</0>.",
+      "description": "This page does not exist. Return home or <0>report an issue</0>.",
       "button": "Back to home"
     }
   },
   "fallback": {
     "title": "Something went wrong",
-    "description": "If this error persists, please contact support@blinkdisk.com"
+    "description": "Try again. If this persists, report an issue from Settings."
   },
   "INTERNAL_SERVER_ERROR": {
     "title": "Something went wrong",
-    "description": "An unexpected error has occurred. If this error persists, please contact support@blinkdisk.com."
+    "description": "An unexpected error occurred. If this persists, report an issue from Settings."
   },
   "UNAUTHORIZED": {
     "title": "You are not allowed to do this",
-    "description": "Please try to login again."
+    "description": "Check the storage credentials and permissions, then reconnect the vault."
   },
   "USER_ALREADY_EXISTS": {
     "title": "A user with this email already exists",
@@ -45,7 +45,7 @@
   },
   "VAULT_ALREADY_EXISTS": {
     "title": "Vault already exists",
-    "description": "This vault already exists in your account."
+    "description": "This vault is already connected on this computer."
   },
   "VAULT_NOT_FOUND": "Vault not found",
   "FOLDER_NOT_FOUND": "Folder not found",
@@ -53,7 +53,7 @@
   "SPACE_NOT_FOUND": "Space not found",
   "PRICE_NOT_FOUND": "Price not found",
   "SUBSCRIPTION_NOT_FOUND": "Subscription not found",
-  "NO_STORAGE": "No CloudBlink storage available",
+  "NO_STORAGE": "No storage available",
   "NOT_ALLOWED": "You are not allowed to do this",
   "MISSING_REQUIRED_VALUE": {
     "title": "Required information is missing",
@@ -69,7 +69,7 @@
   },
   "STORAGE_UNREACHABLE": {
     "title": "Cannot reach your storage",
-    "description": "BlinkDisk could not reach the storage location. Please check that the path or server is available and that your settings are correct."
+    "description": "DiskPond could not reach the storage location. Please check that the path or server is available and that your settings are correct."
   },
   "VAULT_SERVER_UNAVAILABLE": {
     "title": "Backup engine did not start",
@@ -77,6 +77,6 @@
   },
   "ACCOUNT_SYNC_FAILED": {
     "title": "Could not sync your account",
-    "description": "Please try again. If this keeps happening, contact support@blinkdisk.com."
+    "description": "Please try again. If this keeps happening, report an issue from Settings."
   }
 }

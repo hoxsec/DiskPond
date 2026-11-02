@@ -1,58 +1,5 @@
 {
   "account": {
-    "title": "Account",
-    "version": "BlinkDisk v{{version}}",
-    "profile": {
-      "fullName": "Full name",
-      "firstName": {
-        "label": "First name",
-        "placeholder": "John"
-      },
-      "lastName": {
-        "label": "Last name",
-        "placeholder": "Doe"
-      },
-      "email": {
-        "label": "Email"
-      }
-    },
-    "emailVisibility": {
-      "show": "Show email",
-      "hide": "Hide email",
-      "hidden": "Email hidden"
-    },
-    "signOut": {
-      "title": "Sign out",
-      "button": "Sign out",
-      "dialog": {
-        "title": "Sign out of this account?",
-        "description": "Confirm that you want to sign out of this account.",
-        "warning": {
-          "title": "Backups will stop",
-          "description": "Vaults in this account will stop backing up until you sign in again."
-        },
-        "cancel": "Cancel",
-        "confirm": "Sign out"
-      }
-    },
-    "local": {
-      "title": "Sign in to BlinkDisk",
-      "button": "Sign in",
-      "features": {
-        "cloudblink": {
-          "title": "Built-in cloud storage",
-          "description": "Use CloudBlink for affordable storage built specifically for encrypted BlinkDisk backups."
-        },
-        "sync": {
-          "title": "Cross-device setup",
-          "description": "Sync your encrypted vault configurations so new devices are easier to set up."
-        },
-        "notifications": {
-          "title": "Important email alerts",
-          "description": "Get notified when storage runs low or when account-level issues need your attention."
-        }
-      }
-    },
     "preferences": {
       "title": "Preferences",
       "theme": {
@@ -80,15 +27,10 @@
         "label": "Vault name",
         "placeholder": "Enter vault name"
       },
-      "move": {
-        "title": "Move to account",
-        "description": "Move this vault to another account.",
-        "button": "Move vault"
-      },
       "delete": {
-        "title": "Delete this vault",
-        "description": "Remove this vault from your account.",
-        "button": "Delete vault"
+        "title": "Disconnect this vault",
+        "description": "Remove this connection from DiskPond. Stored backups remain in your storage.",
+        "button": "Disconnect vault"
       }
     },
     "config": {

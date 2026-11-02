@@ -4,7 +4,6 @@ import type { ProviderConfig } from "@blinkdisk/schemas/providers";
 import { useAccountId } from "@desktop/hooks/use-account-id";
 import { getVaultCollection } from "@desktop/lib/db";
 import { getMissingRcloneRemote } from "@desktop/lib/rclone-validation";
-import { usePostHog } from "posthog-js/react";
 import { useCallback } from "react";
 
 export type VaultAction = "CREATE" | "SETUP" | "UPDATE";
@@ -15,7 +14,6 @@ export function useConfigValidation(
 ) {
   const { accountId } = useAccountId();
   const { t } = useAppTranslation("vault.createDialog.config.validationError");
-  const posthog = usePostHog();
 
   const onSubmitAsync = useCallback(
     async ({ value }: { value: object }) => {
@@ -41,13 +39,6 @@ export function useConfigValidation(
               )
             : undefined;
 
-        posthog.capture("vault_config_validation_failed", {
-          provider: providerType,
-          reason: missingRemote
-            ? "RCLONE_REMOTE_NOT_CONFIGURED"
-            : result.code || "UNKNOWN",
-        });
-
         return {
           code: "VAULT_VALIDATION_FAILED",
           message: missingRemote
@@ -71,7 +62,7 @@ export function useConfigValidation(
           name: existing.name,
         };
     },
-    [action, providerType, accountId, posthog, t],
+    [action, providerType, accountId, t],
   );
 
   return { onSubmitAsync };

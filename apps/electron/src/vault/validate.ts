@@ -1,5 +1,4 @@
 import type { StorageProviderType } from "@blinkdisk/constants/providers";
-import { LATEST_VAULT_VERSION } from "@blinkdisk/constants/vault";
 import type { ProviderConfig } from "@blinkdisk/schemas/providers";
 import { fetchVault } from "@electron/vault/fetch";
 import { mapConfigFields, mapProviderType } from "@electron/vault/mapping";
@@ -13,8 +12,8 @@ export async function validateVaultConfig(vault: {
   config: ProviderConfig;
   version?: number;
   password?: string;
-  token?: string;
 }) {
+  const providerType = mapProviderType(vault.type);
   if (!validationVault) {
     const id = "temporary";
 
@@ -30,13 +29,8 @@ export async function validateVaultConfig(vault: {
     path: "/api/v1/repo/exists",
     data: {
       storage: {
-        type: mapProviderType(vault.type),
-        config: mapConfigFields(
-          vault.type,
-          vault.config,
-          vault.version || LATEST_VAULT_VERSION,
-          vault.token,
-        ),
+        type: providerType,
+        config: mapConfigFields(vault.type, vault.config),
       },
       ...(vault.password && { password: vault.password }),
     },

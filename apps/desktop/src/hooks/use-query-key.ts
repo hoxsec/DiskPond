@@ -7,11 +7,6 @@ export function useQueryKey() {
 
   const queryKeys = useMemo(() => {
     const keys = {
-      account: {
-        all: ["account"],
-        detail: (accountId?: string) => [...keys.account.all, accountId],
-      },
-      space: [accountId, "space"],
       vault: {
         all: [accountId, "vault"],
         status: (vaultId?: string) => [...keys.vault.all, vaultId, "status"],
@@ -32,14 +27,6 @@ export function useQueryKey() {
           "throttle",
         ],
         devices: (vaultId?: string) => [...keys.vault.all, vaultId, "devices"],
-      },
-      billing: {
-        all: [accountId, "billing"],
-        detail: () => [...keys.billing.all],
-      },
-      subscription: {
-        all: [accountId, "subscription"],
-        detail: () => [...keys.subscription.all],
       },
       directory: {
         all: ["directory"],

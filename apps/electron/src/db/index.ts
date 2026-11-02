@@ -4,10 +4,7 @@ import { LOCAL_ACCOUNT_ID } from "@blinkdisk/constants/account";
 import { ZConfig, type ZConfigType } from "@blinkdisk/schemas/config";
 import { ZVault, type ZVaultType } from "@blinkdisk/schemas/vault";
 import { setupSignalDBMain } from "@blinkdisk/signaldb-electron/main";
-import { getAccountCache } from "@electron/cache";
 import { SchemaCollection } from "@electron/db/schema";
-import { getLastSync, syncManager } from "@electron/db/sync";
-import { log } from "@electron/log";
 import { globalAccountDirectory } from "@electron/path";
 import { initVaults } from "@electron/vault/manage";
 import createFilesystemAdapter from "@signaldb/fs";
@@ -19,13 +16,7 @@ export async function setupCollections() {
   if (!existsSync(globalAccountDirectory()))
     mkdirSync(globalAccountDirectory(), { recursive: true });
 
-  await initAccountCollections("local");
-
-  const accounts = getAccountCache();
-
-  for (const account of accounts) {
-    await initAccountCollections(account.id);
-  }
+  await initAccountCollections(LOCAL_ACCOUNT_ID);
 }
 
 async function createVaultCollection(directory: string) {
@@ -69,9 +60,10 @@ export const collections: Record<
 > = {};
 
 const accountInitializations = new Map<string, Promise<void>>();
-const accountsPendingSync = new Set<string>();
 
 export function initAccountCollections(accountId: string) {
+  if (accountId !== LOCAL_ACCOUNT_ID)
+    return Promise.reject(new Error("Only the local workspace is supported"));
   const existing = accountInitializations.get(accountId);
   if (existing) return existing;
 
@@ -86,23 +78,7 @@ export function initAccountCollections(accountId: string) {
 }
 
 async function initializeAccountCollections(accountId: string) {
-  const vaultName = `${accountId}/vault`;
-  const configName = `${accountId}/config`;
-
   if (!collections[accountId]) await registerAccountCollections(accountId);
-
-  if (accountsPendingSync.has(accountId)) {
-    log.info(accountId, "not synced yet, syncing...");
-
-    const results = await Promise.allSettled([
-      syncManager.sync(vaultName),
-      syncManager.sync(configName),
-    ]);
-    const failure = results.find((result) => result.status === "rejected");
-    if (failure?.status === "rejected") throw failure.reason;
-
-    accountsPendingSync.delete(accountId);
-  }
 
   await initVaults();
 }
@@ -130,20 +106,4 @@ async function registerAccountCollections(accountId: string) {
   vault.on("updateOne", onChange);
   vault.on("updateMany", onChange);
   vault.on("removed", onChange);
-
-  if (accountId !== LOCAL_ACCOUNT_ID) {
-    if (!getLastSync(vaultName)) accountsPendingSync.add(accountId);
-
-    syncManager.addCollection(vault, {
-      name: vaultName,
-      type: "VAULT",
-      accountId,
-    });
-
-    syncManager.addCollection(config, {
-      name: configName,
-      type: "CONFIG",
-      accountId,
-    });
-  }
 }

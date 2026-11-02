@@ -8,10 +8,8 @@ import {
 } from "@desktop/components/settings";
 import { useUpdateVaultForm } from "@desktop/hooks/forms/use-update-vault-form";
 import { useDeleteVaultDialog } from "@desktop/hooks/state/use-delete-vault-dialog";
-import { useMoveVaultsDialog } from "@desktop/hooks/state/use-move-vaults-dialog";
-import { useAccountId } from "@desktop/hooks/use-account-id";
 import { useVaultId } from "@desktop/hooks/use-vault-id";
-import { ArrowUpDownIcon, TrashIcon } from "lucide-react";
+import { TrashIcon } from "lucide-react";
 import { useContext } from "react";
 import { VaultConfigSettings } from "./config";
 import { VaultThrottleSettings } from "./throttle";
@@ -19,9 +17,7 @@ import { VaultThrottleSettings } from "./throttle";
 export function VaultGeneralSettings() {
   const { t } = useAppTranslation("settings.vault.general");
   const { openDeleteVaultDialog } = useDeleteVaultDialog();
-  const { openMoveVaultsDialog } = useMoveVaultsDialog();
   const { vaultId } = useVaultId();
-  const { isLocalAccount } = useAccountId();
 
   const form = useUpdateVaultForm();
   const [isDirty, isSubmitting] = useStore(form.store, (state) => [
@@ -69,24 +65,6 @@ export function VaultGeneralSettings() {
               </form.AppField>
             </SettingsRow>
           </form>
-          {isLocalAccount ? (
-            <SettingsRow
-              title={t("move.title")}
-              description={t("move.description")}
-              separated
-            >
-              <Button
-                disabled={disabled}
-                onClick={() =>
-                  vaultId && openMoveVaultsDialog({ vaultIds: [vaultId] })
-                }
-                variant="secondary"
-                size="sm"
-              >
-                <ArrowUpDownIcon /> {t("move.button")}
-              </Button>
-            </SettingsRow>
-          ) : null}
           <SettingsRow
             title={t("delete.title")}
             description={t("delete.description")}

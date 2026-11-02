@@ -1,7 +1,7 @@
 # DiskPond — Product and Engineering Plan
 
 - **Updated:** 2026-11-02
-- **Status:** M1 complete: Windows build/startup verified locally and on clean CI. M2 is next; product parity remains unverified.
+- **Status:** M1 complete. M2 branding/account-free workspace slice is implemented and locally verified; recovery and product parity remain unverified.
 - **Delivery:** One developer assisted by coding tools; quality-first, milestone-driven.
 
 DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It will preserve BlinkDisk's desktop and bring-your-own-storage capabilities, use its Kopia-based engine, and introduce an original, calm interface. Windows ships first; macOS and Linux remain required parity targets.
@@ -183,7 +183,7 @@ docs/           Development, provider, recovery, compatibility, release guides
 tests/          Cross-package/provider/recovery fixtures and acceptance records
 ```
 
-Cloud-only `apps/api`, `apps/cloud`, `apps/web`, `apps/marketing`, and associated service libraries remain as imported source. M1 desktop commands do not launch their services; the [dependency map](docs/verification/m1-dependencies.md) identifies remaining shared/runtime/type coupling. Extract shared types from `libs/db`/API imports into `libs/schemas` before removing those dependencies in M2. Keep provenance in version history.
+Cloud-only `apps/api`, `apps/cloud`, `apps/web`, `apps/marketing`, and associated service libraries remain as imported source. The [M1 dependency map](docs/verification/m1-dependencies.md) records the inherited coupling. The [M2 workspace slice](docs/verification/m2-branding-workspace.md) extracts the required contracts and removes desktop API/database/auth/sync/telemetry imports. Retained service packages are outside desktop runtime/build entry points; provenance remains in version history.
 
 ### Runtime boundaries
 
@@ -306,4 +306,4 @@ Store evidence under `docs/verification/` with requirement IDs, commits, engine 
 
 The product reaches the full desktop/BYO parity milestone only when every applicable P/F/DP requirement is demonstrated on its required platform(s), all platform/support gaps are resolved or explicitly re-scoped by the owner, and backup recovery succeeds from a fresh installation. Documentation must state the exact supported versions and the X01–X05 exclusions/replacements.
 
-**M1 is complete**, with [passing clean Windows CI](https://github.com/hoxsec/DiskPond/actions/runs/41521154820). The next implementation milestone is **M2: the account-free recovery slice**. The integration branch is published; no DiskPond binary release has been published.
+**M1 is complete**, with [passing clean Windows CI](https://github.com/hoxsec/DiskPond/actions/runs/41521154820). **M2 is in progress** with a locally verified [branding/account-free workspace slice](docs/verification/m2-branding-workspace.md). The recovery acceptance gate remains open. The M1 integration branch is published; the M2 slice is uncommitted with no new CI run. No DiskPond binary release has been published.

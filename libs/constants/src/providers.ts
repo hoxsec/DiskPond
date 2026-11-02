@@ -1,5 +1,3 @@
-import type { ConfigLevel } from "@blinkdisk/db/schema";
-
 export type StorageProviderType =
   | "CLOUDBLINK"
   | "INTERNAL_DRIVE"
@@ -20,7 +18,7 @@ type StorageProvider = {
   type: StorageProviderType;
   alias?: string[];
   coreType: string;
-  level: ConfigLevel;
+  level: "VAULT" | "PROFILE";
   local: boolean;
   coreMapping?: Record<string, string>;
   hidden?: boolean;

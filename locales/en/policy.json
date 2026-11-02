@@ -94,7 +94,7 @@
     },
     "info": {
       "title": "How backup retention works",
-      "description": "BlinkDisk keeps the number of latest backups you set for each time period. A backup is kept if it matches any rule, others are removed to save space."
+      "description": "DiskPond keeps the number of latest backups you set for each time period. A backup is kept if it matches any rule, others are removed to save space."
     }
   },
   "files": {

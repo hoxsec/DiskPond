@@ -16,7 +16,9 @@ export function NotFoundPage() {
             components={[
               <a
                 key={0}
-                href="mailto:support@blinkdisk.com"
+                href={`${SOURCE_URL}/issues`}
+                target="_blank"
+                rel="noreferrer"
                 className="link-primary"
               />,
             ]}
@@ -35,3 +37,5 @@ export function NotFoundPage() {
     </div>
   );
 }
+
+import { SOURCE_URL } from "@blinkdisk/constants/app";

@@ -8,7 +8,6 @@ import { Button } from "@blinkdisk/ui/button";
 import { Skeleton } from "@blinkdisk/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@blinkdisk/ui/tabs";
 import { cn } from "@blinkdisk/utils/class";
-import { ExceedingAlert } from "@desktop/components/dialogs/create-source/exceeding-alert";
 import { SettingsCategorySkeleton } from "@desktop/components/policy/category";
 import { CompressionSettings } from "@desktop/components/policy/compression";
 import { PolicyContextProvider } from "@desktop/components/policy/context";
@@ -512,20 +511,10 @@ function PolicyEditorHeader({
   onSelectTarget: (target: PolicyTarget) => void;
 }) {
   const { t } = useAppTranslation("policy.page");
-  const [alertShown, setAlertShown] = useState(false);
   const isDirty = useStore(form.store, (state) => state.isDirty);
   const isSubmitting = useStore(form.store, (state) => state.isSubmitting);
   const activate = useActivateSourceDraftPolicy({
     target: draftTarget,
-    onError: (error) => {
-      if (
-        error &&
-        typeof error === "object" &&
-        "message" in error &&
-        error.message === "SOURCE_TOO_LARGE"
-      )
-        setAlertShown(true);
-    },
   });
   const discard = useDeletePolicy({
     target: draftTarget,
@@ -538,85 +527,75 @@ function PolicyEditorHeader({
   });
 
   return (
-    <>
-      <div className={policyEditorHeaderClassName}>
-        <div className="relative z-10 flex flex-wrap items-center gap-3">
-          <h1 className="shrink-0 text-2xl font-bold">{t("editor.title")}</h1>
-          <div className="flex min-w-fit flex-1 justify-center">
-            <Tabs
-              value={mode}
-              onValueChange={(value) => onModeChange(value as PolicyEditorMode)}
-              className="shrink-0"
+    <div className={policyEditorHeaderClassName}>
+      <div className="relative z-10 flex flex-wrap items-center gap-3">
+        <h1 className="shrink-0 text-2xl font-bold">{t("editor.title")}</h1>
+        <div className="flex min-w-fit flex-1 justify-center">
+          <Tabs
+            value={mode}
+            onValueChange={(value) => onModeChange(value as PolicyEditorMode)}
+            className="shrink-0"
+          >
+            <TabsList className="h-10">
+              <TabsTrigger value="basic" className="px-4">
+                <ListChecksIcon />
+                {t("editor.mode.basic")}
+              </TabsTrigger>
+              <TabsTrigger value="advanced" className="px-4">
+                <SlidersHorizontalIcon />
+                {t("editor.mode.advanced")}
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+        {draftTarget ? (
+          <div className="flex shrink-0 items-center gap-2">
+            <Button
+              type="button"
+              size="icon"
+              variant="destructive-secondary"
+              aria-label={t("draft.discard.button")}
+              title={t("draft.discard.button")}
+              onClick={() => discard.mutate()}
+              loading={discard.isPending}
             >
-              <TabsList className="h-10">
-                <TabsTrigger value="basic" className="px-4">
-                  <ListChecksIcon />
-                  {t("editor.mode.basic")}
-                </TabsTrigger>
-                <TabsTrigger value="advanced" className="px-4">
-                  <SlidersHorizontalIcon />
-                  {t("editor.mode.advanced")}
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
-          {draftTarget ? (
-            <div className="flex shrink-0 items-center gap-2">
-              <Button
-                type="button"
-                size="icon"
-                variant="destructive-secondary"
-                aria-label={t("draft.discard.button")}
-                title={t("draft.discard.button")}
-                onClick={() => discard.mutate()}
-                loading={discard.isPending}
-              >
-                <TrashIcon />
-              </Button>
-              <Button
-                type="submit"
-                size="icon"
-                variant="secondary"
-                aria-label={t("editor.save")}
-                title={t("editor.save")}
-                disabled={!isDirty || isSubmitting}
-                loading={isSubmitting}
-              >
-                <SaveIcon />
-              </Button>
-              <Button
-                type="button"
-                onClick={() =>
-                  draftPolicy && activate.mutate({ policy: draftPolicy })
-                }
-                disabled={!draftPolicy}
-                loading={activate.isPending}
-              >
-                <PlusIcon />
-                {t("draft.activate.button")}
-              </Button>
-            </div>
-          ) : (
+              <TrashIcon />
+            </Button>
             <Button
               type="submit"
+              size="icon"
+              variant="secondary"
+              aria-label={t("editor.save")}
+              title={t("editor.save")}
               disabled={!isDirty || isSubmitting}
               loading={isSubmitting}
             >
               <SaveIcon />
-              {t("editor.save")}
             </Button>
-          )}
-        </div>
+            <Button
+              type="button"
+              onClick={() =>
+                draftPolicy && activate.mutate({ policy: draftPolicy })
+              }
+              disabled={!draftPolicy}
+              loading={activate.isPending}
+            >
+              <PlusIcon />
+              {t("draft.activate.button")}
+            </Button>
+          </div>
+        ) : (
+          <Button
+            type="submit"
+            disabled={!isDirty || isSubmitting}
+            loading={isSubmitting}
+          >
+            <SaveIcon />
+            {t("editor.save")}
+          </Button>
+        )}
       </div>
-      {draftPolicy ? (
-        <ExceedingAlert
-          open={alertShown}
-          setOpen={setAlertShown}
-          loading={activate.isPending}
-          submit={() => activate.mutate({ policy: draftPolicy, force: true })}
-        />
-      ) : null}
-    </>
+    </div>
   );
 }
 

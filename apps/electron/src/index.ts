@@ -1,17 +1,9 @@
 import "@electron/identity";
 
-// But sentry should be imported directly after
 import { listenProtocol, registerProtcol } from "@electron/protocol";
-import * as Sentry from "@sentry/electron/main";
 import { app } from "electron";
 
-Sentry.init({
-  dsn: process.env.SENTRY_DESKTOP_DSN,
-  enabled: false,
-});
-
-// Registering must happen after Sentry,
-// but before the app ready event.
+// Protocol privileges must be registered before the app ready event.
 registerProtcol();
 
 import "@electron/deeplink";

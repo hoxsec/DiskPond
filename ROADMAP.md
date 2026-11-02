@@ -1,7 +1,7 @@
 # DiskPond — Roadmap
 
 - **Updated:** 2026-11-02
-- **Current stage:** M1 complete, including clean Windows CI; M2 is next.
+- **Current stage:** M1 complete; M2 branding/account-free workspace slice locally verified, recovery gate open.
 
 This roadmap implements the owner-approved scope in [PLAN.md](PLAN.md). Requirement IDs refer to its parity inventory. [STYLE.md](STYLE.md) defines the interface and [AGENTS.md](AGENTS.md) defines contributor workflow.
 
@@ -22,7 +22,7 @@ Effort is relative complexity, not a calendar estimate: **M** = contained integr
 | --- | --- | --- | --- | --- |
 | M0 | Agreed scope and planning documents | Owner answers, source review | M | Complete |
 | M1 | Reproducible fork and Windows development build | M0 | M | Complete — local and clean Windows CI pass |
-| M2 | Independent DiskPond local-backup vertical slice | M1 | L | Not started |
+| M2 | Independent DiskPond local-backup vertical slice | M1 | L | In progress — branding/workspace verified locally; recovery open |
 | M3 | All BYO providers and existing-repository connectivity | M2 | L | Not started |
 | M4 | Complete Windows backup/policy/recovery workflows | M3 | XL | Not started |
 | M5 | Portable setup and release-ready Windows product | M4 | L | Not started |
@@ -68,11 +68,13 @@ Evidence: [Windows checks and clean CI](docs/verification/m1-windows-baseline.md
 
 **Requirements:** P01; F01–F02; basic F17/F22/F24; DP01, initial DP03–DP04.
 
-- [ ] Promote the existing local-account path to the default account-free workspace.
-- [ ] Extract required contracts from cloud/API/database packages and remove hosted-service runtime requirements.
-- [ ] Remove login, subscription, billing and CloudBlink entry points; eliminate background authentication/configuration-sync jobs.
-- [ ] Remove analytics and crash-upload execution, build-time upload plugins and upstream service configuration.
-- [ ] Apply DiskPond product identity, isolated storage paths and original UI tokens.
+Locally verified slice: [owner artwork, local workspace and hosted-service removal](docs/verification/m2-branding-workspace.md), including built/development/installed Windows smoke. This working tree has no new CI run and does not close the real-recovery gate.
+
+- [x] Promote the existing local-account path to the default account-free workspace.
+- [x] Extract required contracts from cloud/API/database packages and remove hosted-service runtime requirements.
+- [x] Remove login, subscription, billing and CloudBlink entry points; eliminate background authentication/configuration-sync jobs.
+- [x] Remove analytics and crash-upload execution, build-time upload plugins and upstream service configuration.
+- [x] Apply DiskPond product identity, isolated storage paths and original UI tokens.
 - [ ] Implement create-versus-connect entry points with provider validation and safe existing-repository detection.
   - M1 discovery: inherited `/repo/exists` writes `.shards` and can migrate legacy blob IDs; add a genuinely read-only discovery path before existing-vault certification.
 - [ ] Preserve secure vault-password handling; make unavailable secure storage a session-only mode rather than a silent plaintext fallback.
@@ -208,6 +210,6 @@ Use small vertical tasks. For example: **P09 — create an SFTP vault with a kno
 
 ## First implementation session
 
-M1 is complete: the integration branch/import, pinned core build, desktop command contract, baseline checks, runtime smoke, and service/platform inventories are recorded; the clean Windows workflow passes. Next is M2, with implementation work ordered in the dependency inventory.
+M1 is complete: the integration branch/import, pinned core build, desktop command contract, baseline checks, runtime smoke, and service/platform inventories are recorded; the clean Windows workflow passes. M2 branding/local workspace extraction is implemented and locally verified; safe discovery, secure storage and real recovery remain the next gate.
 
 Release ownership, signing access, live provider test access and additional OS hardware remain project-owner inputs at their stated milestones. They do not block beginning M1.

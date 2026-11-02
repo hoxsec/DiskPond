@@ -24,6 +24,7 @@ export function CreateVaultProviders({
       <div className="relative">
         <Input
           className="w-full pl-10"
+          aria-label={t("createDialog.providers.search.label")}
           placeholder={t("createDialog.providers.search.placeholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
