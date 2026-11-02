@@ -1,0 +1,140 @@
+import { FormDisabledContext, useStore } from "@blinkdisk/forms/use-app-form";
+import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
+import type { ZSftpConfigType } from "@blinkdisk/schemas/providers";
+import { Alert, AlertDescription, AlertTitle } from "@blinkdisk/ui/alert";
+import { Button } from "@blinkdisk/ui/button";
+import { CreateVaultAlerts } from "@desktop/components/dialogs/create-vault/alerts";
+import { ProviderSubmitButton } from "@desktop/components/forms/providers/submit-button";
+import { useSftpForm } from "@desktop/hooks/forms/providers/use-sftp-form";
+import type { VaultAction } from "@desktop/hooks/use-config-validation";
+import { useMutation } from "@tanstack/react-query";
+import { TriangleAlertIcon } from "lucide-react";
+import { useContext } from "react";
+
+export type SftpFormProps = {
+  action: VaultAction;
+  config?: ZSftpConfigType;
+  onSubmit: (config: ZSftpConfigType) => void;
+};
+
+export function SftpForm({ action, config, onSubmit }: SftpFormProps) {
+  const { t } = useAppTranslation("vault.providers.SFTP.fields");
+  const disabledContext = useContext(FormDisabledContext);
+
+  const form = useSftpForm({
+    action,
+    config,
+    onSubmit,
+  });
+
+  const values = useStore(form.store, (store) => store.values);
+
+  const {
+    mutateAsync: scan,
+    error,
+    isPending,
+  } = useMutation({
+    mutationFn: async () => {
+      const result = await window.electron.ssh.keyscan(values);
+      if (result.error) throw result.error;
+
+      form.setFieldValue("knownHosts", result.output || "");
+    },
+  });
+
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        form.handleSubmit(e);
+      }}
+      className="flex w-full flex-col gap-4"
+    >
+      <form.AppField name="host">
+        {(field) => (
+          <field.Text
+            label={{ title: t("host.label"), required: true }}
+            placeholder={t("host.placeholder")}
+          />
+        )}
+      </form.AppField>
+      <form.AppField name="user">
+        {(field) => (
+          <field.Text
+            label={{ title: t("user.label"), required: true }}
+            placeholder={t("user.placeholder")}
+          />
+        )}
+      </form.AppField>
+      <form.AppField name="port">
+        {(field) => (
+          <field.Text
+            type="number"
+            label={{ title: t("port.label"), required: true }}
+            placeholder={t("port.placeholder")}
+          />
+        )}
+      </form.AppField>
+      <form.AppField name="path">
+        {(field) => (
+          <field.Text
+            label={{ title: t("path.label"), required: true }}
+            placeholder={t("path.placeholder")}
+          />
+        )}
+      </form.AppField>
+      <form.AppField name="password">
+        {(field) => (
+          <field.Password
+            label={{ title: t("password.label") }}
+            placeholder={t("password.placeholder")}
+          />
+        )}
+      </form.AppField>
+      <form.AppField name="privateKey">
+        {(field) => (
+          <field.Text
+            label={{ title: t("privateKey.label") }}
+            placeholder={t("privateKey.placeholder")}
+            as="textarea"
+            className="min-h-24"
+          />
+        )}
+      </form.AppField>
+      <form.AppField name="knownHosts">
+        {(field) => (
+          <div className="flex flex-col gap-3">
+            <field.Text
+              label={{ title: t("knownHosts.label"), required: true }}
+              placeholder={t("knownHosts.placeholder")}
+              as="textarea"
+              className="min-h-24"
+            />
+            {error ? (
+              <Alert variant="destructive">
+                <TriangleAlertIcon />
+                <AlertTitle>
+                  {t(`knownHosts.scan.error.${error}.title`)}
+                </AlertTitle>
+                <AlertDescription>
+                  {t(`knownHosts.scan.error.${error}.description`)}
+                </AlertDescription>
+              </Alert>
+            ) : null}
+            <Button
+              variant="secondary"
+              disabled={disabledContext}
+              onClick={() => scan()}
+              loading={isPending}
+              type="button"
+            >
+              {t("knownHosts.scan.button")}
+            </Button>
+          </div>
+        )}
+      </form.AppField>
+      <CreateVaultAlerts form={form} action={action} />
+      <ProviderSubmitButton action={action} form={form} />
+    </form>
+  );
+}

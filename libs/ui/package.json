@@ -1,0 +1,35 @@
+{
+  "name": "@blinkdisk/ui",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "types": "tsc --noEmit"
+  },
+  "exports": {
+    "./*": "./src/*.tsx"
+  },
+  "devDependencies": {
+    "@blinkdisk/constants": "workspace:*",
+    "@blinkdisk/hooks": "workspace:*",
+    "@blinkdisk/typescript": "workspace:*",
+    "@blinkdisk/utils": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "typescript": "catalog:"
+  },
+  "dependencies": {
+    "@base-ui/react": "catalog:",
+    "@types/twemoji-parser": "catalog:",
+    "class-variance-authority": "catalog:",
+    "embla-carousel-react": "catalog:",
+    "frimousse": "catalog:",
+    "input-otp": "catalog:",
+    "lucide-react": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-loading-skeleton": "catalog:",
+    "sonner": "catalog:",
+    "twemoji-parser": "catalog:"
+  }
+}

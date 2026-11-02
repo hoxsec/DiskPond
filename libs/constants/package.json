@@ -1,0 +1,19 @@
+{
+  "name": "@blinkdisk/constants",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "types": "tsc --noEmit"
+  },
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "devDependencies": {
+    "@blinkdisk/typescript": "workspace:*",
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
+  },
+  "dependencies": {
+    "@blinkdisk/db": "workspace:*"
+  }
+}

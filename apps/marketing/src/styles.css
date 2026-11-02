@@ -1,0 +1,373 @@
+@import "@styles/globals.css";
+
+@plugin "@tailwindcss/typography";
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* `overflow-x: hidden` promotes `overflow-y` to `auto`, establishing a scroll
+   container that breaks `position: sticky` for descendants. Switch to
+   `overflow-x: clip` only when a sticky element is present, so pages without
+   sticky descendants keep the broader-compatibility `hidden` behavior. */
+html:has([class~="sticky"], [class*=":sticky"]) {
+  overflow-x: clip;
+}
+
+body:has([class~="sticky"], [class*=":sticky"]) {
+  overflow-x: clip;
+}
+
+.prose :where(ul):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  list-style-type: disc !important;
+}
+
+.prose :where(ol):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  list-style-type: decimal !important;
+}
+
+.prose :where(li):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  list-style: inherit !important;
+}
+
+.prose
+  :where(h1, h2, h3, h4, h5, h6):not(
+    :where([class~="not-prose"], [class~="not-prose"] *)
+  ) {
+  scroll-margin-top: 8rem;
+}
+
+.astro-code,
+.astro-code span {
+  background-color: var(--color-card) !important;
+}
+
+.dark .astro-code,
+.dark .astro-code span {
+  background-color: var(--color-card) !important;
+  /*background-color: var(--shiki-dark-bg) !important;*/
+
+  color: var(--shiki-dark) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("@fontsource/inter/files/inter-latin-400-normal.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url("@fontsource/inter/files/inter-latin-500-normal.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url("@fontsource/inter/files/inter-latin-600-normal.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("@fontsource/inter/files/inter-latin-700-normal.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: "Space Mono";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("@fontsource/space-mono/files/space-mono-latin-400-normal.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: "Space Mono";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("@fontsource/space-mono/files/space-mono-latin-700-normal.woff2")
+    format("woff2");
+}
+
+:root {
+  font-family:
+    "Twemoji Country Flags", Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.marquee:hover {
+  animation-play-state: paused;
+}
+
+.marquee-reverse {
+  animation: marquee-right 30s linear infinite;
+}
+
+.marquee-reverse:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+:root {
+  --page-padding-top: 6em;
+  --page-padding-bottom: 4rem;
+
+  @media (min-width: 64rem) {
+    --page-padding-top: 10rem;
+    --page-padding-bottom: 7.5rem;
+  }
+}
+
+.pt-page {
+  padding-top: var(--page-padding-top);
+}
+
+.pb-page {
+  padding-bottom: var(--page-padding-bottom);
+}
+
+.py-page {
+  padding-top: var(--page-padding-top);
+  padding-bottom: var(--page-padding-bottom);
+}
+
+.w-content {
+  width: 90vw;
+
+  @media (min-width: 68rem) {
+    width: 64rem;
+  }
+}
+
+.compare-page {
+  --comparison-page-padding: clamp(1rem, 3vw, 2rem);
+  width: min(90vw, 64rem);
+  padding-inline: var(--comparison-page-padding);
+}
+
+.compare-page--wide {
+  width: min(
+    90vw,
+    max(
+      64rem,
+      calc(
+        var(--comparison-page-min-width) + var(--comparison-page-padding) * 2
+      )
+    )
+  );
+}
+
+body {
+  position: relative;
+}
+
+.mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: oklch(0.18 0 0);
+  border: 1px solid oklch(0.3 0 0);
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  min-height: 200px;
+}
+
+/* Hide raw mermaid text before rendering */
+.mermaid:not(:has(svg)) {
+  visibility: hidden;
+}
+
+.mermaid:has(svg) {
+  visibility: visible;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node ellipse,
+.mermaid .node polygon,
+.mermaid .node path {
+  rx: 8px;
+  ry: 8px;
+}
+
+/* Style the cluster/subgraph backgrounds */
+.mermaid .cluster rect {
+  rx: 12px !important;
+  ry: 12px !important;
+  fill: oklch(0.22 0 0) !important;
+  stroke: oklch(0.35 0 0) !important;
+  stroke-width: 1px !important;
+}
+
+.mermaid .cluster-label .nodeLabel,
+.mermaid .cluster-label span {
+  color: oklch(0.7 0 0) !important;
+  font-weight: 600;
+}
+
+.mermaid .node .label {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.mermaid .nodeLabel {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Remove purple borders from nodes */
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node ellipse,
+.mermaid .node polygon {
+  stroke: oklch(0.4 0 0) !important;
+}
+
+/* Edge/arrow styling */
+.mermaid .edgePath .path {
+  stroke: oklch(0.6 0 0);
+  stroke-width: 1.5px;
+}
+
+.mermaid .edgePath marker path {
+  fill: oklch(0.6 0 0);
+}
+
+/* Edge labels */
+.mermaid .edgeLabel {
+  background-color: oklch(0.22 0 0);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Light mode overrides */
+:root:not(.dark) .mermaid {
+  background: oklch(0.97 0 0);
+  border-color: oklch(0.9 0 0);
+}
+
+:root:not(.dark) .mermaid .node rect,
+:root:not(.dark) .mermaid .node circle,
+:root:not(.dark) .mermaid .node ellipse,
+:root:not(.dark) .mermaid .node polygon {
+  fill: oklch(0.95 0 0) !important;
+  stroke: oklch(0.8 0 0) !important;
+}
+
+:root:not(.dark) .mermaid .nodeLabel {
+  color: oklch(0.2 0 0) !important;
+}
+
+:root:not(.dark) .mermaid .cluster rect {
+  fill: oklch(0.92 0 0) !important;
+  stroke: oklch(0.85 0 0) !important;
+}
+
+:root:not(.dark) .mermaid .cluster-label .nodeLabel,
+:root:not(.dark) .mermaid .cluster-label span {
+  color: oklch(0.4 0 0) !important;
+}
+
+:root:not(.dark) .mermaid .edgePath .path {
+  stroke: oklch(0.5 0 0);
+}
+
+:root:not(.dark) .mermaid .edgePath marker path {
+  fill: oklch(0.5 0 0);
+}
+
+:root:not(.dark) .mermaid .edgeLabel {
+  background-color: oklch(0.94 0 0);
+}
+
+body.background-pattern::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 800px;
+  background-image:
+    radial-gradient(circle at 50% 300px, oklch(1 0 0) 0%, transparent 50%),
+    radial-gradient(oklch(0.7 0 0 / 0.2) 1.5px, transparent 1.5px);
+  background-size:
+    100% 100%,
+    28px 28px;
+  mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.dark body.background-pattern::before {
+  background-image:
+    radial-gradient(
+      circle at 50% 300px,
+      oklch(0.25 0 0 / 1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(oklch(0.5 0 0 / 0.2) 1.5px, transparent 1.5px);
+}

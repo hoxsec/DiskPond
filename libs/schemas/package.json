@@ -1,0 +1,24 @@
+{
+  "name": "@blinkdisk/schemas",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "scripts": {
+    "types": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@blinkdisk/typescript": "workspace:*",
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "vite-tsconfig-paths": "catalog:",
+    "vitest": "catalog:"
+  },
+  "dependencies": {
+    "@blinkdisk/constants": "workspace:*",
+    "@blinkdisk/db": "workspace:*",
+    "zod": "catalog:"
+  }
+}

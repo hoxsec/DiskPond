@@ -1,0 +1,22 @@
+{
+  "name": "@blinkdisk/hooks",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "types": "tsc --noEmit"
+  },
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "devDependencies": {
+    "@blinkdisk/typescript": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "typescript": "catalog:"
+  },
+  "dependencies": {
+    "@blinkdisk/constants": "workspace:*",
+    "@blinkdisk/utils": "workspace:*",
+    "react": "catalog:"
+  }
+}

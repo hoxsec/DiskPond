@@ -1,0 +1,69 @@
+{
+  "name": "@blinkdisk/electron",
+  "description": "Modern backups for absolutely everyone.",
+  "repository": "https://github.com/blinkdisk/blinkdisk",
+  "author": {
+    "email": "support@blinkdisk.com",
+    "name": "BlinkDisk"
+  },
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "main": "./build/index.js",
+  "scripts": {
+    "dev": "concurrently \"pnpm:compile:dev\" \"pnpm:dev:electron\"",
+    "dev:electron": "electronmon ./build/index.js $ELECTRON_EXTRA_ARGS",
+    "types": "tsc --noEmit",
+    "test": "vitest run",
+    "compile:dev": "node esbuild.config.mjs development",
+    "compile:prod": "node esbuild.config.mjs production",
+    "prebuild": "pnpm build:frontend && tsc --noEmit && pnpm compile:prod compile",
+    "build:frontend": "rm -rf frontend/ && cd ../.. && pnpm --filter desktop build && cp -r apps/desktop/dist apps/electron/frontend",
+    "build:linux": "electron-builder -c electron.builder.ts --linux",
+    "build:windows": "electron-builder -c electron.builder.ts --windows",
+    "build:macos": "electron-builder -c electron.builder.ts --macos"
+  },
+  "dependencies": {
+    "@better-auth/electron": "catalog:",
+    "@blinkdisk/api": "workspace:*",
+    "@blinkdisk/constants": "workspace:*",
+    "@blinkdisk/db": "workspace:*",
+    "@blinkdisk/schemas": "workspace:*",
+    "@blinkdisk/signaldb-electron": "catalog:",
+    "@blinkdisk/utils": "workspace:*",
+    "@esbuild-plugins/tsconfig-paths": "catalog:",
+    "@sentry/electron": "catalog:",
+    "@signaldb/core": "catalog:",
+    "@signaldb/fs": "catalog:",
+    "@signaldb/sync": "catalog:",
+    "@trpc/client": "catalog:",
+    "auto-launch": "catalog:",
+    "better-auth": "catalog:",
+    "electron-log": "catalog:",
+    "electron-store": "catalog:",
+    "electron-updater": "catalog:",
+    "get-folder-size": "catalog:",
+    "p-limit": "catalog:",
+    "set-cookie-parser": "catalog:",
+    "tough-cookie": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@blinkdisk/typescript": "workspace:*",
+    "@sentry/esbuild-plugin": "catalog:",
+    "@types/auto-launch": "catalog:",
+    "@types/node": "catalog:",
+    "concurrently": "catalog:",
+    "dotenv": "catalog:",
+    "electron": "catalog:",
+    "electron-builder": "catalog:",
+    "electronmon": "catalog:",
+    "esbuild": "catalog:",
+    "typescript": "catalog:",
+    "vite-tsconfig-paths": "catalog:",
+    "vitest": "catalog:"
+  }
+}

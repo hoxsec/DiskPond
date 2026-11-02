@@ -1,0 +1,126 @@
+---
+import { EXAMPLE_FOLDERS } from "@blinkdisk/constants/folder";
+import Folder from "@marketing/components/Folder.astro";
+
+const steps = [
+  {
+    title: "Choose folders to protect",
+    description:
+      "Pick all folders you want to protect. We take care of everything else, with no complex setup.",
+  },
+  {
+    title: "Create your first backup",
+    description:
+      "Once set up, BlinkDisk starts to backup your files in the background. You'll always have secure copies.",
+  },
+  {
+    title: "Restore any file, anytime",
+    description:
+      "When something goes wrong, simply open BlinkDisk and restore any file in seconds.",
+  },
+];
+---
+
+<section
+  id="solution"
+  class="w-content relative mx-auto flex flex-col items-center py-16 sm:py-24"
+>
+  <!-- Mono kicker -->
+  <div
+    class="bg-card/70 inline-flex items-center gap-2.5 rounded-full border px-3.5 py-1.5 backdrop-blur-sm"
+  >
+    <span class="relative flex size-1.5">
+      <span class="bg-primary/60 absolute inset-0 animate-ping rounded-full"
+      ></span>
+      <span class="bg-primary relative inline-flex size-1.5 rounded-full"
+      ></span>
+    </span>
+    <span
+      class="text-muted-foreground font-mono text-[0.68rem] font-bold uppercase tracking-[0.18em]"
+    >
+      The Solution
+    </span>
+  </div>
+
+  <h2 class="mt-6 text-center text-4xl font-bold sm:text-5xl">
+    Get protected in <br class="sm:hidden" />
+    <span class="sm:hidden">a few</span> minutes
+  </h2>
+
+  <p
+    class="md:w-160 text-muted-foreground mt-4 w-full text-center text-sm md:text-base"
+  >
+    BlinkDisk gives your files the protection they deserve. It automatically
+    creates secure, encrypted backups. So no matter what happens, your files are
+    always safe.
+  </p>
+  <div class="mt-10 grid grid-cols-1 md:mt-20 md:grid-cols-3">
+    {
+      steps.map(({ title, description }, index) => (
+        <div class="flex w-full flex-row items-center gap-8 md:flex-col md:gap-0">
+          <div class="flex h-full flex-col items-center md:h-auto md:w-full md:flex-row">
+            <div
+              class:list={[
+                "border-primary/30 grow border-l-2 border-dashed md:border-l-0 md:border-t-2",
+                index === 0 && "invisible",
+              ]}
+            />
+            <div class="bg-primary/10 border-primary/30 size-13 relative flex shrink-0 items-center justify-center rounded-xl border">
+              <span class="text-primary relative whitespace-nowrap font-mono text-base font-bold md:text-lg">
+                0{index + 1}
+              </span>
+            </div>
+            <div
+              class:list={[
+                "border-primary/30 grow border-l-2 border-dashed md:border-l-0 md:border-t-2",
+                index === steps.length - 1 && "invisible",
+              ]}
+            />
+          </div>
+          <div class="flex w-[90%] flex-col items-start gap-2 py-4 sm:mt-6 sm:py-0 md:items-center md:text-center">
+            <h3 class="text-xl font-semibold md:text-2xl md:font-bold">
+              {title}
+            </h3>
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              {description}
+            </p>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <!-- Marquee header -->
+  <div class="mt-20 flex items-center gap-3 md:mt-28" aria-hidden="true">
+    <span class="bg-border h-px w-8 sm:w-12"></span>
+    <span
+      class="text-muted-foreground font-mono text-[0.62rem] font-bold uppercase tracking-[0.2em] sm:text-[0.68rem]"
+    >
+      ↓ Protect what matters most
+    </span>
+    <span class="bg-border h-px w-8 sm:w-12"></span>
+  </div>
+
+  <!-- CSS Marquee -->
+  <div
+    class="mt-6 w-full overflow-hidden md:mt-8"
+    style="mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);"
+  >
+    <div class="marquee flex w-max">
+      <div class="flex items-center gap-8 pl-8">
+        {
+          EXAMPLE_FOLDERS.map((folder) => (
+            <Folder folder={{ ...folder, emoji: "📁" }} />
+          ))
+        }
+      </div>
+      <div class="flex items-center gap-8 pl-8">
+        {
+          EXAMPLE_FOLDERS.map((folder) => (
+            <Folder folder={{ ...folder, emoji: "📁" }} />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

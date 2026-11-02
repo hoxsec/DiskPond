@@ -1,0 +1,38 @@
+import { DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { ZCloudDeleteBlob } from "@blinkdisk/schemas/cloud";
+import type { Space } from "@cloud/classes/space";
+import type { Vault } from "@cloud/classes/vault";
+import { consumeSpace } from "@cloud/utils/space";
+
+export async function deleteBlob(
+  durableObject: InstanceType<typeof Vault>,
+  data: unknown,
+  storage: DurableObjectStorage,
+  space: DurableObjectNamespace<Space>,
+) {
+  const {
+    data: payload,
+    error: parseError,
+    success,
+  } = ZCloudDeleteBlob.safeParse(data);
+
+  if (!success)
+    return { error: parseError.message || "Failed to validate payload" };
+
+  await durableObject.s3.send(
+    new DeleteObjectCommand({
+      Bucket: durableObject.bucket,
+      Key: `${durableObject.id}/${payload.key}`,
+    }),
+  );
+
+  const { error, space: spaceStats } = await consumeSpace(
+    storage,
+    space,
+    payload.key,
+    0,
+  );
+
+  if (error) return { error };
+  return { space: spaceStats };
+}

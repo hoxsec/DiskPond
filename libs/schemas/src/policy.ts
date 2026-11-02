@@ -1,0 +1,163 @@
+import { COMPRESSION_ALGORITHMS } from "@blinkdisk/constants/algorithms";
+import { z } from "zod";
+import { ZSourceType } from "./source";
+
+const ZPolicyLevel = z.enum(["VAULT", "SOURCE"]);
+
+export type ZPolicyLevelType = z.infer<typeof ZPolicyLevel>;
+
+const ZRetentionPolicy = z.object({
+  latest: z.number().int().min(0).optional(),
+  hourly: z.number().int().min(0).optional(),
+  daily: z.number().int().min(0).optional(),
+  weekly: z.number().int().min(0).optional(),
+  monthly: z.number().int().min(0).optional(),
+  annual: z.number().int().min(0).optional(),
+  ignoreIdentical: z.boolean().optional(),
+});
+
+const ZFileSize = z.object({
+  value: z.number().min(0).optional(),
+  unit: z.enum(["B", "KB", "MB", "GB", "TB"]),
+});
+
+export type ZFileSizeType = z.infer<typeof ZFileSize>;
+
+const ZFilesPolicy = z.object({
+  exclusions: z.object({ rule: z.string() }).array().optional(),
+  ignoreParentExclusions: z.boolean().optional(),
+  exclusionRuleFiles: z.object({ filename: z.string() }).array().optional(),
+  ignoreParentExclusionRuleFiles: z.boolean().optional(),
+  excludeCacheDirs: z.boolean().optional(),
+  maxFileSize: ZFileSize.optional(),
+  singleFileSystem: z.boolean().optional(),
+});
+
+const ZErrorsPolicy = z.object({
+  ignoreFile: z.boolean().optional(),
+  ignoreDirectory: z.boolean().optional(),
+  ignoreUnknown: z.boolean().optional(),
+});
+
+const ZSchedulePolicy = z.object({
+  trigger: z.enum(["SCHEDULE", "MANUAL"]).optional(),
+  interval: z.union([z.string(), z.literal("NONE")]).optional(),
+  times: z
+    .object({
+      hour: z.number().int().positive().optional(),
+      minute: z.number().int().positive().optional(),
+    })
+    .array()
+    .optional(),
+  cron: z
+    .object({
+      id: z.string(),
+      expression: z.string(),
+    })
+    .array()
+    .optional(),
+  catchup: z.boolean().optional(),
+});
+
+const ZCompressionPolicy = z.object({
+  algorithm: z
+    .enum([
+      // Not sure why this is here, but it is.
+      // I'm scared to touch it.
+      "",
+      ...COMPRESSION_ALGORITHMS,
+    ])
+    .optional(),
+  extensionAllowlist: z.string().array().optional(),
+  extensionDenylist: z.string().array().optional(),
+  minFileSize: ZFileSize.optional(),
+  maxFileSize: ZFileSize.optional(),
+});
+
+const ZMetadataPolicy = z.object({
+  algorithm: z.enum(["zstd-fastest"]).optional(),
+});
+
+const ZSplitterPolicy = z.any().optional();
+
+const ZScript = z.object({
+  script: z.string().min(1).max(1024).optional(),
+  timeout: z.number().int().positive().optional(),
+  mode: z.enum(["essential", "optional", "async"]).optional(),
+});
+
+const ZScriptsPolicy = z.object({
+  beforeFolder: ZScript.optional(),
+  afterFolder: ZScript.optional(),
+  beforeSnapshot: ZScript.optional(),
+  afterSnapshot: ZScript.optional(),
+});
+
+const ZOsSnapshotsPolicy = z.object({
+  volumeShadowCopy: z.object({
+    enable: z.number().int().min(0).optional(),
+  }),
+});
+
+const ZLoggingPolicy = z.object({
+  directories: z.object({
+    snapshotted: z.number().int().min(0).optional(),
+    ignored: z.number().int().min(0).optional(),
+  }),
+  files: z.object({
+    snapshotted: z.number().int().min(0).optional(),
+    ignored: z.number().int().min(0).optional(),
+    cache: z.object({
+      hit: z.number().int().min(0).optional(),
+      miss: z.number().int().min(0).optional(),
+    }),
+  }),
+});
+
+const ZUploadPolicy = z.object({
+  parallelBackups: z.number().int().positive().optional(),
+  parallelFileReads: z.number().int().positive().optional(),
+  parallelUploadMinSize: z.number().int().positive().optional(),
+});
+
+const ZIgnoreParentPolicy = z.boolean().optional();
+
+export const ZPolicy = z.object({
+  name: z.string().optional(),
+  emoji: z.string().optional(),
+  initialSourceType: ZSourceType.optional(),
+  retention: ZRetentionPolicy,
+  files: ZFilesPolicy,
+  errors: ZErrorsPolicy,
+  schedule: ZSchedulePolicy,
+  compression: ZCompressionPolicy,
+  metadata: ZMetadataPolicy,
+  splitter: ZSplitterPolicy,
+  scripts: ZScriptsPolicy,
+  osSnapshots: ZOsSnapshotsPolicy,
+  logging: ZLoggingPolicy,
+  upload: ZUploadPolicy,
+  ignoreParentPolicy: ZIgnoreParentPolicy,
+});
+
+export type ZPolicyType = z.infer<typeof ZPolicy>;
+
+export const ZExclusionForm = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("NAME"),
+    matchType: z.enum(["EXACT", "STARTS_WITH", "ENDS_WITH", "CONTAINS"]),
+    pattern: z.string().min(1),
+    foldersOnly: z.boolean(),
+  }),
+  z.object({
+    type: z.literal("EXTENSION"),
+    extension: z.string().min(1),
+  }),
+  z.object({
+    type: z.literal("PATH"),
+    path: z.string().min(1),
+    foldersOnly: z.boolean().optional(),
+  }),
+]);
+
+export type ZExclusionFormType = z.infer<typeof ZExclusionForm>;

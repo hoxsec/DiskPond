@@ -1,0 +1,68 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cloud",
+  "main": "src/index.ts",
+  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_date": "2025-08-22",
+  "upload_source_maps": true,
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "VAULT",
+        "class_name": "Vault",
+      },
+      {
+        "name": "SPACE",
+        "class_name": "Space",
+      },
+    ],
+  },
+  "workflows": [
+    {
+      "name": "cloud-cancellations",
+      "binding": "CANCELLATION_WORKFLOW",
+      "class_name": "CancellationWorkflow",
+    },
+    {
+      "name": "cloud-trials",
+      "binding": "TRIAL_WORKFLOW",
+      "class_name": "TrialWorkflow",
+    },
+  ],
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["Storage", "Space"],
+    },
+    {
+      "tag": "v2",
+      "new_sqlite_classes": ["Vault"],
+    },
+    {
+      "tag": "v3",
+      "deleted_classes": ["Storage"],
+    },
+  ],
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      "id": "cb04a4b2f0cc49ea866f4804f7f6910f",
+    },
+  ],
+  "unsafe": {
+    "bindings": [
+      {
+        "name": "RATE_LIMIT",
+        "type": "ratelimit",
+        "namespace_id": "2000",
+        "simple": {
+          "limit": 600,
+          "period": 60,
+        },
+      },
+    ],
+  },
+  "observability": {
+    "enabled": false,
+  },
+}

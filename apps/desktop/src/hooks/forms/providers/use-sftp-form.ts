@@ -1,0 +1,41 @@
+import { useAppForm } from "@blinkdisk/forms/use-app-form";
+import {
+  ZSftpConfig,
+  type ZSftpConfigType,
+} from "@blinkdisk/schemas/providers";
+import {
+  useConfigValidation,
+  type VaultAction,
+} from "@desktop/hooks/use-config-validation";
+
+export function useSftpForm({
+  action,
+  config,
+  onSubmit,
+}: {
+  action: VaultAction;
+  config?: ZSftpConfigType;
+  onSubmit: (value: ZSftpConfigType) => void;
+}) {
+  const { onSubmitAsync } = useConfigValidation("SFTP", action);
+
+  return useAppForm({
+    defaultValues: {
+      host: "",
+      user: "",
+      port: 22,
+      path: "",
+      password: "",
+      privateKey: "",
+      knownHosts: "",
+      ...config,
+    } as ZSftpConfigType,
+    validators: {
+      onSubmit: ZSftpConfig,
+      onSubmitAsync,
+    },
+    onSubmit: ({ value }) => {
+      onSubmit(value);
+    },
+  });
+}

@@ -1,0 +1,30 @@
+{
+  "name": "blinkdisk",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "dotenv -- turbo run dev",
+    "format": "biome format --write .",
+    "env:update": "turbo run env:update",
+    "db:generate": "dotenv -- pnpm --filter db generate",
+    "db:migrate": "dotenv -- pnpm --filter db migrate",
+    "db:studio": "dotenv -- pnpm --filter db studio",
+    "emails:studio": "dotenv -- pnpm --filter emails studio",
+    "types": "turbo run types",
+    "test": "turbo run test",
+    "unused": "knip",
+    "lint": "biome check .",
+    "lint:ci": "biome ci . --error-on-warnings"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "dotenv-cli": "catalog:",
+    "knip": "catalog:",
+    "turbo": "catalog:",
+    "typescript": "catalog:"
+  },
+  "packageManager": "pnpm@11.7.0",
+  "engines": {
+    "node": ">=24.14.0"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "@blinkdisk/forms",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "types": "tsc --noEmit"
+  },
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "devDependencies": {
+    "@blinkdisk/typescript": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "typescript": "catalog:"
+  },
+  "dependencies": {
+    "@blinkdisk/schemas": "workspace:*",
+    "@blinkdisk/ui": "workspace:*",
+    "@blinkdisk/utils": "workspace:*",
+    "@blinkdisk/components": "workspace:*",
+    "@tanstack/react-form": "catalog:",
+    "lucide-react": "catalog:",
+    "react": "catalog:"
+  }
+}

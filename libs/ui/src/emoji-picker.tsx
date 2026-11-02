@@ -1,0 +1,152 @@
+import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
+import { Button } from "@ui/button";
+import { Input } from "@ui/input";
+import { Loader } from "@ui/loader";
+import { Popover, PopoverContent, PopoverTrigger } from "@ui/popover";
+import {
+  type EmojiPickerListCategoryHeaderProps,
+  type EmojiPickerListEmojiProps,
+  type Locale,
+  EmojiPicker as Picker,
+} from "frimousse";
+import { EraserIcon } from "lucide-react";
+import { type ReactElement, useState } from "react";
+import { parse } from "twemoji-parser";
+
+export type EmojiPickerProps = {
+  locale: string;
+  children?: ReactElement;
+  clearLabel?: string;
+  onEmojiSelect?: (emoji: string) => void;
+  onEmojiClear?: () => void;
+};
+
+const supportedLocales = [
+  "bn",
+  "da",
+  "de",
+  "en-gb",
+  "en",
+  "es-mx",
+  "es",
+  "et",
+  "fi",
+  "fr",
+  "hi",
+  "hu",
+  "it",
+  "ja",
+  "ko",
+  "lt",
+  "ms",
+  "nb",
+  "nl",
+  "pl",
+  "pt",
+  "ru",
+  "sv",
+  "th",
+  "uk",
+  "vi",
+  "zh-hant",
+  "zh",
+];
+
+export function EmojiPicker({
+  locale,
+  children,
+  clearLabel,
+  onEmojiSelect,
+  onEmojiClear,
+}: EmojiPickerProps) {
+  const { t } = useAppTranslation("folder.emojiPicker");
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState("");
+
+  return (
+    <Popover onOpenChange={setIsOpen} open={isOpen} modal>
+      <PopoverTrigger render={children} />
+      <PopoverContent className="w-fit overflow-hidden rounded-xl p-0">
+        <Picker.Root
+          onEmojiSelect={({ emoji }) => onEmojiSelect?.(emoji)}
+          className="bg-popover flex h-[368px] w-fit flex-col"
+          locale={supportedLocales.includes(locale) ? (locale as Locale) : "en"}
+        >
+          <Picker.Search value={search} className="hidden" />
+          <div className="z-10 flex items-center gap-2 p-2 pb-0">
+            <Input
+              className="w-auto flex-1"
+              placeholder={t("search")}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            {onEmojiClear ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-sm"
+                title={clearLabel}
+                onClick={() => {
+                  onEmojiClear();
+                  setIsOpen(false);
+                }}
+              >
+                <EraserIcon />
+              </Button>
+            ) : null}
+          </div>
+          <Picker.Viewport className="outline-hidden relative flex-1">
+            <Picker.Loading className="absolute inset-0 flex items-center justify-center text-sm text-neutral-400 dark:text-neutral-500">
+              <Loader />
+            </Picker.Loading>
+            <Picker.Empty className="absolute inset-0 flex items-center justify-center text-sm text-neutral-400 dark:text-neutral-500">
+              {t("empty")}
+            </Picker.Empty>
+            <Picker.List
+              className="select-none pb-1.5"
+              components={{
+                CategoryHeader: ({
+                  category,
+                  ...props
+                }: EmojiPickerListCategoryHeaderProps) => (
+                  <div
+                    className="bg-popover px-3 pb-1.5 pt-3 text-xs font-medium text-neutral-600 dark:text-neutral-400"
+                    {...props}
+                  >
+                    {category.label}
+                  </div>
+                ),
+                Row: ({ children, ...props }) => (
+                  <div className="scroll-my-1.5 px-1.5" {...props}>
+                    {children}
+                  </div>
+                ),
+                Emoji: (props: EmojiPickerListEmojiProps) => {
+                  const parsed = parse(props.emoji.emoji);
+                  const url = parsed[0]?.url;
+                  return (
+                    <button
+                      className="flex items-start justify-center rounded-md p-1.5 text-lg data-[active]:bg-neutral-100 dark:data-[active]:bg-neutral-800"
+                      {...props}
+                    >
+                      {url ? (
+                        <img
+                          src={url}
+                          alt={props.emoji.emoji}
+                          className="size-5"
+                        />
+                      ) : (
+                        <span className="size-5">{props.emoji.emoji}</span>
+                      )}
+                    </button>
+                  );
+                },
+              }}
+            />
+          </Picker.Viewport>
+        </Picker.Root>
+      </PopoverContent>
+    </Popover>
+  );
+}

@@ -1,0 +1,267 @@
+{
+  "page": {
+    "tree": {
+      "title": "Scope",
+      "description": "Choose which policy to edit."
+    },
+    "editor": {
+      "title": "Policy",
+      "save": "Save",
+      "mode": {
+        "basic": "Basic",
+        "advanced": "Advanced"
+      },
+      "advancedBanner": {
+        "title": "Looking for more options?",
+        "description": "Advanced mode includes custom schedules, rule files, compression, retention, and file size limits.",
+        "button": "Switch to advanced"
+      }
+    },
+    "override": {
+      "inherited": "Inherited",
+      "custom": "Custom"
+    },
+    "draft": {
+      "badge": "Draft",
+      "activate": {
+        "button": "Add file/folder"
+      },
+      "discard": {
+        "button": "Discard"
+      }
+    }
+  },
+  "schedule": {
+    "title": "Backup schedule",
+    "description": "Schedule automatic backups of your files.",
+    "trigger": {
+      "label": "Backup trigger",
+      "items": {
+        "SCHEDULE": "Scheduled",
+        "MANUAL": "Manual only"
+      }
+    },
+    "interval": {
+      "label": "Backup interval",
+      "placeholder": "Select backup interval",
+      "items": {
+        "NONE": "None",
+        "10_MINUTES": "Every 10 minutes",
+        "15_MINUTES": "Every 15 minutes",
+        "20_MINUTES": "Every 20 minutes",
+        "30_MINUTES": "Every 30 minutes",
+        "1_HOUR": "Every hour",
+        "3_HOURS": "Every 3 hours",
+        "6_HOURS": "Every 6 hours",
+        "12_HOURS": "Every 12 hours",
+        "24_HOURS": "Every 24 hours"
+      }
+    },
+    "catchup": {
+      "label": "Catch up on missed backups"
+    },
+    "cron": {
+      "label": "Custom schedule",
+      "add": "Add custom schedule"
+    }
+  },
+  "retention": {
+    "title": "Backup retention",
+    "description": "Configure how long to keep backups.",
+    "latest": {
+      "label": "Latest backups",
+      "description": "The number of latest backups to keep."
+    },
+    "hourly": {
+      "label": "Hourly backups",
+      "description": "The number of hourly backups to keep."
+    },
+    "daily": {
+      "label": "Daily backups",
+      "description": "The number of daily backups to keep."
+    },
+    "weekly": {
+      "label": "Weekly backups",
+      "description": "The number of weekly backups to keep."
+    },
+    "monthly": {
+      "label": "Monthly backups",
+      "description": "The number of monthly backups to keep."
+    },
+    "annual": {
+      "label": "Annual backups",
+      "description": "The number of annual backups to keep."
+    },
+    "info": {
+      "title": "How backup retention works",
+      "description": "BlinkDisk keeps the number of latest backups you set for each time period. A backup is kept if it matches any rule, others are removed to save space."
+    }
+  },
+  "files": {
+    "title": "Excluded files",
+    "description": "Exclude files and directories from backups.",
+    "exclusions": {
+      "label": "Excluded files and directories",
+      "description": "Files, directories and extensions to exclude from backups.",
+      "descriptionWithRoot": "Files, folders and extensions to exclude from this folder's backups.",
+      "add": "Add exclusion",
+      "example": "ignored-file.txt",
+      "broken": {
+        "title_one": "{{count}} exclusion rule isn't working",
+        "title_other": "{{count}} exclusion rules aren't working",
+        "description": "Rules entered as full paths never match anything. Rules must be relative to the backed-up folder.",
+        "descriptionOutside": "Paths outside {{root}} can't be excluded from this folder's backups. Edit or remove these rules.",
+        "descriptionWithoutRoot": "Rules entered as full paths never match anything. To exclude a specific folder, add the rule to that folder's own policy.",
+        "fix_one": "Fix {{count}} rule",
+        "fix_other": "Fix {{count}} rules"
+      },
+      "dialog": {
+        "title": "Edit exclusion rule",
+        "description": "Configure the exclusion rule pattern.",
+        "type": {
+          "label": "Exclude by",
+          "path": "Path",
+          "name": "Name",
+          "extension": "Extension"
+        },
+        "matchType": {
+          "exact": "is exactly",
+          "startsWith": "starts with",
+          "endsWith": "ends with",
+          "contains": "contains"
+        },
+        "path": {
+          "label": "Folder or file",
+          "description": "Must be inside {{root}}.",
+          "descriptionWithoutRoot": "Relative to each backed-up folder, e.g. /AppData/Local/Temp.",
+          "placeholderWithoutRoot": "/path/to/folder",
+          "chooseFolder": "Choose folder",
+          "chooseFile": "Choose file",
+          "preview": "Excludes {{path}} in this folder.",
+          "errors": {
+            "EMPTY": "Enter a path.",
+            "INVALID": "This path can't be used. Paths with \"..\" or drive-relative paths like C:folder aren't supported.",
+            "IS_ROOT": "This is the backed-up folder itself. Choose something inside it.",
+            "OUTSIDE_ROOT": "This path isn't inside {{root}}.",
+            "NEEDS_ROOT": "Full paths only work on a folder's own policy. Enter a path relative to the backed-up folder instead."
+          }
+        },
+        "pattern": {
+          "label": "where name",
+          "description": "Matches files and folders with this name anywhere in the backup.",
+          "placeholder": "Name match pattern",
+          "errors": {
+            "path": "Names can't contain \\ or drive letters."
+          },
+          "pathHint": {
+            "withRoot": "This looks like a path. To exclude one specific folder or file, use a path rule instead.",
+            "withoutRoot": "This looks like a path. To exclude one specific folder or file, add the rule to that folder's own policy.",
+            "action": "Exclude this path instead"
+          }
+        },
+        "extension": {
+          "label": "where file extension is",
+          "placeholder": "Enter file extension (e.g., pdf, jpg or docx)"
+        },
+        "foldersOnly": "Only exclude folders",
+        "save": "Save"
+      },
+      "preview": {
+        "path": "Folder or file",
+        "broken": {
+          "fullPath": "Not working: entered as a full path",
+          "outside": "Not working: path is outside this folder",
+          "isRoot": "Not working: points to the backed-up folder itself",
+          "invalid": "Not working: edit this rule to fix it"
+        },
+        "extension": "File extension",
+        "name": {
+          "both": "Name",
+          "foldersOnly": "Folder name"
+        },
+        "matchType": {
+          "EXACT": "is exactly",
+          "STARTS_WITH": "starts with",
+          "ENDS_WITH": "ends with",
+          "CONTAINS": "contains"
+        }
+      }
+    },
+    "exclusionRuleFiles": {
+      "label": "Exclusion rule files",
+      "description": "All filenames containing exclusion rules.",
+      "example": "ignore.txt",
+      "docs": "Open docs",
+      "add": "Add rule file"
+    },
+    "maxFileSize": {
+      "label": "Maximum file size",
+      "description": "Maximum file size to include in backups."
+    },
+    "excludeCacheDirs": {
+      "label": "Exclude cache directories",
+      "description": "Exclude common cache directories in backups."
+    }
+  },
+  "compression": {
+    "title": "Compression",
+    "description": "Configure how backup data is compressed.",
+    "algorithm": {
+      "label": "Compression algorithm",
+      "description": "The algorithm used to compress backup data.",
+      "placeholder": "Select algorithm",
+      "tabs": {
+        "off": "None",
+        "recommended": "Recommended",
+        "other": "Other"
+      },
+      "presets": {
+        "faster": "Faster",
+        "balanced": "Balanced",
+        "smaller": "Smaller"
+      },
+      "items": {
+        "": "Default",
+        "none": "None",
+        "gzip": "Gzip",
+        "gzip-best-compression": "Gzip (best compression)",
+        "gzip-best-speed": "Gzip (best speed)",
+        "zstd": "Zstandard",
+        "zstd-best-compression": "Zstandard (best compression)",
+        "zstd-better-compression": "Zstandard (better compression)",
+        "zstd-fastest": "Zstandard (fastest)",
+        "s2-default": "S2",
+        "s2-better": "S2 (better)",
+        "s2-parallel-4": "S2 (parallel, 4 threads)",
+        "s2-parallel-8": "S2 (parallel, 8 threads)",
+        "pgzip": "Parallel Gzip",
+        "pgzip-best-compression": "Parallel Gzip (best compression)",
+        "pgzip-best-speed": "Parallel Gzip (best speed)",
+        "deflate-default": "Deflate",
+        "deflate-best-compression": "Deflate (best compression)",
+        "deflate-best-speed": "Deflate (best speed)",
+        "lz4": "LZ4 (Not recommended)"
+      }
+    },
+    "minFileSize": {
+      "label": "Minimum file size",
+      "description": "Only compress files larger than this size."
+    },
+    "maxFileSize": {
+      "label": "Maximum file size",
+      "description": "Only compress files smaller than this size."
+    },
+    "extensionAllowlist": {
+      "label": "Extension allowlist",
+      "description": "Only compress files with these extensions.",
+      "add": "Add extension",
+      "placeholder": "e.g. .txt"
+    },
+    "extensionDenylist": {
+      "label": "Extension denylist",
+      "description": "Never compress files with these extensions.",
+      "add": "Add extension",
+      "placeholder": "e.g. .zip"
+    }
+  }
+}

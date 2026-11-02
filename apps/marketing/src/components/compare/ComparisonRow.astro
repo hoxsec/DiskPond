@@ -1,0 +1,71 @@
+---
+import type { NormalizedCellValue } from "@blinkdisk/utils/tools";
+import ComparisonCell from "@marketing/components/compare/ComparisonCell.astro";
+import AndroidIcon from "@marketing/components/icons/Android.astro";
+import LinuxIcon from "@marketing/components/icons/Linux.astro";
+import MacosIcon from "@marketing/components/icons/Macos.astro";
+import WindowsIcon from "@marketing/components/icons/Windows.astro";
+
+type Props = {
+  label: string;
+  labelLink?: string;
+  labelDescription?: string;
+  labelIcon?: string;
+  valueType?: "country";
+  srText?: { true: string; false: string; partial: string };
+  values: NormalizedCellValue[];
+};
+
+const {
+  label,
+  labelLink,
+  labelDescription,
+  labelIcon,
+  valueType,
+  srText,
+  values,
+} = Astro.props;
+
+const iconComponents = {
+  windows: WindowsIcon,
+  apple: MacosIcon,
+  linux: LinuxIcon,
+  android: AndroidIcon,
+};
+
+const IconComponent = labelIcon
+  ? iconComponents[labelIcon as keyof typeof iconComponents]
+  : null;
+---
+
+<tr class="border-border/50 border-b last:border-b-0">
+  <td class="text-foreground px-4 py-3 text-sm">
+    <div class="flex items-center gap-2 font-medium">
+      {IconComponent && <IconComponent class="text-muted-foreground size-4" />}
+      {
+        labelLink ? (
+          <a
+            href={labelLink}
+            class="decoration-foreground/30 hover:text-primary underline underline-offset-2 transition-colors"
+          >
+            {label}
+          </a>
+        ) : (
+          label
+        )
+      }
+    </div>
+    {
+      labelDescription && (
+        <div class="text-muted-foreground mt-0.5 text-xs">
+          {labelDescription}
+        </div>
+      )
+    }
+  </td>
+  {
+    values.map((value) => (
+      <ComparisonCell value={value} valueType={valueType} srText={srText} />
+    ))
+  }
+</tr>

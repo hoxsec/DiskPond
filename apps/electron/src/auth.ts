@@ -1,0 +1,257 @@
+import { electronClient } from "@better-auth/electron/client";
+import { APP_ID, APP_ID_ORIGIN } from "@blinkdisk/constants/app";
+import {
+  ELECTRON_CLIENT_ID,
+  ELECTRON_COOKIE_PREFIX,
+} from "@blinkdisk/constants/auth";
+import type { ZUpdateAccountType } from "@blinkdisk/schemas/accounts";
+import type { ZUpdatePreferencesType } from "@blinkdisk/schemas/settings";
+import { tryCatch } from "@blinkdisk/utils/try-catch";
+import { initAccountCollections } from "@electron/db";
+import {
+  decryptString,
+  type EncryptedString,
+  encryptString,
+} from "@electron/encryption";
+import { type AccountStorageType, store } from "@electron/store";
+import { sendWindow } from "@electron/window";
+import { captureException } from "@sentry/electron/main";
+import {
+  inferAdditionalFields,
+  magicLinkClient,
+} from "better-auth/client/plugins";
+import { createAuthClient, type SuccessContext } from "better-auth/react";
+import { parseSetCookie } from "set-cookie-parser";
+
+type AuthSuccessData = {
+  user?: AccountStorageType["data"];
+  session?: AccountStorageType["session"];
+};
+
+export const authClient = createAuthClient({
+  baseURL: process.env.API_URL,
+  basePath: "/api/auth",
+  fetchOptions: {
+    headers: {
+      origin: APP_ID_ORIGIN,
+    },
+    onSuccess: (context) => {
+      parseCookies(context);
+      parseAccount(context);
+    },
+  },
+  plugins: [
+    electronClient({
+      signInURL: `${process.env.WEB_URL}/auth/register`,
+      protocol: {
+        scheme: APP_ID,
+      },
+      cookiePrefix: ELECTRON_COOKIE_PREFIX,
+      clientID: ELECTRON_CLIENT_ID,
+      storagePrefix: "auth",
+      storage: {
+        getItem: (key: string) => {
+          return store.get(key);
+        },
+        setItem: (key: string, value: unknown) => {
+          return store.set(key, value);
+        },
+      },
+      userImageProxy: {
+        enabled: false,
+      },
+    }),
+    magicLinkClient(),
+    inferAdditionalFields({
+      user: {
+        language: {
+          type: "string",
+          required: false,
+        },
+        timeZone: {
+          type: "string",
+          required: false,
+        },
+      },
+    }),
+  ],
+});
+
+export async function updateAccount(
+  user: (ZUpdateAccountType | Pick<ZUpdatePreferencesType, "language">) & {
+    id: string;
+  },
+) {
+  return await authClient.updateUser({
+    ...("firstName" in user && user.firstName && user.lastName
+      ? {
+          name: `${user.firstName.replace(/\s+/g, "")} ${user.lastName.replace(
+            /\s+/g,
+            "",
+          )}`,
+        }
+      : {}),
+    ...("language" in user && user.language ? { language: user.language } : {}),
+    fetchOptions: {
+      headers: getAccountHeaders(user.id),
+    },
+  });
+}
+
+export async function getAccount(accountId: string) {
+  const [res] = await tryCatch(
+    authClient.getSession({
+      fetchOptions: {
+        headers: getAccountHeaders(accountId),
+      },
+    }),
+  );
+
+  if (res?.data?.user) return res.data.user;
+
+  const cached = store.get(
+    `accounts.${accountId}.data`,
+  ) as AccountStorageType["data"];
+
+  if (cached) return cached;
+
+  return null;
+}
+
+export async function openAuth() {
+  return await authClient.requestAuth();
+}
+
+export async function logout(accountId: string) {
+  const session = store.get(`accounts.${accountId}.session.token`) as
+    | string
+    | null;
+
+  if (session)
+    await authClient.revokeSession({
+      token: session,
+      fetchOptions: {
+        headers: getAccountHeaders(accountId),
+      },
+    });
+
+  store.set(`accounts.${accountId}.active`, false);
+  store.set(`accounts.${accountId}.secret`, null);
+}
+
+export async function authenticateToken({ token }: { token: string }) {
+  try {
+    let response: Awaited<ReturnType<typeof authClient.authenticate>>;
+    try {
+      response = await authClient.authenticate({ token });
+    } catch (error) {
+      if (error instanceof TypeError && /fetch|network/i.test(error.message))
+        throw new AuthTokenError("networkError", error.message);
+      throw error;
+    }
+
+    const { data, error } = response;
+
+    if (error) {
+      const status = error.status;
+      throw new AuthTokenError(
+        status === 400 || status === 401 || status === 403 || status === 404
+          ? "invalidCode"
+          : "networkError",
+        error.message ?? "Authentication failed",
+      );
+    }
+
+    const accountId = data?.user?.id;
+    if (!accountId) throw new Error("No account ID found");
+
+    await initAccountCollections(accountId);
+
+    if (!sendWindow("auth.onAccountAdd", { accountId }))
+      throw new Error("Account window unavailable");
+    store.set(`accounts.${accountId}.active`, true);
+
+    return data;
+  } catch (error) {
+    if (!(error instanceof AuthTokenError)) captureException(error);
+    throw error;
+  }
+}
+
+class AuthTokenError extends Error {
+  constructor(
+    readonly reason: "invalidCode" | "networkError",
+    message: string,
+  ) {
+    super(message);
+  }
+}
+
+export async function tryAuthenticateToken(
+  payload: Parameters<typeof authenticateToken>[0],
+) {
+  try {
+    await authenticateToken(payload);
+    return { ok: true } as const;
+  } catch (error) {
+    return {
+      ok: false,
+      reason:
+        error instanceof AuthTokenError ? error.reason : "unexpectedError",
+    } as const;
+  }
+}
+
+export function getAccountCookie(accountId: string) {
+  const encrypted = store.get(
+    `accounts.${accountId}.secret`,
+  ) as EncryptedString | null;
+  if (!encrypted) return null;
+
+  const decrypted = decryptString(encrypted, null);
+  if (!decrypted) return null;
+
+  return `__Secure-${ELECTRON_COOKIE_PREFIX}.session_token=${decrypted}`;
+}
+
+function getAccountHeaders(accountId: string) {
+  return {
+    origin: APP_ID_ORIGIN,
+    Cookie: getAccountCookie(accountId) || "",
+  };
+}
+
+export function storeToken(accountId: string, token: string) {
+  const session = token.split(".")[0];
+  store.set(`accounts.${accountId}.session`, session);
+  store.set(`accounts.${accountId}.secret`, encryptString(token));
+}
+
+function parseAccount(context: SuccessContext<AuthSuccessData>) {
+  if (!context.data?.user?.id) return;
+
+  const account = context.data?.user;
+  store.set(`accounts.${account.id}.data`, account);
+
+  const session = context.data?.session;
+  if (!session) return;
+
+  store.set(`accounts.${account.id}.session`, session);
+}
+
+function parseCookies(context: SuccessContext<AuthSuccessData>) {
+  const setCookie = context.response.headers.get("set-cookie");
+  if (!setCookie) return;
+
+  const parsed = parseSetCookie(setCookie);
+
+  const cookie = parsed.find(
+    (c) => c.name === `__Secure-${ELECTRON_COOKIE_PREFIX}.session_token`,
+  );
+  if (!cookie) return;
+
+  const accountId = context.data?.user?.id;
+  if (!accountId) return;
+
+  storeToken(accountId, cookie.value);
+}
