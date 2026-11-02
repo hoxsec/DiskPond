@@ -200,7 +200,7 @@ try {
     `window.electron.vault.validate(${JSON.stringify({ type: "INTERNAL_DRIVE", config: { path: probe } })})`,
   );
   assert.equal(result.code, "NOT_INITIALIZED");
-  assert.deepEqual(await readdir(probe), [".shards"]);
+  assert.deepEqual(await readdir(probe), []);
   assert.deepEqual(
     await readFile(join(destination, "resources/assets/icon.png")),
     await readFile("apps/electron/icon/icon.png"),

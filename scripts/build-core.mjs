@@ -21,6 +21,16 @@ if (revision !== pinnedRevision) {
   );
 }
 
+const dirty = execFileSync(
+  "git",
+  ["status", "--porcelain", "--untracked-files=normal"],
+  {
+    cwd: directory,
+    encoding: "utf8",
+  },
+).trim();
+const buildInfo = `${revision}${dirty ? "-dirty" : ""}`;
+
 await mkdir(resolve(output, ".."), { recursive: true });
 await run(
   process.env.GO_BINARY || "go",
@@ -28,7 +38,7 @@ await run(
     "build",
     "-trimpath",
     "-ldflags",
-    `-s -w -X github.com/kopia/kopia/repo.BuildVersion=0.0.0-diskpond-dev -X github.com/kopia/kopia/repo.BuildInfo=${revision} -X github.com/kopia/kopia/repo.BuildGitHubRepo=blinkdisk/core`,
+    `-s -w -X github.com/kopia/kopia/repo.BuildVersion=0.0.0-diskpond-dev -X github.com/kopia/kopia/repo.BuildInfo=${buildInfo} -X github.com/kopia/kopia/repo.BuildGitHubRepo=hoxsec/diskpond-core`,
     "-o",
     output,
     ".",
@@ -44,4 +54,4 @@ await run(
   },
 );
 await run(output, ["--version"]);
-console.info(`Built ${output} from core ${revision}`);
+console.info(`Built ${output} from core ${buildInfo}`);

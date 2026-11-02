@@ -36,7 +36,18 @@
     "config": {
       "title": "Storage config",
       "description": "View the storage location of this vault.",
-      "provider": "Storage provider:"
+      "provider": "Storage provider:",
+      "loading": "Loading connection details…",
+      "unavailable": "Connection details are unavailable. Reconnect the vault to view them.",
+      "credentialsHidden": "Passwords, keys and other credentials are kept in DiskPond's credential storage. URLs show only the server address.",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "fields": {
+        "path": "Path", "host": "Host", "port": "Port", "bucket": "Bucket",
+        "region": "Region", "prefix": "Prefix", "container": "Container",
+        "endpoint": "Server address", "remotePath": "Rclone remote path", "rclonePath": "Rclone executable",
+        "disableTls": "HTTP without TLS", "disableTlsVerification": "Skip TLS certificate verification"
+      }
     },
     "throttle": {
       "title": "Network throttle",

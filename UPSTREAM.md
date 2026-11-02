@@ -1,6 +1,6 @@
 # DiskPond upstream provenance
 
-Updated 2026-11-02. DiskPond is derived from BlinkDisk and its Kopia-derived core.
+Updated 2026-11-03. DiskPond is derived from BlinkDisk and its Kopia-derived core.
 
 | Component | Exact baseline | License |
 | --- | --- | --- |
@@ -32,7 +32,7 @@ Do not replay the tree import over later work. A future clone recreates the core
 
 ## DiskPond modifications to upstream application files
 
-These changes are dated **2026-11-02**, during M1. Review them independently of the source import. The core source has no DiskPond modifications.
+These changes are dated **2026-11-02**, during M1. Review them independently of the source import. The core source was unchanged at M1; subsequent local core changes are recorded below.
 
 | Area | Changed inherited files / purpose |
 | --- | --- |
@@ -57,6 +57,31 @@ Desktop auth/account switching, CloudBlink, billing, quotas, promotions and tele
 Verification and outstanding M2 work: [branding/workspace record](docs/verification/m2-branding-workspace.md). Retained service applications and their own dependencies are not desktop deliverables.
 
 The M2 lockfile was regenerated with pnpm 11.7.0 from the baseline resolutions. Its only new package family is the pinned artwork renderer `@resvg/resvg-js@2.6.2` and platform bindings; removed entries follow the retired desktop dependencies. The local-engine cookie dependencies remain at `tough-cookie@6.0.1` and `tldts`/`tldts-core@7.4.4`.
+
+## M2 owned-core discovery work
+
+On 2026-11-02 the owner approved and created [hoxsec/diskpond-core](https://github.com/hoxsec/diskpond-core), a GitHub fork of `blinkdisk/core`. The exact upstream baseline remains available in that fork. `.gitmodules` now selects the owned fork; local core `origin` points there and `upstream` retains `https://github.com/blinkdisk/core.git`.
+
+The owner authorized publication on 2026-11-03. Branch `diskpond/m2-discovery`, based on `e8955e7280edd9526b9f104f1592f233cfe6789b`, contains implementation commit [`6e5c939`](https://github.com/hoxsec/diskpond-core/commit/6e5c939). It was merged and pushed to core `main` as [`aad67c688a05ce119859d49ca51bdf67787f0b99`](https://github.com/hoxsec/diskpond-core/commit/aad67c688a05ce119859d49ca51bdf67787f0b99), now the application gitlink. Format discovery reads legacy names without migration, sharded reads no longer persist defaults, and SFTP only creates a missing destination during explicit creation. Focused regression files accompany those changes. Apache-2.0 terms, notices and the inherited Go module path remain intact.
+
+`scripts/build-core.mjs` continues enforcing the gitlink and now embeds `hoxsec/diskpond-core` plus a `-dirty` revision suffix when local core changes exist. Initial local verification used the baseline with the reviewed source diff; a clean checkout now reproduces that source from the published pin. No tag or binary release accompanies this source publication.
+
+Evidence and scope: [read-only discovery](docs/verification/m2-read-only-discovery.md). Provider storage and migration were subsequently approved and implemented as recorded below.
+
+## M2 credential storage and managed-core changes
+
+These changes were verified locally on Windows through 2026-11-03, starting from application `d63593263db0a8f60b8b56240873a35b65009643` and the original core baseline. The core implementation is published at the pin above; the application integration and Windows CI are pending. The dependency lockfile is unchanged by this slice.
+
+| Area | Changed inherited files / purpose |
+| --- | --- |
+| Password and provider ownership | Electron `src/encryption.ts`, `src/password.ts`, `src/store.ts`, `src/db/index.ts` and new `src/vault/connection.ts` provide native-protected/session-only saves, bounded legacy reads, metadata-preserving migration, atomic JSON replacement and confirmed envelope cleanup. |
+| Renderer/IPC boundary | Main/preload/IPC, protocol routing, new credential/context schemas/handlers, desktop create/setup hooks, configuration settings and query keys remove renderer-readable stored provider configs, generic secret access and password-bearing query keys. Localized notices explain credential re-entry and cleanup failures. |
+| Engine supervision | Electron `src/vault/server.ts`, `manage.ts`, `fetch.ts`, `validate.ts` and new `reconnect.ts` start managed sidecars disconnected, supply exact credentials over authenticated loopback, confirm connection outcomes and handle failed/exited children. |
+| Core managed persistence | `cli/command_server_start.go`, `internal/server/{api_repo,server}.go`, `repo/{local_config,connect,open,caching,repository}.go` and new `repo/config_store.go` preserve metadata/cache/bandwidth with provider data in memory, reject standalone managed reopening and restore prior metadata after failed verification. Current throttler limits replace stale startup values in client-option saves. |
+| Core diagnostics | New `repo/managed_storage.go` redacts provider errors while preserving their identities. Managed connection/verification opens disable raw repository/content logs; main redacts process diagnostics. |
+| Verification | Core managed lifecycle/redaction tests, Electron IPC/persistence/reconnect regressions, password/provider/discovery smoke runners and a loopback-only `tests/tools/diskpond-webdav` fixture. The Windows workflow includes their checks but has not run these uncommitted changes. |
+
+The owner approved local migration of plaintext core connection JSON and inherited password-encrypted provider envelopes. Repository formats/encryption, Apache-2.0/AGPL notices, and the inherited Go module path are retained. Managed-mode changes are distinct from the earlier discovery fixes and remain separately inspectable by file/hunk. See [password evidence](docs/verification/m2-password-storage.md) and [provider decision/implementation/evidence](docs/verification/m2-provider-storage-design.md).
 
 ## Distribution and later updates
 

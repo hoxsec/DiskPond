@@ -4,6 +4,7 @@ import { LOCAL_ACCOUNT_ID } from "@blinkdisk/constants/account";
 import { ZConfig, type ZConfigType } from "@blinkdisk/schemas/config";
 import { ZVault, type ZVaultType } from "@blinkdisk/schemas/vault";
 import { setupSignalDBMain } from "@blinkdisk/signaldb-electron/main";
+import { writeAtomicJson } from "@electron/atomic-json";
 import { SchemaCollection } from "@electron/db/schema";
 import { globalAccountDirectory } from "@electron/path";
 import { initVaults } from "@electron/vault/manage";
@@ -37,9 +38,13 @@ export type VaultCollection = Awaited<ReturnType<typeof createVaultCollection>>;
 async function createConfigCollection(directory: string) {
   const collection = new SchemaCollection({
     name: "config",
-    persistence: createFilesystemAdapter<ZConfigType, string>(
-      join(directory, "config.json"),
-    ),
+    persistence: {
+      ...createFilesystemAdapter<ZConfigType, string>(
+        join(directory, "config.json"),
+      ),
+      save: async (items) =>
+        writeAtomicJson(join(directory, "config.json"), items),
+    },
     schema: ZConfig,
   });
 
@@ -93,10 +98,8 @@ async function registerAccountCollections(accountId: string) {
   collections[accountId] = { vault, config };
 
   const vaultName = `${accountId}/vault`;
-  const configName = `${accountId}/config`;
 
   bridge.addCollection(vault, { name: vaultName });
-  bridge.addCollection(config, { name: configName });
 
   function onChange() {
     initVaults();

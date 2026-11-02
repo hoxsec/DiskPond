@@ -39,8 +39,23 @@ jobs:
       - run: pnpm types:desktop
       - run: pnpm test:desktop
       - run: pnpm unused
+      - name: Core discovery and managed-connection regressions
+        working-directory: apps/core
+        run: go test -tags testing -count=1 -timeout 180s ./repo ./repo/blob/throttling ./repo/blob/sharded ./repo/blob/sftp ./internal/server -run 'TestManaged|TestLocalConfig|TestThrottler|TestSharded|TestClone|TestSFTPDiscovery|TestRepoExistsDoesNotModifyStorage'
       - run: pnpm build:windows
+      - run: pnpm smoke:discovery
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
+      - run: pnpm smoke:passwords
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
+      - run: pnpm smoke:providers
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
       - run: pnpm smoke:desktop
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
+      - run: pnpm smoke:desktop --session-passwords
         env:
           DISKPOND_TEST_TMP: ${{ runner.temp }}
       - run: pnpm smoke:desktop --dev

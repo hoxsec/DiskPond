@@ -91,4 +91,29 @@ describe("encryptVaultConfig / decryptVaultConfig", () => {
       decryptVaultConfig({ password: "wrong", encrypted }),
     ).rejects.toThrow();
   });
+
+  it.each([
+    { iv: "x".repeat(17) },
+    { salt: "x".repeat(25) },
+    { cipher: "x".repeat(10_001) },
+    { salt: Buffer.alloc(18).toString("base64") },
+    { cipher: "e30=" },
+  ])("rejects malformed or oversized envelopes before deriving a key: %j", async (invalid) => {
+    const encrypted = await encryptVaultConfig({
+      password: "fixture-password",
+      config: { provider: "fixture" },
+    });
+    const derive = vi.spyOn(crypto.subtle, "deriveKey");
+    try {
+      await expect(
+        decryptVaultConfig({
+          password: "fixture-password",
+          encrypted: { ...encrypted, ...invalid },
+        }),
+      ).rejects.toThrow("Invalid saved provider envelope");
+      expect(derive).not.toHaveBeenCalled();
+    } finally {
+      derive.mockRestore();
+    }
+  });
 });

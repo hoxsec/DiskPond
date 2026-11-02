@@ -14,10 +14,21 @@ const config: KnipConfig = {
   },
   workspaces: {
     ".": {
-      entry: ["turbo.json", "scripts/*.{mjs,cjs}"],
+      entry: [
+        "turbo.json",
+        "scripts/*.{mjs,cjs}",
+        "scripts/lib/password-fixture.mjs",
+        "scripts/lib/discovery-fixture.mjs",
+        "scripts/lib/provider-fixture.mjs",
+      ],
       project: ["scripts/**/*.{mjs,cjs}"],
-      // Smoke/build runners resolve Electron from apps/electron via createRequire.
-      ignoreDependencies: ["electron"],
+      // Smoke/build runners resolve the pinned Electron/build tools from
+      // apps/electron via createRequire; they are declared in that workspace.
+      ignoreDependencies: [
+        "electron",
+        "esbuild",
+        "@esbuild-plugins/tsconfig-paths",
+      ],
       // Windows process-tree cleanup uses the OS-provided executable.
       ignoreBinaries: ["taskkill", "reg"],
     },

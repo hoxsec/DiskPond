@@ -64,6 +64,30 @@
     },
     "submit": "Continue"
   },
+  "passwordStorage": {
+    "protected": {
+      "title": "Vault credential storage",
+      "description": "DiskPond uses this computer's secure storage to save vault passwords and provider connections. Keep your passwords and storage credentials separately for recovery on another computer."
+    },
+    "session": {
+      "title": "Vault credentials are session-only",
+      "description": "Some credentials cannot be saved securely and stay in memory until DiskPond quits. After restarting, enter the requested vault password and provider connection details before scheduled backups can resume.",
+      "recovery": "Restore access to your system key store, then restart DiskPond to try saving credentials again."
+    },
+    "locked": {
+      "title": "Re-enter your vault credentials",
+      "description": "Saved credentials could not be unlocked or migrated. Open the affected vault and enter its password and any requested provider connection details. Its backups remain in your storage."
+    },
+    "cleanupFailed": {
+      "title": "Saved credentials need cleanup",
+      "description": "DiskPond could not migrate or remove an old credential copy. Check access to DiskPond's application data folder and restart to retry. The old copy may still be unprotected on disk."
+    },
+    "unknown": {
+      "title": "Credential storage status is unavailable",
+      "description": "Restart DiskPond to check credential storage. Keep your vault passwords and provider connection details available for re-entry."
+    },
+    "saveFailed": "Credentials could not be saved. Check access to DiskPond's application data folder before restarting."
+  },
   "starting": {
     "title": "Starting vault",
     "description": "Your vault is being initialized. This usually takes a few seconds."

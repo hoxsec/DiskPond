@@ -23,15 +23,10 @@ export function Setup() {
   const [step, setStep] = useState<SetupStep>("PASSWORD");
 
   const [password, setPassword] = useState("");
-  const [initialConfig, setInitialConfig] = useState<ProviderConfig | null>(
-    null,
-  );
-
   const [config, setConfig] = useState<ProviderConfig | null>(null);
 
   const { mutateAsync } = useSetupVault({
     setStep,
-    setInitialConfig,
   });
 
   const form = useSetupPasswordForm({
@@ -95,7 +90,7 @@ export function Setup() {
             {ConfigForm && (
               <ConfigForm
                 action="SETUP"
-                config={initialConfig ?? undefined}
+                config={config ?? undefined}
                 onSubmit={async (config) => {
                   setConfig(config);
 

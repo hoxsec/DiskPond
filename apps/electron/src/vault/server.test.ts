@@ -1,12 +1,33 @@
 vi.mock("@blinkdisk/utils/id", () => ({ generateId: vi.fn(() => "mock-id") }));
 vi.mock("@blinkdisk/utils/try-catch", () => ({ tryCatch: vi.fn() }));
-vi.mock("@electron/log", () => ({ log: { info: vi.fn(), error: vi.fn() } }));
+vi.mock("@electron/log", () => ({
+  log: { info: vi.fn(), error: vi.fn(), warn: vi.fn() },
+}));
+vi.mock("@electron/password", () => ({
+  getPasswordCache: vi.fn((): string | null => null),
+}));
 vi.mock("@electron/path", () => ({
   corePath: vi.fn(),
   globalVaultDirectory: vi.fn(() => "/mock"),
 }));
 vi.mock("@electron/vault/fetch", () => ({ fetchVault: vi.fn() }));
-vi.mock("@electron/vault/manage", () => ({ vaults: {} }));
+vi.mock("@electron/vault/manage", () => ({
+  vaults: {},
+  vaultServerStopped: vi.fn(),
+}));
+vi.mock("@electron/vault/connection", () => ({
+  prepareConnection: vi.fn(
+    async (): Promise<
+      import("@blinkdisk/schemas/connection").ManagedStorage | null
+    > => null,
+  ),
+  completeConnectionMigration: vi.fn(),
+  rememberConnectionSecrets: vi.fn(),
+  redactConnectionError: (_id: string, text: string) => text,
+}));
+vi.mock("@electron/vault/reconnect", () => ({
+  connectRepository: vi.fn(async () => ({})),
+}));
 vi.mock("@electron/window", () => ({ sendWindow: vi.fn() }));
 vi.mock("child_process", () => ({ spawn: vi.fn() }));
 vi.mock("node:child_process", () => ({ spawn: vi.fn() }));
@@ -17,6 +38,11 @@ import { spawn } from "node:child_process";
 import { EventEmitter } from "node:events";
 import { VAULT_SERVER_START_TIMEOUT_MS } from "@blinkdisk/constants/vault";
 import { tryCatch } from "@blinkdisk/utils/try-catch";
+import { log } from "@electron/log";
+import { getPasswordCache } from "@electron/password";
+import { prepareConnection } from "@electron/vault/connection";
+import { fetchVault } from "@electron/vault/fetch";
+import { connectRepository } from "@electron/vault/reconnect";
 import {
   calculateStatusPollDelay,
   parseServerLine,
@@ -100,12 +126,20 @@ describe("startVaultServer", () => {
     proc.stdout = new EventEmitter();
     proc.stderr = new EventEmitter();
     proc.kill = vi.fn();
+    proc.exitCode = null;
+    proc.killed = false;
     return proc;
   }
 
   beforeEach(() => {
     vi.clearAllMocks();
     vi.useFakeTimers();
+    vi.mocked(getPasswordCache).mockReturnValue(null);
+    vi.mocked(prepareConnection).mockReset().mockResolvedValue(null);
+    vi.mocked(connectRepository).mockReset().mockResolvedValue({});
+    vi.mocked(fetchVault)
+      .mockReset()
+      .mockResolvedValue({ connected: false, initTaskID: "" });
     vi.mocked(tryCatch).mockImplementation(
       // biome-ignore lint/suspicious/noExplicitAny: passthrough stub
       (fn: any) => (typeof fn === "function" ? [fn(), undefined] : fn),
@@ -146,6 +180,7 @@ describe("startVaultServer", () => {
       code: "VAULT_SERVER_UNAVAILABLE",
     });
 
+    await Promise.resolve();
     proc.emit("error", new Error("spawn ENOENT"));
     await expectation;
   });
@@ -159,6 +194,7 @@ describe("startVaultServer", () => {
       code: "VAULT_SERVER_UNAVAILABLE",
     });
 
+    await Promise.resolve();
     proc.emit("exit", 1);
     await expectation;
   });
@@ -170,6 +206,7 @@ describe("startVaultServer", () => {
     const promise = startVaultServer("test", false);
 
     const cert = Buffer.from("certificate").toString("base64");
+    await Promise.resolve();
     proc.stderr.emit(
       "data",
       [
@@ -178,16 +215,118 @@ describe("startVaultServer", () => {
         "SERVER CONTROL PASSWORD: cpw",
         "SERVER CERT SHA256: hash",
         `SERVER CERTIFICATE: ${cert}`,
+        "",
       ].join("\n"),
     );
 
     const server = await promise;
     expect(server.address).toBe("https://127.0.0.1:12345");
     expect(server.password).toBe("pw");
+    proc.stderr.emit("data", "x".repeat(1_048_577));
+    expect(log.warn).toHaveBeenCalledWith(
+      "Discarded oversized engine status output",
+    );
 
     await vi.advanceTimersByTimeAsync(VAULT_SERVER_START_TIMEOUT_MS);
     proc.emit("exit", 0);
     expect(proc.kill).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    null,
+    "unlocked-password",
+  ])("starts managed without a repository password in argv or environment (%s)", async (password) => {
+    vi.stubEnv("KOPIA_PASSWORD", "unrelated-inherited-secret");
+    vi.mocked(getPasswordCache).mockReturnValueOnce(password);
+    const proc = createMockProcess();
+    vi.mocked(spawn).mockReturnValue(proc);
+    const result = startVaultServer("test", false);
+    const failure = expect(result).rejects.toMatchObject({
+      code: "VAULT_SERVER_UNAVAILABLE",
+    });
+    await Promise.resolve();
+    const call = vi.mocked(spawn).mock.calls[0];
+    if (!call) throw new Error("Engine was not started");
+    const [, args, options] = call;
+    expect(args).toContain("--no-persist-credentials");
+    expect(JSON.stringify(args)).not.toContain("unlocked-password");
+    expect(args).toContain("--managed-storage");
+    expect(args).toContain("--disable-file-logging");
+    expect(args).toContain("--no-persistent-logs");
+    expect(options).toMatchObject({ env: { KOPIA_PASSWORD: "" } });
+    proc.emit("exit", 1);
+    await failure;
+    vi.unstubAllEnvs();
+  });
+
+  it("buffers split authentication lines and never logs credentials from a mixed chunk", async () => {
+    const output = vi
+      .spyOn(console, "info")
+      .mockImplementation(() => undefined);
+    const proc = createMockProcess();
+    vi.mocked(spawn).mockReturnValue(proc);
+    const result = startVaultServer("test", false);
+    await Promise.resolve();
+    proc.stderr.emit("data", "SERVER ADDR");
+    proc.stderr.emit(
+      "data",
+      "ESS: https://127.0.0.1:12345\nSERVER PASSWORD: private-auth\nINFO: diagnostic\nSERVER CONTROL PASS",
+    );
+    proc.stderr.emit(
+      "data",
+      `WORD: private-control\nSERVER CERT SHA256: hash\nSERVER CERTIFICATE: ${Buffer.from("certificate").toString("base64")}\n`,
+    );
+    expect((await result).password).toBe("private-auth");
+    const logged = JSON.stringify(output.mock.calls);
+    expect(logged).toContain("diagnostic");
+    expect(logged).not.toContain("private-auth");
+    expect(logged).not.toContain("private-control");
+    output.mockRestore();
+  });
+
+  it("reconnects with the exact cached password through the authenticated API", async () => {
+    vi.mocked(getPasswordCache).mockReturnValue(" exact password 雪 ");
+    const storage = {
+      type: "webdav" as const,
+      config: { url: "https://example.test", password: "provider-secret" },
+    };
+    vi.mocked(prepareConnection).mockResolvedValue(storage);
+    const proc = createMockProcess();
+    vi.mocked(spawn).mockReturnValue(proc);
+    const result = startVaultServer("test", false);
+    await Promise.resolve();
+    proc.stderr.emit(
+      "data",
+      `SERVER ADDRESS: https://127.0.0.1:12345\nSERVER PASSWORD: pw\nSERVER CONTROL PASSWORD: cpw\nSERVER CERT SHA256: hash\nSERVER CERTIFICATE: ${Buffer.from("certificate").toString("base64")}\n`,
+    );
+    await vi.advanceTimersByTimeAsync(100);
+    await result;
+    expect(connectRepository).toHaveBeenCalledWith(expect.anything(), {
+      storage,
+      password: " exact password 雪 ",
+    });
+  });
+
+  it("stops its child if reconnect transport fails", async () => {
+    vi.mocked(prepareConnection).mockResolvedValue({
+      type: "filesystem",
+      config: { path: "fixture" },
+    });
+    vi.mocked(getPasswordCache).mockReturnValue("secret");
+    vi.mocked(connectRepository).mockRejectedValue(new Error("Disconnected"));
+    const proc = createMockProcess();
+    vi.mocked(spawn).mockReturnValue(proc);
+    const result = startVaultServer("test", false);
+    const failure = expect(result).rejects.toMatchObject({
+      code: "VAULT_SERVER_UNAVAILABLE",
+    });
+    await Promise.resolve();
+    proc.stderr.emit(
+      "data",
+      `SERVER ADDRESS: https://127.0.0.1:12345\nSERVER PASSWORD: pw\nSERVER CONTROL PASSWORD: cpw\nSERVER CERT SHA256: hash\nSERVER CERTIFICATE: ${Buffer.from("certificate").toString("base64")}\n`,
+    );
+    await failure;
+    expect(proc.kill).toHaveBeenCalled();
   });
 });
 

@@ -1,9 +1,13 @@
 import type { StorageProviderType } from "@blinkdisk/constants/providers";
 import type { ProviderConfig } from "@blinkdisk/schemas/providers";
+import {
+  connectionFromProvider,
+  rememberConnectionSecrets,
+} from "@electron/vault/connection";
 import { fetchVault } from "@electron/vault/fetch";
-import { mapConfigFields, mapProviderType } from "@electron/vault/mapping";
 import { startVaultServer } from "@electron/vault/server";
 import type { VaultInstance } from "@electron/vault/types";
+import { z } from "zod";
 
 export let validationVault: VaultInstance | null = null;
 
@@ -13,8 +17,12 @@ export async function validateVaultConfig(vault: {
   version?: number;
   password?: string;
 }) {
-  const providerType = mapProviderType(vault.type);
-  if (!validationVault) {
+  const storage = connectionFromProvider(vault.type, vault.config);
+  if (
+    !validationVault ||
+    validationVault.server.process.killed ||
+    validationVault.server.process.exitCode !== null
+  ) {
     const id = "temporary";
 
     validationVault = {
@@ -24,15 +32,23 @@ export async function validateVaultConfig(vault: {
     };
   }
 
-  return (await fetchVault(validationVault, {
-    method: "POST",
-    path: "/api/v1/repo/exists",
-    data: {
-      storage: {
-        type: providerType,
-        config: mapConfigFields(vault.type, vault.config),
-      },
-      ...(vault.password && { password: vault.password }),
-    },
-  })) as { code?: string; error?: string; uniqueID?: string };
+  rememberConnectionSecrets(validationVault.id, storage, vault.password);
+  const result = z
+    .object({
+      code: z.string().optional(),
+      error: z.string().optional(),
+      uniqueID: z.string().optional(),
+    })
+    .safeParse(
+      await fetchVault(validationVault, {
+        method: "POST",
+        path: "/api/v1/repo/exists",
+        data: {
+          storage,
+          ...(vault.password && { password: vault.password }),
+        },
+      }),
+    );
+  if (!result.success) throw new Error("Invalid discovery response");
+  return result.data;
 }

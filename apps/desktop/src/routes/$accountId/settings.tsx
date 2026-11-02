@@ -8,6 +8,7 @@ import {
   SettingsPanel,
   SettingsRow,
 } from "@desktop/components/settings";
+import { PasswordStorageNotice } from "@desktop/components/vaults/password-storage-notice";
 import { useUpdatePreferencesForm } from "@desktop/hooks/forms/use-update-preferences-form";
 import { useAppVersion } from "@desktop/hooks/queries/use-app-version";
 import { createFileRoute } from "@tanstack/react-router";
@@ -25,6 +26,7 @@ function Settings() {
       <div className="mx-auto flex w-full max-w-[46rem] flex-col gap-8">
         <h1 className="text-2xl font-semibold">{t("title")}</h1>
         <Preferences />
+        <PasswordStorageNotice showProtected />
         <SettingsGroup title={t("about.title")}>
           <SettingsPanel>
             <SettingsRow

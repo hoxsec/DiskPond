@@ -1,49 +1,48 @@
+import { ZVaultEncryptedConfig } from "@blinkdisk/schemas/config";
 import { log } from "@electron/log";
 import { safeStorage } from "electron";
 
-export function initEncryption() {
-  if (
-    safeStorage.getSelectedStorageBackend &&
-    safeStorage.getSelectedStorageBackend() === "basic_text"
-  )
-    // Enable encryption for the basic_text backend
-    // This uses a simple key derivation from a machine-specific seed
-    safeStorage.setUsePlainTextEncryption(true);
-}
-
+// PLAIN is accepted only when migrating an existing local password cache.
 export type EncryptedString = {
   type: "ENCRYPTED" | "PLAIN";
   data: string;
 };
 
-export function encryptString(data: string): EncryptedString {
-  if (!safeStorage.isEncryptionAvailable()) {
-    return {
-      type: "PLAIN",
-      data,
-    };
+export function isSecureStorageAvailable() {
+  try {
+    if (!safeStorage.isEncryptionAvailable()) return false;
+    if (process.platform !== "linux") return true;
+    return ["gnome_libsecret", "kwallet", "kwallet5", "kwallet6"].includes(
+      safeStorage.getSelectedStorageBackend(),
+    );
+  } catch {
+    return false;
   }
-
-  const encrypted = safeStorage.encryptString(data).toString("base64");
-
-  return {
-    type: "ENCRYPTED",
-    data: encrypted,
-  };
 }
 
-export function decryptString<Fallback>(
-  data: EncryptedString,
-  fallback: Fallback,
-) {
-  if (data.type === "PLAIN") return data.data;
-
-  if (!safeStorage.isEncryptionAvailable()) {
-    log.error("Decryption is not available, but tried decrypt data");
-    return fallback;
+export function encryptString(data: string): EncryptedString | null {
+  if (!isSecureStorageAvailable()) return null;
+  try {
+    const encrypted = safeStorage.encryptString(data);
+    // Availability alone does not establish that the key store is working.
+    if (safeStorage.decryptString(encrypted) !== data) return null;
+    return { type: "ENCRYPTED", data: encrypted.toString("base64") };
+  } catch {
+    log.warn("OS credential protection failed; using session-only storage");
+    return null;
   }
+}
 
-  return safeStorage.decryptString(Buffer.from(data.data, "base64"));
+export function decryptString(data: EncryptedString): string | null {
+  if (data.type !== "ENCRYPTED" || !isSecureStorageAvailable()) return null;
+  try {
+    return safeStorage.decryptString(Buffer.from(data.data, "base64"));
+  } catch {
+    log.warn(
+      "Saved vault credentials could not be unlocked; re-entry required",
+    );
+    return null;
+  }
 }
 
 export type EncryptedConfig = {
@@ -51,6 +50,13 @@ export type EncryptedConfig = {
   salt: string;
   cipher: string;
 };
+
+// Read only the inherited envelope format: 12-byte IV, 16-byte salt and the
+// existing 10,000-character ciphertext limit. Bound input before decoding/KDF.
+const ZLegacyEnvelope = ZVaultEncryptedConfig.extend({
+  iv: ZVaultEncryptedConfig.shape.iv.length(16),
+  salt: ZVaultEncryptedConfig.shape.salt.length(24),
+});
 
 export async function encryptVaultConfig({
   password,
@@ -86,6 +92,8 @@ export async function decryptVaultConfig({
   password: string;
   encrypted: EncryptedConfig;
 }): Promise<object> {
+  if (!ZLegacyEnvelope.safeParse(encrypted).success)
+    throw new Error("Invalid saved provider envelope");
   const decoder = new TextDecoder();
 
   const salt = Uint8Array.from(atob(encrypted.salt), (c) => c.charCodeAt(0));
@@ -93,6 +101,8 @@ export async function decryptVaultConfig({
   const cipher = Uint8Array.from(atob(encrypted.cipher), (c) =>
     c.charCodeAt(0),
   );
+  if (salt.length !== 16 || iv.length !== 12 || cipher.length < 16)
+    throw new Error("Invalid saved provider envelope");
 
   const key = await deriveKey(password, salt);
 

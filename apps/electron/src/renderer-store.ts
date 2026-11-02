@@ -1,0 +1,47 @@
+import { store } from "@electron/store";
+import { z } from "zod";
+
+const writable = {
+  "preferences.theme": z.enum(["system", "light", "dark"]),
+  "preferences.language": z.literal("en"),
+  "preferences.mode": z.enum(["basic", "advanced"]),
+  dismissedUpdateVersion: z.string().nullable(),
+  "accounts.local.lastUsedVaultId": z.string().nullable(),
+};
+
+// Never expose passwords, dormant hosted records or migration state through
+// the inherited settings bridge, and never let it bypass password protection.
+export function readRendererStore(key?: unknown): unknown {
+  const snapshot = {
+    workspaceReady: store.get("workspaceReady"),
+    preferences: {
+      theme: store.get("preferences.theme"),
+      language: store.get("preferences.language"),
+      mode: store.get("preferences.mode"),
+    },
+    dismissedUpdateVersion: store.get("dismissedUpdateVersion"),
+    accounts: {
+      local: { lastUsedVaultId: store.get("accounts.local.lastUsedVaultId") },
+    },
+  };
+  if (key === undefined) return snapshot;
+  if (typeof key !== "string") return undefined;
+  return key
+    .split(".")
+    .reduce<unknown>(
+      (value, part) =>
+        value && typeof value === "object" && Object.hasOwn(value, part)
+          ? Reflect.get(value, part)
+          : undefined,
+      snapshot,
+    );
+}
+
+export function writeRendererStore(key: unknown, value: unknown) {
+  if (typeof key !== "string" || !Object.hasOwn(writable, key))
+    throw new Error("Invalid preference request");
+  const schema = writable[key as keyof typeof writable];
+  const parsed = schema.safeParse(value);
+  if (!parsed.success) throw new Error("Invalid preference value");
+  store.set(key, parsed.data);
+}

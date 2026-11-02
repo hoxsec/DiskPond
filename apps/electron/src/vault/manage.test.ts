@@ -9,6 +9,7 @@ const mocks = vi.hoisted(() => ({
   getHostName: vi.fn((id: string) => `host-${id}`),
   getUserName: vi.fn((id: string) => `user-${id}`),
   killValidationVault: vi.fn(() => undefined),
+  preparePasswordCache: vi.fn(),
   logError: vi.fn((_message: unknown, _error?: unknown) => undefined),
   logWarn: vi.fn((_message: unknown) => undefined),
   mapConfigFields: vi.fn((_provider: string, _config: unknown) => ({
@@ -27,6 +28,29 @@ const mocks = vi.hoisted(() => ({
 
 vi.mock("@electron/db", () => ({
   collections: mocks.collections,
+}));
+vi.mock("@electron/password", () => ({
+  preparePasswordCache: mocks.preparePasswordCache,
+  setPasswordCache: vi.fn(),
+}));
+vi.mock("@electron/vault/connection", () => ({
+  connectionFromProvider: (provider: string, config: unknown) => ({
+    type: mocks.mapProviderType(provider),
+    config: mocks.mapConfigFields(provider, config),
+  }),
+  rememberConnectionSecrets: vi.fn(),
+  saveConnection: vi.fn(),
+  completeConnectionMigration: vi.fn(),
+  prepareConnection: vi.fn(),
+  redactConnectionError: (_id: string, value: string) => value,
+}));
+vi.mock("@electron/vault/reconnect", () => ({
+  connectRepository: (vault: unknown, data: unknown, create: boolean) =>
+    mocks.fetchVault(vault, {
+      method: "POST",
+      path: `/api/v1/repo/${create ? "create" : "connect"}`,
+      data,
+    }),
 }));
 
 vi.mock("@electron/log", () => ({
@@ -74,6 +98,7 @@ import {
   initVaults,
   retryVault,
   stopAllVaults,
+  vaultServerStopped,
   vaults,
 } from "@electron/vault/manage";
 
@@ -174,7 +199,6 @@ describe("vault management", () => {
     });
 
     await expect(promise).rejects.toMatchObject({
-      code: "CREATE_FAILED",
       message: "CREATE_FAILED",
     });
 
@@ -239,10 +263,63 @@ describe("vault management", () => {
     expect(mocks.startVaultServer).toHaveBeenCalledWith("local_active");
     expect(mocks.startVaultServer).not.toHaveBeenCalledWith("remote_active");
     expect(mocks.startVaultServer).not.toHaveBeenCalledWith("missing_active");
+    expect(mocks.preparePasswordCache.mock.calls).toEqual([["local_active"]]);
     expect(staleKill).toHaveBeenCalled();
     expect(vaults.stale).toBeUndefined();
     expect(vaults.local_active).toMatchObject({ status: "STARTING" });
     expect(vaults.remote_active).toBeUndefined();
+  });
+
+  it("makes unexpected exits retryable and ignores a replaced engine's late exit", async () => {
+    mocks.collections.local = vaultCollection(["local_active"]);
+    await initVaults();
+    const initial = vaults.local_active;
+    if (!initial) throw new Error("Vault did not start");
+    const old = initial.server.process;
+    vaultServerStopped("local_active", old);
+    expect(getVaultStatus("local_active")?.status).toBe("FAILED");
+    await retryVault("local_active");
+    const restarted = vaults.local_active;
+    if (!restarted) throw new Error("Vault did not restart");
+    const replacement = restarted.server;
+    expect(replacement.process).not.toBe(old);
+    vaultServerStopped("local_active", old);
+    expect(vaults.local_active?.server).toBe(replacement);
+  });
+
+  it("tracks a newly connected server so password re-entry does not leak an unmanaged engine", async () => {
+    const payload = {
+      id: "vlt_reentry",
+      name: "Fixture",
+      provider: "INTERNAL_DRIVE" as const,
+      config: {},
+      password: "secret",
+    };
+    await connectVault(payload);
+    const server = await mocks.startVaultServer.mock.results[0]?.value;
+    expect(vaults.vlt_reentry?.server).toBe(server);
+    await connectVault(payload);
+    expect(mocks.startVaultServer).toHaveBeenCalledOnce();
+    stopAllVaults();
+    expect(server.process.kill).toHaveBeenCalledOnce();
+  });
+
+  it("stops a newly spawned server when password re-entry is rejected", async () => {
+    mocks.fetchVault.mockResolvedValueOnce({
+      code: "INVALID_PASSWORD",
+      error: "invalid password",
+    });
+    const result = await connectVault({
+      id: "vlt_reentry",
+      name: "Fixture",
+      provider: "INTERNAL_DRIVE",
+      config: {},
+      password: "wrong",
+    });
+    expect(result.code).toBe("INVALID_PASSWORD");
+    const server = await mocks.startVaultServer.mock.results[0]?.value;
+    expect(server.process.kill).toHaveBeenCalledOnce();
+    expect(vaults.vlt_reentry).toBeUndefined();
   });
 
   it("reports status for running vaults and null for missing vaults", () => {

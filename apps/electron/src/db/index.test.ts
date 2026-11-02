@@ -54,7 +54,7 @@ describe("local workspace collections", () => {
     expect(mocks.initVaults).toHaveBeenCalledOnce();
     expect(
       mocks.addCollection.mock.calls.map(([, options]) => options.name),
-    ).toEqual(["local/vault", "local/config"]);
+    ).toEqual(["local/vault"]);
   });
 
   it("rejects hosted-account initialization without registering collections", async () => {
@@ -70,7 +70,7 @@ describe("local workspace collections", () => {
     const db = await import("@electron/db");
     await Promise.all([db.setupCollections(), db.setupCollections()]);
     await db.setupCollections();
-    expect(mocks.addCollection).toHaveBeenCalledTimes(2);
+    expect(mocks.addCollection).toHaveBeenCalledTimes(1);
     expect(mocks.initVaults).toHaveBeenCalledOnce();
   });
 
@@ -83,6 +83,6 @@ describe("local workspace collections", () => {
     expect(mocks.addCollection).not.toHaveBeenCalled();
     expect(mocks.initVaults).not.toHaveBeenCalled();
     await db.setupCollections();
-    expect(mocks.addCollection).toHaveBeenCalledTimes(2);
+    expect(mocks.addCollection).toHaveBeenCalledTimes(1);
   });
 });

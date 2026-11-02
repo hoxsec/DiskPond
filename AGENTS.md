@@ -4,7 +4,7 @@
 
 DiskPond is an AGPL-3.0 fork of BlinkDisk focused on account-free desktop backups to user-provided storage. It uses Electron/React/TypeScript and a pinned Kopia-derived Go sidecar. Windows is first; macOS and Linux are required later targets.
 
-**Current repository state:** M1 and the initial M2 branding/local-workspace slice are merged into `main`; `integrate/blinkdisk-baseline` retains the integration history. M2 branding/local-workspace extraction is implemented and locally verified: the desktop account/cloud UI and auth/sync/telemetry paths have been removed. Retained service source packages are outside the desktop runtime. M2's recovery gate remains open. Do not describe unverified backup/restore or platform parity as complete. See `docs/verification/m1-windows-baseline.md` and `docs/verification/m2-branding-workspace.md`.
+**Current repository state:** M1 and the initial M2 branding/local-workspace slice are merged into `main`; `integrate/blinkdisk-baseline` retains the integration history. Both published M2 Windows CI runs passed for that slice. Desktop account/cloud UI and auth/sync/telemetry paths are removed; retained service packages are outside the desktop runtime. Subsequent password/session-only, owned-core nonmutating-discovery and owner-approved managed-provider storage/migration slices have local evidence; application integration CI is pending. The matching `hoxsec/diskpond-core` changes are published on core `main` and pinned at `aad67c688a05ce119859d49ca51bdf67787f0b99`; the original baseline remains recorded in `UPSTREAM.md`. Explicit create/connect behavior, truthful renderer restore outcomes and M2's desktop recovery gate remain open. See `docs/verification/m1-windows-baseline.md`, `docs/verification/m2-branding-workspace.md`, `docs/verification/m2-password-storage.md`, `docs/verification/m2-read-only-discovery.md` and `docs/verification/m2-provider-storage-design.md`. Do not describe native fixture success as full desktop recovery or platform parity.
 
 Read these documents before implementation:
 
@@ -110,6 +110,10 @@ Use Node 24.15.0 (`.nvmrc`), pnpm 11.7.0 and Go 1.25.5 as documented in DEVELOPM
 | `pnpm build:desktop` | Core + renderer/main/preload and copied frontend. |
 | `pnpm smoke:desktop` | Built-app onboarding/IPC/engine probe using temporary settings and an empty destination. |
 | `pnpm smoke:desktop --dev` | Exercise the actual development wrapper and its process cleanup. |
+| `pnpm smoke:discovery` | Isolated nonmutating discovery through Electron and two-version baseline-copy restore/hash checks; requires the candidate core build. |
+| `pnpm smoke:passwords` | Isolated native password protection/failure/restart and real-engine reconnect checks; uses the existing pinned core build. |
+| `pnpm smoke:providers` | Credential-isolated loopback WebDAV, two-vault versioned restore/hash checks, protected/session/failure modes, legacy migration and live/post-exit credential scans; requires Go and the matching managed-core build. |
+| `pnpm smoke:desktop --session-passwords` | Built-app session-only notice and IPC rejection checks with test-only secure-storage failure injection. |
 | `pnpm build:windows` | Desktop/core/resources plus NSIS packaging; publishing disabled. |
 | `pnpm smoke:windows` | Install/start/probe/quit/uninstall a disposable development artifact; requires a Windows user without existing DiskPond data/install/registration. Records inherited uninstall leftovers and cleans only its fixture. |
 

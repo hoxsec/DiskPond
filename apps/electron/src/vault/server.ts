@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
-import { existsSync, renameSync } from "node:fs";
 import { resolve } from "node:path";
+import { env } from "node:process";
 import { VAULT_SERVER_START_TIMEOUT_MS } from "@blinkdisk/constants/vault";
 import {
   CoreError,
@@ -9,15 +9,38 @@ import {
 import { generateId } from "@blinkdisk/utils/id";
 import { tryCatch } from "@blinkdisk/utils/try-catch";
 import { log } from "@electron/log";
+import { getPasswordCache } from "@electron/password";
 import { corePath, globalVaultDirectory } from "@electron/path";
+import {
+  completeConnectionMigration,
+  prepareConnection,
+  redactConnectionError,
+  rememberConnectionSecrets,
+} from "@electron/vault/connection";
 import { fetchVault } from "@electron/vault/fetch";
-import { vaults } from "@electron/vault/manage";
+import { vaultServerStopped, vaults } from "@electron/vault/manage";
+import { connectRepository } from "@electron/vault/reconnect";
 import type { VaultServer, VaultStatus } from "@electron/vault/types";
 import { sendWindow } from "@electron/window";
 import { app } from "electron";
 import { CookieJar } from "tough-cookie";
 
+const startingServers = new Map<string, Promise<VaultServer>>();
 export function startVaultServer(id: string, pollStatus = true) {
+  const existing = startingServers.get(id);
+  if (existing) return existing;
+  const promise = startManagedServer(id, pollStatus).finally(() =>
+    startingServers.delete(id),
+  );
+  startingServers.set(id, promise);
+  return promise;
+}
+
+async function startManagedServer(id: string, pollStatus: boolean) {
+  const cachedPassword = getPasswordCache({ vaultId: id });
+  const connection = await prepareConnection(id, cachedPassword);
+  if (connection)
+    rememberConnectionSecrets(id, connection, cachedPassword || undefined);
   return new Promise<VaultServer>((res, rej) => {
     const cookies = new CookieJar();
 
@@ -30,8 +53,6 @@ export function startVaultServer(id: string, pollStatus = true) {
     let certificateHash: string;
     let certificate: string;
 
-    migratePasswordFile(id);
-
     const args = [
       "server",
       "start",
@@ -42,6 +63,12 @@ export function startVaultServer(id: string, pollStatus = true) {
       "--random-server-control-password",
       "--tls-generate-cert",
       "--async-repo-connect",
+      "--no-persist-credentials",
+      "--managed-storage",
+      "--disable-file-logging",
+      "--disable-content-log",
+      "--disable-repository-log",
+      "--no-persistent-logs",
       "--error-notifications=always",
       "--kopiaui-notifications",
       `--auth-cookie-signing-key=${signingKey}`,
@@ -55,7 +82,11 @@ export function startVaultServer(id: string, pollStatus = true) {
       resolve(globalVaultDirectory(), `${id}.config`),
     ];
 
-    const process = spawn(corePath(), args, {});
+    const process = spawn(corePath(), args, {
+      // Managed mode starts disconnected. Exact passwords and provider data
+      // travel over the certificate-verified loopback API, never argv/files.
+      env: { ...env, KOPIA_PASSWORD: "", KOPIA_CHECK_FOR_UPDATES: "false" },
+    });
 
     let settled = false;
 
@@ -86,14 +117,34 @@ export function startVaultServer(id: string, pollStatus = true) {
       fail(`Failed to start the backup engine: ${error.message}`),
     );
 
-    process.on("exit", (code) =>
-      fail(`The backup engine stopped before it was ready (code ${code})`),
-    );
+    process.on("exit", (code) => {
+      fail(`The backup engine stopped before it was ready (code ${code})`);
+      vaultServerStopped(id, process);
+    });
 
-    process?.stdout.on("data", (data) => logFormatted(id, data));
+    let stdout = "";
+    process.stdout.on("data", (data) => {
+      stdout += data.toString();
+      if (stdout.length > 1_048_576) {
+        stdout = "";
+        return;
+      }
+      const lines = stdout.split("\n");
+      stdout = lines.pop() || "";
+      for (const line of lines) logFormatted(id, line);
+    });
 
+    let pendingLine = "";
     process?.stderr.on("data", (data) => {
-      const lines = `${data}`.split("\n");
+      pendingLine += data.toString();
+      if (pendingLine.length > 1_048_576) {
+        pendingLine = "";
+        if (settled) log.warn("Discarded oversized engine status output");
+        else fail("The backup engine returned an oversized status line");
+        return;
+      }
+      const lines = pendingLine.split("\n");
+      pendingLine = lines.pop() || "";
 
       for (const line of lines) {
         const parsed = parseServerLine(line);
@@ -136,7 +187,9 @@ export function startVaultServer(id: string, pollStatus = true) {
             break;
 
           default:
-            logFormatted(id, data);
+            // A chunk can contain both diagnostics and authentication lines.
+            // Log only this parsed diagnostic, never the entire chunk.
+            logFormatted(id, line);
         }
       }
 
@@ -156,7 +209,7 @@ export function startVaultServer(id: string, pollStatus = true) {
         certificateHash
       ) {
         settle(() => {
-          res({
+          const server = {
             process,
             cookies,
             signingKey,
@@ -166,47 +219,49 @@ export function startVaultServer(id: string, pollStatus = true) {
             certificateHash,
             certificate,
             address,
+          };
+          void (async () => {
+            if (connection && cachedPassword) {
+              const result = await connectRepository(
+                { id, status: "STARTING", server },
+                { storage: connection, password: cachedPassword },
+              );
+              if (!result.code) await completeConnectionMigration(id);
+            }
+            if (process.killed || process.exitCode !== null)
+              throw new Error("Engine stopped during initialization");
+            res(server);
+            if (pollStatus) startStatusPool(id, server);
+          })().catch(() => {
+            process.kill();
+            rej(
+              new CoreError({
+                code: "VAULT_SERVER_UNAVAILABLE",
+                message: `${VAULT_SERVER_UNAVAILABLE_MARKER}: Could not prepare vault reconnection`,
+              }),
+            );
           });
-
-          if (pollStatus) startStatusPool(id);
         });
       }
     });
   });
 }
 
-function migratePasswordFile(id: string) {
-  try {
-    const oldPasswordFile = resolve(
-      globalVaultDirectory(),
-      `${id}.config.blinkdisk-password`,
-    );
-
-    const newPasswordFile = resolve(
-      globalVaultDirectory(),
-      `${id}.config.kopia-password`,
-    );
-
-    if (existsSync(oldPasswordFile) && !existsSync(newPasswordFile))
-      renameSync(oldPasswordFile, newPasswordFile);
-  } catch (e) {
-    console.warn("Failed to migrate password file", e);
-  }
-}
-
 function logFormatted(id: string, data: string) {
+  data = redactConnectionError(id, data.toString());
   if (!app.isPackaged) return console.info(`[${id}] ${data}`);
   log.info(`[${id}] ${data}`);
 }
 
-async function startStatusPool(id: string) {
+async function startStatusPool(id: string, server: VaultServer) {
   let i = 0;
-  while (true) {
+  while (!server.process.killed && server.process.exitCode === null) {
     const vault = vaults[id];
     if (!vault) {
       await new Promise((res) => setTimeout(res, 1000));
       continue;
     }
+    if (vault.server !== server) return;
 
     const [status, error] = await tryCatch(
       fetchVault(vault, {
@@ -218,7 +273,10 @@ async function startStatusPool(id: string) {
       }>,
     );
 
-    if (error) continue;
+    if (error) {
+      await new Promise((res) => setTimeout(res, 1000));
+      continue;
+    }
 
     let vaultStatus: VaultStatus;
     if (status.connected) vaultStatus = "RUNNING";

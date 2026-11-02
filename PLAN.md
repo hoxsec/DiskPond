@@ -1,7 +1,7 @@
 # DiskPond — Product and Engineering Plan
 
-- **Updated:** 2026-11-02
-- **Status:** M1 complete. M2 branding/account-free workspace slice is implemented and locally verified; recovery and product parity remain unverified.
+- **Updated:** 2026-11-03
+- **Status:** M1 complete. M2 branding/account-free workspace is verified locally and in Windows CI; password, nonmutating-discovery and managed-provider slices have local evidence. The desktop recovery gate and full product parity remain open.
 - **Delivery:** One developer assisted by coding tools; quality-first, milestone-driven.
 
 DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It will preserve BlinkDisk's desktop and bring-your-own-storage capabilities, use its Kopia-based engine, and introduce an original, calm interface. Windows ships first; macOS and Linux remain required parity targets.
@@ -23,6 +23,7 @@ These decisions were made with the project owner. Changes must be recorded here 
 | D09 | No telemetry, usage analytics, or automatic crash uploads. Local logs and explicitly exported, redacted diagnostics are supported. |
 | D10 | Original calm utility design: neutral surfaces, restrained teal/blue, light/dark/system themes. |
 | D11 | Solo, quality-first development; milestones have acceptance gates rather than invented dates. |
+| D12 | Electron owns OS-protected/session-only vault passwords and provider connections. Migrate active local plaintext core connection JSON and inherited password-encrypted provider envelopes; preserve profile/cache/bandwidth metadata and compatible repository data. Managed sidecars start disconnected and receive exact credentials through the authenticated loopback API. |
 
 ### Document responsibilities
 
@@ -57,10 +58,10 @@ The reference is frozen so that “parity” has a reproducible meaning:
 4. **Some policies are mapped but lack visible editors.** Script hooks, VSS, error handling, filesystem boundaries, logging, and upload concurrency appear in schemas/converters. Preserve and verify these fields; do not advertise an unverified UI.
 5. **Background execution is a desktop process.** Tray mode and login startup exist. A system service running while logged out is a separate capability, not an established parity requirement.
 6. **Recovery results need review.** The restore implementation requests ignored errors and treats leaving `RUNNING` as completion in several paths. DiskPond must distinguish completed, partial, failed, and canceled outcomes.
-7. **Credential persistence needs review.** Upstream includes plaintext/basic-text fallbacks. DiskPond must not present those as OS-protected storage; use session-only secrets when secure persistence is unavailable.
+7. **Credential persistence required a managed-core boundary.** Upstream includes plaintext/basic-text fallbacks and provider credentials in connection JSON. The [M2 password slice](docs/verification/m2-password-storage.md) and owner-approved [provider-storage slice](docs/verification/m2-provider-storage-design.md) use OS protection or session memory, migrate both inherited local provider copies, and keep managed-core files metadata-only. Native Windows restart/migration/restore fixtures provide scoped evidence; full F24 and later-platform certification remain open.
 8. **Packager targets are not support certificates.** The README advertises macOS Big Sur+ and Linux ARMv7, while runtime/toolchain compatibility must be checked against the pinned dependencies. Unresolved targets remain open parity gaps.
 9. **Initial platform findings:** pinned Electron 42 requires macOS 12+, conflicting with upstream's Big Sur claim; Linux ARMv7 archives exist but remain untested. [M1 platform record](docs/verification/m1-platforms.md).
-10. **Discovery is not read-only upstream.** M1's disposable engine probe created `.shards`, and the inherited `/repo/exists` endpoint can migrate legacy blob IDs. M2/M3 must resolve this before certifying safe existing-repository connection. [Dependency/discovery record](docs/verification/m1-dependencies.md).
+10. **Discovery is not read-only upstream.** M1's disposable engine probe created `.shards`, and the inherited `/repo/exists` endpoint can migrate legacy blob IDs. The locally verified [owned-core discovery slice](docs/verification/m2-read-only-discovery.md) removes those writes and SFTP's implicit directory creation, with baseline-copy restore/hash evidence. Explicit create/connect separation and full compatibility remain open.
 
 ## 3. Scope contract
 
@@ -152,7 +153,7 @@ Compression parity includes `none`, `gzip` variants, `zstd` variants, `s2` varia
 
 1. Import the pinned application on an integration branch, preserving this repository's history, `.gitattributes`, and planning documents. Preserve upstream history/provenance through an explicit merge/import record; do not reset the existing branch to upstream.
 2. Reconcile upstream `AGENTS.md`/other contributor instructions with DiskPond's documented decisions. Retain useful applicable build conventions and document changes.
-3. Preserve the exact core gitlink. Initially use the pinned upstream core; establish a DiskPond-owned core fork before publishing core modifications. Do not track a moving branch for release builds.
+3. Preserve the exact core gitlink. The owner approved `hoxsec/diskpond-core`, forked from `blinkdisk/core`; discovery and managed-storage changes are published on its `main` and pinned at `aad67c688a05ce119859d49ca51bdf67787f0b99`. The original upstream baseline remains recorded in [UPSTREAM.md](UPSTREAM.md). Publish matching core source and deliberately advance the gitlink before distributing modified binaries. Do not track a moving branch for release builds.
 4. Record both upstream commits, imported licenses, dependency manifests, and baseline results. Keep app rebranding, service decoupling, and engine changes in reviewable changesets.
 5. Review upstream bug/security fixes regularly and before releases. Advance the baseline deliberately with compatibility tests and an updated feature inventory. Do not automatically merge product or cloud changes.
 6. Before publishing binaries, include corresponding application/core source and build instructions, retained notices, and a readable attribution to BlinkDisk and Kopia.
@@ -306,4 +307,4 @@ Store evidence under `docs/verification/` with requirement IDs, commits, engine 
 
 The product reaches the full desktop/BYO parity milestone only when every applicable P/F/DP requirement is demonstrated on its required platform(s), all platform/support gaps are resolved or explicitly re-scoped by the owner, and backup recovery succeeds from a fresh installation. Documentation must state the exact supported versions and the X01–X05 exclusions/replacements.
 
-**M1 is complete**, with [passing clean Windows CI](https://github.com/hoxsec/DiskPond/actions/runs/41521154820). **M2 is in progress** with a locally verified [branding/account-free workspace slice](docs/verification/m2-branding-workspace.md). The recovery acceptance gate remains open. The owner authorized committing and publishing this slice and merging the integration history into `main`; [its Windows CI run](https://github.com/hoxsec/DiskPond/actions/runs/41531622284) was running at handoff. No DiskPond binary release has been published.
+**M1 is complete**, with [passing clean Windows CI](https://github.com/hoxsec/DiskPond/actions/runs/41521154820). **M2 is in progress** with a verified [branding/account-free workspace slice](docs/verification/m2-branding-workspace.md) and local [password](docs/verification/m2-password-storage.md), [discovery](docs/verification/m2-read-only-discovery.md) and [provider-storage](docs/verification/m2-provider-storage-design.md) evidence. The desktop recovery acceptance gate remains open. The earlier owner-authorized source publication and merge into `main` are complete; both [integration CI](https://github.com/hoxsec/DiskPond/actions/runs/41531622284) and [merged-main CI](https://github.com/hoxsec/DiskPond/actions/runs/41531861201) passed for branding/workspace. Subsequent credential/core changes remain uncommitted. No DiskPond binary release has been published.

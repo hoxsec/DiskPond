@@ -104,11 +104,11 @@ The owner subsequently authorized committing, pushing, merging into `main`, and 
 - `30ab2f8` — account-free desktop, hosted-service extraction and the local verification record above.
 - `46adcec` — merge of the preserved M1/M2 integration history into `main`.
 
-[Windows CI run 41531622284](https://github.com/hoxsec/DiskPond/actions/runs/41531622284) for `30ab2f8d8447ab967d04fb5333a5f9d3477b5d75` was **in progress** at this documentation handoff. The earlier M1 CI result certifies its baseline only. No tag or binary release was published.
+[Windows CI run 41531622284](https://github.com/hoxsec/DiskPond/actions/runs/41531622284) for `30ab2f8d8447ab967d04fb5333a5f9d3477b5d75` **passed** in 6m10s. The merged-main [run 41531861201](https://github.com/hoxsec/DiskPond/actions/runs/41531861201) for `d63593263db0a8f60b8b56240873a35b65009643` **passed** in 7m06s. Both were followed with `gh run watch --exit-status` and confirmed with `gh run view`: frozen install, lint, types, tests, dependency analysis, Windows packaging and built/development/installed smoke all passed. These certify the published branding/workspace slice, not subsequent uncommitted work. No tag or binary release was published.
 
 ## Remaining gates
 
 - Real local backup/restore/versioned recovery and interruption/restart certification remain M2 work. Existing discovery still writes `.shards` and can migrate old blob IDs; safe create/connect separation remains open.
-- Existing secure-storage fallback and restore terminal-outcome findings remain open. This branding/workspace slice does not claim to resolve them.
+- Subsequent [vault-password/session-only](m2-password-storage.md) and [approved provider-storage](m2-provider-storage-design.md) slices address inherited credential fallbacks and active desktop provider JSON/envelope persistence. They remain uncommitted and locally verified. Renderer restore terminal outcomes and the complete desktop recovery gate remain open.
 - Packaged updater behavior still uses the DiskPond feed; opt-out/preference and full network-capture matrix remain open. Smoke observation covers renderer HTTP(S) and main-process `fetch`, not every OS/sidecar socket.
 - Redacted diagnostics export and encrypted setup export/import remain planned. Full accessibility/screen-reader workflows, installed upgrade matrix, signing, macOS and Linux runtime verification remain later gates.
