@@ -54,7 +54,6 @@
     "@blinkdisk/api": "workspace:*",
     "@blinkdisk/typescript": "workspace:*",
     "@rolldown/plugin-babel": "catalog:",
-    "@sentry/vite-plugin": "catalog:",
     "@tanstack/router-plugin": "catalog:",
     "@types/babel__core": "catalog:",
     "@types/node": "catalog:",

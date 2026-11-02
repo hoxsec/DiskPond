@@ -1,7 +1,7 @@
 import * as Sentry from "@sentry/electron/renderer";
 
 Sentry.init({
-  enabled: process.env.NODE_ENV !== "development",
+  enabled: false,
 });
 
 import { setupRenderer } from "@better-auth/electron/preload";

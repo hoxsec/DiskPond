@@ -6,52 +6,32 @@ config({
 });
 
 import { TsconfigPathsPlugin } from "@esbuild-plugins/tsconfig-paths";
-import { sentryEsbuildPlugin } from "@sentry/esbuild-plugin";
 import esbuild from "esbuild";
 
-const ENV_WHITELIST = [
-  "NODE_ENV",
-  "DESKTOP_URL",
-  "API_URL",
-  "CLOUD_URL",
-  "WEB_URL",
-  "SENTRY_DESKTOP_DSN",
-];
-
-const env = {};
-for (const key of ENV_WHITELIST) {
-  env[`process.env.${key}`] = `"${process.env[key]}"`;
-}
-
 const isDev = process.argv[2] === "development";
+const values = {
+  NODE_ENV: isDev ? "development" : "production",
+  DESKTOP_URL: "http://127.0.0.1:3002",
+  API_URL: process.env.API_URL || "http://127.0.0.1:4000",
+  CLOUD_URL: process.env.CLOUD_URL || "http://127.0.0.1:4001",
+  WEB_URL: process.env.WEB_URL || "http://127.0.0.1:3001",
+  SENTRY_DESKTOP_DSN: "",
+};
+const env = Object.fromEntries(
+  Object.entries(values).map(([key, value]) => [
+    `process.env.${key}`,
+    JSON.stringify(value),
+  ]),
+);
 
 const base = {
   minify: !isDev,
   entryPoints: ["./src/index.ts", "./src/preload.ts"],
   bundle: true,
   outdir: "build",
-  target: "node16",
+  target: "node22",
   sourcemap: true,
-  plugins: [
-    TsconfigPathsPlugin({ tsconfig: "./tsconfig.json" }),
-    ...(!isDev
-      ? [
-          sentryEsbuildPlugin({
-            org: process.env.SENTRY_ORGANIZATION,
-            project: process.env.SENTRY_DESKTOP_PROJECT,
-            authToken: process.env.SENTRY_AUTH_TOKEN,
-            sourcemaps: {
-              // Removing to reduce bundle size
-              filesToDeleteAfterUpload: [
-                "./**/*.map",
-                ".*/**/public/**/*.map",
-                "./dist/**/client/**/*.map",
-              ],
-            },
-          }),
-        ]
-      : []),
-  ],
+  plugins: [TsconfigPathsPlugin({ tsconfig: "./tsconfig.json" })],
   external: ["electron"],
   define: env,
 };
@@ -75,7 +55,7 @@ const preload = {
   platform: "browser",
 };
 
-if (isDev) {
+if (isDev && process.argv[3] !== "once") {
   await Promise.all([
     (await esbuild.context(index)).watch(),
     (await esbuild.context(preload)).watch(),

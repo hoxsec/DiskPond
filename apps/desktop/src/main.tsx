@@ -29,6 +29,7 @@ const router = createRouter({
 init(
   {
     dsn: process.env.SENTRY_DESKTOP_DSN,
+    enabled: false,
     integrations: [tanstackRouterBrowserTracingIntegration(router)],
   },
   reactInit,

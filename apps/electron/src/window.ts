@@ -1,5 +1,6 @@
 import { join } from "node:path";
 import {
+  APP_NAME,
   INTERNAL_PROTOCOL,
   PROTOCOL_FRONTEND_URL,
 } from "@blinkdisk/constants/app";
@@ -15,19 +16,23 @@ export function createWindow() {
     height: 800,
     minWidth: 950,
     minHeight: 500,
-    title: "BlinkDisk",
+    title: APP_NAME,
     backgroundColor: getTheme() === "light" ? "#ffffff" : "#222222",
     webPreferences: {
       preload: join(import.meta.dirname, "preload.js"),
     },
   });
 
-  if (!app.isPackaged) window.webContents.openDevTools();
+  if (!app.isPackaged && process.env.DISKPOND_PREVIEW !== "1") {
+    window.webContents.openDevTools();
+  }
 
   window.setMenu(null);
 
   window.loadURL(
-    app.isPackaged ? PROTOCOL_FRONTEND_URL : process.env.DESKTOP_URL || "",
+    app.isPackaged || process.env.DISKPOND_PREVIEW === "1"
+      ? PROTOCOL_FRONTEND_URL
+      : process.env.DESKTOP_URL || "http://127.0.0.1:3002",
   );
 
   window.webContents.setWindowOpenHandler(({ url: rawUrl }) => {

@@ -28,15 +28,14 @@ describe("globalConfigDirectory", () => {
     mockedApp.isPackaged = false;
   });
 
-  it("contains blinkdisk-dev in dev mode", () => {
-    expect(globalConfigDirectory()).toContain("blinkdisk-dev");
+  it("isolates development settings from BlinkDisk", () => {
+    expect(globalConfigDirectory()).toBe(join("/mock/appData", "diskpond-dev"));
   });
 
-  it("contains blinkdisk (not blinkdisk-dev) in packaged mode", () => {
+  it("uses a separate DiskPond directory in packaged mode", () => {
     mockedApp.isPackaged = true;
     const dir = globalConfigDirectory();
-    expect(dir).toContain("blinkdisk");
-    expect(dir).not.toContain("blinkdisk-dev");
+    expect(dir).toBe(join("/mock/appData", "diskpond"));
   });
 });
 
@@ -72,7 +71,35 @@ describe("corePath", () => {
     mockedApp.isPackaged = false;
   });
 
-  it("contains go/bin/core in dev mode", () => {
-    expect(corePath()).toContain("go/bin/core");
+  it("resolves the workspace-built executable instead of a global Go binary", () => {
+    const target = coreBuildTarget(process.platform, process.arch);
+    expect(corePath()).toContain(
+      join("apps", "core", "dist", target.directory, target.executable),
+    );
   });
 });
+
+describe("core build targets", () => {
+  it.each([
+    ["win32", "x64", "kopia_windows_amd64", "kopia.exe"],
+    ["darwin", "arm64", "kopia_darwin_arm64", "kopia"],
+    ["darwin", "x64", "kopia_darwin_amd64", "kopia"],
+    ["linux", "x64", "kopia_linux_x64", "kopia"],
+    ["linux", "arm64", "kopia_linux_arm64", "kopia"],
+    ["linux", "arm", "kopia_linux_armv7l", "kopia"],
+  ])("maps %s/%s to its native build output", (os, arch, directory, executable) => {
+    expect(coreBuildTarget(os, arch)).toMatchObject({ directory, executable });
+  });
+
+  it("rejects unsupported targets instead of selecting a Windows executable", () => {
+    expect(() => coreBuildTarget("freebsd", "x64")).toThrow(
+      "Unsupported core target",
+    );
+    expect(() => coreBuildTarget("win32", "ia32")).toThrow(
+      "Unsupported core architecture",
+    );
+  });
+});
+
+import { join } from "node:path";
+import { coreBuildTarget } from "@blinkdisk/constants/core";

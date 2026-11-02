@@ -1,23 +1,10 @@
-import { resolve } from "node:path";
 import { APP_SCHEME, APP_SCHEME_PROTOCOL } from "@blinkdisk/constants/app";
 import { authenticateToken } from "@electron/auth";
 import { focusWindow, sendWindow } from "@electron/window";
 import { app } from "electron";
 
-let hasRegistered = false;
-if (process.defaultApp) {
-  if (process.argv.length >= 2) {
-    hasRegistered = app.setAsDefaultProtocolClient(
-      APP_SCHEME,
-      process.execPath,
-      [resolve(process.argv[1] as string)],
-    );
-  }
-} else {
-  hasRegistered = app.setAsDefaultProtocolClient(APP_SCHEME);
-}
-
-if (!hasRegistered)
+// Development and preview launches must not replace an installed URI handler.
+if (app.isPackaged && !app.setAsDefaultProtocolClient(APP_SCHEME))
   console.warn(`Failed to register ${APP_SCHEME} as default protocol client`);
 
 export async function onDeeplinkOpen(rawUrl: string) {

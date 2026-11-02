@@ -1,4 +1,4 @@
-// App should be imported before sentry
+import "@electron/identity";
 
 // But sentry should be imported directly after
 import { listenProtocol, registerProtcol } from "@electron/protocol";
@@ -7,7 +7,7 @@ import { app } from "electron";
 
 Sentry.init({
   dsn: process.env.SENTRY_DESKTOP_DSN,
-  enabled: process.env.NODE_ENV !== "development",
+  enabled: false,
 });
 
 // Registering must happen after Sentry,

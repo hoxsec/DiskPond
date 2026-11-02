@@ -72,6 +72,7 @@ vi.mock("@signaldb/sync", () => ({
   SyncManager: mocks.MockSyncManager,
 }));
 
+import { join } from "node:path";
 import { getLastSync, syncAccount, syncManager } from "@electron/db/sync";
 
 function getSyncOptions() {
@@ -212,13 +213,13 @@ describe("electron sync manager", () => {
     const options = getSyncOptions();
 
     expect(options.persistenceAdapter("sync-sync-acct_1/vault")).toEqual({
-      path: "/accounts/sync-acct_1/vault.json",
+      path: join("/accounts", "sync-acct_1", "vault.json"),
     });
     expect(mocks.mkdirSync).toHaveBeenCalledWith("/accounts", {
       recursive: true,
     });
     expect(mocks.writeFileSync).toHaveBeenCalledWith(
-      "/accounts/sync-acct_1/vault.json",
+      join("/accounts", "sync-acct_1", "vault.json"),
       "[]",
     );
   });

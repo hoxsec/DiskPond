@@ -1,10 +1,15 @@
-export const APP_ID = "com.blinkdisk.app";
+export const APP_NAME = "DiskPond";
+export const APP_SLUG = "diskpond";
+export const APP_ID = "io.github.hoxsec.diskpond";
+export const RELEASE_OWNER = "hoxsec";
+export const RELEASE_REPOSITORY = "DiskPond";
+export const SOURCE_URL = `https://github.com/${RELEASE_OWNER}/${RELEASE_REPOSITORY}`;
 export const APP_ID_ORIGIN = `${APP_ID}:/`;
 
-export const APP_SCHEME = "com.blinkdisk.app";
+export const APP_SCHEME = APP_ID;
 export const APP_SCHEME_PROTOCOL = `${APP_SCHEME}:`;
 
-export const INTERNAL_SCHEME = "blinkdiskapp";
+export const INTERNAL_SCHEME = "diskpondapp";
 export const INTERNAL_PROTOCOL = `${INTERNAL_SCHEME}:`;
 
 export const PROTOCOL_API_NS = "api";

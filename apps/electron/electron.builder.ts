@@ -4,12 +4,20 @@ import { createRequire } from "node:module";
 import type { Configuration } from "electron-builder";
 
 // Path alias seems to break build in CI
-import { APP_ID, APP_SCHEME } from "../../libs/constants/src/app";
+import {
+  APP_ID,
+  APP_NAME,
+  APP_SCHEME,
+  APP_SLUG,
+  RELEASE_OWNER,
+  RELEASE_REPOSITORY,
+  SOURCE_URL,
+} from "../../libs/constants/src/app";
 
 const require = createRequire(import.meta.url);
 
 export default {
-  productName: "BlinkDisk",
+  productName: APP_NAME,
   appId: APP_ID,
   files: ["build/**", "frontend/**", "!node_modules/**/*"],
   directories: {
@@ -17,10 +25,24 @@ export default {
   },
   publish: {
     provider: "github",
+    owner: RELEASE_OWNER,
+    repo: RELEASE_REPOSITORY,
     vPrefixedTagName: true,
     releaseType: "draft",
   },
   extraResources: [
+    {
+      from: "../../LICENSE",
+      to: "licenses/DiskPond-AGPL-3.0.txt",
+    },
+    {
+      from: "../core/LICENSE",
+      to: "licenses/core-Apache-2.0.txt",
+    },
+    {
+      from: "../../UPSTREAM.md",
+      to: "licenses/UPSTREAM.md",
+    },
     {
       from: "assets",
       to: "./assets",
@@ -28,13 +50,13 @@ export default {
   ],
   protocols: [
     {
-      name: "BlinkDisk",
+      name: APP_NAME,
       schemes: [APP_SCHEME],
       role: "Editor",
     },
   ],
   // Used for MacOS .zip files
-  artifactName: "BlinkDisk-MacOS.${ext}",
+  artifactName: "DiskPond-macOS.${ext}",
   win: {
     appId: APP_ID,
     target: ["nsis"],
@@ -54,7 +76,7 @@ export default {
     ],
   },
   nsis: {
-    artifactName: "BlinkDisk-Windows.${ext}",
+    artifactName: "DiskPond-Windows.${ext}",
   },
   mac: {
     appId: APP_ID,
@@ -83,12 +105,12 @@ export default {
     ],
   },
   dmg: {
-    artifactName: "BlinkDisk-macOS.${ext}",
+    artifactName: "DiskPond-macOS.${ext}",
   },
   linux: {
     appId: APP_ID,
     category: "Utility",
-    executableName: "blinkdisk",
+    executableName: APP_SLUG,
     target: [
       {
         target: "AppImage",
@@ -111,18 +133,20 @@ export default {
     ],
   },
   rpm: {
-    artifactName: "BlinkDisk-Linux-${arch}.${ext}",
+    artifactName: "DiskPond-Linux-${arch}.${ext}",
   },
   deb: {
-    artifactName: "BlinkDisk-Linux-${arch}.${ext}",
+    artifactName: "DiskPond-Linux-${arch}.${ext}",
   },
   appImage: {
-    artifactName: "BlinkDisk-Linux-${arch}.${ext}",
+    artifactName: "DiskPond-Linux-${arch}.${ext}",
   },
   extraMetadata: {
-    name: "blinkdisk",
-    homepage: "https://blinkdisk.com",
-    version: process.env.GITHUB_REF_NAME?.replace("v", ""),
+    name: APP_SLUG,
+    homepage: SOURCE_URL,
+    ...(process.env.GITHUB_REF_TYPE === "tag" && {
+      version: process.env.GITHUB_REF_NAME?.replace(/^v/, ""),
+    }),
     dependencies: {
       // electron-builder validates this version without resolving pnpm catalogs.
       "electron-updater": require("electron-updater/package.json").version,

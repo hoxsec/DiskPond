@@ -21,6 +21,8 @@ export function useLogsnag() {
         return;
       }
 
+      if (!process.env.LOGSNAG_PUBLIC_KEY) return;
+
       try {
         await fetch("https://api.logsnag.com/v1/log", {
           method: "POST",

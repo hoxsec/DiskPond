@@ -1,4 +1,5 @@
 import { join } from "node:path";
+import { APP_NAME } from "@blinkdisk/constants/app";
 import { platform } from "@electron/path";
 import { focusWindow } from "@electron/window";
 import { app, Menu, nativeImage, Tray } from "electron";
@@ -7,7 +8,7 @@ let tray: Tray | null = null;
 
 export function createTray() {
   const iconsPath = !app.isPackaged
-    ? join("assets", "tray")
+    ? join(import.meta.dirname, "..", "assets", "tray")
     : join(process.resourcesPath, "assets", "tray");
 
   const fileName =
@@ -26,7 +27,7 @@ export function createTray() {
     { label: "Quit", type: "normal", click: () => app.quit() },
   ]);
 
-  tray.setToolTip("BlinkDisk");
+  tray.setToolTip(APP_NAME);
   tray.setContextMenu(contextMenu);
 
   tray.on("click", () => focusWindow());

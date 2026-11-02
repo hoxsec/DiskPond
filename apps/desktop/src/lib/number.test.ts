@@ -28,7 +28,8 @@ describe("formatInt", () => {
 
   it("handles large numbers", () => {
     const result = formatInt(1_000_000);
-    expect(result.length).toBeGreaterThan(0);
-    expect(result).not.toContain(".");
+    const parts = new Intl.NumberFormat().formatToParts(1_000_000);
+    expect(result).toBe(parts.map((part) => part.value).join(""));
+    expect(parts.some((part) => part.type === "fraction")).toBe(false);
   });
 });

@@ -1,87 +1,39 @@
-<p align="center">
-  <h2 align="center">BlinkDisk</h2>
+# DiskPond
 
-  <p align="center">
-    The easiest way to backup your files.
-    <br />
-    <a href="https://blinkdisk.com/?utm_source=github"><strong>Learn more</strong></a>
-    &nbsp;&nbsp;|&nbsp;&nbsp;
-    <a href="https://blinkdisk.com/download?utm_source=github"><strong>Download</strong></a>
-</p>
+An account-free desktop backup application being developed from [BlinkDisk](https://github.com/blinkdisk/blinkdisk), using its [Kopia-derived engine](https://github.com/blinkdisk/core).
 
-<a href="https://blinkdisk.com/?utm_source=github">
-  <img src="https://github.com/blinkdisk/blinkdisk/blob/main/apps/marketing/src/assets/screenshots/dark.png?raw=true" alt="BlinkDisk Banner">
-</a>
+DiskPond's target is encrypted, versioned backups to storage you provide: local/external drives, NAS, S3-compatible storage, B2, Google Cloud Storage, Azure, SFTP, WebDAV and Rclone. Windows comes first; macOS and Linux remain required targets.
 
-## 💡 What is BlinkDisk?
+## Development status
 
-BlinkDisk is a desktop application that lets you effortlessly create backups of all your important files with just a few clicks.
+**M1 — imported Windows development baseline.** The pinned engine and desktop build locally; the Electron smoke check reaches the inherited local workspace and probes the real engine. This is an implementation baseline, with backup/restore certification still ahead.
 
-## ❓ Why Do I Need Backups?
+The imported interface still contains BlinkDisk branding and account/cloud features. M2 will replace those with DiskPond's local workspace and original design, remove service/analytics code, and verify the first complete backup/restore journey. Encrypted setup export/import follows in M5. There is no DiskPond stable installer release yet.
 
-Your files are more at risk than you might think. One accidental delete, a failing hard drive, or a ransomware attack can wipe out years of photos, documents, and memories in an instant.
+See [ROADMAP.md](ROADMAP.md) for milestone gates and [PLAN.md](PLAN.md) for the full requirement inventory.
 
-## ☁️ But I Already Use Cloud Storage...
+## Build and run
 
-Cloud sync services like iCloud, OneDrive, or Google Drive aren't real backups. They only keep the latest version of each file. Delete or overwrite something, and it's gone there too. A true backup keeps multiple versions of your files over time, so you can always go back. [Read more](https://blinkdisk.com/blog/sync-vs-backup?utm_source=github)
+Use a checkout containing the M1 integration files, Node **24.14.0**, pnpm **11.7.0**, and Go **1.25.5**:
 
-## ✨ Features
+```powershell
+git submodule update --init --checkout apps/core
+pnpm install --frozen-lockfile
+pnpm dev:desktop
+```
 
-### 🔒 End-to-End Encrypted
+On the inherited welcome screen, choose **Continue without account**, then **Continue anyway** to reach the local workspace. Desktop development starts the renderer and Electron; the bundled engine starts when storage is probed or a vault connects.
 
-Your files are encrypted with your password before they ever leave your device. Not even BlinkDisk can see your data - only you have the key.
+Full commands, prerequisites and isolated smoke checks: [DEVELOPMENT.md](DEVELOPMENT.md).
 
-### 🙌 Built for Everyone
+## Project documents
 
-No technical knowledge required. Just install BlinkDisk, choose what to protect, and your first backup starts in minutes. It quietly runs in the background with no distractions.
+- [Windows baseline evidence](docs/verification/m1-windows-baseline.md)
+- [Service dependency and endpoint inventory](docs/verification/m1-dependencies.md)
+- [Platform compatibility findings](docs/verification/m1-platforms.md)
+- [Design conventions](STYLE.md) and [contributor instructions](AGENTS.md)
+- [Upstream pins, attribution and modification record](UPSTREAM.md)
 
-### ⚡ File Deduplication
+## License and credits
 
-BlinkDisk automatically detects and stores identical files only once. This saves valuable storage space, reduces upload times, and makes every backup effortlessly fast.
-
-### 🌍 Cross-Platform
-
-Whether you're on Windows, macOS, or Linux, BlinkDisk keeps your files safe and synced seamlessly across all your machines.
-
-| Platform | Supported Versions                         |
-| -------- | ------------------------------------------ |
-| Windows  | Windows 10/11 (64-bit)                     |
-| macOS    | Big Sur and newer                          |
-| Linux    | AppImage, deb, rpm (x86_64, arm64, armv7l) |
-
-### 💾 Multiple Storage Options
-
-#### ☁️ CloudBlink
-
-Our managed cloud storage with a free tier and affordable subscription plans. No setup required. [See Pricing](https://blinkdisk.com/cloudblink?utm_source=github#pricing).
-
-#### 🔧 Custom Storage
-
-Bring your own storage for 100% free:
-
-- Local filesystem (external hard drives, USB drives)
-- Any S3-compatible storage (Wasabi, MinIO, etc.)
-- Network Attached Storage (NAS)
-- WebDAV
-- SFTP
-- Backblaze B2
-- Amazon S3
-- Google Cloud Storage
-- Azure Blob Storage
-- Any Rclone Remote
-
-## 🚀 How It Works
-
-1. **Choose folders to protect** - Pick all folders you want to protect. We take care of everything else.
-2. **Create your first backup** - BlinkDisk starts backing up your files in the background. You'll always have secure copies.
-3. **Restore any file, anytime** - When something goes wrong, simply open BlinkDisk and restore any file in seconds.
-
-## 🛠️ Local Development
-
-For information on how to set up a local development environment, check out the [DEVELOPMENT.md](DEVELOPMENT.md) file.
-
-## 🙏 Credits
-
-BlinkDisk's [core](https://github.com/blinkdisk/core) is built on top of [Kopia](https://kopia.io/), which handles the heavy lifting behind BlinkDisk.
-
-> ❤️ **A huge thank you to the Kopia team.** This project would not be possible without their amazing work. Kopia is one of the most thoughtfully designed backup tools out there, and we're proud to build on top of it.
+DiskPond preserves BlinkDisk's **AGPL-3.0** application license: [LICENSE](LICENSE). The pinned engine preserves its separate **Apache-2.0** license: [apps/core/LICENSE](apps/core/LICENSE). Thank you to the BlinkDisk and Kopia contributors. Third-party dependencies and assets retain their own licenses.

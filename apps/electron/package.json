@@ -1,10 +1,9 @@
 {
   "name": "@blinkdisk/electron",
-  "description": "Modern backups for absolutely everyone.",
-  "repository": "https://github.com/blinkdisk/blinkdisk",
+  "description": "DiskPond desktop backup application.",
+  "repository": "https://github.com/hoxsec/DiskPond",
   "author": {
-    "email": "support@blinkdisk.com",
-    "name": "BlinkDisk"
+    "name": "DiskPond contributors"
   },
   "version": "0.0.0",
   "private": true,
@@ -15,13 +14,14 @@
   "main": "./build/index.js",
   "scripts": {
     "dev": "concurrently \"pnpm:compile:dev\" \"pnpm:dev:electron\"",
-    "dev:electron": "electronmon ./build/index.js $ELECTRON_EXTRA_ARGS",
+    "dev:electron": "electronmon ./build/index.js",
     "types": "tsc --noEmit",
     "test": "vitest run",
     "compile:dev": "node esbuild.config.mjs development",
+    "compile:once": "node esbuild.config.mjs development once",
     "compile:prod": "node esbuild.config.mjs production",
-    "prebuild": "pnpm build:frontend && tsc --noEmit && pnpm compile:prod compile",
-    "build:frontend": "rm -rf frontend/ && cd ../.. && pnpm --filter desktop build && cp -r apps/desktop/dist apps/electron/frontend",
+    "prebuild": "pnpm build:frontend && tsc --noEmit && pnpm compile:prod",
+    "build:frontend": "pnpm --filter @blinkdisk/desktop build && node ../../scripts/copy-frontend.mjs",
     "build:linux": "electron-builder -c electron.builder.ts --linux",
     "build:windows": "electron-builder -c electron.builder.ts --windows",
     "build:macos": "electron-builder -c electron.builder.ts --macos"
@@ -53,7 +53,6 @@
   },
   "devDependencies": {
     "@blinkdisk/typescript": "workspace:*",
-    "@sentry/esbuild-plugin": "catalog:",
     "@types/auto-launch": "catalog:",
     "@types/node": "catalog:",
     "concurrently": "catalog:",

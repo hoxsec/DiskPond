@@ -1,64 +1,131 @@
-# BlinkDisk Agent Instructions
+# DiskPond — Contributor and Agent Instructions
 
-BlinkDisk is a minimalistic and user-friendly desktop application that makes file backups accessible to everyone.
+## Purpose and current state
 
-## Key features
+DiskPond is an AGPL-3.0 fork of BlinkDisk focused on account-free desktop backups to user-provided storage. It uses Electron/React/TypeScript and a pinned Kopia-derived Go sidecar. Windows is first; macOS and Linux are required later targets.
 
-- Modern, Minimalistic & User-Friendly
-- Cross-Platform (Windows, Mac and Linux)
-- Based on Kopia (an open-source backup tool)
-- End-To-End-Encrypted
-- Open-Source
+**Current repository state:** M1 source/core import and Windows development baseline implemented on `integrate/blinkdisk-baseline`. Desktop/core builds and local startup smoke checks pass; clean-runner reproduction is pending. Imported account/cloud UI and SDKs remain until M2. Do not describe unverified backup/restore or platform parity as complete. See `docs/verification/m1-windows-baseline.md`.
 
-## Pricing model
+Read these documents before implementation:
 
-Users can pick between these two options:
+1. [PLAN.md](PLAN.md) — confirmed decisions, pinned baseline, scope and parity IDs.
+2. [ROADMAP.md](ROADMAP.md) — active milestone, dependencies and acceptance gates.
+3. [STYLE.md](STYLE.md) — UI and code conventions.
 
-- CloudBlink: Our managed cloud storage with a free tier and affordable subscription plans.
-- Custom Storage: Use your own storage for 100% free (supports many storage options).
+Keep documentation status synchronized with actual implementation. Follow applicable nested contributor instructions when they are introduced; surface conflicts with the confirmed product decisions rather than silently changing scope.
 
-- CloudBlink offers an affordable managed solution with no setup required.
-- The bring-your-own-keys model lets people enter their own cloud credentials and use the desktop app for free, but it requires more knowledge and time to set up.
+## Product decisions to preserve
 
-## Commands
+- Fork and reuse BlinkDisk; preserve its AGPL terms/notices and the core's separate Apache-2.0 terms/notices.
+- No managed storage, subscriptions, billing, hosted login, or automatic configuration-sync service.
+- Local workspace, manual repository connection, encrypted setup export/import, and compatible existing BlinkDisk BYO vaults.
+- No analytics or automatic crash uploads. Diagnostics are local, redacted on export, and exported by user action.
+- Original DiskPond identity, light/dark/system themes, and the calm utility design in STYLE.md.
+- Preserve every applicable P/F requirement in PLAN.md. Record discoveries and unresolved compatibility gaps; do not silently reduce parity.
 
-- `pnpm types`: Runs tsc to check if all typescript types are valid.
-- `pnpm test`: Runs all test suites with vitest.
-- `pnpm lint`: Runs biome to check for linting and formatting mistakes. 
-  - `pnpm lint --write` to apply safe fixes which don't change the behaviour.
-  - `pnpm lint --write --unsafe` to also write unsafe changes after you've reviewed them.
-- `pnpm unused`: Runs knip to find unused code, exports and dependencies.
+## Start-of-task workflow
 
-## Project Structure
+1. Inspect repository status and relevant existing changes. Preserve user work and unrelated files.
+2. Identify the active roadmap milestone and the requirement IDs for the task.
+3. Inspect the corresponding upstream/inherited behavior and nearby implementation before editing.
+4. Implement the smallest complete user-visible slice using existing abstractions.
+5. Run checks appropriate to the changed behavior; report commands, results and actual blockers.
+6. Update requirement evidence and milestone status when the acceptance criteria are met.
 
-### Applications (apps/)
+Ask when a decision changes product scope, on-disk/repository compatibility, cryptographic format, supported platforms, or release ownership. Routine implementation details should follow the documented defaults. Use subagents only when explicitly requested by the user or applicable instructions.
 
-- **core** - The core "engine" for handling the backups, forked from the Kopia project.
-- **api** - Hono + tRPC backend used for syncing configuration with a user's account.
-- **cloud** - Cloudflare Workers + Durable Object project for our optional managed cloud storage solution.
-- **desktop** - React + TanStack Router frontend for the desktop app UI.
-- **electron** - Electron backend (main process) for the desktop app.
-- **marketing** - Astro marketing site.
-- **web** - Vite web app.
+## Fork import and upstream handling
 
-### Shared Libraries (libs/)
+- Application baseline: `blinkdisk/blinkdisk@e435469b3d09b8c217417d1325331865e483ce2f`.
+- Core baseline: `blinkdisk/core@e8955e7280edd9526b9f104f1592f233cfe6789b`.
+- Import through a reviewable integration branch while preserving current repository history and planning documents. Reconcile incoming contributor files rather than replacing these instructions blindly.
+- Pin the exact core gitlink and dependency lockfile. Do not substitute a moving branch or a stock Kopia binary without compatibility evidence.
+- Keep rebranding, service extraction, feature changes and engine changes separately reviewable.
+- Preserve copyright/license/NOTICE material and record changed upstream code. Publish corresponding source/build instructions with distributions.
+- Namespace application IDs, URI scheme, data/cache directories, startup entry, artifacts and release feed under DiskPond.
+- Published upstream-scoped packages are external dependencies unless explicitly forked. Do not mass-rename package imports into nonexistent packages.
 
-- **assets** - Shared static assets.
-- **biome** - Shared Biome configuration package.
-- **components** - Shared React app components.
-- **constants** - Shared constants.
-- **db** - Drizzle ORM schema and database tooling.
-- **emails** - Email templates using React Email.
-- **forms** - Shared form components and helpers.
-- **hooks** - Shared React hooks.
-- **schemas** - Zod validation schemas
-- **styles** - Shared Tailwind/CSS styles.
-- **typescript** - Shared TypeScript configuration.
-- **ui** - Shared React UI primitives.
-- **utils** - Shared utility functions
+## Architecture boundaries
 
-## Code Style
+Current inherited locations:
 
-- **Typescript**: Always use `type` not `interface`
-- **Imports**: Use the package-local path alias for imports within the same package, such as `@desktop/...`. Use the workspace package name for cross-package imports, such as `@blinkdisk/utils/...`.
-- **Comments**: Only write comments if the code is not self-explanatory
+| Location | Responsibility |
+| --- | --- |
+| `apps/desktop` | React screens, presentation state, TanStack queries/forms/router. |
+| `apps/electron` | Main/preload, validated IPC, native dialogs, process supervision, secrets, persistence, restore coordination, updates. |
+| `apps/core` | Pinned Go backup engine: repository format, encryption, snapshots, policies, retention and storage adapters. |
+| `libs/schemas` | Shared runtime-validated contracts and domain types. |
+| `libs/ui`, `libs/components`, `libs/forms` | Reusable UI and form behavior. |
+| `libs/styles`, `libs/assets`, `locales/en` | Tokens, fonts/assets and translated copy. |
+| `docs/verification` | Reproducible acceptance evidence introduced during implementation. |
+
+- Keep filesystem, secrets, arbitrary process execution and engine credentials out of renderer code.
+- Expose narrow named preload methods; validate IPC payloads and sender/context in main. Do not expand generic arbitrary-key or arbitrary-command bridges.
+- Keep the engine loopback-only, authenticated and supervised. Treat engine version/API changes as integration changes.
+- Keep the engine authoritative for backup state and scheduling. Avoid a second scheduler or policy engine in React.
+- Use existing file-backed persistence initially. Extract cloud database/API type dependencies into shared contracts; do not add a desktop PostgreSQL requirement.
+- Preserve supported policy fields that the current editor does not display. Distinguish omitted, inherited, false, zero and empty values.
+
+## Backup and restore correctness
+
+- Use disposable fixtures and isolated destinations for development/integration tests, never the developer's real backup repositories.
+- Distinguish creating a repository from connecting to one. Discovery must not initialize over existing data or trigger format upgrades/maintenance.
+- A successful operation must represent a confirmed terminal outcome. Partial, canceled, unavailable and failed states are not success.
+- Retain keep-both versus overwrite semantics explicitly; validate destination containment and symlink/junction behavior in native code boundaries.
+- Never delete original source files through backup-management actions. Clearly distinguish disconnecting a vault from deleting stored snapshots.
+- Preserve pinned snapshots and verify retention/cleanup behavior after policy changes.
+- Test interrupted operations and restart/reconnect behavior when modifying job lifecycle, persistence or engine supervision.
+- Do not invent repository encryption or chunking. Setup-export encryption is a separate versioned, authenticated format using maintained primitives.
+- Persist secrets only through a working OS-protected mechanism; otherwise use session-only values. No silent plaintext fallback.
+- Redact credentials/tokens/passwords from logs/errors. Redact personal paths and identifiers from exported diagnostics by default.
+- Preserve TLS and host-key verification defaults. Per-provider insecure settings are explicit connection options.
+
+## Code conventions
+
+- Follow STYLE.md and the surrounding implementation. Retain the existing workspace layout and tools.
+- TypeScript strict mode; runtime validation at external boundaries; no unchecked `any` or broad type assertions to silence contract mismatches.
+- Existing `Z...` Zod schema names and inferred `Z...Type` types may be retained for merge consistency.
+- Kebab-case source filenames; PascalCase React components/types; camelCase functions/hooks; named exports by default. Keep framework-required export forms.
+- Use package exports for cross-package imports. App-local aliases must not cross into another app's private internals.
+- Keep UI copy in locale files and visual decisions in shared semantic tokens.
+- Do not manually edit generated route trees, generated worker types, compiled assets or dependency lockfile internals.
+- Keep native path handling platform-aware; do not concatenate Windows/Unix separators in shared logic.
+- Use bounded/cancelable asynchronous work and clear error types. Do not turn errors into empty success results.
+- Avoid unrelated formatting sweeps, framework migrations and broad dependency updates during parity work.
+
+## Commands and verification
+
+Use Node 24.14.0, pnpm 11.7.0 and Go 1.25.5 as documented in DEVELOPMENT.md. The root defaults are desktop-scoped; package-level Electron packaging commands do not build their inputs. Install once after manifest changes before running concurrent checks, because pnpm 11 can otherwise race automatic installation on Windows.
+
+| Command | Current use |
+| --- | --- |
+| `pnpm install --frozen-lockfile` | Reproduce the pinned workspace. |
+| `pnpm lint:ci` | Check formatting/lint without rewriting files. |
+| `pnpm types` | Desktop/Electron/library type checking (`types:desktop`). |
+| `pnpm test` | Electron/desktop/schema/utility Vitest suites (`test:desktop`); scope to affected packages during normal development. |
+| `pnpm unused` | Dependency/export checks after extraction or package changes. |
+| `pnpm dev:desktop` | Renderer + main/compiler; builds the pinned engine, started on demand. No hosted service requirements for the local path. |
+| `pnpm build:core` | Build the pinned native engine into expected resource paths; validates checkout against gitlink. |
+| `pnpm build:desktop` | Core + renderer/main/preload and copied frontend. |
+| `pnpm smoke:desktop` | Built-app onboarding/IPC/engine probe using temporary settings and an empty destination. |
+| `pnpm smoke:desktop --dev` | Exercise the actual development wrapper and its process cleanup. |
+| `pnpm build:windows` | Desktop/core/resources plus NSIS packaging; publishing disabled. |
+| `pnpm smoke:windows` | Install/start/probe/quit/uninstall a disposable development artifact; requires a Windows user without existing DiskPond data/install/registration. Records inherited uninstall leftovers and cleans only its fixture. |
+
+Keep this table synchronized with verified commands. `pnpm build` aliases `build:desktop`, not the installer. Core test commands depend on build tags and helper binaries; follow its pinned Makefile and DEVELOPMENT.md. The whole core/provider suite has not been certified by M1.
+
+### Choose checks by impact
+
+- Documentation/copy/token-only edits: review relevant links, wording, rendering and accessibility. Do not add tests that merely mirror static text or styles.
+- UI logic: focused unit/component tests and the affected keyboard/interaction flow.
+- Provider/policy/migration/IPC/crypto changes: focused regression and integration tests, including relevant failures and round-trips.
+- Backup/restore/retention/engine changes: real-engine recovery/hash verification and relevant interruption/compatibility fixtures.
+- Packaging/update/platform changes: installed-artifact checks on the affected OS/architecture.
+
+Run the required checks once the implementation is ready. Broaden or repeat when new changes, failures or unresolved concerns justify it. CI/provider credentials/hardware being unavailable must be reported as a blocker, not as a passing check.
+
+## Completion and handoff
+
+An implementation task is complete when its user-visible behavior, appropriate checks, localization, error/empty states and required evidence are present. Update ROADMAP.md only when its gate actually passes.
+
+Summarize: what changed, affected requirement IDs, checks/results, and concrete remaining blockers. Never claim full parity based on the feature list alone. Do not commit, push, tag or publish unless the user requested that action.

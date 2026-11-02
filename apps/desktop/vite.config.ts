@@ -6,7 +6,6 @@ config({
 });
 
 import babel from "@rolldown/plugin-babel";
-import { sentryVitePlugin } from "@sentry/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
 import { TanStackRouterVite as router } from "@tanstack/router-plugin/vite";
@@ -36,7 +35,12 @@ export default defineConfig({
     // Set to hidden to reduce bundle size
     sourcemap: "hidden",
   },
-  server: { port: 3002 },
+  server: { host: "127.0.0.1", port: 3002, strictPort: true },
+  define: {
+    "process.env.POSTHOG_KEY": JSON.stringify(""),
+    "process.env.SENTRY_DESKTOP_DSN": JSON.stringify(""),
+    "process.env.LOGSNAG_PUBLIC_KEY": JSON.stringify(""),
+  },
   plugins: [
     devtools({
       eventBusConfig: {
@@ -51,30 +55,14 @@ export default defineConfig({
     tailwindcss(),
     env(
       {
-        API_URL: undefined,
-        WEB_URL: undefined,
-        MARKETING_URL: undefined,
-        POSTHOG_KEY: null,
-        SENTRY_DESKTOP_DSN: null,
-        LOGSNAG_PUBLIC_KEY: null,
+        API_URL: "http://127.0.0.1:4000",
+        WEB_URL: "http://127.0.0.1:3001",
+        MARKETING_URL: "https://github.com/hoxsec/DiskPond",
       },
       {
         loadEnvFiles: false,
       },
     ),
-    sentryVitePlugin({
-      org: process.env.SENTRY_ORGANIZATION,
-      project: process.env.SENTRY_DESKTOP_PROJECT,
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      sourcemaps: {
-        // Remove to reduce bundle size
-        filesToDeleteAfterUpload: [
-          "./**/*.map",
-          ".*/**/public/**/*.map",
-          "./dist/**/client/**/*.map",
-        ],
-      },
-    }),
     copy({
       targets: [
         {

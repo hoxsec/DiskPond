@@ -14,8 +14,12 @@ const config: KnipConfig = {
   },
   workspaces: {
     ".": {
-      entry: ["turbo.json"],
-      project: [],
+      entry: ["turbo.json", "scripts/*.{mjs,cjs}"],
+      project: ["scripts/**/*.{mjs,cjs}"],
+      // Smoke/build runners resolve Electron from apps/electron via createRequire.
+      ignoreDependencies: ["electron"],
+      // Windows process-tree cleanup uses the OS-provided executable.
+      ignoreBinaries: ["taskkill", "reg"],
     },
     "apps/api": {
       project: commonProject,
@@ -31,6 +35,7 @@ const config: KnipConfig = {
       vite: { config: [] },
     },
     "apps/electron": {
+      entry: ["electron.builder.ts"],
       project: commonProject,
       ignoreBinaries: ["ssh-keyscan"],
     },
@@ -77,6 +82,8 @@ const config: KnipConfig = {
     },
   },
   ignoreIssues: {
+    // The OS application ID and URI scheme intentionally share a value.
+    "libs/constants/src/app.ts": ["duplicates"],
     "libs/db/src/schema.ts": ["exports", "types"],
     "apps/marketing/src/components/react/**": ["exports"],
   },

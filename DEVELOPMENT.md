@@ -1,56 +1,117 @@
-# 🛠️ BlinkDisk Development Guide
+# DiskPond development guide
 
-Welcome to the BlinkDisk development guide. This document will help you set up the project locally.
+Updated 2026-11-02. Windows x64 is the locally exercised development target. See [M1 evidence](docs/verification/m1-windows-baseline.md) for results and remaining gates.
 
-### ✅ Prerequisites
+## Toolchain
 
-Ensure the following tools are installed on your system:
+| Tool | Pinned / tested version | Source |
+| --- | --- | --- |
+| Node.js | 24.14.0 | `.nvmrc`; root manifest allows `>=24.14.0` |
+| pnpm | 11.7.0 | Root `packageManager` |
+| Go | 1.25.5 | `apps/core/go.mod`: language 1.25, toolchain go1.25.5 |
+| Electron | 42.11.16 | Workspace catalog and lockfile |
+| TypeScript / Vite / Vitest | 6.0.3 / 8.1.6 / 4.1.12 | Workspace catalog and lockfile |
 
-- **Node.js** `v22.14.0`
-- **pnpm** `v8.15.7`
-- **Go** `v1.22.2`
-- **PostgreSQL** `v17.4` (available via docker-compose)
-- **GNU Make** `v4.3`
+Install Git with submodule support, Node and Go; make `git`, `node`, `pnpm` and `go` available on PATH. The desktop commands use Node for file operations and process supervision. PostgreSQL, Docker, GNU Make, hosted-service credentials and a `.env` file are unnecessary for this development path.
 
-### 🚀 Steps
+With Corepack available:
 
-1. **Clone the repository**
+```powershell
+corepack prepare pnpm@11.7.0 --activate
+corepack enable pnpm
+node --version
+pnpm --version
+go version
+```
 
-   ```bash
-   git clone https://github.com/blinkdisk/blinkdisk.git
-   cd blinkdisk
-   ```
+If the Node installation directory is not writable, install the Corepack shims into a user-owned directory and add it to PATH. A `pnpm` executable must be discoverable by nested package scripts; running only `corepack pnpm` without a shim is insufficient for some inherited commands. `GO_BINARY` may specify an absolute Go executable path for the core wrapper.
 
-2. **Initialize submodules**
+## Prepare the checkout
 
-   ```bash
-   git submodule update --init
-   ```
+Use the M1 integration branch; `main` is not yet the desktop implementation branch:
 
-3. **Install dependencies**
+```powershell
+git clone --branch integrate/blinkdisk-baseline https://github.com/hoxsec/DiskPond.git
+cd DiskPond
+git submodule update --init --checkout apps/core
+git -C apps/core rev-parse HEAD
+pnpm install --frozen-lockfile
+```
 
-   ```bash
-   pnpm install
-   ```
+The engine revision must be `e8955e7280edd9526b9f104f1592f233cfe6789b`. Do not use `git submodule update --remote` or substitute a globally installed Kopia binary. `pnpm build:core` checks the checkout against the recorded gitlink.
 
-4. **Build the core backend**
+Installation uses the inherited workspace lockfile and approved dependency build scripts. It still installs service-era packages because M2 extraction has not happened. Run installation once after intentional manifest changes, before starting parallel checks: pnpm 11 may auto-install on subsequent commands and concurrent installation can race on Windows shims. Regenerate the lockfile with pnpm rather than editing it manually.
 
-   ```bash
-   cd apps/core
-   make install
-   cd ../..
-   ```
+Electron 42 exposes `install-electron`; its binary is not downloaded by this dependency's ordinary installation script. The dev/preview/smoke runners call it explicitly. To download it separately:
 
-5. **Set up environment variables**
+```powershell
+pnpm --filter @blinkdisk/electron exec install-electron
+```
 
-   ```bash
-   cp .env.template .env
-   ```
+First setup/build needs network access for package/Go modules, Electron and packager tools. Normal desktop startup needs no API or database service.
 
-   Modify `.env` with your local configuration if needed.
+## Commands from the repository root
 
-6. **Run the application**
+| Command | Behavior |
+| --- | --- |
+| `pnpm dev:desktop` | Builds the pinned native core and initial main/preload; starts Vite at `http://127.0.0.1:3002`, the main/preload compiler watcher and Electron. |
+| `pnpm build:core` | Builds the native pinned engine with version/revision metadata and prints `--version`. Windows output: `apps/core/dist/kopia_windows_amd64/kopia.exe`. |
+| `pnpm build:desktop` | Rebuilds core, renderer, copied frontend and production main/preload. Type-checks the Electron package. |
+| `pnpm preview:desktop` | Launches the existing build using `diskpondapp://frontend`; run `build:desktop` first. |
+| `pnpm smoke:desktop` | Exercises the built renderer, preload, local onboarding and engine discovery in temporary app data. |
+| `pnpm smoke:desktop --dev` | Runs that smoke through the actual `dev:desktop` wrapper, including server startup and cleanup. |
+| `pnpm smoke:windows` | Installs the development NSIS artifact into a disposable directory, checks installed startup/engine/resources, quits and uninstalls. Requires a Windows user with no existing DiskPond installation/data/registration. |
+| `pnpm build:windows` | Builds desktop/core, then invokes electron-builder's Windows NSIS target with `--publish never`. Outputs under `apps/electron/dist/`. |
+| `pnpm lint:ci` | Whole imported application lint/format check; excludes generated routes, worker types and the Go submodule. |
+| `pnpm types` / `pnpm types:desktop` | Type-checks desktop, Electron and inherited libraries with a `types` script. API types remain transitively referenced. |
+| `pnpm test` / `pnpm test:desktop` | Existing Electron, renderer, schema and utility Vitest suites. |
+| `pnpm unused` | Whole-workspace dependency/export analysis, including inherited service sources. |
 
-   ```bash
-   pnpm dev
-   ```
+`pnpm dev` and `pnpm build` alias the desktop commands. They no longer launch the upstream hosted stack. Use the root packaging wrapper: the inherited package-level `build:windows` invokes the packager without building its inputs.
+
+Renderer edits use Vite HMR. Main/preload edits recompile; quit and restart the dev command to load them. **Quit** in the tray exits Electron and stops the development servers; closing the window keeps the inherited tray process alive. Ctrl+C stops the runner's process tree on Windows. A busy port 3002 is an error, rather than silently selecting another port.
+
+## Isolated development and smoke checks
+
+On the welcome screen select **Continue without account → Continue anyway**. Do not sign into an upstream account. Repository/recovery exercises use disposable sources and destinations.
+
+The default development data root is `%APPDATA%\diskpond-dev`; packaged builds use `%APPDATA%\diskpond`. For an isolated unpackaged run:
+
+```powershell
+$env:DISKPOND_DATA_DIR = Join-Path $env:TEMP 'diskpond-local-fixture'
+pnpm dev:desktop
+Remove-Item Env:DISKPOND_DATA_DIR
+```
+
+The override must be absolute and is ignored in packaged builds. `DISKPOND_TEST_TMP` optionally sets the parent directory for smoke fixtures; it must already exist. The smoke runner deletes only the temporary directory it created. It blocks and fails on remote renderer HTTP(S) requests, tests actual onboarding buttons and IPC, and asks the engine to discover an empty disposable destination. The pinned discovery call writes `.shards`; see the [recorded compatibility gap](docs/verification/m1-dependencies.md). This smoke does not certify backup recovery or every network path.
+
+Only packaged builds register the public DiskPond URI handler. Development/preview launches preserve any installed registration; Windows built/dev smoke checks compare its registry state before and after each run. Run the smoke commands sequentially in CI order: built, development, installed.
+
+`.env.template` documents the desktop defaults. The old API/cloud/web values resolve to loopback by default while their source is awaiting M2 extraction. Sentry is disabled and desktop analytics keys are forced empty at build time; SDKs and inherited UI are still present. For a local verification run, leave `.env` absent.
+
+## Windows packaging
+
+`pnpm build:windows` is a development packaging command, with local version `0.0.0` when no release tag is supplied. Expected output is `apps/electron/dist/DiskPond-Windows.exe` plus `win-unpacked/`. It packages the engine, both project license texts and provenance record. GitHub publishing is disabled by the wrapper.
+
+Signing remains a release task. The inherited optional `CERTUM_*` signing environment variables are retained; the M1 check uses no certificate. Installer identity/feed metadata belongs to `hoxsec/DiskPond`. Inherited visual assets and some UI text still show BlinkDisk, so these builds are internal integration artifacts.
+
+After building, `pnpm smoke:windows` exercises the installed `0.0.0` development artifact on a fresh test user/runner. It temporarily registers the DiskPond installer/URI/startup entry, checks the installed executable via loopback debug connections, and cleans its marked data/install fixtures. The inherited uninstaller leaves app-created startup/URI entries; the harness records that gap and removes only entries pointing to its own fixture. The command refuses to replace an existing DiskPond installation or data directory.
+
+The local Windows 11 installed-startup check passes. Fresh-OS Windows 10/11 certification, upgrades, complete uninstall behavior, update preferences, signing and full notice/assets review remain M5 gates. macOS universal/lipo packaging and the Linux architecture/format matrix are M6; the native-core path mappings alone do not certify them.
+
+## Core tests
+
+M1 builds the unchanged pinned engine and probes it through Electron. It does not claim the entire core suite passed. Follow `apps/core/Makefile` before running broader suites: the `testing` build tag and `TESTING_ACTION_EXE` helper are required for relevant tests; provider suites also need their specific services/helpers.
+
+The native Windows equivalent of the helper setup and default unit-test selection is shown below as an **unverified broader-suite recipe**, not an M1 passing result:
+
+```powershell
+Push-Location apps/core
+go build -tags testing -o dist/testing_windows_amd64/testingaction.exe ./tests/testingaction
+$env:TESTING_ACTION_EXE = Join-Path (Get-Location) 'dist/testing_windows_amd64/testingaction.exe'
+go test -tags testing -count=1 -timeout 1200s -skip '^TestIndexBlobManagerStress$' ./...
+Remove-Item Env:TESTING_ACTION_EXE
+Pop-Location
+```
+
+Race-enabled runs need a working C toolchain; live providers, mount helpers and OS-specific integrations have separate prerequisites. For engine or recovery changes, use the requirement-specific real-repository checks in PLAN.md, not just mocked Vitest results.
