@@ -40,6 +40,12 @@ pnpm install --frozen-lockfile
 
 The engine gitlink is `aad67c688a05ce119859d49ca51bdf67787f0b99`, published on the owner-approved `hoxsec/diskpond-core` fork's `main`. The original upstream baseline remains recorded in [provenance](UPSTREAM.md). Do not use `git submodule update --remote` or substitute a globally installed Kopia binary. `pnpm build:core` checks the checkout against the recorded gitlink and marks modified core source with a `-dirty` build revision. The application starts core with `--managed-storage`, which the original baseline binary does not implement; build the pinned core.
 
+The discovery compatibility fixture also builds the original baseline. In shallow checkouts, fetch that exact object before `pnpm smoke:discovery`, as CI does; this leaves the candidate checkout and gitlink unchanged:
+
+```powershell
+git -C apps/core fetch --no-tags --depth=1 origin e8955e7280edd9526b9f104f1592f233cfe6789b
+```
+
 Installation uses the pinned workspace lockfile and approved dependency build scripts. Retained hosted-service source packages still install their own dependencies; the desktop no longer imports their API/database contracts. Run installation once after intentional manifest changes, before starting parallel checks: pnpm 11 may auto-install on subsequent commands and concurrent installation can race on Windows shims. Regenerate the lockfile with pnpm rather than editing it manually.
 
 Electron 42 exposes `install-electron`; its binary is not downloaded by this dependency's ordinary installation script. The dev/preview/smoke runners call it explicitly. To download it separately:
