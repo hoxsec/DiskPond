@@ -1,0 +1,113 @@
+import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from "@blinkdisk/ui/field";
+import { cn } from "@blinkdisk/utils/class";
+import { useMemo } from "react";
+
+export type DynamicFieldProps = {
+  title?: string | React.ReactNode;
+  description?: string | React.ReactNode;
+  name?: string;
+  children?: React.ReactNode;
+  errors?: {
+    format?: string;
+    origin?: string;
+    type?: string;
+    validation?: string;
+    code?: string;
+    path?: string;
+    message?: string;
+    translated?: boolean;
+  }[];
+  end?: React.ReactNode;
+  required?: boolean;
+  labelClassName?: string;
+  containerClassName?: string;
+  innerClassName?: string;
+};
+
+export function DynamicField({
+  errors,
+  children,
+  description,
+  end,
+  innerClassName,
+  containerClassName,
+  title,
+  name,
+  required,
+  labelClassName,
+}: DynamicFieldProps) {
+  const { t } = useAppTranslation("validation");
+
+  const errorMessages = useMemo(() => {
+    return errors?.flat().map(({ translated, ...error }) =>
+      !translated && error.code
+        ? t(
+            error.code === "custom"
+              ? `custom_${error.message}`
+              : `validation:${error.format || error.origin ? `${error.format || error.origin}_` : ""}${error.code}`,
+            {
+              ...error,
+              field:
+                title && typeof title === "string"
+                  ? title
+                  : name || error.path || "",
+            },
+          )
+        : error.message,
+    );
+  }, [errors, name, t, title]);
+
+  return (
+    <Field className={containerClassName}>
+      <div className={cn("flex flex-col gap-1", innerClassName)}>
+        <div className="flex flex-col">
+          {end ? (
+            <div className="flex items-end">
+              <Label
+                title={title}
+                name={name}
+                required={required}
+                labelClassName={labelClassName}
+              />
+              {end}
+            </div>
+          ) : (
+            <Label
+              title={title}
+              name={name}
+              required={required}
+              labelClassName={labelClassName}
+            />
+          )}
+          {description && (
+            <FieldDescription className="mb-1">{description}</FieldDescription>
+          )}
+        </div>
+        {children}
+      </div>
+      {errorMessages?.length ? (
+        <FieldError errors={errorMessages.map((message) => ({ message }))} />
+      ) : null}
+    </Field>
+  );
+}
+
+function Label({
+  name,
+  title,
+  required,
+  labelClassName,
+}: Pick<DynamicFieldProps, "name" | "title" | "required" | "labelClassName">) {
+  return (
+    <FieldLabel htmlFor={name} className={labelClassName}>
+      {title}
+      {required ? <span className="text-primary ml-1">*</span> : null}
+    </FieldLabel>
+  );
+}

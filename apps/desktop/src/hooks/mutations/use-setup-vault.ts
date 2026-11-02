@@ -1,0 +1,172 @@
+import { getStorageProvider } from "@blinkdisk/constants/providers";
+import type { ProviderConfig } from "@blinkdisk/schemas/providers";
+import { CustomError } from "@blinkdisk/utils/error";
+import { showErrorToast } from "@blinkdisk/utils/error-toast";
+import { generateId } from "@blinkdisk/utils/id";
+import { removeEmptyStrings } from "@blinkdisk/utils/object";
+import { tryCatch } from "@blinkdisk/utils/try-catch";
+import type { SetupStep } from "@desktop/components/vaults/setup";
+import type { VaultItem } from "@desktop/hooks/queries/use-vault";
+import { useAccountId } from "@desktop/hooks/use-account-id";
+import { useQueryKey } from "@desktop/hooks/use-query-key";
+import { getConfigCollection } from "@desktop/lib/db";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+export function useSetupVault({
+  onSuccess,
+  setStep,
+  setInitialConfig,
+}: {
+  onSuccess?: () => void;
+  setStep: (to: SetupStep) => void;
+  setInitialConfig: (to: ProviderConfig) => void;
+}) {
+  const queryClient = useQueryClient();
+
+  const { queryKeys } = useQueryKey();
+  const { accountId } = useAccountId();
+
+  return useMutation({
+    mutationKey: ["vault", "setup"],
+    mutationFn: async (values: {
+      vault: VaultItem;
+      password: string;
+      config: ProviderConfig | null;
+    }) => {
+      let config = values.config;
+
+      const provider = getStorageProvider(values.vault.provider);
+
+      if (!provider || provider.type === "CLOUDBLINK")
+        throw new Error("Invalid provider");
+
+      if (!config) {
+        const configs = getConfigCollection(accountId).find().fetch();
+
+        // Pick the newest config for the vault
+        const encryptedConfig = configs
+          .sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+          )
+          .find((config) => config.vaultId === values.vault.id);
+
+        // This shouldn't happen in theory
+        if (!encryptedConfig) return setStep("CONFIG");
+        if (!values.password) throw new CustomError("MISSING_REQUIRED_VALUE");
+
+        const [decryptedConfig, err] = await tryCatch(
+          window.electron.vault.config.decrypt({
+            password: values.password,
+            encrypted: encryptedConfig.data,
+          }) as Promise<ProviderConfig>,
+        );
+
+        // Very likely the password is incorrect
+        if (err) {
+          setStep("PASSWORD");
+          throw new CustomError("INVALID_PASSWORD");
+        }
+
+        if (values.vault.configLevel === "VAULT") config = decryptedConfig;
+        else {
+          setInitialConfig(decryptedConfig);
+          return setStep("CONFIG");
+        }
+      }
+
+      // This shouldn't happen in theory
+      if (!config) return setStep("CONFIG");
+
+      const validateRes = await window.electron.vault.validate({
+        type: provider.type,
+        version: values.vault.version,
+        password: values.password,
+        config,
+      });
+
+      if (validateRes.code || validateRes.error) {
+        if (validateRes.code === "INVALID_PASSWORD") {
+          setStep("PASSWORD");
+          throw new CustomError("INVALID_PASSWORD");
+        }
+
+        setStep("CONFIG");
+        throw new Error(validateRes.error?.toString());
+      }
+
+      const storedId = atob(validateRes.uniqueID || "");
+      if (storedId !== values.vault.coreId) {
+        setStep("CONFIG");
+        throw new CustomError("INCORRECT_VAULT");
+      }
+
+      const connectRes = await window.electron.vault.connect({
+        id: values.vault.id,
+        name: values.vault.name,
+        provider: provider.type,
+        version: values.vault.version,
+        password: values.password,
+        config,
+      });
+
+      if (connectRes.code || connectRes.error) {
+        if (connectRes.code === "INVALID_PASSWORD") {
+          setStep("PASSWORD");
+          throw new CustomError("INVALID_PASSWORD");
+        }
+
+        throw new Error(connectRes.error?.toString());
+      }
+
+      await window.electron.vault.password.set({
+        vaultId: values.vault.id,
+        password: values.password,
+      });
+
+      const userName = window.electron.os.userName(values.vault.id);
+      const hostName = window.electron.os.hostName(values.vault.id);
+
+      const data = await window.electron.vault.config.encrypt({
+        password: values.password,
+        config: removeEmptyStrings(config),
+      });
+
+      const existing = getConfigCollection(accountId).findOne({
+        vaultId: values.vault.id,
+        level: "PROFILE",
+        userName,
+        hostName,
+      });
+
+      if (existing) {
+        getConfigCollection(accountId).updateOne(
+          { id: existing.id },
+          {
+            $set: {
+              data,
+            },
+          },
+        );
+      } else {
+        getConfigCollection(accountId).insert({
+          id: generateId("Config"),
+          data,
+          level: "PROFILE",
+          vaultId: values.vault.id,
+          userName,
+          hostName,
+          createdAt: new Date().toISOString(),
+        });
+      }
+    },
+    onError: showErrorToast,
+    onSuccess: async (_, values) => {
+      await queryClient.invalidateQueries({
+        queryKey: queryKeys.vault.status(values.vault.id),
+      });
+
+      onSuccess?.();
+    },
+  });
+}

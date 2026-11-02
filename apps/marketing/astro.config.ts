@@ -1,0 +1,202 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import cloudflare from "@astrojs/cloudflare";
+import { unified } from "@astrojs/markdown-remark";
+import mdx from "@astrojs/mdx";
+import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
+import { getComparisonSitemap } from "@blinkdisk/constants/comparison";
+import sentry from "@sentry/astro";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig, envField } from "astro/config";
+import mermaid from "astro-mermaid";
+import { viteStaticCopy as copy } from "vite-plugin-static-copy";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const site = "https://blinkdisk.com";
+
+export default defineConfig({
+  site,
+  output: "static",
+  prefetch: true,
+  trailingSlash: "never",
+  markdown: {
+    processor: unified({}),
+    shikiConfig: {
+      themes: {
+        light: "github-light",
+        dark: "github-dark",
+      },
+    },
+  },
+  server: { port: 3000 },
+  adapter: cloudflare({
+    imageService: "compile",
+    // Open Graph image generation uses native sharp during prerendering.
+    prerenderEnvironment: "node",
+  }),
+  redirects: {
+    "/finder": {
+      status: 301,
+      destination: "/tool/backup-tool-finder",
+    },
+    "/code": {
+      status: 301,
+      destination: "/tool/code",
+    },
+    "/pricing": {
+      status: 302,
+      destination: "/",
+    },
+  },
+  integrations: [
+    mermaid({
+      theme: "base",
+      autoTheme: false,
+      mermaidConfig: {
+        themeVariables: {
+          fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif",
+          fontSize: "20px",
+          clusterLabelFontSize: "25px",
+          primaryColor: "#2d2d32",
+          primaryTextColor: "#fafafa",
+          primaryBorderColor: "#3f3f46",
+          secondaryColor: "#2d2d32",
+          secondaryTextColor: "#fafafa",
+          secondaryBorderColor: "#3f3f46",
+          tertiaryColor: "#27272a",
+          tertiaryTextColor: "#fafafa",
+          tertiaryBorderColor: "#3f3f46",
+          lineColor: "#a1a1aa",
+          textColor: "#e4e4e7",
+          mainBkg: "#2d2d32",
+          nodeBorder: "#3f3f46",
+          clusterBkg: "#18181b",
+          clusterBorder: "#3f3f46",
+          titleColor: "#fafafa",
+          edgeLabelBackground: "#27272a",
+          nodeTextColor: "#fafafa",
+        },
+        flowchart: {
+          htmlLabels: true,
+          curve: "basis",
+          nodeSpacing: 50,
+          rankSpacing: 50,
+          padding: 20,
+          useMaxWidth: true,
+          subGraphTitleMargin: { top: 10, bottom: 10 },
+          wrappingWidth: 200,
+        },
+      },
+    }),
+    mdx(),
+    react(),
+    sitemap({
+      customPages: [...getComparisonSitemap(site), `${site}/blog`],
+      customSitemaps: [`${site}/blog/sitemap.xml`],
+    }),
+    sentry({
+      // The Worker entrypoint initializes server monitoring with @sentry/cloudflare.
+      enabled: { client: true, server: false },
+      project: process.env.SENTRY_MARKETING_PROJECT,
+      org: process.env.SENTRY_ORGANIZATION,
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      sourcemaps: {
+        filesToDeleteAfterUpload: [
+          "./**/*.map",
+          ".*/**/public/**/*.map",
+          "./dist/**/client/**/*.map",
+        ],
+      },
+    }),
+  ],
+  env: {
+    schema: {
+      DIRECTUS_URL: envField.string({
+        context: "server",
+        access: "secret",
+        optional: true,
+      }),
+      DIRECTUS_TOKEN: envField.string({
+        context: "server",
+        access: "secret",
+        optional: true,
+      }),
+      BLOG_PREVIEW_SECRET: envField.string({
+        context: "server",
+        access: "secret",
+        optional: true,
+      }),
+      MARKETING_URL: envField.string({
+        context: "server",
+        access: "public",
+        optional: true,
+      }),
+      LOGSNAG_PUBLIC_KEY: envField.string({
+        context: "client",
+        access: "public",
+        optional: true,
+      }),
+      POSTHOG_KEY: envField.string({
+        context: "server",
+        access: "public",
+        optional: true,
+      }),
+      POSTHOG_HOST: envField.string({
+        context: "server",
+        access: "public",
+        optional: true,
+      }),
+      ENDORSELY_PUBLIC_KEY: envField.string({
+        context: "server",
+        access: "public",
+        optional: true,
+      }),
+      CRISP_KEY: envField.string({
+        context: "server",
+        access: "public",
+        optional: true,
+      }),
+      SENTRY_MARKETING_DSN: envField.string({
+        context: "client",
+        access: "public",
+        optional: true,
+      }),
+    },
+  },
+  vite: {
+    build: {
+      target: "esnext",
+      sourcemap: "hidden",
+    },
+    plugins: [
+      tailwindcss(),
+      copy({
+        targets: [
+          {
+            src: ["../../libs/assets/favicon/"],
+            dest: "favicon",
+            rename: { stripBase: true },
+          },
+        ],
+      }),
+    ],
+    resolve: {
+      dedupe: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "react/jsx-dev-runtime",
+      ],
+      alias: {
+        "@marketing": path.resolve(__dirname, "./src"),
+        "@ui": path.resolve(__dirname, "../../libs/ui/src"),
+        "@utils": path.resolve(__dirname, "../../libs/utils/src"),
+        "@hooks": path.resolve(__dirname, "../../libs/hooks/src"),
+        "@styles": path.resolve(__dirname, "../../libs/styles"),
+        "@config": path.resolve(__dirname, "../../libs/config/src"),
+      },
+    },
+  },
+});

@@ -1,0 +1,40 @@
+---
+import { Image } from "astro:assets";
+
+type Props = {
+  title: string;
+  description: string;
+  publicationDate: Date;
+  author: string;
+  image: {
+    src: string;
+    alt: string;
+  };
+  slug: string;
+};
+
+const { title, description, publicationDate, image, slug } = Astro.props;
+
+const formattedDate = publicationDate.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<a href={`/blog/${slug}`} class="group flex flex-col" data-astro-prefetch>
+  <div class="aspect-video overflow-hidden rounded-xl">
+    <Image
+      src={image.src}
+      alt={image.alt}
+      width={1200}
+      height={630}
+      class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+    />
+  </div>
+  <div class="flex flex-1 flex-col pt-4">
+    <span class="text-foreground/50 mb-2 text-sm">{formattedDate}</span>
+    <h3 class="text-foreground mb-2 text-xl font-semibold">{title}</h3>
+    <p class="text-foreground/70 line-clamp-3">{description}</p>
+  </div>
+</a>

@@ -1,0 +1,27 @@
+import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@blinkdisk/ui/tooltip";
+import { useLocalProfile } from "@desktop/hooks/use-local-profile";
+import { LockIcon } from "lucide-react";
+
+type RemoteTooltipProps = {
+  children: React.ReactNode;
+};
+
+export function RemoteTooltip({ children }: RemoteTooltipProps) {
+  const { t } = useAppTranslation("vault.remoteTooltip");
+  const { remote } = useLocalProfile();
+
+  if (!remote) return children;
+  return (
+    <Tooltip>
+      <TooltipContent className="max-w-55 flex-col items-start rounded-lg p-4">
+        <div className="flex items-center gap-1">
+          <LockIcon className="mr-1 size-4" />
+          <p className="text-sm font-medium">{t("title")}</p>
+        </div>
+        <p className="text-muted-foreground mt-1 text-xs">{t("description")}</p>
+      </TooltipContent>
+      <TooltipTrigger render={<span />}>{children}</TooltipTrigger>
+    </Tooltip>
+  );
+}

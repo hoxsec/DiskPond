@@ -1,0 +1,27 @@
+---
+type Props = {
+  class?: string;
+};
+
+const { class: className } = Astro.props;
+---
+
+<aside
+  class:list={[
+    "not-prose border-primary/20 from-primary/5 to-accent/5 relative mb-8 overflow-hidden rounded-xl border bg-gradient-to-br",
+    className,
+  ]}
+>
+  <div
+    class="from-primary to-accent absolute left-0 top-0 h-full w-1 bg-gradient-to-b"
+  >
+  </div>
+  <div class="px-6 pb-5 pt-3">
+    <span class="text-primary text-xs font-bold uppercase tracking-widest">
+      Summary
+    </span>
+    <div class="text-foreground/80 mt-2 text-[0.95rem] leading-relaxed">
+      <slot />
+    </div>
+  </div>
+</aside>

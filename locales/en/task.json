@@ -1,0 +1,25 @@
+{
+  "dialog": {
+    "title": {
+      "loading": "Loading...",
+      "fallback": "Task"
+    },
+    "description": {
+      "loading": "Loading task details..."
+    },
+    "logs": {
+      "waiting": "Waiting for logs...",
+      "empty": "No logs available",
+      "unavailable": "Task logs couldn’t be loaded. Older tasks expire, and task history is cleared when DiskPond restarts."
+    },
+    "close": "Close",
+    "cancel": "Cancel Task",
+    "status": {
+      "RUNNING": "Running",
+      "CANCELING": "Canceling",
+      "CANCELED": "Canceled",
+      "SUCCESS": "Success",
+      "FAILED": "Failed"
+    }
+  }
+}

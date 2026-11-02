@@ -1,0 +1,93 @@
+{
+  "list": {
+    "back": "Go back",
+    "settings": {
+      "folder": "Folder policy",
+      "file": "File policy"
+    },
+    "item": {
+      "files_one": "{{formatted}} file",
+      "files_other": "{{formatted}} files",
+      "dropdown": {
+        "browse": "Browse files",
+        "restoreFile": "Restore file",
+        "rename": "Rename backup",
+        "pin": "Pin backup",
+        "delete": "Delete backup"
+      }
+    },
+    "pending": {
+      "title": "New backup is pending",
+      "description": "Another backup is currently running. "
+    },
+    "paused": {
+      "title": "Resume paused backup",
+      "description": "You have paused a backup that isn't finished it yet.",
+      "button": "Resume backup"
+    },
+    "empty": {
+      "default": {
+        "title": "No backups yet",
+        "description": "You haven't created any backups yet. Create one by pressing the button below.",
+        "button": "Backup now"
+      },
+      "pending": {
+        "title": "Backup pending",
+        "description": "Another backup is currently running. This backup is in the queue."
+      },
+      "initial": {
+        "title": "Running initial backup",
+        "description": "This is the initial backup, so it may take a while. DiskPond uploads changed files in subsequent backups."
+      },
+      "canceling": {
+        "title": "Canceling backup",
+        "description": "This backup is currently being canceled. The cancelation can take a while."
+      }
+    },
+    "cancel": "Cancel backup",
+    "backup": {
+      "folder": "Backup folder",
+      "file": "Backup file"
+    }
+  },
+  "progress": {
+    "title": {
+      "default": "{{percentage}} complete",
+      "fallback": "Backing up..."
+    },
+    "description": {
+      "total": "{{completed}} / {{total}}",
+      "fallback": "{{completed}} processed"
+    }
+  },
+  "renameDialog": {
+    "title": "Rename backup",
+    "description": "Give this backup a custom name to find it more easily.",
+    "label": "Name",
+    "placeholder": "My backup",
+    "continue": "Rename backup"
+  },
+  "deleteDialog": {
+    "title": "Delete backup",
+    "description": "Are you sure you want to delete this backup? This action cannot be undone.",
+    "alert": {
+      "title": "Cleanup happens over time",
+      "description": "Storage space won’t be freed instantly. DiskPond cleans up unused data later to ensure reliability."
+    },
+    "cancel": "Cancel",
+    "continue": "Delete backup"
+  },
+  "pinDialog": {
+    "title": "Pin backup",
+    "description": "Manage pins for this backup.",
+    "alert": {
+      "title": "What are pins?",
+      "description": "When a backup has a pin, it won't be removed even if it falls outside your retention policy."
+    },
+    "label": "New pin",
+    "placeholder": "e.g. \"keep\"",
+    "add": "Add",
+    "duplicate": "This pin is already added.",
+    "save": "Save"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "stream",
+  "envMode": "loose",
+  "globalEnv": [
+    "NODE_ENV",
+    "DATABASE_URL",
+    "MARKETING_URL",
+    "DESKTOP_URL",
+    "CLOUD_URL",
+    "WEB_URL",
+    "POSTHOG_KEY",
+    "LOGSNAG_PRIVATE_KEY",
+    "LOGSNAG_PUBLIC_KEY",
+    "ENDORSELY_PUBLIC_KEY",
+    "ENDORSELY_PRIVATE_KEY",
+    "ENDORSELY_ORGANIZATION_ID",
+    "POLAR_ENVIRONMENT",
+    "POLAR_TOKEN",
+    "CRON_SECRET",
+    "API_URL",
+    "CRON_SECRET",
+    "DEV",
+    "PROD",
+    "CRISP_KEY",
+    "EMAIL_PROVIDER",
+    "EMAIL_DOMAIN",
+    "SMTP_URL",
+    "PLUNK_URL",
+    "PLUNK_SECRET_KEY",
+    "GITHUB_TOKEN",
+    "GITHUB_REF_NAME",
+    "LOGSNAG_KEY",
+    "POSTHOG_HOST",
+    "SENTRY_AUTH_TOKEN",
+    "SENTRY_ORGANIZATION",
+    "SENTRY_MARKETING_PROJECT",
+    "SENTRY_MARKETING_DSN",
+    "SENTRY_DESKTOP_PROJECT",
+    "SENTRY_DESKTOP_DSN",
+    "SENTRY_API_PROJECT",
+    "SENTRY_API_DSN",
+    "SENTRY_CLOUD_PROJECT",
+    "SENTRY_CLOUD_DSN",
+    "SENTRY_WEB_PROJECT",
+    "SENTRY_WEB_DSN"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "types": {
+      "dependsOn": ["^types"]
+    },
+    "env:update": {
+      "dependsOn": ["^env:update"]
+    },
+    "test": {
+      "dependsOn": ["^test"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

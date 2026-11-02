@@ -1,0 +1,18 @@
+{
+  "welcome": {
+    "title": "Your backups. Your storage.",
+    "description": "Keep encrypted, versioned backups on a drive, a network location, or storage you provide.",
+    "open": "Open DiskPond",
+    "local": "Settings stay on this computer. No account needed."
+  },
+  "settings": {
+    "title": "Settings",
+    "about": {
+      "title": "About",
+      "version": "Version {{version}}",
+      "attribution": "DiskPond is free software derived from BlinkDisk (AGPL-3.0), using its Kopia-based backup engine (Apache-2.0). Source code, license notices and build instructions are available in the project repository.",
+      "source": "Source and licenses",
+      "issues": "Report an issue"
+    }
+  }
+}

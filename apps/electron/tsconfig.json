@@ -1,0 +1,14 @@
+{
+  "extends": "@blinkdisk/typescript/base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ESNext",
+    "jsx": "react-jsx",
+    "sourceMap": false,
+    "types": ["../api/worker-configuration.d.ts", "node", "vitest/globals"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

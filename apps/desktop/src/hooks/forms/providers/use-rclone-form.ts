@@ -1,0 +1,41 @@
+import { useAppForm } from "@blinkdisk/forms/use-app-form";
+import {
+  ZRcloneConfig,
+  type ZRcloneConfigType,
+} from "@blinkdisk/schemas/providers";
+import {
+  useConfigValidation,
+  type VaultAction,
+} from "@desktop/hooks/use-config-validation";
+
+export function useRcloneForm({
+  action,
+  config,
+  onSubmit,
+}: {
+  action: VaultAction;
+  config?: ZRcloneConfigType;
+  onSubmit: (value: ZRcloneConfigType) => void;
+}) {
+  const { onSubmitAsync } = useConfigValidation("RCLONE", action);
+
+  return useAppForm({
+    defaultValues: {
+      remotePath: "",
+      rclonePath: "",
+      ...config,
+    } as ZRcloneConfigType,
+    validators: {
+      onSubmit: ZRcloneConfig,
+      onSubmitAsync,
+    },
+    onSubmit: ({ value }) => {
+      // Filter out empty optional fields
+      const processedValue = {
+        ...value,
+        ...(value.rclonePath && { rclonePath: value.rclonePath }),
+      };
+      onSubmit(processedValue);
+    },
+  });
+}

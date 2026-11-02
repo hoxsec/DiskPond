@@ -1,0 +1,39 @@
+import { useAppForm } from "@blinkdisk/forms/use-app-form";
+import {
+  ZAmazonS3Config,
+  type ZAmazonS3ConfigType,
+} from "@blinkdisk/schemas/providers";
+import {
+  useConfigValidation,
+  type VaultAction,
+} from "@desktop/hooks/use-config-validation";
+
+export function useAmazonS3Form({
+  action,
+  config,
+  onSubmit,
+}: {
+  action: VaultAction;
+  config?: ZAmazonS3ConfigType;
+  onSubmit: (value: ZAmazonS3ConfigType) => void;
+}) {
+  const { onSubmitAsync } = useConfigValidation("AMAZON_S3", action);
+
+  return useAppForm({
+    defaultValues: {
+      endpoint: "https://s3.amazonaws.com",
+      bucket: "",
+      region: "",
+      accessKeyId: "",
+      accessKeySecret: "",
+      sessionToken: "",
+      prefix: "",
+      ...config,
+    } as ZAmazonS3ConfigType,
+    validators: {
+      onSubmit: ZAmazonS3Config,
+      onSubmitAsync,
+    },
+    onSubmit: ({ value }) => onSubmit(value),
+  });
+}

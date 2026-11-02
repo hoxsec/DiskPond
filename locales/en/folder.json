@@ -1,0 +1,156 @@
+{
+  "createDialog": {
+    "title": "Add file/folder",
+    "description": "Choose a file or folder to back up.",
+    "type": {
+      "folder": "Folder",
+      "file": "File"
+    },
+    "name": {
+      "directory": {
+        "label": "Folder name",
+        "placeholder": "Enter folder name"
+      },
+      "file": {
+        "label": "File name",
+        "placeholder": "Enter file name"
+      }
+    },
+    "emoji": {
+      "change": "Change emoji",
+      "clear": "Remove emoji"
+    },
+    "path": {
+      "directory": {
+        "label": "Folder path",
+        "placeholder": "Select folder path",
+        "title": "Select folder path"
+      },
+      "file": {
+        "label": "File path",
+        "placeholder": "Select file path",
+        "title": "Select file path"
+      }
+    },
+    "submit": {
+      "directory": "Add folder",
+      "file": "Add file"
+    },
+    "changePolicy": "Change policy",
+    "size": {
+      "title": "Calculate size",
+      "description": "Estimate the size of this file or folder.",
+      "button": "Calculate",
+      "error": "Failed to estimate size",
+      "included": "Included files:",
+      "excluded": "Excluded files:"
+    }
+  },
+  "emojiPicker": {
+    "search": "Search emoji...",
+    "empty": "No emoji found."
+  },
+  "dropzone": {
+    "title": "Drop file/folder to add",
+    "description": "Drop a file or folder to add it to your vault and start backing it up."
+  },
+  "list": {
+    "item": {
+      "stats": "{{fileCount}} files ⸱ {{size}}",
+      "dropdown": {
+        "browse": "Browse backups",
+        "backup": {
+          "folder": "Backup folder",
+          "file": "Backup file"
+        },
+        "cancel": "Cancel backup",
+        "settings": {
+          "folder": "Folder policy",
+          "file": "File policy"
+        },
+        "delete": {
+          "folder": "Delete folder",
+          "file": "Delete file"
+        }
+      }
+    }
+  },
+  "deleteDialog": {
+    "title": {
+      "folder": "Delete folder",
+      "file": "Delete file"
+    },
+    "description": {
+      "folder": "Are you sure you want to delete this folder? This action cannot be undone.",
+      "file": "Are you sure you want to delete this file? This action cannot be undone."
+    },
+    "alert": {
+      "title": "Cleanup happens over time",
+      "description": "Storage space won’t be freed instantly. DiskPond cleans up unused data later to ensure reliability."
+    },
+    "cancel": "Cancel",
+    "continue": {
+      "folder": "Delete folder",
+      "file": "Delete file"
+    }
+  },
+  "backupError": {
+    "label": {
+      "missing": {
+        "folder": "Folder not found",
+        "file": "File not found"
+      },
+      "permission": {
+        "folder": "No access",
+        "file": "No access"
+      },
+      "failed": {
+        "folder": "Backup failed",
+        "file": "Backup failed"
+      },
+      "partial": {
+        "folder": "Some files skipped",
+        "file": "Backup incomplete"
+      }
+    },
+    "description": {
+      "missing": {
+        "folder": "This folder couldn't be found. It may have been moved, renamed, or be on a drive that isn't connected.",
+        "file": "This file couldn't be found. It may have been moved, renamed, or be on a drive that isn't connected."
+      },
+      "permission": {
+        "folder": "DiskPond isn't allowed to read this folder. Check its permissions and try again.",
+        "file": "DiskPond isn't allowed to read this file. Check its permissions and try again."
+      },
+      "failed": {
+        "folder": "The last backup couldn't be completed. Try again, and check the details if it keeps failing.",
+        "file": "The last backup couldn't be completed. Try again, and check the details if it keeps failing."
+      },
+      "partial": {
+        "folder": "The last backup finished, but some files couldn't be read and were skipped.",
+        "file": "The last backup finished, but the file couldn't be read completely."
+      }
+    },
+    "details": "Details",
+    "toast": {
+      "failed": "Backup of “{{name}}” failed",
+      "partial": "Backup of “{{name}}” finished with errors"
+    },
+    "viewDetails": "View details",
+    "dialog": {
+      "error": "Error details",
+      "errors": "Files with errors",
+      "count_one": "{{count}} error",
+      "count_other": "{{count}} errors",
+      "limited": "Showing {{shown}} of {{total}}. Details for the rest weren’t saved with this backup.",
+      "unavailable": "File-level error details weren’t saved with this backup.",
+      "ignored_one": "{{count}} error was ignored according to your backup policy.",
+      "ignored_other": "{{count}} errors were ignored according to your backup policy.",
+      "logs": "Technical logs",
+      "copy": "Copy details",
+      "copied": "Copied",
+      "copyFailed": "Couldn’t copy the details. You can select and copy the text above.",
+      "close": "Done"
+    }
+  }
+}

@@ -1,0 +1,433 @@
+import { chmod, readdir, symlink } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import type { ZRestoreDirectoryType } from "@blinkdisk/schemas/directory";
+import { fileExists } from "@electron/fs";
+import { fetchVault } from "@electron/vault/fetch";
+import { getVault } from "@electron/vault/manage";
+import type { VaultInstance } from "@electron/vault/types";
+import { window } from "@electron/window";
+import { app, dialog } from "electron";
+import pLimit from "p-limit";
+
+type Restore = {
+  id: string;
+  status: "RUNNING" | "COMPLETE";
+  sourceId: string;
+  destination: string;
+  progress: number;
+  files?: number;
+  directories?: number;
+};
+
+const restores: Restore[] = [];
+
+export type RestoreItem = {
+  objectId: string;
+  name: string;
+  type: "FILE" | "SYMLINK" | "DIRECTORY";
+};
+
+export function splitFileName(name: string): {
+  baseName: string;
+  extension: string;
+} {
+  const parts = name.split(".");
+  if (parts.length > 1) {
+    return {
+      baseName: parts.slice(0, -1).join("."),
+      extension: parts.at(-1) || "",
+    };
+  }
+  return { baseName: name, extension: "" };
+}
+
+export function generateDuplicateName(
+  baseName: string,
+  extension: string,
+  counter: number,
+): string {
+  return `${baseName} (${counter})${extension ? `.${extension}` : ""}`;
+}
+
+async function restore(
+  item: RestoreItem,
+  directory: string,
+  vault: VaultInstance,
+  onProgress?: (progress: number) => void,
+) {
+  let path = join(directory, item.name);
+  const pathExists = await fileExists(path);
+
+  if (pathExists) {
+    const { baseName: fileBaseName, extension: fileExtension } = splitFileName(
+      item.name,
+    );
+
+    let counter = 1;
+    while (true) {
+      const newPath = join(
+        directory,
+        generateDuplicateName(fileBaseName, fileExtension, counter++),
+      );
+
+      const exists = await fileExists(newPath);
+      if (!exists) {
+        path = newPath;
+        break;
+      }
+    }
+  }
+
+  if (item.type === "DIRECTORY") {
+    const res = (await fetchVault(vault, {
+      method: "POST",
+      path: `/api/v1/restore`,
+      data: {
+        root: item.objectId,
+        options: {
+          incremental: false,
+          ignoreErrors: true,
+          restoreDirEntryAtDepth: 1000000,
+          minSizeForPlaceholder: 1000000,
+        },
+        fsOutput: {
+          targetPath: path,
+          skipOwners: false,
+          skipPermissions: false,
+          skipTimes: false,
+          ignorePermissionErrors: true,
+          overwriteFiles: false,
+          overwriteDirectories: false,
+          overwriteSymlinks: false,
+          writeFilesAtomically: false,
+          writeSparseFiles: false,
+        },
+      },
+    })) as { id: string };
+
+    let total = 0;
+    if (onProgress) total = await getDirectoryItemCount(vault, item.objectId);
+
+    while (true) {
+      const restore = await getRestoreStatus(vault, res.id);
+
+      if (restore.status !== "RUNNING") {
+        try {
+          // Kopia doesn't set the correct permissions on
+          // the parent folder, so we change it manually.
+          // https://github.com/kopia/kopia/issues/4324
+          await chmod(path, 0o755);
+        } catch (e) {
+          console.warn("Failed to change folder permissions:", e);
+        }
+
+        break;
+      }
+
+      if (onProgress) onProgress(restore.count / total);
+
+      await new Promise((res) => setTimeout(res, 1000));
+    }
+  } else if (item.type === "SYMLINK") {
+    const res = (await fetchVault(vault, {
+      method: "GET",
+      path: `/api/v1/objects/${item.objectId}`,
+      search: {
+        fname: item.name,
+      },
+      raw: true,
+    })) as string;
+
+    if (!res) return;
+    await symlink(res, path);
+  } else {
+    await fetchVault(vault, {
+      method: "GET",
+      path: `/api/v1/objects/${item.objectId}`,
+      search: {
+        fname: item.name,
+      },
+      filePath: path,
+    });
+  }
+}
+
+export async function restoreSingle({
+  item,
+  vaultId,
+  sourceId,
+  dialogTitle,
+}: {
+  item: RestoreItem;
+  vaultId: string;
+  sourceId: string;
+  dialogTitle: string;
+}) {
+  if (!window) throw new Error("WINDOW_NOT_INITIALIZED");
+
+  const vault = getVault(vaultId);
+  if (!vault) throw new Error("VAULT_NOT_FOUND");
+
+  const result = await dialog.showOpenDialog(window, {
+    defaultPath: app.getPath("downloads"),
+    properties: ["openDirectory"],
+    title: dialogTitle,
+  });
+
+  if (result.canceled || !result.filePaths[0]) return false;
+  const destination = result.filePaths[0];
+
+  queueMicrotask(async () => {
+    const restoreId = Math.random().toString(16);
+
+    restores.push({
+      id: restoreId,
+      status: "RUNNING",
+      destination,
+      progress: 0,
+      files: item.type !== "DIRECTORY" ? 1 : 0,
+      directories: item.type === "DIRECTORY" ? 1 : 0,
+      sourceId,
+    });
+
+    await restore(item, destination, vault, (progress) =>
+      updateRestore(restoreId, { progress: progress * 0.9 }),
+    );
+
+    completeRestore(restoreId);
+  });
+
+  return true;
+}
+
+export async function restoreMultiple({
+  vaultId,
+  sourceId,
+  items,
+  dialogTitle,
+}: {
+  vaultId: string;
+  sourceId: string;
+  items: RestoreItem[];
+  dialogTitle: string;
+}) {
+  if (!window) throw new Error("WINDOW_NOT_INITIALIZED");
+
+  const vault = getVault(vaultId);
+  if (!vault) throw new Error("VAULT_NOT_FOUND");
+
+  const result = await dialog.showOpenDialog(window, {
+    title: dialogTitle,
+    defaultPath: app.getPath("downloads"),
+    properties: ["openDirectory"],
+  });
+
+  if (result.canceled || !result.filePaths.length) return false;
+  const directory = result.filePaths[0] || app.getPath("downloads");
+
+  queueMicrotask(async () => {
+    const limit = pLimit(10);
+    const restoreId = Math.random().toString(16);
+
+    restores.push({
+      id: restoreId,
+      status: "RUNNING",
+      destination: directory,
+      files: items.filter((item) => item.type !== "DIRECTORY").length,
+      directories: items.filter((item) => item.type === "DIRECTORY").length,
+      progress: 0,
+      sourceId,
+    });
+
+    const tasks = items.map((item) =>
+      limit(async () => {
+        await restore(item, directory, vault);
+        updateRestore(restoreId, {
+          progress: ((items.length - limit.pendingCount) / items.length) * 0.9,
+        });
+      }),
+    );
+
+    await Promise.all(tasks);
+
+    completeRestore(restoreId);
+  });
+
+  return true;
+}
+
+export async function restoreDirectory({
+  vaultId,
+  sourceId,
+  objectId,
+  options,
+}: {
+  vaultId: string;
+  sourceId: string;
+  objectId: string;
+  options: ZRestoreDirectoryType;
+}) {
+  const vault = getVault(vaultId);
+  if (!vault) throw new Error("VAULT_NOT_FOUND");
+
+  queueMicrotask(async () => {
+    const restoreId = Math.random().toString(16);
+
+    restores.push({
+      id: restoreId,
+      status: "RUNNING",
+      destination:
+        options.type === "UNPACKED"
+          ? options.directoryPath
+          : dirname(options.filePath),
+      files: 0,
+      directories: 1,
+      progress: 0,
+      sourceId,
+    });
+
+    const res = (await fetchVault(vault, {
+      method: "POST",
+      path: `/api/v1/restore`,
+      data: {
+        root: objectId,
+        options: {
+          incremental: false,
+          ignoreErrors: true,
+          restoreDirEntryAtDepth: 1000000,
+          minSizeForPlaceholder: 1000000,
+        },
+        ...(options.type === "ZIP"
+          ? {
+              zipFile: options.filePath,
+              uncompressedZip: !options.compress,
+            }
+          : {
+              fsOutput: {
+                targetPath: options.directoryPath,
+                skipOwners: false,
+                skipPermissions: false,
+                skipTimes: false,
+                ignorePermissionErrors: true,
+                overwriteFiles: true,
+                overwriteDirectories: true,
+                overwriteSymlinks: true,
+                writeFilesAtomically: false,
+                writeSparseFiles: false,
+              },
+            }),
+      },
+    })) as { id: string };
+
+    const total = await getDirectoryItemCount(vault, objectId);
+
+    while (true) {
+      const restore = await getRestoreStatus(vault, res.id);
+
+      if (restore.status !== "RUNNING") {
+        if (options.type === "UNPACKED") {
+          // Kopia doesn't set the correct permissions on
+          // the parent folder, so we change it manually.
+          // https://github.com/kopia/kopia/issues/4324
+          await chmod(options.directoryPath, 0o755);
+
+          const items = await readdir(options.directoryPath, {
+            withFileTypes: true,
+          });
+
+          const directories = items.filter((item) => item.isDirectory());
+
+          for (const directory of directories) {
+            // Kopia doesn't set the correct permissions on
+            // the parent folder, so we change it manually.
+            // https://github.com/kopia/kopia/issues/4324
+            try {
+              await chmod(join(options.directoryPath, directory.name), 0o755);
+            } catch (e) {
+              console.warn("Failed to change folder permissions:", e);
+            }
+          }
+        }
+
+        completeRestore(restoreId);
+        break;
+      }
+
+      updateRestore(restoreId, { progress: (restore.count / total) * 0.9 });
+      await new Promise((res) => setTimeout(res, 1000));
+    }
+  });
+
+  return true;
+}
+
+async function getRestoreStatus(vault: VaultInstance, restoreId: string) {
+  const task = (await fetchVault(vault, {
+    method: "GET",
+    path: `/api/v1/tasks/${restoreId}`,
+  })) as {
+    status: string;
+    counters: {
+      "Ignored Errors": { value: 0 };
+      "Restored Directories": { value: 2924 };
+      "Restored Files": { value: 28481 };
+      "Restored Symlinks": { value: 0 };
+      "Skipped Files": { value: 0 };
+    };
+  };
+
+  const count =
+    (task?.counters?.["Restored Files"]?.value || 0) +
+    (task?.counters?.["Restored Directories"]?.value || 0) +
+    (task?.counters?.["Restored Symlinks"]?.value || 0) +
+    (task?.counters?.["Skipped Files"]?.value || 0);
+
+  return {
+    status: task?.status,
+    count,
+  };
+}
+
+async function getDirectoryItemCount(vault: VaultInstance, objectId: string) {
+  const stats = (await fetchVault(vault, {
+    method: "GET",
+    path: `/api/v1/objects/${objectId}`,
+  })) as {
+    summary: {
+      files: number;
+      symlinks: number;
+      dirs: number;
+    };
+  };
+
+  return (
+    (stats?.summary?.files || 0) +
+    (stats?.summary?.symlinks || 0) +
+    (stats?.summary?.dirs || 0)
+  );
+}
+
+export async function checkEmpty({ directoryPath }: { directoryPath: string }) {
+  const files = await readdir(directoryPath);
+  return files.length === 0;
+}
+
+export async function listRestores({ sourceId }: { sourceId: string }) {
+  return restores.filter((restore) => restore.sourceId === sourceId);
+}
+
+function updateRestore(id: string, update: Partial<Restore>) {
+  const index = restores.findIndex((restore) => restore.id === id);
+  if (index !== -1 && restores[index])
+    restores[index] = { ...restores[index], ...update };
+}
+
+function completeRestore(id: string) {
+  updateRestore(id, { status: "COMPLETE", progress: 1 });
+  setTimeout(() => removeRestore(id), 5000);
+}
+
+function removeRestore(id: string) {
+  const index = restores.findIndex((restore) => restore.id === id);
+  if (index !== -1) restores.splice(index, 1);
+}

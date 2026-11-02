@@ -1,0 +1,14 @@
+import { LANGUAGE_CODES } from "@blinkdisk/constants/language";
+import { z } from "zod";
+
+export const ZAccountEmail = z.email();
+
+export const ZAccountFirstName = z.string().min(1).max(50);
+
+export const ZAccountLastName = z.string().min(1).max(50);
+
+export const ZAccountFullName = z.string().min(3).max(100);
+
+export const ZAccountLanguage = z.enum(LANGUAGE_CODES);
+
+export const ZAccountTimeZone = z.string();

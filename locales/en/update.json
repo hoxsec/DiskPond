@@ -1,0 +1,21 @@
+{
+  "title": "There's a new update!",
+  "description": "A new version of DiskPond is available.",
+  "restart": "Restart",
+  "downloading": "Downloading update...",
+  "error": {
+    "title": "Failed to update automatically",
+    "description": "An error occurred while trying to update. Please download the update manually using the button below."
+  },
+  "dismiss": {
+    "title": "Dismiss update?",
+    "warning": {
+      "title": "Things might break",
+      "description": "You can install the DiskPond update later."
+    },
+    "cancel": "Cancel",
+    "confirm": "Dismiss update"
+  },
+  "manual": "Download manually",
+  "install": "Install & Restart"
+}

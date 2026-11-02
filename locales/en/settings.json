@@ -1,0 +1,88 @@
+{
+  "account": {
+    "preferences": {
+      "title": "Preferences",
+      "theme": {
+        "label": "Theme",
+        "description": "Select your theme preference.",
+        "items": {
+          "light": "Light",
+          "dark": "Dark",
+          "system": "System"
+        }
+      },
+      "language": {
+        "label": "Language",
+        "description": "Select your language preference."
+      }
+    }
+  },
+  "vault": {
+    "title": "Settings",
+    "home": "Home",
+    "general": {
+      "title": "General",
+      "description": "Choose the name shown for this vault.",
+      "name": {
+        "label": "Vault name",
+        "placeholder": "Enter vault name"
+      },
+      "delete": {
+        "title": "Disconnect this vault",
+        "description": "Remove this connection from DiskPond. Stored backups remain in your storage.",
+        "button": "Disconnect vault"
+      }
+    },
+    "config": {
+      "title": "Storage config",
+      "description": "View the storage location of this vault.",
+      "provider": "Storage provider:"
+    },
+    "throttle": {
+      "title": "Network throttle",
+      "description": "Throttle the network usage of this vault.",
+      "upload": {
+        "enabled": {
+          "label": "Limit upload bandwidth",
+          "description": "Cap how quickly this vault can send backup data."
+        },
+        "limit": {
+          "label": "Upload limit",
+          "description": "Limit the upload bandwidth of this vault."
+        }
+      },
+      "download": {
+        "enabled": {
+          "label": "Limit download bandwidth",
+          "description": "Cap how quickly this vault can download restore data."
+        },
+        "limit": {
+          "label": "Download limit",
+          "description": "Limit the download bandwidth of this vault."
+        }
+      },
+      "save": "Save"
+    }
+  },
+  "folder": {
+    "title": "Backup policy",
+    "description": "Configure the backup policy.",
+    "general": {
+      "title": "General",
+      "description": "Configure general settings.",
+      "name": {
+        "label": "Name",
+        "placeholder": "Enter name"
+      },
+      "path": {
+        "label": "Folder path",
+        "fileLabel": "File path"
+      },
+      "emoji": {
+        "change": "Change emoji",
+        "clear": "Remove emoji"
+      }
+    },
+    "modified": "Modified"
+  }
+}

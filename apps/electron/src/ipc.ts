@@ -1,0 +1,104 @@
+import { platform } from "node:os";
+import { basename, dirname, join } from "node:path";
+import { readClipboard } from "@electron/clipboard";
+import { decryptVaultConfig, encryptVaultConfig } from "@electron/encryption";
+import { folderSize, isDirectory, sourceSize, sourceType } from "@electron/fs";
+import { getPasswordCache, setPasswordCache } from "@electron/password";
+import { getHostName, getUserName } from "@electron/profile";
+import {
+  checkEmpty,
+  listRestores,
+  restoreDirectory,
+  restoreMultiple,
+  restoreSingle,
+} from "@electron/restore";
+import { openBrowser } from "@electron/shell";
+import { sshKeyscan } from "@electron/ssh";
+import { store } from "@electron/store";
+import { getUpdateStatus, installUpdate } from "@electron/updater";
+import {
+  connectVault,
+  createVault,
+  getVaultStatus,
+  retryVault,
+} from "@electron/vault/manage";
+import { validateVaultConfig } from "@electron/vault/validate";
+import { setProgressBar, window } from "@electron/window";
+import { openWorkspace } from "@electron/workspace";
+import { app, dialog, ipcMain, shell } from "electron";
+
+ipcMain.handle("app.version", () => app.getVersion());
+ipcMain.handle("workspace.open", (event, ...args: unknown[]) => {
+  if (
+    !window ||
+    event.sender !== window.webContents ||
+    event.senderFrame !== window.webContents.mainFrame ||
+    args.length !== 0
+  )
+    throw new Error("Invalid workspace request");
+  openWorkspace();
+});
+
+ipcMain.on("window.console", () => window?.webContents.toggleDevTools());
+ipcMain.on("window.reload", () => window?.reload());
+ipcMain.on("window.setProgressBar", (_, progress: number) =>
+  setProgressBar(progress),
+);
+ipcMain.on("store.get", (e, key) => (e.returnValue = store.get(key)));
+ipcMain.on(
+  "os.hostName",
+  (e, vaultId) => (e.returnValue = getHostName(vaultId)),
+);
+ipcMain.on(
+  "os.userName",
+  (e, vaultId) => (e.returnValue = getUserName(vaultId)),
+);
+ipcMain.on("os.platform", (e) => (e.returnValue = platform()));
+
+ipcMain.handle("store.set", (_, key, value) => store.set(key, value));
+ipcMain.handle("store.clear", () => store.clear());
+ipcMain.handle("path.basename", (_, path) => basename(path));
+ipcMain.handle("path.dirname", (_, path) => dirname(path));
+ipcMain.handle("dialog.open", (_, options) => dialog.showOpenDialog(options));
+ipcMain.handle("dialog.save", (_, { defaultFileName, ...options }) =>
+  dialog.showSaveDialog({
+    ...options,
+    ...(defaultFileName
+      ? { defaultPath: join(app.getPath("downloads"), defaultFileName) }
+      : {}),
+  }),
+);
+ipcMain.handle("vault.validate", (_, config) => validateVaultConfig(config));
+ipcMain.handle("vault.create", (_, config) => createVault(config));
+ipcMain.handle("vault.connect", (_, config) => connectVault(config));
+ipcMain.handle("vault.status", (_, payload) => getVaultStatus(payload));
+ipcMain.handle("vault.retry", (_, id: string) => retryVault(id));
+ipcMain.handle("vault.restore.single", (_, payload) => restoreSingle(payload));
+ipcMain.handle("vault.restore.multiple", (_, payload) =>
+  restoreMultiple(payload),
+);
+ipcMain.handle("vault.restore.directory", (_, payload) =>
+  restoreDirectory(payload),
+);
+ipcMain.handle("vault.restore.list", (_, payload) => listRestores(payload));
+ipcMain.handle("vault.restore.checkEmpty", (_, payload) => checkEmpty(payload));
+ipcMain.handle("vault.config.encrypt", (_, payload) =>
+  encryptVaultConfig(payload),
+);
+ipcMain.handle("vault.config.decrypt", (_, payload) =>
+  decryptVaultConfig(payload),
+);
+ipcMain.handle("vault.password.set", (_, payload) => setPasswordCache(payload));
+ipcMain.handle("vault.password.get", (_, payload) => getPasswordCache(payload));
+ipcMain.handle("shell.open.file", (_, url) => shell.showItemInFolder(url));
+ipcMain.handle("shell.open.folder", (_, url) => shell.openPath(url));
+ipcMain.handle("shell.open.browser", (_, url) => openBrowser(url));
+ipcMain.handle("fs.folderSize", (_, path) => folderSize(path));
+ipcMain.handle("fs.isDirectory", (_, path) => isDirectory(path));
+ipcMain.handle("fs.sourceType", (_, path) => sourceType(path));
+ipcMain.handle("fs.sourceSize", (_, path) => sourceSize(path));
+ipcMain.handle("ssh.keyscan", (_, form) => sshKeyscan(form));
+ipcMain.handle("update.status", () => getUpdateStatus());
+ipcMain.handle("update.install", () => installUpdate());
+
+ipcMain.handle("clipboard.read", () => readClipboard());

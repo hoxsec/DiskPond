@@ -1,0 +1,42 @@
+---
+import ArrowRightIcon from "@lucide/astro/icons/arrow-right";
+
+type RelatedTerm = {
+  term: string;
+  slug: string;
+  summary: string;
+};
+
+type Props = {
+  terms: RelatedTerm[];
+};
+
+const { terms } = Astro.props;
+---
+
+{
+  terms.length > 0 && (
+    <section class="mt-12 border-t pt-8">
+      <h2 class="text-foreground mb-6 text-xl font-semibold">Related Terms</h2>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {terms.map((term) => (
+          <a
+            href={`/glossary/${term.slug}`}
+            class="bg-card hover:border-primary/50 group flex items-start gap-3 rounded-lg border p-4 transition-colors"
+            data-astro-prefetch
+          >
+            <div class="flex-1">
+              <h3 class="text-foreground group-hover:text-primary font-medium transition-colors">
+                {term.term}
+              </h3>
+              <p class="text-muted-foreground mt-1 line-clamp-2 text-sm">
+                {term.summary}
+              </p>
+            </div>
+            <ArrowRightIcon class="text-muted-foreground group-hover:text-primary mt-1 size-4 shrink-0 transition-transform group-hover:translate-x-1" />
+          </a>
+        ))}
+      </div>
+    </section>
+  )
+}

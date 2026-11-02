@@ -1,0 +1,18 @@
+{
+  "addFolder": "Add file/folder",
+  "selectVault": { "empty": "Select vault", "createVault": "Create vault" },
+  "vaultMenu": { "createVault": "Create vault" },
+  "links": {
+    "navigation": "Menu",
+    "vaultSettings": "Vault settings",
+    "home": "Home",
+    "overview": "Overview",
+    "settings": "Settings",
+    "policies": "Policies"
+  },
+  "updateAlert": {
+    "title": "Update available",
+    "description": "A new version is available.",
+    "button": "Update"
+  }
+}

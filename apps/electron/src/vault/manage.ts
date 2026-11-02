@@ -1,0 +1,241 @@
+import { LOCAL_ACCOUNT_ID } from "@blinkdisk/constants/account";
+import type { StorageProviderType } from "@blinkdisk/constants/providers";
+import type { ProviderConfig } from "@blinkdisk/schemas/providers";
+import type { ZVaultOptionsType } from "@blinkdisk/schemas/vault";
+import { collections } from "@electron/db";
+import { log } from "@electron/log";
+import { getHostName, getUserName } from "@electron/profile";
+import { fetchVault } from "@electron/vault/fetch";
+import { mapConfigFields, mapProviderType } from "@electron/vault/mapping";
+import { startVaultServer } from "@electron/vault/server";
+import type { VaultInstance } from "@electron/vault/types";
+import { validationVault } from "@electron/vault/validate";
+
+export const vaults: Record<string, VaultInstance> = {};
+const vaultStartupStates = new Map<string, "STARTING" | "FAILED">();
+
+function asError(error: unknown): Error & { code?: string } {
+  if (error instanceof Error) return error;
+
+  if (error && typeof error === "object") {
+    const fields = error as { code?: string; error?: string; message?: string };
+    return Object.assign(
+      new Error(
+        fields.message || fields.error || fields.code || "Vault failed",
+      ),
+      fields,
+    );
+  }
+
+  return new Error("Vault failed");
+}
+
+export async function createVault(payload: {
+  vault: {
+    id: string;
+    name: string;
+    provider: StorageProviderType;
+    config: ProviderConfig;
+    options: ZVaultOptionsType;
+    password: string;
+  };
+  userPolicy: object;
+  globalPolicy: object;
+}) {
+  const options = payload.vault.options;
+  const providerType = mapProviderType(payload.vault.provider);
+
+  let vault: VaultInstance;
+  const existingVault = vaults[payload.vault.id];
+  if (existingVault) vault = existingVault;
+  else
+    vault = {
+      id: payload.vault.id,
+      status: "STARTING",
+      server: await startVaultServer(payload.vault.id),
+    };
+
+  try {
+    const response = await fetchVault(vault, {
+      method: "POST",
+      path: "/api/v1/repo/create",
+      data: {
+        globalPolicy: payload.globalPolicy,
+        userPolicy: payload.userPolicy,
+        clientOptions: {
+          description: payload.vault.name,
+          username: getUserName(payload.vault.id),
+          hostname: getHostName(payload.vault.id),
+        },
+        options: {
+          uniqueId: btoa(payload.vault.id),
+          blockFormat: {
+            version: options.version,
+            ecc: options.errorCorrectionAlgorithm,
+            eccOverheadPercent: options.errorCorrectionOverhead,
+            encryption: options.encryption,
+            hash: options.hash,
+          },
+          objectFormat: {
+            splitter: options.splitter,
+          },
+        },
+        storage: {
+          type: providerType,
+          config: mapConfigFields(payload.vault.provider, payload.vault.config),
+        },
+        password: payload.vault.password,
+      },
+    });
+
+    vaults[vault.id] = vault;
+
+    return response as { error?: string };
+  } catch (e) {
+    log.error("Failed to create vault, stopping:", e);
+    if (vaults[vault.id]) stopVault(vault.id);
+    else vault.server.process.kill();
+    throw asError(e);
+  }
+}
+
+export async function connectVault({
+  id,
+  name,
+  config,
+  password,
+  provider,
+}: {
+  id: string;
+  name: string;
+  provider: StorageProviderType;
+  config: ProviderConfig;
+  password: string;
+  version?: number;
+}) {
+  try {
+    const providerType = mapProviderType(provider);
+    let vault: VaultInstance;
+    const existingVault = vaults[id];
+    if (existingVault) vault = existingVault;
+    else
+      vault = {
+        id,
+        status: "STARTING",
+        server: await startVaultServer(id),
+      };
+
+    const response = await fetchVault(vault, {
+      method: "POST",
+      path: "/api/v1/repo/connect",
+      data: {
+        clientOptions: {
+          description: name,
+          username: getUserName(id),
+          hostname: getHostName(id),
+        },
+        storage: {
+          type: providerType,
+          config: mapConfigFields(provider, config),
+        },
+        password,
+      },
+    });
+
+    return response as { error?: string; code?: string };
+  } catch (e) {
+    const error = asError(e);
+    return { error: error.message, code: error.code };
+  }
+}
+
+let initPromise: Promise<void> = Promise.resolve();
+
+export function initVaults(vaultId?: string) {
+  initPromise = initPromise
+    .then(() => reconcileVaults(vaultId))
+    .catch((error) => log.error("Failed to initialize vaults", error));
+  return initPromise;
+}
+
+export function retryVault(id: string) {
+  if (vaultStartupStates.get(id) !== "FAILED") return Promise.resolve();
+  return initVaults(id);
+}
+
+async function reconcileVaults(vaultId?: string) {
+  const activeVaultIds: string[] = [];
+
+  for (const [accountId, collection] of Object.entries(collections)) {
+    if (accountId !== LOCAL_ACCOUNT_ID) continue;
+
+    const vaultCache = collection.vault.find({ status: "ACTIVE" }).fetch();
+
+    for (const vault of vaultCache) {
+      activeVaultIds.push(vault.id);
+      if (vaultId && vault.id !== vaultId) continue;
+
+      // Already running
+      if (vaults[vault.id]) {
+        vaultStartupStates.delete(vault.id);
+        continue;
+      }
+
+      vaultStartupStates.set(vault.id, "STARTING");
+      try {
+        vaults[vault.id] = {
+          id: vault.id,
+          status: "STARTING",
+          server: await startVaultServer(vault.id),
+        };
+        vaultStartupStates.delete(vault.id);
+      } catch (error) {
+        vaultStartupStates.set(vault.id, "FAILED");
+        log.error(`Failed to start vault ${vault.id}`, error);
+      }
+    }
+  }
+
+  for (const vaultId of Object.keys(vaults)) {
+    if (activeVaultIds.includes(vaultId)) continue;
+    stopVault(vaultId);
+  }
+
+  for (const vaultId of vaultStartupStates.keys()) {
+    if (!activeVaultIds.includes(vaultId)) vaultStartupStates.delete(vaultId);
+  }
+}
+
+export function stopAllVaults() {
+  Object.keys(vaults).forEach(stopVault);
+  vaultStartupStates.clear();
+  if (validationVault) validationVault.server.process.kill();
+}
+
+function stopVault(id: string) {
+  const vault = vaults[id];
+  if (!vault) return log.warn(`Tried to stop vault ${id} but it doesn't exist`);
+
+  vault.server.process.kill();
+  delete vaults[id];
+}
+
+export function getVault(id: string) {
+  const vault = vaults[id];
+  if (!vault) throw new Error(`Get vault called, but ${id} not found`);
+  return vault;
+}
+
+export function getVaultStatus(id: string) {
+  const startupStatus = vaultStartupStates.get(id);
+  if (!vaults[id] && startupStatus)
+    return { status: startupStatus, initTask: undefined };
+
+  try {
+    const vault = getVault(id);
+    return { status: vault.status, initTask: vault.initTask };
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+}

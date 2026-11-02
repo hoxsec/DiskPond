@@ -1,0 +1,60 @@
+{
+  "name": "@blinkdisk/electron",
+  "description": "DiskPond desktop backup application.",
+  "repository": "https://github.com/hoxsec/DiskPond",
+  "author": {
+    "name": "DiskPond contributors"
+  },
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "main": "./build/index.js",
+  "scripts": {
+    "dev": "concurrently \"pnpm:compile:dev\" \"pnpm:dev:electron\"",
+    "dev:electron": "electronmon ./build/index.js",
+    "types": "tsc --noEmit",
+    "test": "vitest run",
+    "compile:dev": "node esbuild.config.mjs development",
+    "compile:once": "node esbuild.config.mjs development once",
+    "compile:prod": "node esbuild.config.mjs production",
+    "prebuild": "pnpm build:frontend && tsc --noEmit && pnpm compile:prod",
+    "build:frontend": "pnpm --filter @blinkdisk/desktop build && node ../../scripts/copy-frontend.mjs",
+    "build:linux": "electron-builder -c electron.builder.ts --linux",
+    "build:windows": "electron-builder -c electron.builder.ts --windows",
+    "build:macos": "electron-builder -c electron.builder.ts --macos"
+  },
+  "dependencies": {
+    "@blinkdisk/constants": "workspace:*",
+    "@blinkdisk/schemas": "workspace:*",
+    "@blinkdisk/signaldb-electron": "catalog:",
+    "@blinkdisk/utils": "workspace:*",
+    "@esbuild-plugins/tsconfig-paths": "catalog:",
+    "@signaldb/core": "catalog:",
+    "@signaldb/fs": "catalog:",
+    "auto-launch": "catalog:",
+    "electron-log": "catalog:",
+    "electron-store": "catalog:",
+    "electron-updater": "catalog:",
+    "get-folder-size": "catalog:",
+    "p-limit": "catalog:",
+    "tough-cookie": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@blinkdisk/typescript": "workspace:*",
+    "@types/auto-launch": "catalog:",
+    "@types/node": "catalog:",
+    "concurrently": "catalog:",
+    "dotenv": "catalog:",
+    "electron": "catalog:",
+    "electron-builder": "catalog:",
+    "electronmon": "catalog:",
+    "esbuild": "catalog:",
+    "typescript": "catalog:",
+    "vite-tsconfig-paths": "catalog:",
+    "vitest": "catalog:"
+  }
+}

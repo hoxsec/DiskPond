@@ -1,0 +1,127 @@
+---
+import { Image } from "astro:assets";
+import ArrowRightIcon from "@lucide/astro/icons/arrow-right";
+import { blogService, directusUrl } from "@marketing/blog/runtime";
+import type { BlogPost } from "@marketing/blog/schema";
+import { imageUrl } from "@marketing/blog/schema";
+import BlogCard from "@marketing/components/BlogCard.astro";
+import DefaultLayout from "@marketing/layouts/DefaultLayout.astro";
+import * as Sentry from "@sentry/astro";
+
+export const prerender = false;
+Astro.response.headers.set("Cache-Control", "private, no-store");
+let sortedPosts: BlogPost[] = [];
+let unavailable = false;
+try {
+  sortedPosts = await blogService().list();
+} catch (error) {
+  unavailable = true;
+  Astro.response.status = 503;
+  Astro.response.headers.set("Retry-After", "60");
+  console.error("Unable to load blog content", error);
+  Sentry.captureException(error);
+}
+const cmsUrl = directusUrl();
+
+const [featuredPost, ...restPosts] = sortedPosts;
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+---
+
+<DefaultLayout
+  title="Blog"
+  description="Read the latest news and updates from BlinkDisk."
+>
+  <section class="pt-page pb-page w-content mx-auto">
+    <header class="mb-16 text-center">
+      <h1
+        class="text-primary mb-4 inline-block text-xs font-semibold uppercase tracking-widest sm:text-sm sm:tracking-[0.2rem]"
+      >
+        BlinkDisk Blog
+      </h1>
+      <p class="text-foreground mb-4 text-4xl font-bold md:text-5xl">
+        News & Updates
+      </p>
+      <p class="text-muted-foreground mx-auto max-w-md text-lg">
+        Tips, insights, and updates about file backups, data protection, and
+        making the most of BlinkDisk.
+      </p>
+    </header>
+
+    {
+      sortedPosts.length > 0 ? (
+        <>
+          {featuredPost && (
+            <a
+              href={`/blog/${featuredPost.slug}`}
+              class="group mb-16 grid gap-8 md:grid-cols-2 md:items-center"
+              data-astro-prefetch
+            >
+              <div class="aspect-video overflow-hidden rounded-2xl">
+                <Image
+                  src={imageUrl(cmsUrl, featuredPost.cover_image.id, 1200)}
+                  alt={featuredPost.image_alt}
+                  width={1200}
+                  height={630}
+                  class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div class="flex flex-col">
+                <span class="bg-primary/10 text-primary mb-4 w-fit rounded-full px-3 py-1 text-xs font-medium">
+                  Latest Post
+                </span>
+                <span class="text-muted-foreground mb-3 text-sm">
+                  {formatDate(new Date(featuredPost.publication_date))}
+                </span>
+                <h2 class="text-foreground mb-3 text-2xl font-bold md:text-3xl">
+                  {featuredPost.title}
+                </h2>
+                <p class="text-muted-foreground mb-6 line-clamp-3 text-base">
+                  {featuredPost.description}
+                </p>
+                <span class="text-primary inline-flex items-center gap-2 font-medium transition-colors">
+                  Read article
+                  <ArrowRightIcon class="size-4" />
+                </span>
+              </div>
+            </a>
+          )}
+
+          {restPosts.length > 0 && (
+            <>
+              <div class="mb-8 flex items-center gap-4">
+                <h2 class="text-foreground text-xl font-semibold">
+                  More Articles
+                </h2>
+                <div class="bg-border h-px flex-1" />
+              </div>
+              <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                {restPosts.map((post) => (
+                  <BlogCard
+                    title={post.title}
+                    description={post.description}
+                    publicationDate={new Date(post.publication_date)}
+                    author={post.author}
+                    image={{ src: imageUrl(cmsUrl, post.cover_image.id, 800), alt: post.image_alt }}
+                    slug={post.slug}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </>
+      ) : (
+        <div class="py-16 text-center">
+          <p class="text-muted-foreground text-lg">
+            {unavailable ? "The blog is temporarily unavailable. Please try again shortly." : "No blog posts yet. Check back soon!"}
+          </p>
+        </div>
+      )
+    }
+  </section>
+</DefaultLayout>

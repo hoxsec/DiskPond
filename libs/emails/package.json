@@ -1,0 +1,23 @@
+{
+  "name": "@blinkdisk/emails",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./*": "./src/*.tsx"
+  },
+  "scripts": {
+    "studio": "email dev --dir src/ --port 3001",
+    "types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@react-email/ui": "catalog:",
+    "@blinkdisk/typescript": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "typescript": "catalog:"
+  },
+  "dependencies": {
+    "react-email": "catalog:",
+    "react": "catalog:"
+  }
+}
