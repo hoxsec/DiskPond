@@ -28,10 +28,10 @@ If the Node installation directory is not writable, install the Corepack shims i
 
 ## Prepare the checkout
 
-Use the M1 integration branch; `main` is not yet the desktop implementation branch:
+Use `main`, which now includes the M1 baseline and initial M2 branding/local-workspace slice:
 
 ```powershell
-git clone --branch integrate/blinkdisk-baseline https://github.com/hoxsec/DiskPond.git
+git clone --branch main https://github.com/hoxsec/DiskPond.git
 cd DiskPond
 git submodule update --init --checkout apps/core
 git -C apps/core rev-parse HEAD

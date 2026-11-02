@@ -1,6 +1,6 @@
 # M2 slice — DiskPond branding and local workspace
 
-Date: 2026-11-02. **Branding/workspace slice implemented and locally verified; M2 recovery gate open.** Working changes on `integrate/blinkdisk-baseline`, based on `31b4f9668d18cd9f55fcf3b9272cbd5d2e3e3704`. Pinned core remains `e8955e7280edd9526b9f104f1592f233cfe6789b`.
+Date: 2026-11-02. **Branding/workspace slice implemented and locally verified; M2 recovery gate open.** Initial local verification used changes on `integrate/blinkdisk-baseline`, based on `31b4f9668d18cd9f55fcf3b9272cbd5d2e3e3704`; the subsequent source publication is recorded below. Pinned core remains `e8955e7280edd9526b9f104f1592f233cfe6789b`.
 
 ## Scope and requirements
 
@@ -96,7 +96,15 @@ These identify the final locally verified artifacts, not a published release or 
 
 For owner inspection, `pnpm dev:desktop` was restarted using the preserved `%APPDATA%\diskpond-dev` profile; Vite and Electron started and `workspace_v1` completed successfully. This rebuilds loose core/main/preload outputs for development; the installer and `win-unpacked` artifacts above retain the verified production build.
 
-This slice remains uncommitted. No new CI run, push, tag or release was performed; the linked M1 CI evidence certifies the earlier baseline only.
+### Source publication
+
+The owner subsequently authorized committing, pushing, merging into `main`, and continuing in a new session. The integration branch was published with separate commits:
+
+- `456e7ac` — owner artwork, generated native assets and theme foundation. Its intermediate lockfile was generated with pnpm from the staged branding manifests; no lockfile internals were hand-edited.
+- `30ab2f8` — account-free desktop, hosted-service extraction and the local verification record above.
+- `46adcec` — merge of the preserved M1/M2 integration history into `main`.
+
+[Windows CI run 41531622284](https://github.com/hoxsec/DiskPond/actions/runs/41531622284) for `30ab2f8d8447ab967d04fb5333a5f9d3477b5d75` was **in progress** at this documentation handoff. The earlier M1 CI result certifies its baseline only. No tag or binary release was published.
 
 ## Remaining gates
 

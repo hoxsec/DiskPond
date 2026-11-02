@@ -14,7 +14,7 @@ See [ROADMAP.md](ROADMAP.md) for milestone gates and [PLAN.md](PLAN.md) for the 
 
 ## Build and run
 
-Use the `integrate/blinkdisk-baseline` checkout, Node **24.15.0**, pnpm **11.7.0**, and Go **1.25.5**:
+Use the `main` checkout, Node **24.15.0**, pnpm **11.7.0**, and Go **1.25.5**:
 
 ```powershell
 git submodule update --init --checkout apps/core

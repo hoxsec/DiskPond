@@ -68,7 +68,7 @@ Evidence: [Windows checks and clean CI](docs/verification/m1-windows-baseline.md
 
 **Requirements:** P01; F01–F02; basic F17/F22/F24; DP01, initial DP03–DP04.
 
-Locally verified slice: [owner artwork, local workspace and hosted-service removal](docs/verification/m2-branding-workspace.md), including built/development/installed Windows smoke. This working tree has no new CI run and does not close the real-recovery gate.
+Locally verified slice: [owner artwork, local workspace and hosted-service removal](docs/verification/m2-branding-workspace.md), including built/development/installed Windows smoke. The slice is committed and merged into `main`; its new Windows CI run was running at handoff. The real-recovery gate remains open.
 
 - [x] Promote the existing local-account path to the default account-free workspace.
 - [x] Extract required contracts from cloud/API/database packages and remove hosted-service runtime requirements.
