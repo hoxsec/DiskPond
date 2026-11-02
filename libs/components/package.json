@@ -17,6 +17,7 @@
     "vite": "catalog:"
   },
   "dependencies": {
+    "@blinkdisk/assets": "workspace:*",
     "@blinkdisk/utils": "workspace:*",
     "@blinkdisk/hooks": "workspace:*",
     "@blinkdisk/constants": "workspace:*",

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="27 22 188 188" role="img" aria-label="DiskPond hard drive app icon">
+  <g id="hard-drive-icon" aria-label="Hard disk drive">
+    <rect x="38" y="33" width="166" height="166" rx="32" fill="#40454B"/>
+    <circle cx="121" cy="113" r="58" fill="#D8DCE0"/>
+    <circle cx="121" cy="113" r="46" fill="#AEB6BF"/>
+    <circle cx="121" cy="113" r="13" fill="#616A74"/>
+    <path d="M81 165 L110 137" fill="none" stroke="#818993" stroke-width="14" stroke-linecap="round"/>
+    <circle cx="81" cy="165" r="13" fill="#EFF1F3"/>
+    <circle cx="81" cy="165" r="5" fill="#616A74"/>
+    <circle cx="64" cy="59" r="5" fill="#EFF1F3"/>
+    <circle cx="178" cy="59" r="5" fill="#EFF1F3"/>
+    <circle cx="178" cy="173" r="5" fill="#EFF1F3"/>
+  </g>
+</svg>

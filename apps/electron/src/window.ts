@@ -14,10 +14,13 @@ export function createWindow() {
   window = new BrowserWindow({
     width: 1200,
     height: 800,
-    minWidth: 950,
-    minHeight: 500,
+    minWidth: 960,
+    minHeight: 640,
     title: APP_NAME,
-    backgroundColor: getTheme() === "light" ? "#ffffff" : "#222222",
+    backgroundColor: getTheme() === "light" ? "#f5f8f8" : "#101918",
+    icon: app.isPackaged
+      ? join(process.resourcesPath, "assets", "icon.png")
+      : join(import.meta.dirname, "..", "icon", "icon.png"),
     webPreferences: {
       preload: join(import.meta.dirname, "preload.js"),
     },

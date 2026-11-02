@@ -31,6 +31,7 @@ export default {
     releaseType: "draft",
   },
   extraResources: [
+    { from: "icon/icon.png", to: "assets/icon.png" },
     {
       from: "../../LICENSE",
       to: "licenses/DiskPond-AGPL-3.0.txt",

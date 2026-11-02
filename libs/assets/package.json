@@ -2,6 +2,9 @@
   "name": "@blinkdisk/assets",
   "version": "0.0.0",
   "private": true,
+  "exports": {
+    "./*": "./*"
+  },
   "publishConfig": {
     "access": "public"
   }

@@ -6,6 +6,7 @@
     "dev": "pnpm dev:desktop",
     "dev:desktop": "node scripts/desktop.mjs dev",
     "build:core": "node scripts/build-core.mjs",
+    "build:branding": "node scripts/build-branding.mjs",
     "build:desktop": "node scripts/desktop.mjs build",
     "build:windows": "node scripts/desktop.mjs windows",
     "preview:desktop": "node scripts/desktop.mjs preview",
@@ -26,6 +27,7 @@
     "lint:ci": "biome ci . --error-on-warnings"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "2.6.2",
     "@biomejs/biome": "catalog:",
     "dotenv-cli": "catalog:",
     "knip": "catalog:",
