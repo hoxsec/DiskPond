@@ -4,7 +4,7 @@ Date: 2026-11-02. Requirements: F22–F26, DP01/DP04; all declared platform targ
 
 | Target | Source evidence | Runtime evidence / gap |
 | --- | --- | --- |
-| Windows 10/11 x64 | Upstream README; Electron 42.11.16 Windows x64 asset; Go 1.25 Windows baseline is Windows 10 / Server 2016 or later | Built core and Electron desktop on Windows 11 Pro x64, version 10.0.26200. Windows 10, clean installs, upgrades and release signing remain untested. |
+| Windows 10/11 x64 | Upstream README; Electron 42.11.16 Windows x64 asset; Go 1.25 Windows baseline is Windows 10 / Server 2016 or later | Built core and Electron desktop on Windows 11 Pro x64, version 10.0.26200. Clean hosted Windows Server 2025 CI passed build and built/dev/installed startup smoke; see the [run evidence](m1-windows-baseline.md). Windows 10, fresh-OS release certification, upgrades and release signing remain untested. |
 | macOS Intel/Apple Silicon | Inherited universal DMG/ZIP configuration; Electron 42.11.16 provides darwin x64/arm64 assets | **Confirmed minimum-version conflict:** both Electron 38+ and Go 1.25 require macOS 12 Monterey; the pinned README advertises Big Sur (11). No silent narrowing of DiskPond's scope. Resolve with the owner at M6 before claiming support. |
 | Linux x86_64/arm64/armv7l | Inherited AppImage/DEB/RPM configuration; Electron 42.11.16 release includes all three Linux assets; Go ARM builds map to `GOARCH=arm` | Availability of archives is not execution evidence. Distro/glibc baselines, Node build tooling, ARMv7 hardware, helpers and all package formats require M6 verification. |
 

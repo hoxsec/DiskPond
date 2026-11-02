@@ -6,7 +6,7 @@ DiskPond's target is encrypted, versioned backups to storage you provide: local/
 
 ## Development status
 
-**M1 — imported Windows development baseline.** The pinned engine and desktop build locally; the Electron smoke check reaches the inherited local workspace and probes the real engine. This is an implementation baseline, with backup/restore certification still ahead.
+**M1 complete — verified Windows development baseline.** The pinned engine, desktop and installer pass local checks and [clean Windows CI](https://github.com/hoxsec/DiskPond/actions/runs/41521154820). Built, development and installed smoke checks reach the inherited local workspace and probe the real engine. Backup/restore certification is still ahead.
 
 The imported interface still contains BlinkDisk branding and account/cloud features. M2 will replace those with DiskPond's local workspace and original design, remove service/analytics code, and verify the first complete backup/restore journey. Encrypted setup export/import follows in M5. There is no DiskPond stable installer release yet.
 
@@ -14,7 +14,7 @@ See [ROADMAP.md](ROADMAP.md) for milestone gates and [PLAN.md](PLAN.md) for the 
 
 ## Build and run
 
-Use a checkout containing the M1 integration files, Node **24.14.0**, pnpm **11.7.0**, and Go **1.25.5**:
+Use the `integrate/blinkdisk-baseline` checkout, Node **24.15.0**, pnpm **11.7.0**, and Go **1.25.5**:
 
 ```powershell
 git submodule update --init --checkout apps/core

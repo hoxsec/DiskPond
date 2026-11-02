@@ -1,10 +1,10 @@
 # M1 — Windows import and build baseline
 
-Date: **2026-11-02**. Status: **local baseline verified; clean Windows runner reproduction pending**.
+Date: **2026-11-02**. Status: **M1 complete — local baseline and clean Windows CI passed**.
 
-This record supports the foundations for DP01/DP03/DP04 and F22/F24/F25/F26. It does not certify those full requirements or any P01–P11 backup/restore round trip. M1 remains active until its clean-runner gate passes.
+This record supports the foundations for DP01/DP03/DP04 and F22/F24/F25/F26. It does not certify those full requirements or any P01–P11 backup/restore round trip. The M1 clean-runner gate passed in the linked CI run below.
 
-## Source and environment
+## Local source and environment
 
 | Item | Recorded value |
 | --- | --- |
@@ -20,6 +20,25 @@ This record supports the foundations for DP01/DP03/DP04 and F22/F24/F25/F26. It 
 Portable Go was downloaded from the official `go1.25.5.windows-amd64.zip` release and verified against SHA-256 `ae756cce1cb80c819b4fe01b0353807178f532211b47f72d7fa77949de054ebb`. Corepack pnpm shims and Go were added only to the execution PATH. The ordinary desktop setup used no `.env`, API/database services, hosted account or signing certificate.
 
 [UPSTREAM.md](../../UPSTREAM.md) records the import, attribution, remotes and changed upstream files. [DEVELOPMENT.md](../../DEVELOPMENT.md) is the reproducible command guide.
+
+## Clean Windows CI — passed
+
+| Item | Recorded value |
+| --- | --- |
+| Run / job | [Desktop baseline 41521154820](https://github.com/hoxsec/DiskPond/actions/runs/41521154820) / [windows 125537222717](https://github.com/hoxsec/DiskPond/actions/runs/41521154820/job/125537222717) |
+| Tested revision | `9c2969b12d1a105c6f96bff28bcfaa29ed779995` on `integrate/blinkdisk-baseline` |
+| Import commit | `dbafdd74375dcbf1c749c7d5f91ad5a989d2dad7`, retaining original DiskPond and pinned upstream history as parents |
+| Result / duration | Success; 9m25s, 2026-11-02 20:39:09–20:48:34 UTC |
+| Hosted OS | Windows Server 2025 Datacenter x64, `10.0.26100` |
+| Runner image | `windows-2025-vs2026`, image `20261030.294.1`, runner `2.338.2` |
+| Node / pnpm / Go | `24.15.0` from `.nvmrc` / `11.7.0` / `go1.25.5 windows/amd64` |
+| Initial dependency caches | Neither the pnpm nor Go cache was found; the fresh runner downloaded dependencies |
+
+All workflow steps passed: `pnpm install --frozen-lockfile`, `pnpm lint:ci` (733 files), `pnpm types:desktop`, `pnpm test:desktop` (**517 tests / 55 files**), `pnpm unused`, `pnpm build:windows`, `pnpm smoke:desktop`, `pnpm smoke:desktop --dev`, and `pnpm smoke:windows`. Test breakdown: schemas 20/5, utils 62/8, Electron 144/16, desktop 291/26 (tests/files). The built/dev smoke logs reported no remote renderer requests on their exercised path. Installed smoke confirmed launch/onboarding, IPC, the packaged core, project licenses/feed metadata and normal quit, then recorded and cleaned its inherited startup/URI leftovers.
+
+The initial guide incorrectly described Node 24.14.0 as the `.nvmrc` pin. That was the tested local runtime; the inherited pin and passing clean-runner runtime are 24.15.0. The guide now uses 24.15.0 and retains 24.14.0 as the verified minimum/local baseline.
+
+Actions emitted one informational Node 20 deprecation annotation for the pinned setup-go and pnpm setup actions, which the runner executed on Node 24. It did not fail a step. Action-runtime maintenance remains follow-up work. The CI installer was built and exercised on the hosted runner; the artifact hashes later in this document belong to the local verification build.
 
 ## Inherited baseline and resolutions
 
@@ -54,7 +73,7 @@ The alias-rule check used disposable real source files: a same-package `@desktop
 | `pnpm smoke:desktop --dev` | Pass through `dev:desktop`: Vite + compiler + Electron startup, unchanged Windows URI registration and process-tree cleanup. |
 | `pnpm build:windows` | Pass: unsigned x64 NSIS installer and `win-unpacked`, with project licenses/provenance and bundled core; `--publish never`. |
 | `pnpm smoke:windows` | Pass for installed first launch, URI handler pointing to the installed executable, local onboarding, IPC version, packaged engine discovery, license texts/feed metadata, normal quit and executable removal. Known registry leftovers are recorded below and fixture-cleaned. |
-| `actionlint .github/workflows/desktop.yml` | Pass. Hosted Actions execution remains pending. |
+| `actionlint .github/workflows/desktop.yml` | Pass; hosted execution also passed as recorded above. |
 
 The engine reports:
 
@@ -96,7 +115,7 @@ Private workspace package names and the external `@blinkdisk/signaldb-electron` 
 
 ## Recorded gaps and next gate
 
-1. **M1 gate still pending:** run `.github/workflows/desktop.yml` on a clean Windows runner and link evidence. The owner has authorized committing/pushing the integration branch; a remote passing result is not yet claimed.
+1. **M1 gate passed:** clean Windows reproduction is linked above. M2's next gate is the account-free local backup/restore slice with real recovered-byte verification.
 2. **Installed-artifact finding, F22/F26:** inherited uninstall removes application files but leaves the app-created startup value and URI registration. The installed smoke reports and removes only its own leftover entries. Fix and certify real uninstall/upgrade behavior in M5; this is not a full uninstall acceptance pass.
 3. **Safe discovery, F02/F03:** `.shards` is created during validation and the engine's endpoint may migrate legacy blob IDs. Resolve a read-only discovery path in M2/M3 before exposing compatible repository connection as verified.
 4. **M2 remains:** local workspace default, service/SDK extraction, secure-storage fallback, original UI and real snapshot/restore/hash verification. Startup alone does not pass DP01/DP03 or Q01.

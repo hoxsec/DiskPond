@@ -4,7 +4,7 @@
 
 DiskPond is an AGPL-3.0 fork of BlinkDisk focused on account-free desktop backups to user-provided storage. It uses Electron/React/TypeScript and a pinned Kopia-derived Go sidecar. Windows is first; macOS and Linux are required later targets.
 
-**Current repository state:** M1 source/core import and Windows development baseline implemented on `integrate/blinkdisk-baseline`. Desktop/core builds and local startup smoke checks pass; clean-runner reproduction is pending. Imported account/cloud UI and SDKs remain until M2. Do not describe unverified backup/restore or platform parity as complete. See `docs/verification/m1-windows-baseline.md`.
+**Current repository state:** M1 is complete on `integrate/blinkdisk-baseline`: source/core import, desktop/core builds, local smoke checks and clean Windows CI reproduction pass. M2 is next; imported account/cloud UI and SDKs remain. Do not describe unverified backup/restore or platform parity as complete. See `docs/verification/m1-windows-baseline.md`.
 
 Read these documents before implementation:
 
@@ -95,7 +95,7 @@ Current inherited locations:
 
 ## Commands and verification
 
-Use Node 24.14.0, pnpm 11.7.0 and Go 1.25.5 as documented in DEVELOPMENT.md. The root defaults are desktop-scoped; package-level Electron packaging commands do not build their inputs. Install once after manifest changes before running concurrent checks, because pnpm 11 can otherwise race automatic installation on Windows.
+Use Node 24.15.0 (`.nvmrc`), pnpm 11.7.0 and Go 1.25.5 as documented in DEVELOPMENT.md. The local baseline also passed on the minimum Node 24.14.0. The root defaults are desktop-scoped; package-level Electron packaging commands do not build their inputs. Install once after manifest changes before running concurrent checks, because pnpm 11 can otherwise race automatic installation on Windows.
 
 | Command | Current use |
 | --- | --- |

@@ -1,12 +1,12 @@
 # DiskPond development guide
 
-Updated 2026-11-02. Windows x64 is the locally exercised development target. See [M1 evidence](docs/verification/m1-windows-baseline.md) for results and remaining gates.
+Updated 2026-11-02. The Windows x64 development baseline passes locally and on a fresh GitHub-hosted Windows runner. See [M1 evidence](docs/verification/m1-windows-baseline.md) for results and later product gates.
 
 ## Toolchain
 
 | Tool | Pinned / tested version | Source |
 | --- | --- | --- |
-| Node.js | 24.14.0 | `.nvmrc`; root manifest allows `>=24.14.0` |
+| Node.js | 24.15.0 pinned/CI; 24.14.0 also tested locally | `.nvmrc` pins 24.15.0; root manifest allows `>=24.14.0` |
 | pnpm | 11.7.0 | Root `packageManager` |
 | Go | 1.25.5 | `apps/core/go.mod`: language 1.25, toolchain go1.25.5 |
 | Electron | 42.11.16 | Workspace catalog and lockfile |

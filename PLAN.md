@@ -1,7 +1,7 @@
 # DiskPond — Product and Engineering Plan
 
 - **Updated:** 2026-11-02
-- **Status:** M1 imported and locally built on Windows; clean-runner reproduction pending. Product parity remains unverified.
+- **Status:** M1 complete: Windows build/startup verified locally and on clean CI. M2 is next; product parity remains unverified.
 - **Delivery:** One developer assisted by coding tools; quality-first, milestone-driven.
 
 DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It will preserve BlinkDisk's desktop and bring-your-own-storage capabilities, use its Kopia-based engine, and introduce an original, calm interface. Windows ships first; macOS and Linux remain required parity targets.
@@ -53,7 +53,7 @@ The reference is frozen so that “parity” has a reproducible meaning:
 
 1. **The application is a monorepo with cloud coupling.** Desktop packages reference API/database types, account synchronization, analytics, and cloud UI. An account-free build requires dependency extraction and runtime verification, not just hiding buttons.
 2. **The local persistence is already file-backed.** Electron uses SignalDB collections persisted to JSON and electron-store preferences. PostgreSQL belongs to the hosted service; it is not a new desktop requirement.
-3. **Use manifests over stale setup prose.** The root requires Node `>=24.14.0` and pins pnpm `11.7.0`; the core declares Go `1.25` / toolchain `1.25.5`. M1 verified those versions and replaced the older upstream setup instructions in `DEVELOPMENT.md`.
+3. **Use manifests over stale setup prose.** The root requires Node `>=24.14.0`, `.nvmrc` pins `24.15.0`, and the package manager is pnpm `11.7.0`; the core declares Go `1.25` / toolchain `1.25.5`. M1 passed locally on Node 24.14.0 and in clean Windows CI on Node 24.15.0. DEVELOPMENT.md records both and uses the repository pin for reproduction.
 4. **Some policies are mapped but lack visible editors.** Script hooks, VSS, error handling, filesystem boundaries, logging, and upload concurrency appear in schemas/converters. Preserve and verify these fields; do not advertise an unverified UI.
 5. **Background execution is a desktop process.** Tray mode and login startup exist. A system service running while logged out is a separate capability, not an established parity requirement.
 6. **Recovery results need review.** The restore implementation requests ignored errors and treats leaving `RUNNING` as completion in several paths. DiskPond must distinguish completed, partial, failed, and canceled outcomes.
@@ -306,4 +306,4 @@ Store evidence under `docs/verification/` with requirement IDs, commits, engine 
 
 The product reaches the full desktop/BYO parity milestone only when every applicable P/F/DP requirement is demonstrated on its required platform(s), all platform/support gaps are resolved or explicitly re-scoped by the owner, and backup recovery succeeds from a fresh installation. Documentation must state the exact supported versions and the X01–X05 exclusions/replacements.
 
-The active task is **M1 clean-Windows reproduction of the locally verified build baseline**. M2 then implements the account-free recovery slice. The owner has authorized the integration branch's CI handoff; no DiskPond release has been published.
+**M1 is complete**, with [passing clean Windows CI](https://github.com/hoxsec/DiskPond/actions/runs/41521154820). The next implementation milestone is **M2: the account-free recovery slice**. The integration branch is published; no DiskPond binary release has been published.

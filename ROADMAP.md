@@ -1,7 +1,7 @@
 # DiskPond — Roadmap
 
 - **Updated:** 2026-11-02
-- **Current stage:** M1 Windows baseline implemented and locally verified; clean-runner reproduction pending.
+- **Current stage:** M1 complete, including clean Windows CI; M2 is next.
 
 This roadmap implements the owner-approved scope in [PLAN.md](PLAN.md). Requirement IDs refer to its parity inventory. [STYLE.md](STYLE.md) defines the interface and [AGENTS.md](AGENTS.md) defines contributor workflow.
 
@@ -21,7 +21,7 @@ Effort is relative complexity, not a calendar estimate: **M** = contained integr
 | Milestone | Outcome | Depends on | Effort | Status |
 | --- | --- | --- | --- | --- |
 | M0 | Agreed scope and planning documents | Owner answers, source review | M | Complete |
-| M1 | Reproducible fork and Windows development build | M0 | M | In progress — local checks pass; clean runner pending |
+| M1 | Reproducible fork and Windows development build | M0 | M | Complete — local and clean Windows CI pass |
 | M2 | Independent DiskPond local-backup vertical slice | M1 | L | Not started |
 | M3 | All BYO providers and existing-repository connectivity | M2 | L | Not started |
 | M4 | Complete Windows backup/policy/recovery workflows | M3 | XL | Not started |
@@ -56,11 +56,11 @@ Critical path: **import/build → local recovery → storage compatibility → c
 - [x] Choose DiskPond application/package/protocol/data-path/release identities using an owned namespace.
 - [x] Investigate package support for Windows 10, the macOS minimum and Linux ARMv7; record initial gaps before scheduling certification.
 - [x] Add CI for the desktop/core build and meaningful checks, with secrets unnecessary for ordinary desktop development.
-- [ ] Run the checked-in workflow on a clean Windows runner and link its result before closing M1.
+- [x] Run the checked-in workflow on a clean Windows runner and link its result before closing M1: [run 41521154820](https://github.com/hoxsec/DiskPond/actions/runs/41521154820), revision `9c2969b12d1a105c6f96bff28bcfaa29ed779995`.
 
 **Evidence:** Tested development guide, version manifest, baseline check results, built Windows engine, launched renderer/main, import and endpoint inventories.
 
-Local evidence: [Windows checks](docs/verification/m1-windows-baseline.md), [provenance](UPSTREAM.md), [dependency/endpoints](docs/verification/m1-dependencies.md), [platform findings](docs/verification/m1-platforms.md). The owner authorized the integration branch's commit/push for Windows CI; the clean-runner gate still requires a passing linked run. All P/F/DP product certification gates remain open.
+Evidence: [Windows checks and clean CI](docs/verification/m1-windows-baseline.md), [provenance](UPSTREAM.md), [dependency/endpoints](docs/verification/m1-dependencies.md), [platform findings](docs/verification/m1-platforms.md). The owner-authorized integration branch is published. Clean Windows CI passed installation, lint, types, all 517 tests, dependency analysis, packaging and built/dev/installed smoke in 9m25s. All P/F/DP product certification gates remain open.
 
 **Gate:** A clean Windows environment can reproduce the local development build. Nothing is published under BlinkDisk's identity or release feed.
 
@@ -208,6 +208,6 @@ Use small vertical tasks. For example: **P09 — create an SFTP vault with a kno
 
 ## First implementation session
 
-Completed locally: integration branch/import, pinned core build, desktop command contract, baseline checks, runtime smoke, and service/platform inventories. Current handoff: commit/push the owner-authorized integration branch, run Windows CI, and record its result before closing M1. M2 work is ordered in the dependency inventory.
+M1 is complete: the integration branch/import, pinned core build, desktop command contract, baseline checks, runtime smoke, and service/platform inventories are recorded; the clean Windows workflow passes. Next is M2, with implementation work ordered in the dependency inventory.
 
 Release ownership, signing access, live provider test access and additional OS hardware remain project-owner inputs at their stated milestones. They do not block beginning M1.
