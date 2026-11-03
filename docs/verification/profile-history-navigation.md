@@ -12,7 +12,7 @@ Date: 2026-11-03. Requirements: **F15, F16, F20, DP04**, focused F23 / Q08 revie
 
 Implemented on top of local redesign commit `7a8a6fa`. The owner liked the initial back-button preview and requested the snapshot-to-history follow-up. That follow-up is ready for preview feedback. The published `v0.1.0-alpha.1` installer predates these changes.
 
-The owner subsequently authorized committing/pushing all changes to `main` and publishing the next release on 2026-11-03. [The v0.1.0-alpha.2 record](windows-alpha-2.md) tracks release verification.
+The owner subsequently authorized committing/pushing all changes to `main` and publishing the next release on 2026-11-03. The navigation is published in **v0.1.0-alpha.2** from `f872617`; [the release record](windows-alpha-2.md) includes passing CI and downloaded checksums. Installed actual-use feedback is next.
 
 ## Focused checks
 

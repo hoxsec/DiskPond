@@ -8,7 +8,7 @@ DiskPond's target is encrypted, versioned backups to storage you provide: local/
 
 **Windows release first.** The current application passes [Windows CI](https://github.com/hoxsec/DiskPond/actions/runs/41645023929), including recovery, packaging and installed smoke. Hosted login, managed cloud storage, billing, configuration sync and telemetry paths are removed.
 
-The first unsigned Windows prerelease, [**v0.1.0-alpha.1**](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.0-alpha.1), is available. Tag-triggered CI passed packaging and installed backup/restore checks. See [Windows release, installation and recovery instructions](docs/windows-release.md). Encrypted setup export/import and broader provider/platform certification remain deferred.
+The latest unsigned Windows prerelease, [**v0.1.0-alpha.2**](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.0-alpha.2), is available with the graphite/blue square-corner design and return navigation through snapshot browsing, backup history and profiles. [Release CI](https://github.com/hoxsec/DiskPond/actions/runs/41668791860) passed packaging and installed backup/restore checks; downloaded checksums match. See [Windows release, installation and recovery instructions](docs/windows-release.md). Snapshot comparison and an activity calendar are planned next; encrypted setup export/import and broader provider/platform certification remain deferred.
 
 See [ROADMAP.md](ROADMAP.md) for Now / Next / Later and [PLAN.md](PLAN.md) for the requirement inventory.
 

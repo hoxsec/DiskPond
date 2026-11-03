@@ -1,7 +1,7 @@
 # DiskPond — Product and Engineering Plan
 
 - **Updated:** 2026-11-03
-- **Status:** First unsigned Windows prerelease published; owner installation and actual-use feedback are next. The owner approved the local visual redesign and selected snapshot comparison and an activity calendar for planning. Broad certification is deferred.
+- **Status:** Unsigned Windows prerelease v0.1.0-alpha.2 is published with the approved visual redesign and return navigation; owner installation and actual-use feedback are next. Snapshot comparison and an activity calendar are planned. Broad certification is deferred.
 - **Delivery:** One developer assisted by coding tools; quality-first, milestone-driven.
 
 DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It preserves inherited desktop and bring-your-own-storage functionality, uses its Kopia-based engine, and introduces an original, calm interface. The immediate deliverable is a usable Windows release; macOS/Linux and full parity are deferred.
@@ -14,7 +14,7 @@ Prioritize tag-triggered Windows release CI/CD and a compact release check, then
 
 Release update: with owner authorization, **v0.1.0-alpha.1**, **unsigned**, is published from application `dd6e3c2`. [Release CI](https://github.com/hoxsec/DiskPond/actions/runs/41654918106) and downloaded checksums passed. Owner installation/feedback is next. See [release instructions](docs/windows-release.md) and [verification evidence](docs/verification/windows-release-cicd.md).
 
-On 2026-11-03 the owner authorized committing and pushing the complete graphite/blue identity, return-navigation and feature-planning batch to `main`, followed by the next unsigned Windows prerelease, **v0.1.0-alpha.2**. Publication and asset verification are pending; [the release record](docs/verification/windows-alpha-2.md) tracks this batch.
+On 2026-11-03 the owner authorized committing and pushing the complete graphite/blue identity, return-navigation and feature-planning batch to `main`, followed by **v0.1.0-alpha.2**, unsigned. It is published from application `f872617`; [release CI 41668791860](https://github.com/hoxsec/DiskPond/actions/runs/41668791860) and all downloaded checksums passed. [The release record](docs/verification/windows-alpha-2.md) tracks this batch.
 
 ## 1. Confirmed decisions
 

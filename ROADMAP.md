@@ -10,6 +10,7 @@ The owner confirms the current workflow works. Existing [Windows CI](https://git
 - [x] Verify the compact release check in GitHub: [release run 41654918106](https://github.com/hoxsec/DiskPond/actions/runs/41654918106) passed lint/types, unit tests and installed + bundled-engine backup/restore smoke. Extended suites are manual.
 - [x] Publish installer, updater metadata, checksums and matching source/license information to [GitHub Release v0.1.0-alpha.1](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.0-alpha.1); downloaded asset checksums verified.
 - [x] Cut the first Windows prerelease, **v0.1.0-alpha.1**, unsigned, with owner authorization. [Release/install/recovery instructions](docs/windows-release.md) are available.
+- [x] Publish the owner-authorized UI/navigation follow-up, [**v0.1.0-alpha.2**](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.0-alpha.2), from `f872617`. [Release CI 41668791860](https://github.com/hoxsec/DiskPond/actions/runs/41668791860) and all downloaded checksums passed; [evidence](docs/verification/windows-alpha-2.md).
 
 **Done when:** a version tag produces a downloadable installer that the owner can install and use. Broad provider/platform certification does not block this release.
 
@@ -25,7 +26,7 @@ Fix reported backup, scheduling, retention, restore and usability issues. Add en
 - [ ] Implement snapshot comparison with added/changed/deleted paths and before/after sizes and modification times (DP05).
 - [ ] Implement the activity calendar on Home and in each vault, with honest history coverage and outcome handling (DP06).
 
-The redesign commit is `7a8a6fa`. On 2026-11-03 the owner authorized committing/pushing the complete identity/navigation/planning batch to `main` and publishing **v0.1.0-alpha.2**. [Release verification](docs/verification/windows-alpha-2.md) is pending. The two new features are planned, not implemented.
+The redesign commit `7a8a6fa` and navigation/planning commit `f872617` are pushed to `main` and included in **v0.1.0-alpha.2**, published with owner authorization. [Release verification](docs/verification/windows-alpha-2.md) passed. The two new features are planned, not implemented.
 
 ## Later — Optional expansion
 
