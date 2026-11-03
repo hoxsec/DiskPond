@@ -8,6 +8,17 @@ export const ZVaultStorageSpace = z.discriminatedUnion("status", [
     })
     .strict(),
   z.object({ status: z.literal("UNSUPPORTED") }).strict(),
+  z
+    .object({
+      status: z.literal("QUOTA"),
+      availableBytes: z
+        .number()
+        .int()
+        .nonnegative()
+        .max(Number.MAX_SAFE_INTEGER),
+    })
+    .strict(),
+  z.object({ status: z.literal("NO_QUOTA") }).strict(),
   z.object({ status: z.literal("UNAVAILABLE") }).strict(),
 ]);
 

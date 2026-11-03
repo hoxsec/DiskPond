@@ -214,15 +214,23 @@ export function VaultOverview({ vault }: VaultOverviewProps) {
           isLoading={isStatsLoading}
         />
         <VaultStatCard
-          title={t("stats.storageAvailable")}
+          title={t(
+            storageSpace.data?.status === "QUOTA" ||
+              storageSpace.data?.status === "NO_QUOTA"
+              ? "stats.bucketQuotaRemaining"
+              : "stats.storageAvailable",
+          )}
           value={
             storageSpace.isError
               ? t("stats.unavailable")
-              : storageSpace.data?.status === "AVAILABLE"
+              : storageSpace.data?.status === "AVAILABLE" ||
+                  storageSpace.data?.status === "QUOTA"
                 ? formatSize(storageSpace.data.availableBytes)
-                : storageSpace.data?.status === "UNSUPPORTED"
-                  ? t("stats.notReported")
-                  : t("stats.unavailable")
+                : storageSpace.data?.status === "NO_QUOTA"
+                  ? t("stats.noBucketQuota")
+                  : storageSpace.data?.status === "UNSUPPORTED"
+                    ? t("stats.notReported")
+                    : t("stats.unavailable")
           }
           isLoading={!vault || storageSpace.isLoading}
         />

@@ -19,6 +19,14 @@ const mocks = vi.hoisted(() => ({
   failSave: false,
   failRename: false,
   status: vi.fn(),
+  s3Space: vi.fn(),
+  sftpSpace: vi.fn(),
+}));
+vi.mock("@electron/s3-storage-space", () => ({
+  readS3StorageSpace: mocks.s3Space,
+}));
+vi.mock("@electron/sftp-storage-space", () => ({
+  readSftpStorageSpace: mocks.sftpSpace,
 }));
 vi.mock("node:fs", async (original) => {
   const fs = await original<typeof import("node:fs")>();
@@ -462,4 +470,70 @@ it("distinguishes unsupported providers from missing or locked connections", asy
       vaultId: "vlt_remote",
     }),
   ).toEqual({ status: "UNAVAILABLE" });
+});
+
+it("reads S3 quota with the protected saved connection after restart", async () => {
+  const connection = await import("@electron/vault/connection");
+  const s3 = {
+    type: "s3" as const,
+    config: {
+      endpoint: "rustfs.example.test",
+      bucket: "backup",
+      prefix: "vault/",
+      accessKeyID: "fixture-key",
+      secretAccessKey: "fixture-secret",
+      sessionToken: "fixture-token",
+    },
+  };
+  connection.saveConnection("vlt_s3", s3);
+  vi.resetModules();
+  mocks.s3Space.mockResolvedValue({ status: "QUOTA", availableBytes: 600 });
+  const restarted = await import("@electron/vault/connection");
+  expect(await restarted.getVaultStorageSpace({ vaultId: "vlt_s3" })).toEqual({
+    status: "QUOTA",
+    availableBytes: 600,
+  });
+  expect(mocks.s3Space).toHaveBeenCalledWith(s3.config);
+  vi.resetModules();
+  mocks.available = false;
+  expect(
+    await (await import("@electron/vault/connection")).getVaultStorageSpace({
+      vaultId: "vlt_s3",
+    }),
+  ).toEqual({ status: "UNAVAILABLE" });
+  expect(mocks.s3Space).toHaveBeenCalledOnce();
+});
+
+it("reads SFTP space with the protected saved connection after restart", async () => {
+  const connection = await import("@electron/vault/connection");
+  const sftp = {
+    type: "sftp" as const,
+    config: {
+      host: "sftp.example.test",
+      port: 2222,
+      username: "fixture-user",
+      password: "fixture-password",
+      path: "/backups",
+      knownHostsData: "fixture-host-key",
+    },
+  };
+  connection.saveConnection("vlt_sftp", sftp);
+  vi.resetModules();
+  mocks.sftpSpace.mockResolvedValue({
+    status: "AVAILABLE",
+    availableBytes: 1024,
+  });
+  const restarted = await import("@electron/vault/connection");
+  expect(await restarted.getVaultStorageSpace({ vaultId: "vlt_sftp" })).toEqual(
+    { status: "AVAILABLE", availableBytes: 1024 },
+  );
+  expect(mocks.sftpSpace).toHaveBeenCalledWith(sftp.config);
+  vi.resetModules();
+  mocks.available = false;
+  expect(
+    await (await import("@electron/vault/connection")).getVaultStorageSpace({
+      vaultId: "vlt_sftp",
+    }),
+  ).toEqual({ status: "UNAVAILABLE" });
+  expect(mocks.sftpSpace).toHaveBeenCalledOnce();
 });

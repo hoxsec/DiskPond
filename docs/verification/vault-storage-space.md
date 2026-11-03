@@ -30,3 +30,6 @@ Native create/connect screenshots were reviewed at `%LOCALAPPDATA%/Temp/opencode
 ## Scope
 
 Real reads and create/connect/restart were exercised on disposable local Windows directories. Physical USB removal, live UNC/NAS quota behavior, other OSes and provider-specific remote quota APIs remain deferred. The fixed deadline/concurrency policy is regression-tested; no live stalled NAS was available. No repository format, engine source, credential format or dependency change is included.
+
+Unreleased follow-up: [RustFS quota reporting](rustfs-quota.md) adds bucket-quota remaining capacity for compatible S3 endpoints.
+Unreleased follow-up: [SFTP available space](sftp-storage-space.md) adds read-only statvfs reporting for compatible SSH servers.

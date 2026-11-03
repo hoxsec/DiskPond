@@ -8,6 +8,8 @@ DiskPond is an account-free, open-source desktop backup application derived from
 
 ### Active scope override — 2026-11-03
 
+The owner authorized committing/pushing the RustFS quota and SFTP available-space batch and publishing **v0.1.2**. [Release verification](docs/verification/windows-v0.1.2.md) tracks the pending publication; live-provider certification remains deferred.
+
 Latest D14 / DP06 placement correction: the calendar is only in the separate Activity tab reached through Home-level navigation. Vault pages no longer embed it or expose Activity in their navigation. This supersedes earlier per-vault calendar placement references. The owner's subsequent density preference uses individually collapsed backup rows below the calendar, keeping folder, completion time, vault, size/file count and status visible; expand for full details.
 
 The owner replaced the M0–M7 certification sequence with the small [Now / Next / Later roadmap](ROADMAP.md). This decision takes precedence over milestone gates, full-parity promises and exhaustive verification requirements retained below as reference. The P/F/DP IDs remain useful feature inventory, not a checklist that must be closed before releasing Windows. Deferred capabilities are not removed or certified by this decision.

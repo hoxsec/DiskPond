@@ -317,6 +317,36 @@ app.whenReady().then(async () => {
       "window.historyFixture.storageSpace('vault-a', {status:'AVAILABLE', availableBytes:125_000_000_000})",
     );
     await wait(`${storageCard}.textContent.includes('125 GB')`);
+    const quotaCard =
+      "Array.from(document.querySelectorAll('[data-slot=card]')).find(card=>card.textContent.includes('Bucket quota remaining'))";
+    await evaluate(
+      "window.historyFixture.storageSpace('vault-a', {status:'QUOTA', availableBytes:50_000_000_000})",
+    );
+    await wait(`${quotaCard}?.textContent.includes('50 GB')`);
+    await capture("vault-quota-light");
+    await evaluate(
+      "window.historyFixture.storageSpace('vault-a', {status:'QUOTA', availableBytes:0})",
+    );
+    await wait(`${quotaCard}.textContent.includes('0 B')`);
+    await evaluate("window.historyFixture.storageSpace('vault-a', 'ERROR')");
+    await wait(`${quotaCard}.textContent.includes('Unavailable')`);
+    assert.ok(await evaluate(`!${quotaCard}.textContent.includes('0 B')`));
+    await evaluate(
+      "window.historyFixture.storageSpace('vault-a', {status:'NO_QUOTA'})",
+    );
+    await wait(`${quotaCard}.textContent.includes('No bucket quota')`);
+    await evaluate("document.body.classList.add('dark')");
+    contents.setZoomFactor(2);
+    await wait("innerWidth<768");
+    assert.ok(
+      await evaluate(`${quotaCard}.scrollWidth <= ${quotaCard}.clientWidth`),
+    );
+    await evaluate(`${quotaCard}.scrollIntoView({block:'center'})`);
+    await capture("vault-quota-dark-200");
+    await evaluate(
+      "window.historyFixture.storageSpace('vault-a', {status:'AVAILABLE', availableBytes:125_000_000_000})",
+    );
+    await wait(`${storageCard}?.textContent.includes('125 GB')`);
     await evaluate("window.historyFixture.online(true)");
     await evaluate("document.body.classList.add('dark')");
     contents.setZoomFactor(2);

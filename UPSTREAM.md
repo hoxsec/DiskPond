@@ -78,6 +78,10 @@ For D14 / DP05 / DP06, new validated read contracts, bounded comparison traversa
 
 For F06 / P01–P03, the inherited vault overview/stat-card, query keys, Electron connection IPC/preload and English vault copy now expose destination available space. New shared read-result validation, a bounded native filesystem probe and a vault-scoped renderer query use main-owned connection paths. Filesystem destinations report the current user's available bytes; other providers show **Not reported**, and failed reads show **Unavailable**. The new card has no historical trend. [Verification](docs/verification/vault-storage-space.md) records the feature released in v0.1.1.
 
+## Remote available-space follow-up (2026-11-03)
+
+Unreleased: Electron connection dispatch now supports [RustFS bucket quotas](docs/verification/rustfs-quota.md) and [SFTP available space](docs/verification/sftp-storage-space.md). New native-owned probes reuse saved credentials and the existing IPC read contract. The Electron manifest/lockfile add `aws4` and `ssh2`; esbuild bundles their JavaScript and retains their dependency licenses under `build/licenses`. Optional SSH native accelerators are disabled, with an ESM dirname shim for bundled CommonJS code. No core pin or repository format changes.
+
 ## M2 owned-core discovery work
 
 On 2026-11-02 the owner approved and created [hoxsec/diskpond-core](https://github.com/hoxsec/diskpond-core), a GitHub fork of `blinkdisk/core`. The exact upstream baseline remains available in that fork. `.gitmodules` now selects the owned fork; local core `origin` points there and `upstream` retains `https://github.com/blinkdisk/core.git`.

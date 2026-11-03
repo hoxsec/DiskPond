@@ -1,3 +1,6 @@
+import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
+import { createRequire } from "node:module";
+import { dirname, join } from "node:path";
 import { config } from "dotenv";
 
 config({
@@ -34,10 +37,20 @@ const base = {
 
 const index = {
   ...base,
+  // ssh2 catches missing optional accelerators and uses Node's crypto. Keep
+  // the bundled app independent of native addons/Electron ABI rebuilds.
+  external: [
+    ...base.external,
+    "cpu-features",
+    "./crypto/build/Release/sshcrypto.node",
+  ],
   banner: {
     js:
       "import { createRequire } from 'module';\n" +
-      "const require = createRequire(import.meta.url);",
+      "import { fileURLToPath as bundleFileURLToPath } from 'node:url';\n" +
+      "import { dirname as bundleDirname } from 'node:path';\n" +
+      "const require = createRequire(import.meta.url);\n" +
+      "const __dirname = bundleDirname(bundleFileURLToPath(import.meta.url));",
   },
   entryPoints: ["./src/index.ts"],
   format: "esm",
@@ -50,6 +63,31 @@ const preload = {
   format: "cjs",
   platform: "browser",
 };
+
+// Keep license texts with the newly bundled storage clients and their JS
+// dependencies. build/** is included in desktop distributions.
+const licensed = new Set();
+await mkdir("build/licenses", { recursive: true });
+async function copyStorageLicenses(name, from) {
+  const manifestPath = from.resolve(`${name}/package.json`);
+  if (licensed.has(manifestPath)) return;
+  licensed.add(manifestPath);
+  const directory = dirname(manifestPath);
+  const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+  const files = (await readdir(directory)).filter((file) =>
+    /^licen[cs]e(?:\.|$)/i.test(file),
+  );
+  if (!files.length) throw new Error(`Missing license for ${name}`);
+  for (const file of files)
+    await writeFile(
+      join("build/licenses", `${name.replaceAll("/", "-")}-${file}.txt`),
+      await readFile(join(directory, file)),
+    );
+  for (const dependency of Object.keys(manifest.dependencies || {}))
+    await copyStorageLicenses(dependency, createRequire(manifestPath));
+}
+for (const name of ["aws4", "ssh2"])
+  await copyStorageLicenses(name, createRequire(import.meta.url));
 
 if (isDev && process.argv[3] !== "once") {
   await Promise.all([

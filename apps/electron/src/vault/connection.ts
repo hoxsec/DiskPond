@@ -24,6 +24,8 @@ import {
 import { updateConnectionStorageStatus } from "@electron/password";
 import { globalAccountDirectory, globalVaultDirectory } from "@electron/path";
 import { getHostName, getUserName } from "@electron/profile";
+import { readS3StorageSpace } from "@electron/s3-storage-space";
+import { readSftpStorageSpace } from "@electron/sftp-storage-space";
 import { readStorageSpace } from "@electron/storage-space";
 import { store } from "@electron/store";
 import { mapConfigFields, mapProviderType } from "@electron/vault/mapping";
@@ -365,6 +367,9 @@ export async function getVaultStorageSpace({
 }): Promise<VaultStorageSpace> {
   const connection = getConnection(vaultId);
   if (!connection) return { status: "UNAVAILABLE" };
+  if (connection.type === "s3") return readS3StorageSpace(connection.config);
+  if (connection.type === "sftp")
+    return readSftpStorageSpace(connection.config);
   if (connection.type !== "filesystem") return { status: "UNSUPPORTED" };
   const path = connection.config.path;
   if (typeof path !== "string") return { status: "UNAVAILABLE" };

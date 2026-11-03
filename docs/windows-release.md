@@ -2,7 +2,7 @@
 
 **[Download DiskPond for Windows](https://github.com/hoxsec/DiskPond/releases/latest/download/DiskPond-Windows.exe)** · [Release notes and checksums](https://github.com/hoxsec/DiskPond/releases/latest)
 
-**v0.1.1** targets **Windows 10/11 x64**, adding vault available-space readings and compact Activity details to DiskPond's encrypted versioned backups, snapshot comparison and notification-only update checks. The installer is unsigned. [Release verification](verification/windows-v0.1.1.md) records publication status and checks; broader OS/provider certification remains deferred.
+**v0.1.2** targets **Windows 10/11 x64**, adding RustFS bucket-quota and SFTP available-space readings to DiskPond's encrypted versioned backups, snapshot comparison and notification-only update checks. The installer is unsigned. [Release verification](verification/windows-v0.1.2.md) records publication status and checks; broader OS/provider certification remains deferred.
 
 ## Install and make a backup
 
@@ -27,11 +27,11 @@ Stable installations check stable releases; prerelease installations also consid
 ## Build this release
 
 ```powershell
-git clone --branch v0.1.1 --recurse-submodules https://github.com/hoxsec/DiskPond.git
+git clone --branch v0.1.2 --recurse-submodules https://github.com/hoxsec/DiskPond.git
 cd DiskPond
 pnpm install --frozen-lockfile
 $env:GITHUB_REF_TYPE = 'tag'
-$env:GITHUB_REF_NAME = 'v0.1.1'
+$env:GITHUB_REF_NAME = 'v0.1.2'
 pnpm build:windows
 ```
 
