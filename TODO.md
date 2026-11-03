@@ -1,6 +1,6 @@
 # DiskPond — Next work
 
-**v0.1.3 is authorized for release**, adding in-app updates and six updater refinements. [Release CI, installed-updater checks and publication](docs/verification/windows-v0.1.3.md) are pending. v0.1.2 remains GitHub Latest until publication. Live RustFS/SFTP validation remains pending.
+**v0.1.4 continues the authorized updater release** after v0.1.3's unpublished fixture failure. [Corrected release CI and publication](docs/verification/windows-v0.1.4.md) are pending. v0.1.2 remains GitHub Latest until publication. Live RustFS/SFTP validation remains pending.
 
 1. Collect installation and actual-use feedback; fix concrete issues in small batches.
    - In-app updates and all six selected refinements (F25) are implemented locally: idle-only install, release notes, cancellation, size/speed, reminders and history. Verify a real installed Windows upgrade before releasing this batch; see [evidence](docs/verification/in-app-updates.md).

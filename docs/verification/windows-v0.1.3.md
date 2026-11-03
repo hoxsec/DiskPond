@@ -1,6 +1,6 @@
 # Windows v0.1.3 — In-app updates
 
-Date: 2026-11-04. The owner authorized committing, pushing and publishing this release. Publication and downloaded-asset verification are pending.
+Date: 2026-11-04. The owner authorized committing, pushing and publishing the updater batch. **This candidate was not published.** Its installed-updater fixture failed; [v0.1.4](windows-v0.1.4.md) carries the fixture correction without moving the v0.1.3 tag.
 
 ## Scope
 
@@ -27,4 +27,6 @@ This test requires an isolated Windows user with no existing DiskPond installati
 
 ## Publication
 
-Pending commit/tag, compact release CI, publication and downloaded checksums. Existing v0.1.2 users need one manual installer update to receive the in-app updater.
+Committed/pushed as `d12d8e67056cbd2b7278a49dbfa69aed18037301` with annotated tag v0.1.3. [Release CI 41737661936](https://github.com/hoxsec/DiskPond/actions/runs/41737661936) passed frozen install, lint, types, all unit/launcher tests and Windows packaging. The installed check passed v0.1.2-to-candidate replacement, retained preferences and initial bundled-engine backup/restore hashes, then failed `The real installer must be downloaded`.
+
+The fixture offers the just-installed candidate's bytes under a synthetic newer version. NSIS cached those same bytes (`app-builder-lib/templates/nsis/include/installer.nsh`), allowing native updater cache/differential reuse without an installer HTTP request. v0.1.4 clears only the fixture-created updater cache before download, retaining the assertion. Publication was skipped; no assets were published and GitHub Latest stayed v0.1.2. Duplicate main check 41737661998 was canceled in favor of the release check. Existing v0.1.2 users need one manual installer update to receive the in-app updater.

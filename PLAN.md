@@ -1,14 +1,14 @@
 # DiskPond — Product and Engineering Plan
 
 - **Updated:** 2026-11-04
-- **Status:** The owner authorized committing/pushing the in-app updater batch and publishing **v0.1.3**. Local feature checks passed; [release CI, installed-updater checks and publication](docs/verification/windows-v0.1.3.md) are pending. **v0.1.2** remains GitHub Latest until publication. Live-provider and broad certification remain deferred.
+- **Status:** The owner authorized committing/pushing and publishing the in-app updater batch. **v0.1.4** continues after v0.1.3's unpublished installed-fixture cache failure. [Corrected release CI and publication](docs/verification/windows-v0.1.4.md) are pending. **v0.1.2** remains GitHub Latest until publication. Live-provider and broad certification remain deferred.
 - **Delivery:** One developer assisted by coding tools; quality-first, milestone-driven.
 
 DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It preserves inherited desktop and bring-your-own-storage functionality, uses its Kopia-based engine, and provides an original, calm interface. Windows x64 is the current release platform; macOS/Linux and full parity are deferred.
 
 ### Active scope override — 2026-11-04
 
-The owner authorized committing/pushing the complete in-app updater batch and publishing **v0.1.3**. [Release verification](docs/verification/windows-v0.1.3.md) tracks its compact Windows check and publication. This authorization includes the new local update-history preference contract; backup-attempt persistence remains a separate deferred decision.
+The owner authorized committing/pushing and publishing the complete in-app updater batch. [v0.1.4 release verification](docs/verification/windows-v0.1.4.md) tracks its corrected compact Windows check after the unpublished v0.1.3 fixture failure. This authorization includes the new local update-history preference contract; backup-attempt persistence remains a separate deferred decision.
 
 Latest D14 / DP06 placement correction: the calendar is only in the separate Activity tab reached through Home-level navigation. Vault pages no longer embed it or expose Activity in their navigation. This supersedes earlier per-vault calendar placement references. The owner's subsequent density preference uses individually collapsed backup rows below the calendar, keeping folder, completion time, vault, size/file count and status visible; expand for full details.
 

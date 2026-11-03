@@ -2,7 +2,7 @@
 
 **[Download DiskPond for Windows](https://github.com/hoxsec/DiskPond/releases/latest/download/DiskPond-Windows.exe)** · [Release notes and checksums](https://github.com/hoxsec/DiskPond/releases/latest)
 
-**v0.1.3** targets **Windows 10/11 x64**, adding in-app updates with idle-only installation, release notes, cancellation, size/speed, reminders and local update history. The installer is unsigned. [Release verification](verification/windows-v0.1.3.md) records publication status and checks; broader OS/provider certification remains deferred.
+**v0.1.4** targets **Windows 10/11 x64**, adding in-app updates with idle-only installation, release notes, cancellation, size/speed, reminders and local update history. The installer is unsigned. [Release verification](verification/windows-v0.1.4.md) records publication status and checks; broader OS/provider certification remains deferred.
 
 ## Install and make a backup
 
@@ -27,11 +27,11 @@ Stable installations check stable releases; prerelease installations also consid
 ## Build this release
 
 ```powershell
-git clone --branch v0.1.3 --recurse-submodules https://github.com/hoxsec/DiskPond.git
+git clone --branch v0.1.4 --recurse-submodules https://github.com/hoxsec/DiskPond.git
 cd DiskPond
 pnpm install --frozen-lockfile
 $env:GITHUB_REF_TYPE = 'tag'
-$env:GITHUB_REF_NAME = 'v0.1.3'
+$env:GITHUB_REF_NAME = 'v0.1.4'
 pnpm build:windows
 ```
 

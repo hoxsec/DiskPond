@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { createReadStream } from "node:fs";
-import { readFile, stat } from "node:fs/promises";
+import { readFile, rm, stat } from "node:fs/promises";
 import { createServer } from "node:http";
 import { join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
@@ -64,6 +64,15 @@ export async function installedUpdateProbe({
     async prepare() {
       // Drain any startup check before replacing only the fixture's feed.
       await evaluate("window.electron.update.check().catch(() => null)");
+      // NSIS caches the installer it just ran. This fixture offers those same
+      // bytes under a synthetic version, so differential download can otherwise
+      // copy every byte locally. The caller refuses pre-existing updater caches;
+      // remove only this fixture-created cache to exercise the network transfer.
+      await rm(join(process.env.LOCALAPPDATA, "diskpond-updater"), {
+        recursive: true,
+        force: true,
+        maxRetries: 5,
+      });
       const injection = await mainClient.call("Runtime.evaluate", {
         expression: `(() => {
           const electron = process.getBuiltinModule('module').createRequire(process.execPath)('electron');

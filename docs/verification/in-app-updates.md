@@ -1,6 +1,6 @@
 # In-app updates — F25
 
-Date: 2026-11-03; release handoff updated 2026-11-04. The owner authorized committing/pushing and publishing v0.1.3. [Release record](windows-v0.1.3.md).
+Date: 2026-11-03; release handoff updated 2026-11-04. The owner authorized committing/pushing and publishing this batch; v0.1.4 continues after the unpublished v0.1.3 fixture failure. [Release record](windows-v0.1.4.md).
 
 The owner's in-app update request supersedes the notification-only behavior recorded in [update-banner.md](update-banner.md).
 
