@@ -1,6 +1,7 @@
 import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
 import { Button } from "@blinkdisk/ui/button";
-import { showErrorToast } from "@blinkdisk/utils/error-toast";
+import { UpdateAction } from "@desktop/components/settings/update-action";
+import { UpdateHistory } from "@desktop/components/settings/update-history";
 import { useUpdateStatus } from "@desktop/hooks/state/use-update-status";
 import { useState } from "react";
 
@@ -20,33 +21,27 @@ export function CheckForUpdates() {
     }
   }
   return (
-    <div className="flex flex-wrap items-center gap-3">
-      <Button
-        variant="secondary"
-        loading={state === "checking"}
-        onClick={check}
-      >
-        {t("checkUpdates")}
-      </Button>
-      <span role="status" className="text-sm text-muted-foreground">
-        {state === "error"
-          ? t("updateError")
-          : state === "checked"
-            ? status?.available
-              ? t("updateAvailable", { version: status.version })
-              : t("upToDate")
-            : null}
-      </span>
-      {status?.available ? (
+    <div className="flex min-w-0 flex-col gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <Button
           variant="secondary"
-          onClick={() => {
-            void window.electron.update.openReleases().catch(showErrorToast);
-          }}
+          loading={state === "checking"}
+          onClick={check}
         >
-          {t("releases")}
+          {t("checkUpdates")}
         </Button>
-      ) : null}
+        <span role="status" className="text-sm text-muted-foreground">
+          {state === "error"
+            ? t("updateError")
+            : state === "checked"
+              ? status?.available
+                ? t("updateAvailable", { version: status.version })
+                : t("upToDate")
+              : null}
+        </span>
+      </div>
+      <UpdateAction />
+      <UpdateHistory />
     </div>
   );
 }

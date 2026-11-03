@@ -1,5 +1,6 @@
 import type { EncryptedString } from "@electron/encryption";
 import { globalConfigDirectory } from "@electron/path";
+import type { UpdateLocalState } from "@electron/update-history";
 import { sendWindow } from "@electron/window";
 import { app } from "electron";
 import Store from "electron-store";
@@ -8,6 +9,7 @@ export type GlobalStorageType = {
   workspaceReady: boolean;
   currentAccountId: string | null;
   dismissedUpdateVersion?: string | null;
+  updates?: UpdateLocalState;
   sidebarAlerts: {
     dismissed: {
       review?: string | null;

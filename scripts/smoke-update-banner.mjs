@@ -18,12 +18,14 @@ await require("esbuild").build({
       import { useUpdateListener } from "@desktop/hooks/use-update-listener";
       window.opened = 0;
       window.failOpen = false;
+      const base = { available: false, version: null, currentVersion: "0.1.2", history: [] };
       window.electron = { update: {
-        check: () => new Promise((resolve, reject) => { window.finishCheck = resolve; window.failCheck = reject; }),
-        status: async () => ({ available: false, version: null }),
-        change: (callback) => { window.publish = callback; return () => {}; },
-        openReleases: async () => {
-          if (window.failOpen) throw new Error("Browser unavailable");
+        check: () => new Promise((resolve, reject) => { window.finishCheck = (value) => resolve({ ...base, ...value }); window.failCheck = reject; }),
+        status: async () => base,
+        change: (callback) => { window.publish = (value) => callback({ ...base, ...value }); return () => {}; },
+        remindLater: async () => {},
+        download: async () => {
+          if (window.failOpen) throw new Error("Download unavailable");
           window.opened++;
         },
       }};
@@ -53,7 +55,7 @@ await require("esbuild").build({
           () => ({ path: "translation", namespace: "fixture" }),
         );
         build.onLoad({ filter: /.*/, namespace: "fixture" }, () => ({
-          contents: `export const useAppTranslation = () => ({ t: (key, values) => key === "title" || key === "updateAvailable" ? "DiskPond " + values.version + " available" : key === "error" || key === "updateError" ? "Couldn't complete request. Try again." : key === "checkUpdates" ? "Check for updates" : key === "upToDate" ? "You're up to date" : "View GitHub releases" });`,
+          contents: `export const useAppTranslation = () => ({ t: (key, values) => key === "title" || key === "updateAvailable" ? "DiskPond " + values.version + " available" : key === "failed" || key === "updateError" ? "Couldn't complete request. Try again." : key === "checkUpdates" ? "Check for updates" : key === "upToDate" ? "You're up to date" : "Download update" });`,
           loader: "js",
         }));
       },
@@ -96,7 +98,7 @@ await writeFile(
     await evaluate('window.publish({ available: false, version: null })');
     await settle();
     assert.equal(await evaluate('document.querySelectorAll("button").length'), 0);
-    console.log("PASS: banner visibility, version, keyboard activation, browser failure and retry");
+    console.log("PASS: banner visibility, version, keyboard activation, download failure and retry");
     await evaluate('window.showSettings()');
     await settle();
     await evaluate('document.querySelector("button").click()');
@@ -117,7 +119,7 @@ await writeFile(
     await evaluate('window.finishCheck({available: true, version: "0.1.0-alpha.4"})');
     await settle();
     assert.match(await evaluate('document.querySelector("[role=status]").textContent'), /0.1.0-alpha.4/);
-    assert.equal(await evaluate('document.querySelectorAll("button").length'), 2);
+    assert.equal(await evaluate('document.querySelectorAll("button").length'), 3);
     console.log("PASS: manual check spinner/disabled state, current version, failure/retry, update available");
     app.exit(0);
   }).catch(error => { console.error(error); app.exit(1); });

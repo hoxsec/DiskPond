@@ -27,6 +27,10 @@ import { z } from "zod";
 
 export const vaults: Record<string, VaultInstance> = {};
 const vaultStartupStates = new Map<string, "STARTING" | "FAILED">();
+
+export function hasStartingVaults() {
+  return [...vaultStartupStates.values()].includes("STARTING");
+}
 // Reserve identities before opening (including before the renderer persists
 // its descriptor), so overlapping requests cannot connect a second copy.
 const connectedIdentities = new Map<string, string>();

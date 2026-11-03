@@ -13,12 +13,18 @@ import {
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
+import { installedUpdateProbe } from "./lib/installed-update.mjs";
 import { root as repository, run, stop } from "./lib/process.mjs";
 
 assert.equal(process.platform, "win32", "Installed smoke requires Windows.");
 const data = join(process.env.APPDATA, "diskpond");
 const updaterCache = join(process.env.LOCALAPPDATA, "diskpond-updater");
 const updaterExisted = existsSync(updaterCache);
+assert.equal(
+  updaterExisted,
+  false,
+  "An updater cache exists; use an isolated Windows user for this test.",
+);
 assert.equal(
   existsSync(data),
   false,
@@ -66,6 +72,7 @@ let child;
 let client;
 let mainClient;
 let installed = false;
+let updateProbe;
 
 async function connect(url) {
   const socket = new WebSocket(url);
@@ -130,6 +137,26 @@ async function click(text) {
 }
 
 try {
+  // Verify installer replacement from the previous public release, including
+  // its existing preference-file shape, before probing the new updater itself.
+  const previous = await fetch(
+    "https://github.com/hoxsec/DiskPond/releases/download/v0.1.2/DiskPond-Windows.exe",
+    { signal: AbortSignal.timeout(120_000) },
+  );
+  assert.equal(previous.ok, true);
+  const previousBytes = Buffer.from(await previous.arrayBuffer());
+  assert.equal(
+    createHash("sha256").update(previousBytes).digest("hex"),
+    "727653b49bae830adbae6a2a697911d8ec92e89e45fb62e1f65bb960257b35cf",
+  );
+  const previousPath = join(temp, "DiskPond-v0.1.2.exe");
+  await writeFile(previousPath, previousBytes);
+  await run(previousPath, ["/S", `/D=${destination}`], { timeout: 180_000 });
+  installed = true;
+  await writeFile(
+    join(data, "config.json"),
+    JSON.stringify({ preferences: { theme: "dark", checkForUpdates: false } }),
+  );
   await run(
     resolve(repository, "apps/electron/dist/DiskPond-Windows.exe"),
     ["/S", `/D=${destination}`],
@@ -199,6 +226,11 @@ try {
           ),
         ).version,
   );
+  assert.equal(
+    await evaluate("window.electron.store.get('preferences.theme')"),
+    "dark",
+  );
+  console.info("Installed v0.1.2-to-candidate upgrade retained preferences.");
   assert.equal(
     await evaluate("'auth' in window.electron || 'sync' in window.electron"),
     false,
@@ -281,12 +313,16 @@ try {
   assert.equal(await hash(join(restored, "雪.txt")), expected);
   assert.equal(await readFile(join(restored, "empty.txt"), "utf8"), "");
   console.info("Installed bundled-engine backup/restore hashes passed.");
+  updateProbe = await installedUpdateProbe({
+    dist: resolve(repository, "apps/electron/dist"),
+    destination,
+    data,
+    evaluate,
+    mainClient,
+  });
+  await updateProbe.prepare();
   client.close();
   client = null;
-  await mainClient.call("Runtime.evaluate", {
-    expression:
-      "setTimeout(() => process.getBuiltinModule('module').createRequire(process.execPath)('electron').app.quit(), 200)",
-  });
   mainClient.close();
   mainClient = null;
   await Promise.race([
@@ -299,13 +335,18 @@ try {
       throw new Error("Packaged app did not quit");
     }),
   ]);
+  await updateProbe.verifyRelaunch();
+  const restoredAfterUpdate = join(temp, "restored-after-update");
+  cli(["snapshot", "restore", snapshot.id, restoredAfterUpdate]);
+  assert.equal(await hash(join(restoredAfterUpdate, "雪.txt")), expected);
   console.info(
-    "Installed NSIS smoke passed: first launch, local onboarding, IPC version, packaged engine discovery, project licenses, DiskPond updater metadata and normal quit.",
+    "Installed NSIS smoke passed: upgrade, onboarding, IPC version, engine discovery, licenses, in-app download/install/relaunch and post-update recovery hash.",
   );
 } finally {
   client?.close();
   mainClient?.close();
   stop(child);
+  await updateProbe?.dispose();
   if (installed) {
     await run(
       join(destination, "Uninstall DiskPond.exe"),

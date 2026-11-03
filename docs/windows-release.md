@@ -2,7 +2,7 @@
 
 **[Download DiskPond for Windows](https://github.com/hoxsec/DiskPond/releases/latest/download/DiskPond-Windows.exe)** · [Release notes and checksums](https://github.com/hoxsec/DiskPond/releases/latest)
 
-**v0.1.2** targets **Windows 10/11 x64**, adding RustFS bucket-quota and SFTP available-space readings to DiskPond's encrypted versioned backups, snapshot comparison and notification-only update checks. The installer is unsigned. [Release verification](verification/windows-v0.1.2.md) records publication status and checks; broader OS/provider certification remains deferred.
+**v0.1.3** targets **Windows 10/11 x64**, adding in-app updates with idle-only installation, release notes, cancellation, size/speed, reminders and local update history. The installer is unsigned. [Release verification](verification/windows-v0.1.3.md) records publication status and checks; broader OS/provider certification remains deferred.
 
 ## Install and make a backup
 
@@ -20,18 +20,18 @@ Connect the existing vault using the same destination/provider details and repos
 
 ## Updates
 
-DiskPond checks GitHub releases at startup and hourly. A banner links to the release page when a newer version is available. **Settings → Check for updates** also works when automatic checks are disabled. Download the installer, finish active operations, quit DiskPond and run the installer to update.
+DiskPond checks GitHub releases at startup and hourly. Choose **Download update** in the banner or Settings, then **Restart and install** once native backups/restores are idle. Downloads show size/speed and can be canceled. **What's new**, a 24-hour **Remind me later** action and local update history are available in the app. **Settings → Check for updates** also works when automatic checks are disabled.
 
-Stable installations check stable releases; prerelease installations also consider prereleases. Update checks do not download or install anything automatically. See [update behavior and verification](verification/update-banner.md).
+Stable installations check stable releases; prerelease installations also consider prereleases. Downloads and restarts remain user-triggered. See [update behavior and verification](verification/in-app-updates.md). **v0.1.2 and earlier need one manual installer update** to receive this updater: finish active operations, quit DiskPond and run the new installer.
 
 ## Build this release
 
 ```powershell
-git clone --branch v0.1.2 --recurse-submodules https://github.com/hoxsec/DiskPond.git
+git clone --branch v0.1.3 --recurse-submodules https://github.com/hoxsec/DiskPond.git
 cd DiskPond
 pnpm install --frozen-lockfile
 $env:GITHUB_REF_TYPE = 'tag'
-$env:GITHUB_REF_NAME = 'v0.1.2'
+$env:GITHUB_REF_NAME = 'v0.1.3'
 pnpm build:windows
 ```
 
@@ -41,7 +41,7 @@ Use the toolchain in [DEVELOPMENT.md](../DEVELOPMENT.md). GitHub's automatic sou
 
 Release publication requires owner authorization. Bump `apps/electron/package.json`, add `docs/releases/vVERSION.md` release notes, commit and push the reviewed batch, then push a new annotated version tag. Supported tags are `vMAJOR.MINOR.PATCH` or `vMAJOR.MINOR.PATCH-alpha.N`, `-beta.N`, `-rc.N`. The tag supplies the packaged application version. Never move a published tag. Remove an unpublished failed draft before rerunning the same unchanged tag; code fixes require a new version.
 
-`.github/workflows/release.yml` calls the compact Windows check used for pull requests and main: lint, types, existing unit tests, pinned-core/NSIS build and installed startup + bundled-engine backup/restore hash smoke. Only passing checks hand assets to the publishing job. It creates a draft, uploads all assets, then publishes it. Stable versions become GitHub's **Latest** release; prerelease tags do not. No signing secrets are required for the unsigned release path.
+`.github/workflows/release.yml` calls the compact Windows check used for pull requests and main: lint, types, existing unit tests, pinned-core/NSIS build, installed upgrade and updater handoff/relaunch, plus bundled-engine recovery hashes. Only passing checks hand assets to the publishing job. It creates a draft, uploads all assets, then publishes it. Stable versions become GitHub's **Latest** release; prerelease tags do not. No signing secrets are required for the unsigned release path.
 
 Assets include `DiskPond-Windows.exe`, its blockmap, `latest.yml` update metadata, SHA-256 checksums, matching application/core source ZIPs, licenses, provenance and build instructions. Download and verify the published assets before closing the release record.
 

@@ -1,8 +1,10 @@
 # DiskPond — Roadmap
 
-Updated: 2026-11-03. **[v0.1.2](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.2)** is published as GitHub Latest with owner authorization. [Release CI and downloaded checksums passed](docs/verification/windows-v0.1.2.md).
+Updated: 2026-11-04. The owner authorized publishing **v0.1.3** with in-app updates. [Release verification](docs/verification/windows-v0.1.3.md) is pending; v0.1.2 remains GitHub Latest until publication.
 
 ## Now — Stable Windows releases
+
+- [ ] Publish owner-authorized **v0.1.3** with in-app updates and all six refinements. Require the compact Windows installed-updater check and verify downloaded checksums. [Release record](docs/verification/windows-v0.1.3.md).
 
 - [x] Publish owner-authorized **v0.1.2** with RustFS/SFTP storage reporting. Compact Windows CI, installed recovery and all 10 downloaded checksums passed. [Release record](docs/verification/windows-v0.1.2.md).
 
@@ -16,6 +18,9 @@ Updated: 2026-11-03. **[v0.1.2](https://github.com/hoxsec/DiskPond/releases/tag/
 ## Next — Improve through actual use
 
 Fix reported backup, scheduling, retention, restore and usability issues. Collect installation and everyday-use feedback on the stable release. Add encrypted setup export/import and improve diagnostics when needed.
+
+- [ ] Verify the installed Windows upgrade and updater fixture for the authorized v0.1.3 release (F25). Download/progress/retry and explicit restart/install are implemented locally with focused tests and keyboard UI evidence; [verification](docs/verification/in-app-updates.md).
+- [x] Implement the owner-selected updater improvements (F25): idle-only installation, release notes, cancellation, download size/speed, 24-hour reminders and bounded local update history. Native tests, keyboard/UI checks and real-engine backup/restore activity plus 32 restored hashes passed locally; [evidence](docs/verification/in-app-updates.md).
 
 - [x] Add **Storage available** to vault overviews for filesystem destinations (F06 / P01–P03), with explicit unavailable/unsupported states. [Verification](docs/verification/vault-storage-space.md); released in v0.1.1.
 - [x] Compact Activity's backup and latest-issue details into individually expandable rows (DP06 / DP04), keeping key metadata visible. [Verification](docs/verification/activity-compact-rows.md); released in v0.1.1.

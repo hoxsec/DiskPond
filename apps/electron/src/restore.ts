@@ -32,6 +32,16 @@ type Operation = {
 const operations = new Map<string, Operation>();
 const destinations = new Set<string>();
 
+export function hasActiveRestores() {
+  return (
+    destinations.size > 0 ||
+    [...operations.values()].some(
+      ({ result }) =>
+        result.status === "RUNNING" || result.status === "CANCELING",
+    )
+  );
+}
+
 export function splitFileName(name: string) {
   const parts = name.split(".");
   return parts.length > 1

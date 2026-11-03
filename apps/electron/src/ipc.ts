@@ -22,9 +22,12 @@ import {
 import { openBrowser } from "@electron/shell";
 import { sshKeyscan } from "@electron/ssh";
 import {
+  cancelUpdateDownload,
   checkForUpdates,
+  downloadUpdate,
   getUpdateStatus,
-  openUpdateReleases,
+  installUpdate,
+  remindUpdateLater,
 } from "@electron/updater";
 import { getVaultStatus, retryVault } from "@electron/vault/manage";
 import { setProgressBar, window } from "@electron/window";
@@ -122,8 +125,9 @@ ipcMain.handle("ssh.keyscan", (event, form) => {
   requireMainWindow(event);
   return sshKeyscan(form);
 });
-ipcMain.handle("update.status", (event) => {
+ipcMain.handle("update.status", (event, ...args: unknown[]) => {
   requireMainWindow(event);
+  if (args.length) throw new Error("Invalid update request");
   return getUpdateStatus();
 });
 ipcMain.handle("update.check", (event, ...args: unknown[]) => {
@@ -131,10 +135,25 @@ ipcMain.handle("update.check", (event, ...args: unknown[]) => {
   if (args.length) throw new Error("Invalid update request");
   return checkForUpdates();
 });
-ipcMain.handle("update.openReleases", (event, ...args: unknown[]) => {
+ipcMain.handle("update.download", (event, ...args: unknown[]) => {
   requireMainWindow(event);
   if (args.length) throw new Error("Invalid update request");
-  return openUpdateReleases();
+  return downloadUpdate();
+});
+ipcMain.handle("update.install", (event, ...args: unknown[]) => {
+  requireMainWindow(event);
+  if (args.length) throw new Error("Invalid update request");
+  return installUpdate();
+});
+ipcMain.handle("update.cancel", (event, ...args: unknown[]) => {
+  requireMainWindow(event);
+  if (args.length) throw new Error("Invalid update request");
+  return cancelUpdateDownload();
+});
+ipcMain.handle("update.remindLater", (event, ...args: unknown[]) => {
+  requireMainWindow(event);
+  if (args.length) throw new Error("Invalid update request");
+  return remindUpdateLater();
 });
 
 ipcMain.handle("clipboard.read", () => readClipboard());

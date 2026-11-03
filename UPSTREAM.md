@@ -129,6 +129,10 @@ The inherited `apps/api`, `apps/cloud`, `apps/web`, `apps/marketing` and `libs/e
 
 ### Windows release automation (2026-11-03)
 
+F25 in-app update follow-up (2026-11-03, unreleased): the owner replaced the external GitHub update action with user-triggered downloads, progress/retry and explicit restart/install. The inherited electron-updater integration is reused with automatic downloads/install-on-quit disabled, a version-matched DiskPond release feed, and validated download/install IPC. Shared renderer actions replace the browser links. [Local checks and pending installed-upgrade verification](docs/verification/in-app-updates.md).
+
+The authorized F25 refinement adds native read-only activity checks before installation, cancelable transfers with size/speed, plain-text release notes, version-specific 24-hour reminders and bounded local update-attempt records. Existing restore destination reservations and vault startup state are exposed to the activity reader; backup scheduling remains engine-owned. History confirms installed versions on relaunch and distinguishes canceled, failed, interrupted and unconfirmed attempts. Focused and real-engine recovery evidence is linked above.
+
 The D13 release-first slice adds a tag-triggered GitHub Release workflow and source/checksum assembly, changes the default Windows workflow to compact checks, and retains the earlier extended suites as a manual workflow. Installed smoke now checks tagged application versions and performs a disposable bundled-core snapshot/restore hash comparison. The first unsigned `v0.1.0-alpha.1` prerelease was published with owner authorization; [verification](docs/verification/windows-release-cicd.md) records its release CI and checksums. The owner-authorized [v0.1.0-alpha.2 follow-up](docs/verification/windows-alpha-2.md) publishes the identity/navigation refinements above from application `f872617`, with passing release CI and downloaded checksums. Core source/gitlink, repository formats and license notices are unchanged by this UI release.
 
 ### M2 restore-outcome source handoff

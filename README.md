@@ -25,7 +25,7 @@ Windows 10/11 · x64 · **v0.1.1**. The installer is currently unsigned; install
 - **Compare backups** to see added, changed and deleted paths, with before/after sizes and modification times.
 - **Activity calendar** for retained backups, with vault filtering and compact, expandable backup details.
 - **Light, dark and system themes**, keyboard navigation and tray/background operation.
-- **Update notifications** with a manual check in Settings and a link to GitHub releases.
+- **In-app updates** with download progress, cancellation, release notes, reminders and local update history. Restart and install once backups/restores are idle.
 - **Account-free and private**: no subscriptions, analytics or automatic crash uploads. Credentials use OS-protected storage, with session-only storage when protection is unavailable.
 
 ### See what changed

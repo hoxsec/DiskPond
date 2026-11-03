@@ -218,8 +218,11 @@ const api = {
     check: () => ipcRenderer.invoke("update.check") as Promise<UpdateStatus>,
     change: listener<UpdateStatus>("update.available"),
     status: () => ipcRenderer.invoke("update.status") as Promise<UpdateStatus>,
-    openReleases: () =>
-      ipcRenderer.invoke("update.openReleases") as Promise<void>,
+    download: () => ipcRenderer.invoke("update.download") as Promise<void>,
+    install: () => ipcRenderer.invoke("update.install") as Promise<void>,
+    cancel: () => ipcRenderer.invoke("update.cancel") as Promise<void>,
+    remindLater: () =>
+      ipcRenderer.invoke("update.remindLater") as Promise<void>,
   },
 };
 

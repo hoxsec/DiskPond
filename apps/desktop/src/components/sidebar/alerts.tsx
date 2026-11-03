@@ -3,5 +3,7 @@ import { useUpdateStatus } from "@desktop/hooks/state/use-update-status";
 
 export function SidebarAlerts() {
   const { status } = useUpdateStatus();
-  return status?.available ? <SidebarUpdateAlert /> : null;
+  return status?.available && !status.remindUntil ? (
+    <SidebarUpdateAlert />
+  ) : null;
 }
