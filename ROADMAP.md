@@ -19,6 +19,8 @@ Delivery complete; owner installation and actual-use feedback are next. This doe
 
 Fix reported backup, scheduling, retention, restore and usability issues. Add encrypted setup export/import and improve updates/diagnostics when needed; these do not block the first release.
 
+- [x] Apply the owner's graphite/blue, clean technical identity with square UI corners; retain the DiskPond artwork and Settings-only Light / Dark / System selector (D10, DP04, F23). [Implementation and focused verification](docs/verification/graphite-blue-identity.md). The owner approved the visual changes and authorized a local commit on 2026-11-03.
+
 ## Later — Optional expansion
 
 Live-provider/USB/NAS certification, second-device matrices, macOS/Linux, exhaustive parity, performance and accessibility audits. Keep existing features available; describe unverified cases as deferred, not certified.

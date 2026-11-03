@@ -156,7 +156,7 @@ export function BackupTimeline({ backups }: BackupTimelineProps) {
                 >
                   <div
                     className={cn(
-                      "border-input left-2 w-8 rounded-bl-full border-2 border-r-0 border-t-0",
+                      "border-input left-2 w-8 border-2 border-r-0 border-t-0",
                       backup && "type" in backup && backup?.type === "FAKE"
                         ? "h-10"
                         : "h-12",

@@ -17,7 +17,7 @@ export function createWindow() {
     minWidth: 960,
     minHeight: 640,
     title: APP_NAME,
-    backgroundColor: getTheme() === "light" ? "#f5f8f8" : "#101918",
+    backgroundColor: getTheme() === "light" ? "#f6f7f9" : "#121418",
     icon: app.isPackaged
       ? join(process.resourcesPath, "assets", "icon.png")
       : join(import.meta.dirname, "..", "icon", "icon.png"),

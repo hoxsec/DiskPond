@@ -62,6 +62,10 @@ The M2 lockfile was regenerated with pnpm 11.7.0 from the baseline resolutions. 
 
 For DP04, the inherited GitHub sponsorship destination was cleared and the development environment display name changed to `diskpond`. The root README and Electron profile implementation references now link to the owned core fork (profile references use the pinned revision). Package-local READMEs identify retained hosted apps/email templates as upstream-only sources, with no DiskPond service claims. License/attribution, private package names, external dependencies and persisted compatibility identifiers remain intact. This metadata/documentation cleanup does not advance M2's recovery gate.
 
+## Desktop identity refinement (2026-11-03)
+
+For D10 / DP04 / F23, the owner selected graphite/blue, clean technical styling, square UI corners throughout, the existing DiskPond artwork and a Settings-only theme selector. Changes to `libs/styles/globals.css`, shared UI primitives, desktop vault cards/loading presentation and the Electron startup background implement this direction. Inherited pill/fixed-radius overrides and decorative vault-card hardware are replaced by flat, token-based styling. Toasts use semantic status colors and the active theme; skeletons use shared surface/shape tokens. [Verification](docs/verification/graphite-blue-identity.md) records the scoped build, contrast and desktop checks.
+
 ## M2 owned-core discovery work
 
 On 2026-11-02 the owner approved and created [hoxsec/diskpond-core](https://github.com/hoxsec/diskpond-core), a GitHub fork of `blinkdisk/core`. The exact upstream baseline remains available in that fork. `.gitmodules` now selects the owned fork; local core `origin` points there and `upstream` retains `https://github.com/blinkdisk/core.git`.

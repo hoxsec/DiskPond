@@ -1,8 +1,8 @@
 # DiskPond — Design and Code Style
 
-- **Updated:** 2026-11-02
-- **Direction:** A calm, polished backup utility with an original DiskPond identity.
-- **Status:** M2 foundation: owner-supplied branding, shared light/dark tokens and account-free shell implemented. Full workflow/accessibility certification remains open.
+- **Updated:** 2026-11-03
+- **Direction:** A clean technical backup utility: graphite and blue, flat surfaces, precise borders and square corners.
+- **Status:** Owner-selected identity refinement implemented in the shared themes and desktop shell. Existing DiskPond branding and Light / Dark / System preferences are retained. Focused verification is recorded in [the identity review](docs/verification/graphite-blue-identity.md); full workflow/accessibility certification remains open.
 
 ## 1. Design principles
 
@@ -16,7 +16,7 @@
 
 - Display name: **DiskPond**. Use this capitalization in headings, menus, installers and prose.
 - Machine identifiers: lowercase `diskpond`; M1 uses `io.github.hoxsec.diskpond` for app/URI identity and `diskpondapp` internally. Private inherited workspace package names remain until deliberate extraction/rebranding.
-- Visual character: trustworthy, clear, restrained, slightly warm. Teal is the primary accent; blue denotes information/secondary emphasis.
+- Visual character: trustworthy, clear, restrained and technical. Use neutral graphite in dark mode and crisp white/light gray in light mode, with blue for primary actions, selection and focus. Reserve green, amber and red for meaningful statuses.
 - Use the owner's graphite/silver hard-drive icon and bold outlined DiskPond wordmark from `libs/assets/brand`. Keep the supplied geometry/colors; use the white-wordmark variant on dark surfaces. Generate native sizes with `pnpm build:branding`.
 - Retain BlinkDisk/Kopia attribution in source, licenses and About; product branding is DiskPond.
 - Keep surfaces flat with subtle separation. Avoid heavy gradients, glass effects, decorative charts and large promotional illustrations in working screens.
@@ -30,21 +30,25 @@ Implement shared CSS variables in `libs/styles` and map them to the existing Tai
 
 | Role / suggested token | Light | Dark | Use |
 | --- | --- | --- | --- |
-| `background` | `#F5F8F8` | `#101918` | App canvas. |
-| `card` | `#FFFFFF` | `#172321` | Panels, tables, forms. |
-| `popover` | `#FFFFFF` | `#1C2D2A` | Menus, dialogs, raised surfaces. |
-| `sidebar` | `#EDF3F3` | `#12201D` | Persistent navigation. |
-| `foreground` | `#142827` | `#E7F0ED` | Main text. |
-| `muted-foreground` | `#4F6563` | `#A7BCB5` | Secondary readable text. |
-| `muted` | `#EDF3F3` | `#22352F` | Subtle grouped/disabled surfaces. |
-| `border` | `#CCD9D8` | `#354C47` | Decorative dividers and card edges. |
-| `input` | `#6F8782` | `#718E85` | Essential control outlines. |
-| `primary` | `#0F766E` | `#5EEAD4` | Main actions and selected emphasis. |
-| `primary-foreground` | `#FFFFFF` | `#082F2A` | Text/icons on primary actions. |
-| `primary-hover` | `#115E59` | `#99F6E4` | Hovered primary action. |
-| `accent` | `#DDF1EB` | `#193D34` | Selected row/nav background. |
-| `accent-foreground` | `#115E59` | `#99F6E4` | Selected row/nav text. |
-| `ring` | `#0F766E` | `#5EEAD4` | Visible keyboard focus. |
+| `background` | `#F6F7F9` | `#121418` | App canvas. |
+| `card` | `#FFFFFF` | `#1B1E24` | Panels, tables, forms. |
+| `card-hover` | `#F0F3F7` | `#222630` | Hovered interactive cards. |
+| `popover` | `#FFFFFF` | `#222630` | Menus, dialogs, raised surfaces. |
+| `sidebar` | `#EDF0F5` | `#16191F` | Persistent navigation. |
+| `foreground` | `#1B1F27` | `#E8EBF0` | Main text. |
+| `muted-foreground` | `#525D6F` | `#A8B1C0` | Secondary readable text. |
+| `muted` / `secondary` | `#EEF0F4` | `#272C35` | Grouped surfaces and secondary controls. |
+| `secondary-hover` | `#E1E5ED` | `#343B47` | Hovered secondary controls. |
+| `border` | `#CBD1DC` | `#3B4351` | Decorative dividers and card edges. |
+| `input` | `#7C8799` | `#7D8BA1` | Essential control outlines. |
+| `primary` | `#1D4ED8` | `#7AA7FF` | Main actions and selected emphasis. |
+| `primary-foreground` | `#FFFFFF` | `#101E38` | Text/icons on primary actions. |
+| `primary-hover` | `#1E40AF` | `#A3C2FF` | Hovered primary action. |
+| `accent` | `#E8EFFF` | `#25334D` | Selected row/nav background. |
+| `accent-foreground` | `#1E40AF` | `#A3C2FF` | Selected row/nav text. |
+| `ring` | `#1D4ED8` | `#7AA7FF` | Visible keyboard focus. |
+| `skeleton-base` | `#DFE3EB` | `#303744` | Loading placeholders. |
+| `skeleton-highlight` | `#EEF0F4` | `#424D5E` | Loading placeholder highlight. |
 
 Use `foreground` for text on card/popover/secondary surfaces unless a role has its own foreground. Map secondary controls to neutral surfaces, rather than introducing another brand color. Subtle `border` is not sufficient as the only visible boundary of an input; use `input` for that role.
 
@@ -59,7 +63,9 @@ Use `foreground` for text on card/popover/secondary surfaces unless a role has i
 
 These values are implementation starting tokens, not a substitute for checking rendered contrast. Require WCAG 2.2 AA: 4.5:1 for normal text, 3:1 for large text and essential non-text controls. Check hover, selection, disabled treatment, focus and any opacity/compositing. Never use color alone to communicate a status.
 
-Theme preference is Light / Dark / System, with System as the default. Apply the saved/system theme before the first visible frame; update live when system mode changes.
+Filled warning actions use `warning-foreground`: `#FFFFFF` in light mode and `#332A17` in dark mode. Informational and warning alerts use the full semantic text color on a subtle 5% status tint; avoid reducing text opacity below the contrast target.
+
+Theme preference is Light / Dark / System, with System as the default. Keep the selector in Settings. Apply the saved/system theme before the first visible frame; update live when system mode changes. Match Electron's startup canvas to the shared background colors.
 
 ## 4. Typography, spacing and shape
 
@@ -85,9 +91,9 @@ Theme preference is Light / Dark / System, with System as the default. Apply the
 
 ### Shape and depth
 
-- Inputs/buttons: 8px radius. Cards/dialogs: 12px. Pills only for compact badges.
+- All UI corners are square: **0px radius** for buttons, inputs, cards, dialogs, menus, badges, tabs, toggles, progress tracks, loading placeholders and toasts. Map every inherited Tailwind radius size to the shared zero-radius token; do not introduce fixed-radius or pill overrides. Preserve the geometry of the owner's artwork and functional icon/progress glyphs.
 - Borders: 1px. Focus: a visible 2px ring with offset, not a layout-shifting border replacement.
-- Cards use a border; reserve restrained shadows for popovers/dialogs and overlapping elements.
+- Cards use a 1px border and flat surfaces. Use simple provider tiles and textual connection status for vault cards. Reserve restrained shadows for popovers/dialogs and overlapping elements.
 - Disabled controls remain legible and communicate why an operation is unavailable when the reason is non-obvious.
 
 ## 5. Application structure

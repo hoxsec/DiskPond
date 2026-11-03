@@ -45,7 +45,7 @@ function PasswordStrengthMeter({ password }: { password: string }) {
     <div aria-hidden="true" className="flex h-1 gap-1">
       {[1, 2, 3, 4].map((bar) => (
         <div
-          className={`flex-1 rounded-full transition-colors ${bar <= activeBars ? colors[activeBars] : colors[0]}`}
+          className={`flex-1 transition-colors ${bar <= activeBars ? colors[activeBars] : colors[0]}`}
           key={bar}
         />
       ))}

@@ -9,80 +9,87 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #f5f8f8;
-  --foreground: #142827;
+  color-scheme: light;
+  --background: #f6f7f9;
+  --foreground: #1b1f27;
   --card: #ffffff;
   --card-foreground: var(--foreground);
-  --card-hover: #f5f8f8;
+  --card-hover: #f0f3f7;
   --popover: #ffffff;
   --popover-foreground: var(--foreground);
-  --primary: #0f766e;
-  --primary-hover: #115e59;
+  --primary: #1d4ed8;
+  --primary-hover: #1e40af;
   --primary-foreground: #ffffff;
-  --secondary: #edf3f3;
-  --secondary-hover: #dde9e7;
+  --secondary: #eef0f4;
+  --secondary-hover: #e1e5ed;
   --secondary-foreground: var(--foreground);
-  --muted: #edf3f3;
-  --muted-foreground: #4f6563;
-  --accent: #ddf1eb;
-  --accent-foreground: #115e59;
+  --muted: #eef0f4;
+  --muted-foreground: #525d6f;
+  --accent: #e8efff;
+  --accent-foreground: #1e40af;
   --destructive: #b91c1c;
   --destructive-foreground: #ffffff;
   --warning: #854d0e;
+  --warning-foreground: #ffffff;
   --info: #1d4ed8;
   --success: #166534;
-  --border: #ccd9d8;
-  --input: #6f8782;
-  --ring: #0f766e;
-  --chart-1: #0f766e;
+  --border: #cbd1dc;
+  --input: #7c8799;
+  --ring: var(--primary);
+  --chart-1: var(--primary);
   --chart-2: #1d4ed8;
   --chart-3: #166534;
   --chart-4: #854d0e;
-  --chart-5: #4f6563;
-  --radius: 0.75rem;
-  --sidebar-background: #edf3f3;
+  --chart-5: var(--muted-foreground);
+  --radius: 0px;
+  --sidebar-background: #edf0f5;
   --sidebar-secondary: #ffffff;
   --sidebar-secondary-border: var(--border);
-  --sidebar-secondary-hover: #ddf1eb;
+  --sidebar-secondary-hover: var(--accent);
+  --skeleton-base: #dfe3eb;
+  --skeleton-highlight: #eef0f4;
   --scrollbar: 0, 0, 0;
 }
 
 .dark {
-  --background: #101918;
-  --foreground: #e7f0ed;
-  --card: #172321;
+  color-scheme: dark;
+  --background: #121418;
+  --foreground: #e8ebf0;
+  --card: #1b1e24;
   --card-foreground: var(--foreground);
-  --card-hover: #1c2d2a;
-  --popover: #1c2d2a;
+  --card-hover: #222630;
+  --popover: #222630;
   --popover-foreground: var(--foreground);
-  --primary: #5eead4;
-  --primary-hover: #99f6e4;
-  --primary-foreground: #082f2a;
-  --secondary: #22352f;
-  --secondary-hover: #354c47;
+  --primary: #7aa7ff;
+  --primary-hover: #a3c2ff;
+  --primary-foreground: #101e38;
+  --secondary: #272c35;
+  --secondary-hover: #343b47;
   --secondary-foreground: var(--foreground);
-  --muted: #22352f;
-  --muted-foreground: #a7bcb5;
-  --accent: #193d34;
-  --accent-foreground: #99f6e4;
+  --muted: #272c35;
+  --muted-foreground: #a8b1c0;
+  --accent: #25334d;
+  --accent-foreground: #a3c2ff;
   --destructive: #fca5a5;
   --destructive-foreground: #381f22;
   --warning: #fcd34d;
+  --warning-foreground: #332a17;
   --info: #93c5fd;
   --success: #86efac;
-  --border: #354c47;
-  --input: #718e85;
-  --ring: #5eead4;
-  --chart-1: #5eead4;
+  --border: #3b4351;
+  --input: #7d8ba1;
+  --ring: var(--primary);
+  --chart-1: var(--primary);
   --chart-2: #93c5fd;
   --chart-3: #86efac;
   --chart-4: #fcd34d;
-  --chart-5: #a7bcb5;
-  --radius: 0.75rem;
-  --sidebar-background: #12201d;
-  --sidebar-secondary: #172321;
+  --chart-5: var(--muted-foreground);
+  --sidebar-background: #16191f;
+  --sidebar-secondary: var(--card);
   --sidebar-secondary-border: var(--border);
-  --sidebar-secondary-hover: #193d34;
+  --sidebar-secondary-hover: var(--accent);
+  --skeleton-base: #303744;
+  --skeleton-highlight: #424d5e;
   --scrollbar: 255, 255, 255;
 }
 
@@ -109,6 +116,7 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
   --color-info: var(--info);
   --color-success: var(--success);
   --color-border: var(--border);
@@ -119,10 +127,15 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  /* All inherited radius sizes share DiskPond's square-corner shape token. */
+  --radius-xs: var(--radius);
+  --radius-sm: var(--radius);
+  --radius-md: var(--radius);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: var(--radius);
+  --radius-2xl: var(--radius);
+  --radius-3xl: var(--radius);
+  --radius-4xl: var(--radius);
   --color-sidebar: var(--sidebar-background);
   --color-sidebar-secondary: var(--sidebar-secondary);
   --color-sidebar-secondary-border: var(--sidebar-secondary-border);
@@ -160,38 +173,15 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
-  border: 6px solid transparent;
-  background-clip: padding-box;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.25);
-  border-radius: 8px;
-  border: 4px solid transparent;
-  background-clip: padding-box;
-}
-
-::-webkit-scrollbar-corner {
-  background: rgba(0, 0, 0, 0);
-}
-
-::-webkit-scrollbar {
-  width: 17px;
-  height: 17px;
-}
-
-::-webkit-scrollbar-thumb {
   background: rgba(var(--scrollbar), 0.1);
-  border-radius: 8px;
+  border-radius: var(--radius);
   border: 6px solid transparent;
   background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(var(--scrollbar), 0.15);
-  border-radius: 8px;
+  border-radius: var(--radius);
   border: 4px solid transparent;
   background-clip: padding-box;
 }

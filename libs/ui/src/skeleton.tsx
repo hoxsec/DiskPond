@@ -15,14 +15,12 @@ function SkeletonTheme({
   children,
   baseColor,
   highlightColor,
-  dark,
 }: SkeletonThemeProps) {
   return (
     <SkeletonThemeComponent
-      baseColor={baseColor ? baseColor : dark ? "#2b2b2b" : "#d6d6d6"}
-      highlightColor={
-        highlightColor ? highlightColor : dark ? "#4a4a4a" : "#e6e6e6"
-      }
+      baseColor={baseColor ?? "var(--skeleton-base)"}
+      highlightColor={highlightColor ?? "var(--skeleton-highlight)"}
+      borderRadius="var(--radius)"
     >
       {children}
     </SkeletonThemeComponent>

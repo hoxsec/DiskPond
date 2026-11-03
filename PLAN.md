@@ -29,7 +29,7 @@ These decisions were made with the project owner. Changes must be recorded here 
 | D07 | Account-free operation, manual vault connection, and password-protected setup export/import for additional devices. |
 | D08 | Support connecting to compatible existing BlinkDisk BYO vaults and restoring their snapshots. Automatic import of BlinkDisk's application settings is not part of this decision. |
 | D09 | No telemetry, usage analytics, or automatic crash uploads. Local logs and explicitly exported, redacted diagnostics are supported. |
-| D10 | Original calm utility design: neutral surfaces, restrained teal/blue, light/dark/system themes. |
+| D10 | Original clean technical design: graphite/white surfaces, blue accents, zero-radius controls and panels, light/dark/system themes (System default; selector in Settings). Retain the owner's DiskPond logo and wordmark. Owner-selected refinement on 2026-11-03. |
 | D11 | Solo, quality-first development; milestones have acceptance gates rather than invented dates. |
 | D12 | Electron owns OS-protected/session-only vault passwords and provider connections. Migrate active local plaintext core connection JSON and inherited password-encrypted provider envelopes; preserve profile/cache/bandwidth metadata and compatible repository data. Managed sidecars start disconnected and receive exact credentials through the authenticated loopback API. |
 | D13 | Windows release first: replace M0–M7 delivery gates with Now / Next / Later; prioritize release CI/CD, use owner-confirmed behavior and existing CI as baseline, minimize repeated testing, and defer broad provider/platform/parity certification. |

@@ -4,7 +4,7 @@ import { Loader } from "@ui/loader";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const buttonVariants = cva(
-  "relative focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-md border border-transparent bg-clip-padding text-sm font-medium focus-visible:ring-3 aria-invalid:ring-3 [&_svg:not([class*='size-'])]:size-4 group/button inline-flex shrink-0 items-center justify-center whitespace-nowrap transition-all outline-none select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "relative focus-visible:border-ring focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-none border border-transparent bg-clip-padding text-sm font-medium focus-visible:ring-2 aria-invalid:ring-3 [&_svg:not([class*='size-'])]:size-4 group/button inline-flex shrink-0 items-center justify-center whitespace-nowrap transition-colors outline-none select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -16,7 +16,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-foreground/5",
         destructive:
           "bg-destructive hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive-foreground focus-visible:border-destructive/40",
-        warn: "bg-amber-600 text-white hover:bg-amber-600/90 focus-visible:border-amber-600/40 focus-visible:ring-amber-600/20 dark:bg-amber-500 dark:text-amber-950 dark:hover:bg-amber-500/90 dark:focus-visible:ring-amber-500/40",
+        warn: "bg-warning text-warning-foreground hover:bg-warning/90 focus-visible:border-warning focus-visible:ring-warning",
         "destructive-secondary":
           "bg-destructive/10 text-destructive hover:bg-destructive/15 border border-destructive/20 focus-visible:ring-destructive",
         link: "text-primary underline-offset-4 hover:underline",

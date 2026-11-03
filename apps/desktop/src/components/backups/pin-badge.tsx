@@ -38,7 +38,7 @@ export function PinBadge({ pin, size = "default", onRemove }: PinBadgeProps) {
         <button
           type="button"
           onClick={onRemove}
-          className="-mr-0.5 rounded p-0.5 transition-colors hover:bg-black/10 dark:hover:bg-white/10"
+          className="-mr-0.5 rounded-none p-0.5 transition-colors hover:bg-black/10 dark:hover:bg-white/10"
         >
           <XIcon className={size === "sm" ? "size-3" : "size-3.5"} />
         </button>

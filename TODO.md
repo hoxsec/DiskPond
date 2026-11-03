@@ -4,6 +4,7 @@
 
 1. Install the published unsigned [v0.1.0-alpha.1 prerelease](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.0-alpha.1) and try backup/recovery with your chosen storage.
 2. Fix concrete issues reported during actual use. Owner installation feedback remains pending.
+3. The graphite/blue, square-corner design is owner-approved; theme selection remains in Settings. [Identity changes and verification](docs/verification/graphite-blue-identity.md). The published alpha still contains the previous design.
 
 The owner confirms the current app works. Use the [passing Windows baseline](https://github.com/hoxsec/DiskPond/actions/runs/41645023929); fix concrete issues as they arise. Provider and cross-platform certification is deferred.
 
