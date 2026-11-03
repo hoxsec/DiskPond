@@ -1,14 +1,14 @@
 # DiskPond — Product and Engineering Plan
 
 - **Updated:** 2026-11-03
-- **Status:** **v0.1.1** is published as GitHub Latest from `a3a4647`, including available storage, compact Activity rows and the Windows pnpm launcher fix. The owner authorized committing/pushing this batch and publishing the patch release. [Release CI and downloaded checksums passed](docs/verification/windows-v0.1.1.md). Broad certification remains deferred.
+- **Status:** **v0.1.2** is published as GitHub Latest from `1ca046a`, adding RustFS bucket-quota remaining capacity and SFTP statvfs available space. The owner authorized committing/pushing this batch and publishing the patch release. [Release CI and downloaded checksums passed](docs/verification/windows-v0.1.2.md). Live-provider and broad certification remain deferred.
 - **Delivery:** One developer assisted by coding tools; quality-first, milestone-driven.
 
 DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It preserves inherited desktop and bring-your-own-storage functionality, uses its Kopia-based engine, and provides an original, calm interface. Windows x64 is the current release platform; macOS/Linux and full parity are deferred.
 
 ### Active scope override — 2026-11-03
 
-The owner authorized committing/pushing the RustFS quota and SFTP available-space batch and publishing **v0.1.2**. [Release verification](docs/verification/windows-v0.1.2.md) tracks the pending publication; live-provider certification remains deferred.
+The owner authorized committing/pushing the RustFS quota and SFTP available-space batch and publishing **v0.1.2**. [Release verification](docs/verification/windows-v0.1.2.md) records successful publication; live-provider certification remains deferred.
 
 Latest D14 / DP06 placement correction: the calendar is only in the separate Activity tab reached through Home-level navigation. Vault pages no longer embed it or expose Activity in their navigation. This supersedes earlier per-vault calendar placement references. The owner's subsequent density preference uses individually collapsed backup rows below the calendar, keeping folder, completion time, vault, size/file count and status visible; expand for full details.
 

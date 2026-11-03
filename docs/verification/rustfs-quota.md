@@ -1,6 +1,6 @@
 # RustFS bucket quota — local verification
 
-Date: 2026-11-03. Requirements: **F06 / P05 / DP04**. Unreleased.
+Date: 2026-11-03. Requirements: **F06 / P05 / DP04**. Released in **v0.1.2**. [Release verification](windows-v0.1.2.md).
 
 ## Behavior and provider contract
 
@@ -25,4 +25,4 @@ Commands use pnpm 11.7.0 through the cached launcher because pnpm is absent from
 
 ## Remaining validation
 
-No live RustFS server or credentials were supplied; real-server/version/permission compatibility remains unverified. Existing repository/core and credential formats are unchanged. This is not a release or broad S3-provider certification.
+No live RustFS server or credentials were supplied; real-server/version/permission compatibility remains unverified. Existing repository/core and credential formats are unchanged. This is not broad S3-provider certification.

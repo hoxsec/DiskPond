@@ -1,6 +1,6 @@
 # SFTP destination available space — local verification
 
-Date: 2026-11-03. Requirements: **F06 / P09**. Unreleased.
+Date: 2026-11-03. Requirements: **F06 / P09**. Released in **v0.1.2**. [Release verification](windows-v0.1.2.md).
 
 ## Behavior
 
@@ -29,4 +29,4 @@ Initial production smoke caught `ssh2`'s CommonJS `__dirname` requirement under 
 
 ## Remaining validation
 
-No live SFTP provider or installed release was exercised. External server/version/filesystem and actual user-quota behavior remain unverified. No publication is authorized by this implementation task.
+No live SFTP provider was exercised. External server/version/filesystem and actual user-quota behavior remain unverified. The owner subsequently authorized v0.1.2 publication; its installed-artifact backup/restore checks passed as recorded in the release verification.

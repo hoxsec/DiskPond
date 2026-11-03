@@ -1,10 +1,10 @@
 # DiskPond — Roadmap
 
-Updated: 2026-11-03. **[v0.1.1](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.1)** is published as GitHub Latest with owner authorization. [Release CI and downloaded checksums passed](docs/verification/windows-v0.1.1.md).
+Updated: 2026-11-03. **[v0.1.2](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.2)** is published as GitHub Latest with owner authorization. [Release CI and downloaded checksums passed](docs/verification/windows-v0.1.2.md).
 
 ## Now — Stable Windows releases
 
-- [ ] Publish owner-authorized **v0.1.2** with RustFS/SFTP storage reporting. [Release record](docs/verification/windows-v0.1.2.md).
+- [x] Publish owner-authorized **v0.1.2** with RustFS/SFTP storage reporting. Compact Windows CI, installed recovery and all 10 downloaded checksums passed. [Release record](docs/verification/windows-v0.1.2.md).
 
 - [x] Deliver tag-triggered Windows installer, updater metadata, checksums and matching source/license assets. The three alpha releases have passing publication and installed backup/restore evidence.
 - [x] Deliver the graphite/blue identity, history/profile return navigation, snapshot comparison and Home-level Activity tab (DP04–DP06).
@@ -20,8 +20,8 @@ Fix reported backup, scheduling, retention, restore and usability issues. Collec
 - [x] Add **Storage available** to vault overviews for filesystem destinations (F06 / P01–P03), with explicit unavailable/unsupported states. [Verification](docs/verification/vault-storage-space.md); released in v0.1.1.
 - [x] Compact Activity's backup and latest-issue details into individually expandable rows (DP06 / DP04), keeping key metadata visible. [Verification](docs/verification/activity-compact-rows.md); released in v0.1.1.
 - [x] Fix Windows build/development launchers for standalone `pnpm.exe`, including nested scripts (D13). [Verification](docs/verification/desktop-pnpm-launcher.md); released in v0.1.1.
-- [x] Add RustFS bucket-quota remaining capacity to S3 vault overviews (F06 / P05). [Local verification](docs/verification/rustfs-quota.md); unreleased, live RustFS validation pending.
-- [x] Add SFTP destination available space through the OpenSSH statvfs extension (F06 / P09). [Local verification](docs/verification/sftp-storage-space.md); unreleased, live-provider validation pending.
+- [x] Add RustFS bucket-quota remaining capacity to S3 vault overviews (F06 / P05). [Local verification](docs/verification/rustfs-quota.md); released in v0.1.2, live RustFS validation pending.
+- [x] Add SFTP destination available space through the OpenSSH statvfs extension (F06 / P09). [Local verification](docs/verification/sftp-storage-space.md); released in v0.1.2, live-provider validation pending.
 
 ## Later — Optional expansion
 

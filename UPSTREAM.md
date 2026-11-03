@@ -80,7 +80,7 @@ For F06 / P01–P03, the inherited vault overview/stat-card, query keys, Electro
 
 ## Remote available-space follow-up (2026-11-03)
 
-Unreleased: Electron connection dispatch now supports [RustFS bucket quotas](docs/verification/rustfs-quota.md) and [SFTP available space](docs/verification/sftp-storage-space.md). New native-owned probes reuse saved credentials and the existing IPC read contract. The Electron manifest/lockfile add `aws4` and `ssh2`; esbuild bundles their JavaScript and retains their dependency licenses under `build/licenses`. Optional SSH native accelerators are disabled, with an ESM dirname shim for bundled CommonJS code. No core pin or repository format changes.
+Released in v0.1.2: Electron connection dispatch now supports [RustFS bucket quotas](docs/verification/rustfs-quota.md) and [SFTP available space](docs/verification/sftp-storage-space.md). New native-owned probes reuse saved credentials and the existing IPC read contract. The Electron manifest/lockfile add `aws4` and `ssh2`; esbuild bundles their JavaScript and retains their dependency licenses under `build/licenses`. Optional SSH native accelerators are disabled, with an ESM dirname shim for bundled CommonJS code. No core pin or repository format changes.
 
 ## M2 owned-core discovery work
 
