@@ -1,5 +1,17 @@
 # M2 — Built-desktop two-version recovery
 
+## Final Windows CI and M2 closure
+
+**M2 complete, 2026-11-03.** [Run 41639380823](https://github.com/hoxsec/DiskPond/actions/runs/41639380823) passes in 16m40s at application `fb077fab4f7c63b107d81fcbc95f6bc509edae6c`, core `0f31eefe409cb4f0571baf65abd7d063784598cd`. This closes P01, F01–F02, basic F17/F22/F24 and DP01/initial DP03–DP04 for the Windows local-backup alpha. Earlier pending notes below are the chronological development record, superseded by this result.
+
+- Clean install, lint, types, desktop tests, unused checks, core regressions, Windows packaging, discovery/password/provider fixtures, create/connect, development and installed NSIS smoke all pass.
+- The owned 96-MiB VHD produces FAILED/SPACE for unpacked, ZIP and compressed ZIP restores. Each output is removable afterward; the volume is detached successfully.
+- Scoped Windows firewall rules block non-loopback IPv4/IPv6 for Electron and core. Protected and session-only desktop journeys each pass two-vault/two-version create, backup, browse, restore and restart: sixteen verified restores total, including relative symlink targets, read-only attributes, Unicode/empty entries and file mtimes/hashes.
+- Active-backup cancellation/termination, missing-storage retry, session-only credential re-entry, tray close/open/quit, owned-process cleanup and profile/registration isolation pass. No remote Chromium/main-fetch requests are observed.
+- Runner: Windows build 26100, Xeon Platinum 8370C, 16 GiB RAM, Node 24.15.0, pnpm 11.7.0, Go 1.25.5. Observed initial backups 508–828 ms, incremental 618–961 ms, unchanged 293–302 ms, filtering 486–559 ms, restores plus comparison 1,067–2,450 ms. Electron checkpoints span 466,568–763,072 KiB; individual core checkpoints approximately 32–290 MB. App-data remains approximately 1.83 MB, with logs growing from 787 to 1,853 bytes across restart.
+
+These measurements cover bounded fixtures. Full ACL preservation, long-duration profiling, live-provider breadth, all optional assets, update downloads and later-platform parity retain their M3–M6 gates. The installed smoke is startup/packaging evidence; recovery uses the production build in the isolated desktop harness. No binary release or tag was published.
+
 2026-11-03. Requirements: **P01, F01, basic F02/F17/F24, DP01/DP03/DP04; Q01/Q02 and scoped Q08**. Initial slice published at `d585ed8` with core `dca6beb`; full-volume follow-up advances the core to published `0f31eefe409cb4f0571baf65abd7d063784598cd`.
 
 Core follow-up `0f31eef` also closes restore output when copying fails or is canceled, preserving the primary copy error. The focused ZIP regression now includes a real local-file `Entry` restore with a destination that fails during writing and closing; it passes locally. This covers the second cleanup path that finalization-only testing missed.

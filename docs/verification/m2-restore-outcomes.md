@@ -4,6 +4,8 @@ Date: 2026-11-03. Requirements: **basic F17, DP04 / Q01, Q05; F18 regression**.
 
 ## Revision and scope
 
+**Final M2 result:** [Windows CI 41639380823](https://github.com/hoxsec/DiskPond/actions/runs/41639380823) passes at application `fb077fa`, core `0f31eef`, including real full-volume FAILED/SPACE outcomes for unpacked and both ZIP modes and output cleanup. The [desktop recovery record](m2-desktop-recovery.md#final-windows-ci-and-m2-closure) closes the wider M2 gate. Earlier local-only limitations below describe the initial slice; full F18/platform parity remains later work.
+
 Application changes based on `705c394`; core remains the clean, published pin `dca6bebcba9c50f6f2658ae3662a52414f77bcf9`. No core, repository-format or encryption changes. The owner authorized committing and pushing this slice to application `main`; no tag or binary release is included.
 
 Verified locally on Windows x64 with Node 24.14.0, pnpm 11.7.0, Go 1.25.5 and the pinned Electron. CI uses Node 24.15.0. Temporary repositories, profiles, outputs, ACLs and junctions live beneath `DISKPOND_TEST_TMP`; the developer profile and repositories are not used.

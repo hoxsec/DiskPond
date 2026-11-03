@@ -1,7 +1,7 @@
 # DiskPond — Roadmap
 
 - **Updated:** 2026-11-03
-- **Current stage:** M1 complete; M2 branding/account-free workspace, credential/discovery and explicit create/connect slices are published with passing Windows CI. The published core guard is pinned; the desktop recovery gate remains open. [TODO.md](TODO.md) orders the next work.
+- **Current stage:** M1 and M2 complete. The Windows local-backup alpha passes clean CI, including offline desktop recovery and full-volume failures. M3 storage breadth is next. [TODO.md](TODO.md) orders the next work.
 
 This roadmap implements the owner-approved scope in [PLAN.md](PLAN.md). Requirement IDs refer to its parity inventory. [STYLE.md](STYLE.md) defines the interface and [AGENTS.md](AGENTS.md) defines contributor workflow.
 
@@ -22,7 +22,7 @@ Effort is relative complexity, not a calendar estimate: **M** = contained integr
 | --- | --- | --- | --- | --- |
 | M0 | Agreed scope and planning documents | Owner answers, source review | M | Complete |
 | M1 | Reproducible fork and Windows development build | M0 | M | Complete — local and clean Windows CI pass |
-| M2 | Independent DiskPond local-backup vertical slice | M1 | L | In progress — branding/workspace, password, discovery, managed-provider and create/connect slices have scoped evidence; desktop recovery open |
+| M2 | Independent DiskPond local-backup vertical slice | M1 | L | Complete — clean Windows CI and offline desktop recovery pass |
 | M3 | All BYO providers and existing-repository connectivity | M2 | L | Not started |
 | M4 | Complete Windows backup/policy/recovery workflows | M3 | XL | Not started |
 | M5 | Portable setup and release-ready Windows product | M4 | L | Not started |
@@ -68,7 +68,7 @@ Evidence: [Windows checks and clean CI](docs/verification/m1-windows-baseline.md
 
 **Requirements:** P01; F01–F02; basic F17/F22/F24; DP01, initial DP03–DP04.
 
-Verified slice: [owner artwork, local workspace and hosted-service removal](docs/verification/m2-branding-workspace.md), including built/development/installed Windows smoke. The slice is committed and merged into `main`; integration CI and merged-main CI both passed. The real-recovery gate remains open.
+Verified slice: [owner artwork, local workspace and hosted-service removal](docs/verification/m2-branding-workspace.md), including built/development/installed Windows smoke. Final [desktop recovery evidence](docs/verification/m2-desktop-recovery.md#final-windows-ci-and-m2-closure) closes M2 at application `fb077fa`, core `0f31eef`, with [run 41639380823](https://github.com/hoxsec/DiskPond/actions/runs/41639380823) passing in 16m40s.
 
 Subsequent credential/discovery/provider changes are also merged into application/core `main`; both [integration CI](https://github.com/hoxsec/DiskPond/actions/runs/41548458540) and [merged-main CI](https://github.com/hoxsec/DiskPond/actions/runs/41550252893) passed, including Windows packaging and installed smoke. See the [publication record](docs/verification/m2-provider-storage-design.md#source-publication-and-windows-ci).
 
@@ -89,10 +89,10 @@ Subsequent credential/discovery/provider changes are also merged into applicatio
   - Managed disconnected startup and confirmed connection results are covered by the credential slice. [Desktop lifecycle evidence](docs/verification/m2-desktop-recovery.md) adds active-backup interruption, unavailable-storage retry and recovery; native restore interruption is separately verified.
 - [x] Complete one real local-source → encrypted vault → snapshot history → restored-file journey. [Built-desktop local evidence](docs/verification/m2-desktop-recovery.md); broader offline/platform cases remain open.
 - [x] Verify changed/deleted source contents can be restored from the correct version. Both versions pass renderer restore/hash checks before and after restart.
-- [ ] Distinguish restore success, partial completion and failure in the vertical slice.
-  - [Local native coordinator and renderer-component evidence](docs/verification/m2-restore-outcomes.md) covers explicit terminal states, kept results, cancellation/interruption, hashes, keep-both/overwrite and truthful ZIP omissions. Source handoff is authorized; clean CI, full-volume and full renderer recovery evidence remain open.
+- [x] Distinguish restore success, partial completion and failure in the vertical slice.
+  - [Native coordinator and renderer-component evidence](docs/verification/m2-restore-outcomes.md) covers terminal states, cancellation/interruption, hashes, keep-both/overwrite and truthful ZIP omissions. Final Windows CI also passes actual full-volume failures for unpacked and both ZIP modes, with output cleanup.
 - [x] Verify restart, window-close/tray behavior and persisted local settings. Both credential modes and owned-child cleanup pass locally in the desktop recovery fixture.
-- [ ] Record initial performance and network observations.
+- [x] Record initial performance and network observations. Both credential modes pass with Electron/core non-loopback traffic blocked; Chromium/main-fetch interception observes no remote requests. Timings and memory/data-growth observations are recorded in the recovery evidence.
 
 **Gate:** Q01 passes with a real engine and disposable local data; local creation, backup, restore and restart work with networking blocked. DiskPond coexists with BlinkDisk without sharing settings or credentials.
 

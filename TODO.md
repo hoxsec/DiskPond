@@ -1,10 +1,12 @@
 # DiskPond — Next work
 
-Updated: 2026-11-03. **Active milestone: M2 — account-free local backup alpha.**
+Updated: 2026-11-03. **M2 complete — next milestone: M3 storage breadth.**
+
+Final [Windows CI 41639380823](https://github.com/hoxsec/DiskPond/actions/runs/41639380823) passes at application `fb077fa`, core `0f31eef`. [Closure evidence](docs/verification/m2-desktop-recovery.md#final-windows-ci-and-m2-closure) supersedes the earlier pending/local-only notes below. Continue with M3; the M2 sequence is retained as history.
 
 Credential storage, migration and nonmutating discovery are merged into application `main` at [`d45cda7`](https://github.com/hoxsec/DiskPond/commit/d45cda77b5a9c166a9d430fd3aabdd918730fc46). Both [integration](https://github.com/hoxsec/DiskPond/actions/runs/41548458540) and [merged-main](https://github.com/hoxsec/DiskPond/actions/runs/41550252893) Windows CI passed. Explicit create/connect and its CI fixture corrections are published through [`5743e23`](https://github.com/hoxsec/DiskPond/commit/5743e23a86dbe6358ac5ceeadbdd53886377720b), with core pinned at [`dca6beb`](https://github.com/hoxsec/diskpond-core/commit/dca6bebcba9c50f6f2658ae3662a52414f77bcf9) and [passing clean Windows CI](https://github.com/hoxsec/DiskPond/actions/runs/41624170742). See [credential/recovery evidence](docs/verification/m2-provider-storage-design.md) and [create/connect evidence](docs/verification/m2-create-connect.md) for the verified scope.
 
-Work through the M2 items below in order. [ROADMAP.md](ROADMAP.md) owns milestone gates; [PLAN.md](PLAN.md) owns requirements and acceptance scenarios. Native fixture restores and installed-startup smoke do not complete the desktop recovery gate.
+The completed M2 sequence follows. [ROADMAP.md](ROADMAP.md) owns milestone gates; [PLAN.md](PLAN.md) owns requirements and acceptance scenarios.
 
 ## 1. Explicit create and connect flows
 
@@ -18,7 +20,7 @@ Work through the M2 items below in order. [ROADMAP.md](ROADMAP.md) owns mileston
 - [x] Include the matching application/core changes in the owner-authorized source-publication handoff and advance the core pin to the published initialization guard.
 - [x] Run clean Windows CI on the published create/connect slice, including packaging and installed smoke: [run 41624170742](https://github.com/hoxsec/DiskPond/actions/runs/41624170742).
 
-**Published and verified locally/in CI:** [create/connect evidence](docs/verification/m2-create-connect.md), including built-renderer keyboard/error/restart checks and 32 native/CLI restore/hash comparisons. The full renderer recovery gate remains open. Continue implementation with **item 2** from the published application/core pair.
+**Published and verified locally/in CI:** [create/connect evidence](docs/verification/m2-create-connect.md), including built-renderer keyboard/error/restart checks and 32 native/CLI restore/hash comparisons. Final CI also closes the renderer recovery gate.
 
 ## 2. Truthful restore outcomes
 
@@ -27,11 +29,11 @@ Work through the M2 items below in order. [ROADMAP.md](ROADMAP.md) owns mileston
 - [x] Replace the inherited `RUNNING`/`COMPLETE` shortcut in `apps/electron/src/restore.ts` with confirmed terminal outcomes. Failed, partial, canceled and unavailable operations remain distinguishable from success; [scoped local evidence](docs/verification/m2-restore-outcomes.md).
 - [x] Review `ignoreErrors: true`, task-result handling and bounded/cancelable polling; propagate actionable outcomes through validated preload/IPC/contracts, renderer queries and localized retained results.
 - [x] Preserve explicit keep-both versus overwrite behavior. Native name/destination/link/junction preflight and overwrite acknowledgment are implemented and fixture-tested. External filesystem races and broader platform coverage remain explicit evidence limits.
-- [ ] Verify success, permission denial, missing/full destination, cancellation and interrupted-engine cases with disposable output and real-engine hashes. Check the shared ZIP paths for regressions.
-  - Success/hash, keep-both/overwrite, permission denial, missing destination, junction rejection, cancellation/interruption and both ZIP modes pass locally. Real full-volume verification is blocked pending a disposable bounded test volume; simulated ENOSPC mapping is not that evidence.
+- [x] Verify success, permission denial, missing/full destination, cancellation and interrupted-engine cases with disposable output and real-engine hashes. Final CI includes real full-volume failures and cleanup in all three modes.
+  - Success/hash, keep-both/overwrite, permission denial, missing destination, junction rejection, cancellation/interruption and both ZIP modes pass locally and in final CI. Actual full-volume verification passes on the bounded VHD.
   - The pinned ZIP writer omits empty folders/symlinks. Results now report those omissions as partial; complete F18 archive parity remains M4 work.
 
-**Source handoff authorized; local native/component evidence is scoped.** The full offline renderer recovery journey below remains open, as do clean CI and the full-volume case. See [restore outcome evidence and limitations](docs/verification/m2-restore-outcomes.md).
+**Published and verified in final Windows CI**, including offline renderer recovery and full-volume outcomes. See [restore outcome evidence and limitations](docs/verification/m2-restore-outcomes.md).
 
 ## 3. Complete the offline desktop recovery journey
 
@@ -39,12 +41,12 @@ Work through the M2 items below in order. [ROADMAP.md](ROADMAP.md) owns mileston
 
 - [x] From a fresh isolated desktop profile, create a local encrypted vault, add a source through the UI, make snapshot A, change/delete/add files, then make snapshot B.
 - [x] Browse both versions and restore them through the renderer to separate destinations. Compare file SHA-256 hashes, directory entries and supported metadata, including deleted-file recovery from A. [Local desktop evidence](docs/verification/m2-desktop-recovery.md) covers entries/hashes/file modification times before and after restart; broader metadata remains below.
-- [ ] Include empty files/directories, nested Unicode paths, a large file, and link/permission fixtures with documented platform limits.
-  - Empty entries, nested Unicode and a 32-MiB file pass in the desktop fixture; link/permission metadata remains open.
-- [ ] Repeat after quitting/restarting with networking blocked; include multiple independent vaults and exact whitespace-bearing passwords.
-  - Two-vault restart and exact distinct whitespace passwords pass with remote Chromium/main-fetch requests blocked. CI adds scoped OS firewall blocking; its result is pending.
+- [x] Include empty files/directories, nested Unicode paths, a large file, and link/permission fixtures with documented platform limits. Elevated CI passes relative symlink targets and read-only attributes; full ACL/platform metadata parity remains later work.
+  - Empty entries, nested Unicode, a 32-MiB file, relative links and read-only metadata pass in the elevated desktop fixture.
+- [x] Repeat after quitting/restarting with networking blocked; include multiple independent vaults and exact whitespace-bearing passwords. Both credential modes pass with scoped Electron/core non-loopback firewall blocking.
+  - Two-vault restart and exact distinct whitespace passwords pass with remote Chromium/main-fetch requests blocked and scoped OS firewall rules active.
 - [x] Confirm account-free operation and coexistence with BlinkDisk's profile/registration; exercise the critical journey in both themes, with keyboard navigation and 200% zoom. Isolated baseline-named profile sentinels and existing registration snapshots remain unchanged; this is namespace isolation, not simultaneous upstream-process certification.
-- [x] Add a reproducible desktop recovery acceptance fixture and evidence under `docs/verification/`. `pnpm smoke:recovery` passes locally and is added to Windows CI; clean CI execution remains pending.
+- [x] Add a reproducible desktop recovery acceptance fixture and evidence under `docs/verification/`. `pnpm smoke:recovery` passes locally and in clean Windows CI.
 
 ## 4. Interruption, restart and desktop lifecycle
 
@@ -58,9 +60,9 @@ Work through the M2 items below in order. [ROADMAP.md](ROADMAP.md) owns mileston
 
 **Requirements:** DP03 / Q06, Q09.
 
-- [ ] Observe renderer, Electron and core network activity during the complete local journey and restart. Record update behavior and verify no hosted-auth, sync, analytics or crash-upload traffic.
+- [x] Observe renderer, Electron and core network activity during the complete local journey and restart. No remote Chromium/main-fetch requests were observed; OS rules enforce Electron/core offline operation. This is local-journey evidence, not packet-level or update-download certification.
 - [x] Record hardware/toolchain/dataset, unchanged and incremental backup times, large-directory browsing, sustained restore, UI responsiveness, and memory/log/cache growth. Initial 32-MiB/512-entry measurements and per-process/app-data observations are in [desktop evidence](docs/verification/m2-desktop-recovery.md); long-duration profiling remains later work.
-- [x] Publish reproducible commands, observed results and limitations. The broader OS-blocked network result still requires CI.
+- [x] Publish reproducible commands, observed results and limitations, including passing OS-blocked CI recovery.
 
 ## Observed issue to reproduce during M2
 
@@ -68,7 +70,7 @@ Work through the M2 items below in order. [ROADMAP.md](ROADMAP.md) owns mileston
 
 ## M2 completion gate
 
-- [ ] Close M2 only after Q01's real desktop two-version recovery, offline create/backup/restore/restart, meaningful terminal outcomes, lifecycle checks and initial network/performance evidence pass. Update [ROADMAP.md](ROADMAP.md) and requirement evidence together.
+- [x] Close M2 only after Q01's real desktop two-version recovery, offline create/backup/restore/restart, meaningful terminal outcomes, lifecycle checks and initial network/performance evidence pass. [ROADMAP.md](ROADMAP.md) and evidence updated for passing run `41639380823`.
 
 ## After M2
 

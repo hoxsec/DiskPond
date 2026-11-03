@@ -1,7 +1,7 @@
 # DiskPond — Product and Engineering Plan
 
 - **Updated:** 2026-11-03
-- **Status:** M1 complete. M2 branding/account-free workspace, password, nonmutating-discovery, managed-provider and explicit create/connect slices are published on `main` with passing Windows CI. The published core initialization guard is pinned. The desktop recovery gate and full product parity remain open.
+- **Status:** M1 and M2 complete. The Windows account-free local-backup alpha passes [clean CI and offline two-version desktop recovery](docs/verification/m2-desktop-recovery.md#final-windows-ci-and-m2-closure) at application `fb077fa`, core `0f31eef`. M3 storage breadth is next; full product/platform parity remains open.
 - **Delivery:** One developer assisted by coding tools; quality-first, milestone-driven.
 
 DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It will preserve BlinkDisk's desktop and bring-your-own-storage capabilities, use its Kopia-based engine, and introduce an original, calm interface. Windows ships first; macOS and Linux remain required parity targets.
