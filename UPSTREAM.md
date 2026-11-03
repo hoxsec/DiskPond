@@ -101,6 +101,10 @@ The owner authorized committing and pushing the restore-outcome slice to applica
 
 ### Distribution requirements
 
+The final restore-cleanup pin is [`0f31eefe409cb4f0571baf65abd7d063784598cd`](https://github.com/hoxsec/diskpond-core/commit/0f31eefe409cb4f0571baf65abd7d063784598cd). In addition to `945404f` below, `restore.Entry` closes output after copy failure/cancellation, preserving the primary error. Its regression uses an actual local source with write-time destination failure. This is the revision pinned by the application.
+
+Core ZIP failure cleanup (2026-11-03): real full-volume Windows CI exposed an inherited open-handle leak in `snapshot/restore/zip_output.go` when archive finalization failed. Published core [`945404f`](https://github.com/hoxsec/diskpond-core/commit/945404fe056671797eb3aee4be71faebfcb47301) always closes the destination and preserves the finalization error, with a focused regression. The application deliberately advances its gitlink from `dca6beb` to this revision. ZIP contents, repository format, encryption, and Apache-2.0 notices are unchanged. Verification is tracked in [desktop recovery evidence](docs/verification/m2-desktop-recovery.md).
+
 M2 lifecycle follow-up: `apps/electron/src/vault/server.ts` now rejects confirmed errors reopening saved repositories, instead of resolving a disconnected engine as setup-required. The server regression and built-desktop unavailable-storage/retry fixture cover this distinction; `locales/en/error.json` provides actionable engine/storage-unavailable copy. The disposable Windows CI fixture adds bounded-volume failure and scoped offline firewall checks. Core source, repository format and license material are unchanged.
 
 The desktop account route also awaits its local vault collection's readiness before showing the workspace, avoiding an intermittent empty view when reopening from the tray. The recovery fixture covers active-backup cancellation/termination, protected/session-only restart, baseline-profile/registration isolation, read-only metadata and initial performance observations. Symlink and full-volume/offline acceptance require elevated CI evidence.

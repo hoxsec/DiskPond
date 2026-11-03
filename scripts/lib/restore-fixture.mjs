@@ -192,7 +192,11 @@ void app.whenReady().then(async () => {
           );
           assert.equal(result.issue, "SPACE", JSON.stringify(result));
         } finally {
-          await rm(destination, { recursive: true, force: true });
+          await rm(destination, {
+            recursive: true,
+            force: true,
+            maxRetries: 5,
+          });
         }
       }
     }

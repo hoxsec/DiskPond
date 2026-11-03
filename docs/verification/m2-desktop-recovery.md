@@ -1,6 +1,10 @@
 # M2 — Built-desktop two-version recovery
 
-2026-11-03. Requirements: **P01, F01, basic F02/F17/F24, DP01/DP03/DP04; Q01/Q02 and scoped Q08**. Initial slice published at `d585ed8`; core remains `dca6bebcba9c50f6f2658ae3662a52414f77bcf9`.
+2026-11-03. Requirements: **P01, F01, basic F02/F17/F24, DP01/DP03/DP04; Q01/Q02 and scoped Q08**. Initial slice published at `d585ed8` with core `dca6beb`; full-volume follow-up advances the core to published `0f31eefe409cb4f0571baf65abd7d063784598cd`.
+
+Core follow-up `0f31eef` also closes restore output when copying fails or is canceled, preserving the primary copy error. The focused ZIP regression now includes a real local-file `Entry` restore with a destination that fails during writing and closing; it passes locally. This covers the second cleanup path that finalization-only testing missed.
+
+With `0f31eef` rebuilt, `pnpm smoke:restores` passes real-engine file/directory/ZIP hash checks, failure/cancellation/interruption/restart outcomes and the isolated renderer result-component checks. `pnpm lint:ci` passes. Full-volume and offline certification still require the clean Windows runner.
 
 ## Compact acceptance check
 
@@ -55,3 +59,7 @@ Checkpoint observations after active-backup interruption: individual core workin
 The repeated close/reopen journey also exposed an intermittent empty workspace before the renderer collection was ready. The account route now awaits descriptor hydration before rendering the workspace. The rebuilt session-only journey passes, including creation/source addition/backup at dark/200% for the second vault and all eight restores. Source link recovery still requires the privileged CI result.
 
 The recorded `policy not found` issue was reproduced with an undefined disposable host policy: the definition endpoint returns `NOT_FOUND`, while `/policy/resolve` successfully returns the inherited effective policy. `use-policy.ts` already handles that code as an absent definition; `vault.ts` logs the error before the caller handles it. This is expected inheritance behavior in the reproduced case, not lost policy data. The original developer profile was not changed, and broader F08 policy certification remains M4.
+
+## Full-volume CI finding and core correction
+
+[Run 41635900243](https://github.com/hoxsec/DiskPond/actions/runs/41635900243), application `009da37`, passed lint/types/tests, packaging, native discovery/credentials/provider recovery and renderer create/connect. The real 96-MiB VHD then produced correct FAILED/SPACE outcomes for unpacked and uncompressed ZIP restore, but cleanup failed because the ZIP remained open. The inherited `ZipOutput.Close` returned immediately on archive-finalization error without closing the underlying destination. Core `945404f` always closes it and preserves the primary finalization error. A focused regression covers success, finalization failure, destination-close failure and both errors, and passes locally with `go test -tags testing -count=1 -timeout 60s ./snapshot/restore -run TestZipOutputClose`. The core fix is published before the application pin advances; no format/encryption change is involved. The corrected full-volume/offline CI run remains required.

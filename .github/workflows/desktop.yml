@@ -44,6 +44,9 @@ jobs:
       - name: Core creation, discovery and managed-connection regressions
         working-directory: apps/core
         run: go test -tags testing -count=1 -timeout 180s ./repo ./repo/format ./repo/blob/throttling ./repo/blob/sharded ./repo/blob/sftp ./internal/server -run 'TestInitialize|TestManaged|TestLocalConfig|TestThrottler|TestSharded|TestClone|TestSFTPDiscovery|TestRepoExistsDoesNotModifyStorage'
+      - name: ZIP failure cleanup regression
+        working-directory: apps/core
+        run: go test -tags testing -count=1 -timeout 60s ./snapshot/restore -run TestZipOutputClose
       - run: pnpm build:windows
       - run: pnpm smoke:discovery
         env:
