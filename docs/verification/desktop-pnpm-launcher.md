@@ -1,6 +1,6 @@
 # Standalone pnpm desktop launcher fix
 
-Date: 2026-11-03. Scope: **D13 / Windows development tooling**, local follow-up to v0.1.0.
+Date: 2026-11-03. Scope: **D13 / Windows development tooling**, published in **v0.1.1**. [Release verification](windows-v0.1.1.md).
 
 ## Report and fix
 
@@ -8,7 +8,7 @@ The owner reported `ERR_UNKNOWN_FILE_EXTENSION` for `pnpm.exe` when running `pnp
 
 The launcher now executes `.exe` paths directly and retains Node invocation for JavaScript entry points. A second reproduced case occurs when a nested script reports `npm_execpath=pnpm`; the launcher resolves that command through the same standalone pnpm runtime recorded in `npm_node_execpath`. Arguments and process options continue through the existing shell-free launcher.
 
-`scripts/lib/process.test.mjs` exercises real subprocesses for CJS, ESM, native executables and nested command names, including executable paths with spaces/ampersands, literal arguments, working directories and environment forwarding. The compact Windows workflow now includes this regression command; no GitHub run was requested for this local fix.
+`scripts/lib/process.test.mjs` exercises real subprocesses for CJS, ESM, native executables and nested command names, including executable paths with spaces/ampersands, literal arguments, working directories and environment forwarding. The compact Windows workflow includes this regression command, which passed in the owner-authorized v0.1.1 release run.
 
 ## Verification
 

@@ -1,6 +1,6 @@
 # Compact Activity rows
 
-Date: 2026-11-03. Requirements: **D14 / DP06 / DP04**, supporting **F15 / F20 / F23**. Local follow-up to published **v0.1.0**; not released.
+Date: 2026-11-03. Requirements: **D14 / DP06 / DP04**, supporting **F15 / F20 / F23**. Published in **v0.1.1**. [Release verification](windows-v0.1.1.md).
 
 ## Delivered behavior
 

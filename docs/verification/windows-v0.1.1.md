@@ -1,6 +1,6 @@
 # Windows v0.1.1 — vault storage and Activity improvements
 
-Date: 2026-11-03. The owner authorized committing/pushing the reviewed batch and publishing a new release. **v0.1.1** is the next stable Windows x64 patch release; publication and downloaded-asset verification are pending.
+Date: 2026-11-03. The owner authorized committing/pushing the reviewed batch and publishing a new release. **[v0.1.1](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.1)** is published as GitHub Latest for Windows x64; release CI and downloaded-asset verification passed.
 
 ## Scope
 
@@ -25,8 +25,16 @@ Final local checks on Windows x64, Node 24.14.0 and pnpm 11.7.0:
 - `git diff --check` and all 102 local links in 14 changed Markdown documents: passed.
 - Upstream application/core `main` still match their recorded baseline commits; no new upstream changes were found to integrate. The core checkout matches the application gitlink.
 
-The tag-triggered Windows workflow will verify packaging and installed recovery. Published assets must be downloaded and matched against SHA256SUMS.txt and the update metadata before closing this record.
+The tag-triggered Windows workflow also passed packaging and installed recovery, followed by downloaded-asset checks below.
 
 ## Publication
 
-Pending commit, annotated tag, Windows CI and GitHub publication. The existing `release.yml` workflow publishes only after its compact check, including NSIS packaging and installed bundled-engine backup/restore hashes, passes.
+Committed the batch as `a3a4647eaa7cb7b88ed7f97a52c49895122f7183` and pushed `main` with annotated tag `v0.1.1` atomically to `hoxsec/DiskPond`.
+
+[Release CI 41717257033](https://github.com/hoxsec/DiskPond/actions/runs/41717257033) passed: frozen install, lint, desktop/Electron/library types, unit and launcher regressions, pinned-core/NSIS build, installed startup and bundled-engine backup/restore hashes, asset assembly and publication. The duplicate main-branch check `41717257606` was canceled in favor of the same compact check within the release workflow.
+
+GitHub's `/releases/latest` API confirms **v0.1.1**, `draft: false`, `prerelease: false`, published at `2026-11-03T21:04:03Z`, with 11 assets.
+
+Downloaded every release asset with `gh release download v0.1.1 --repo hoxsec/DiskPond` into `%LOCALAPPDATA%/Temp/opencode/diskpond-v0.1.1-downloads-a3a4647`. All **10 SHA-256 entries** match, including the installer, blockmap, update metadata, both source ZIPs and license/build records. The downloaded `latest.yml` contains version `0.1.1`, and its SHA-512 matches the downloaded installer.
+
+The release tag stays on `a3a4647`; a documentation-only follow-up records verified publication. The installer remains unsigned. Live-provider/USB/NAS, other-platform and upgrade matrices remain deferred under D13.

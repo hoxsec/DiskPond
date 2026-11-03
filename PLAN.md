@@ -1,8 +1,7 @@
 # DiskPond — Product and Engineering Plan
 
 - **Updated:** 2026-11-03
-- **Status:** **v0.1.0**, the first stable public Windows release, is published as GitHub Latest from `4d48be4`, including the update banner, comparison-label fix and public README refresh. [Release CI and downloaded checksums passed](docs/verification/windows-v0.1.0.md). Broad certification remains deferred.
-- **Authorized follow-up:** the owner requested committing/pushing the current batch and publishing **v0.1.1**, including available storage, compact Activity rows and the Windows pnpm launcher fix. [Release preparation](docs/verification/windows-v0.1.1.md).
+- **Status:** **v0.1.1** is published as GitHub Latest from `a3a4647`, including available storage, compact Activity rows and the Windows pnpm launcher fix. The owner authorized committing/pushing this batch and publishing the patch release. [Release CI and downloaded checksums passed](docs/verification/windows-v0.1.1.md). Broad certification remains deferred.
 - **Delivery:** One developer assisted by coding tools; quality-first, milestone-driven.
 
 DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It preserves inherited desktop and bring-your-own-storage functionality, uses its Kopia-based engine, and provides an original, calm interface. Windows x64 is the current release platform; macOS/Linux and full parity are deferred.
@@ -132,7 +131,7 @@ All providers must pass create, connect, snapshot, browse, restore/hash comparis
 | F03 | Existing BlinkDisk BYO repositories. | S5, S7; D08 | M3: copied baseline repositories open and restore; an explicit connect path never initializes over an existing repository. |
 | F04 | Individual files and directories as sources; drag/drop, native pickers, names/emoji, size estimation with included/excluded counts. | S4 | M4: both source types survive restart and restore, including unusual paths. |
 | F05 | Manual backup, backup-all, queue/progress, cancellation, checkpoint/resume behavior. | S4, S5 | M4: jobs remain distinguishable, cancel safely, and resume/retry according to actual engine checkpoint semantics. |
-| F06 | Protected file/directory/byte statistics, destination available space and backup-health summaries. | S4; owner follow-up | Counts come from known snapshot semantics; unavailable/partial status is not reported as healthy. Filesystem available-space card implemented locally after v0.1.0; [verification](docs/verification/vault-storage-space.md). |
+| F06 | Protected file/directory/byte statistics, destination available space and backup-health summaries. | S4; owner follow-up | Counts come from known snapshot semantics; unavailable/partial status is not reported as healthy. Filesystem available-space card released in v0.1.1; [verification](docs/verification/vault-storage-space.md). |
 | F07 | Missing source, permission, failed and partial backup details; task counters, logs, cancellation, copyable details. | S4, S5 | M4: error fixtures produce actionable outcomes; logs preserve useful context without secrets. |
 | F08 | Policy tree, basic/advanced modes, inherited/custom values, source policy drafts and activation/discard. | S3, S4 | M4: edits affect the intended vault/profile/path scope and preserve unrelated fields. |
 | F09 | Manual-only/scheduled modes, preset intervals, custom cron schedules, missed-backup catch-up. | S3 | M4: timezone/DST, midnight, sleep/wake, offline storage, and overlapping-job behavior are documented and tested. |
@@ -165,7 +164,7 @@ Compression parity includes `none`, `gzip` variants, `zstd` variants, `s2` varia
 | DP03 | No telemetry; local logs and user-triggered redacted diagnostics export. | M2 removal / M5 export: observed network traffic matches configured storage and update behavior; exported diagnostics contain no credentials or unapproved identifying paths. |
 | DP04 | Original DiskPond design with accessible, understandable recovery flows. | M2 foundation / M5 complete: STYLE.md applied to all required states and critical workflows. |
 | DP05 | Compare two backups of the same source: added, changed and deleted paths, with before/after size and modification time. | Implemented locally under D14 with passing [focused verification](docs/verification/snapshot-comparison-and-activity.md): deterministic comparisons, explicit metadata/read gaps, bounded/cancelable traversal and paged keyboard-scrollable results. Owner preview remains pending. |
-| DP06 | Backup activity calendar only in Home-level Activity, with vault filtering. | Retained-history slice implemented under D14 with passing [focused verification](docs/verification/snapshot-comparison-and-activity.md): local completion days, drill-down and separately labeled latest issues. Owner-requested [compact expandable rows](docs/verification/activity-compact-rows.md) implemented locally after v0.1.0. Complete failure/cancellation history requires the deferred durable-attempt slice. |
+| DP06 | Backup activity calendar only in Home-level Activity, with vault filtering. | Retained-history slice implemented under D14 with passing [focused verification](docs/verification/snapshot-comparison-and-activity.md): local completion days, drill-down and separately labeled latest issues. Owner-requested [compact expandable rows](docs/verification/activity-compact-rows.md) released in v0.1.1. Complete failure/cancellation history requires the deferred durable-attempt slice. |
 
 ## 4. Fork and architecture strategy
 
@@ -327,4 +326,4 @@ Store evidence under `docs/verification/` with requirement IDs, commits, engine 
 
 The product reaches the full desktop/BYO parity milestone only when every applicable P/F/DP requirement is demonstrated on its required platform(s), all platform/support gaps are resolved or explicitly re-scoped by the owner, and backup recovery succeeds from a fresh installation. Documentation must state the exact supported versions and the X01–X05 exclusions/replacements.
 
-**The first stable Windows release is published and verified:** [v0.1.0 release record](docs/verification/windows-v0.1.0.md). M1/M2, the M3 kickoff and all three alpha releases retain their recorded evidence; further certification is deferred under D13. [TODO.md](TODO.md) lists the immediate work.
+**The latest stable Windows release is published and verified:** [v0.1.1 release record](docs/verification/windows-v0.1.1.md). The first stable v0.1.0, M1/M2, the M3 kickoff and all three alpha releases retain their recorded evidence; further certification is deferred under D13. [TODO.md](TODO.md) lists the immediate work.

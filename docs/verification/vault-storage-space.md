@@ -1,6 +1,6 @@
 # Vault available space — local verification
 
-Date: 2026-11-03. Requirements: **F06 / P01–P03 / DP04**. This owner-requested follow-up is implemented locally after v0.1.0 and is not yet published.
+Date: 2026-11-03. Requirements: **F06 / P01–P03 / DP04**. This owner-requested follow-up is published in **v0.1.1**. [Release verification](windows-v0.1.1.md).
 
 ## Behavior
 

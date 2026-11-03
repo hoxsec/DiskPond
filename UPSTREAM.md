@@ -76,7 +76,7 @@ For D14 / DP05 / DP06, new validated read contracts, bounded comparison traversa
 
 ## Vault available-space follow-up (2026-11-03)
 
-For F06 / P01–P03, the inherited vault overview/stat-card, query keys, Electron connection IPC/preload and English vault copy now expose destination available space. New shared read-result validation, a bounded native filesystem probe and a vault-scoped renderer query use main-owned connection paths. Filesystem destinations report the current user's available bytes; other providers show **Not reported**, and failed reads show **Unavailable**. The new card has no historical trend. [Verification](docs/verification/vault-storage-space.md) records this local, unreleased change.
+For F06 / P01–P03, the inherited vault overview/stat-card, query keys, Electron connection IPC/preload and English vault copy now expose destination available space. New shared read-result validation, a bounded native filesystem probe and a vault-scoped renderer query use main-owned connection paths. Filesystem destinations report the current user's available bytes; other providers show **Not reported**, and failed reads show **Unavailable**. The new card has no historical trend. [Verification](docs/verification/vault-storage-space.md) records the feature released in v0.1.1.
 
 ## M2 owned-core discovery work
 
@@ -111,9 +111,9 @@ The owner requested commit/push publication and continuation with TODO item 2 in
 
 ## Distribution and later updates
 
-### v0.1.1 release preparation (2026-11-03)
+### v0.1.1 stable release (2026-11-03)
 
-The owner authorized committing/pushing the available-space feature, compact Activity rows and Windows pnpm launcher fix as **v0.1.1**. Activity's inherited calendar now delegates backup/latest-issue rows to a shared expandable entry with keyboard support and preserved history/profile links; English labels and fixture coverage accompany it. The desktop process wrapper supports both JavaScript and standalone pnpm entry points, with a new subprocess regression in compact CI. [Release record](docs/verification/windows-v0.1.1.md).
+The owner-authorized available-space feature, compact Activity rows and Windows pnpm launcher fix are published as **v0.1.1**, GitHub Latest from `a3a4647`. Activity's inherited calendar now delegates backup/latest-issue rows to a shared expandable entry with keyboard support and preserved history/profile links; English labels and fixture coverage accompany it. The desktop process wrapper supports both JavaScript and standalone pnpm entry points, with a new subprocess regression in compact CI. Release CI, installed recovery and all downloaded asset checksums passed. [Release record](docs/verification/windows-v0.1.1.md).
 
 ### First stable public release (2026-11-03)
 

@@ -1,24 +1,23 @@
 # DiskPond — Roadmap
 
-Updated: 2026-11-03. **[v0.1.0](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.0)**, DiskPond's first stable public Windows release, is published as GitHub Latest (D15).
+Updated: 2026-11-03. **[v0.1.1](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.1)** is published as GitHub Latest with owner authorization. [Release CI and downloaded checksums passed](docs/verification/windows-v0.1.1.md).
 
-The owner authorized **v0.1.1** for the completed follow-ups below. [Release preparation and checks](docs/verification/windows-v0.1.1.md).
-
-## Now — First stable public release
+## Now — Stable Windows releases
 
 - [x] Deliver tag-triggered Windows installer, updater metadata, checksums and matching source/license assets. The three alpha releases have passing publication and installed backup/restore evidence.
 - [x] Deliver the graphite/blue identity, history/profile return navigation, snapshot comparison and Home-level Activity tab (DP04–DP06).
 - [x] Add the GitHub update banner and Settings **Check for updates** (F25).
 - [x] Fix cold-start comparison translations, refresh the README with features/screenshots and remove obsolete root service setup files.
-- [x] Publish **v0.1.0** as the latest stable release. Compact Windows release CI and all 10 downloaded asset checksums passed. [Release record](docs/verification/windows-v0.1.0.md).
+- [x] Publish **v0.1.0** as the first stable release. Compact Windows release CI and all 10 downloaded asset checksums passed. [Release record](docs/verification/windows-v0.1.0.md).
+- [x] Publish **v0.1.1** with the available-space, Activity and launcher improvements below. Compact Windows release CI, installed recovery and all 10 downloaded checksums passed. [Release record](docs/verification/windows-v0.1.1.md).
 
 ## Next — Improve through actual use
 
 Fix reported backup, scheduling, retention, restore and usability issues. Collect installation and everyday-use feedback on the stable release. Add encrypted setup export/import and improve diagnostics when needed.
 
-- [x] Add **Storage available** to vault overviews for filesystem destinations (F06 / P01–P03), with explicit unavailable/unsupported states. [Local verification](docs/verification/vault-storage-space.md); included in the v0.1.1 candidate.
-- [x] Compact Activity's backup and latest-issue details into individually expandable rows (DP06 / DP04), keeping key metadata visible. [Local verification](docs/verification/activity-compact-rows.md); included in the v0.1.1 candidate.
-- [x] Fix Windows build/development launchers for standalone `pnpm.exe`, including nested scripts (D13). [Local verification](docs/verification/desktop-pnpm-launcher.md).
+- [x] Add **Storage available** to vault overviews for filesystem destinations (F06 / P01–P03), with explicit unavailable/unsupported states. [Verification](docs/verification/vault-storage-space.md); released in v0.1.1.
+- [x] Compact Activity's backup and latest-issue details into individually expandable rows (DP06 / DP04), keeping key metadata visible. [Verification](docs/verification/activity-compact-rows.md); released in v0.1.1.
+- [x] Fix Windows build/development launchers for standalone `pnpm.exe`, including nested scripts (D13). [Verification](docs/verification/desktop-pnpm-launcher.md); released in v0.1.1.
 
 ## Later — Optional expansion
 
