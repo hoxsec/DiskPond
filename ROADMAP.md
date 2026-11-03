@@ -1,7 +1,7 @@
 # DiskPond — Roadmap
 
-- **Updated:** 2026-11-02
-- **Current stage:** M1 complete; M2 branding/account-free workspace slice locally verified, recovery gate open.
+- **Updated:** 2026-11-03
+- **Current stage:** M1 complete; M2 branding/account-free workspace verified locally and in Windows CI, password/discovery/managed-provider slices have local evidence, desktop recovery gate open.
 
 This roadmap implements the owner-approved scope in [PLAN.md](PLAN.md). Requirement IDs refer to its parity inventory. [STYLE.md](STYLE.md) defines the interface and [AGENTS.md](AGENTS.md) defines contributor workflow.
 
@@ -22,7 +22,7 @@ Effort is relative complexity, not a calendar estimate: **M** = contained integr
 | --- | --- | --- | --- | --- |
 | M0 | Agreed scope and planning documents | Owner answers, source review | M | Complete |
 | M1 | Reproducible fork and Windows development build | M0 | M | Complete — local and clean Windows CI pass |
-| M2 | Independent DiskPond local-backup vertical slice | M1 | L | In progress — branding/workspace verified locally; recovery open |
+| M2 | Independent DiskPond local-backup vertical slice | M1 | L | In progress — branding/workspace, password, discovery and managed-provider slices have scoped evidence; desktop recovery open |
 | M3 | All BYO providers and existing-repository connectivity | M2 | L | Not started |
 | M4 | Complete Windows backup/policy/recovery workflows | M3 | XL | Not started |
 | M5 | Portable setup and release-ready Windows product | M4 | L | Not started |
@@ -68,7 +68,7 @@ Evidence: [Windows checks and clean CI](docs/verification/m1-windows-baseline.md
 
 **Requirements:** P01; F01–F02; basic F17/F22/F24; DP01, initial DP03–DP04.
 
-Locally verified slice: [owner artwork, local workspace and hosted-service removal](docs/verification/m2-branding-workspace.md), including built/development/installed Windows smoke. The slice is committed and merged into `main`; its new Windows CI run was running at handoff. The real-recovery gate remains open.
+Verified slice: [owner artwork, local workspace and hosted-service removal](docs/verification/m2-branding-workspace.md), including built/development/installed Windows smoke. The slice is committed and merged into `main`; integration CI and merged-main CI both passed. The real-recovery gate remains open.
 
 - [x] Promote the existing local-account path to the default account-free workspace.
 - [x] Extract required contracts from cloud/API/database packages and remove hosted-service runtime requirements.
@@ -76,9 +76,12 @@ Locally verified slice: [owner artwork, local workspace and hosted-service remov
 - [x] Remove analytics and crash-upload execution, build-time upload plugins and upstream service configuration.
 - [x] Apply DiskPond product identity, isolated storage paths and original UI tokens.
 - [ ] Implement create-versus-connect entry points with provider validation and safe existing-repository detection.
-  - M1 discovery: inherited `/repo/exists` writes `.shards` and can migrate legacy blob IDs; add a genuinely read-only discovery path before existing-vault certification.
-- [ ] Preserve secure vault-password handling; make unavailable secure storage a session-only mode rather than a silent plaintext fallback.
+  - [x] Nonmutating discovery in the owner-approved core fork: no `.shards` write on reads, no legacy migration from `/repo/exists`, no SFTP directory creation during discovery. [Local regressions and baseline-copy restore/hash evidence](docs/verification/m2-read-only-discovery.md); changes remain uncommitted. Separate entry points and explicit-connect migration review remain open.
+- [x] Preserve secure vault-password handling; make unavailable secure storage a session-only mode rather than a silent plaintext fallback.
+  - [Windows password evidence](docs/verification/m2-password-storage.md): OS-protected round-trip, failure/session-only/re-entry, legacy-cache handling, three-vault engine interruption/reconnect and credential-file scans. Managed startup now reopens exact whitespace passwords automatically. Later-OS runtime checks and full F24/DP01 remain open.
+  - [x] Implement owner-approved protected/session-only provider storage, metadata-only managed core connections, and migration of both inherited local provider copies. [Decision, implementation and native recovery evidence](docs/verification/m2-provider-storage-design.md). Changes remain uncommitted; live-provider and full desktop recovery certification remain open.
 - [ ] Supervise the local engine, expose meaningful startup/failure status, and keep its API local/authenticated.
+  - Managed disconnected startup, confirmed connection results and retryable unexpected exits are covered by the credential slice. Broader job interruption and desktop failure/recovery flows remain open.
 - [ ] Complete one real local-source → encrypted vault → snapshot history → restored-file journey.
 - [ ] Verify changed/deleted source contents can be restored from the correct version.
 - [ ] Distinguish restore success, partial completion and failure in the vertical slice.
@@ -99,6 +102,7 @@ Locally verified slice: [owner artwork, local workspace and hosted-service remov
 - [ ] Certify Backblaze B2, Google Cloud Storage and Azure Blob against real test destinations.
 - [ ] Certify SFTP password/key authentication, known-host verification, optional scanning, and missing-helper handling.
 - [ ] Certify WebDAV authentication and connection failure cases.
+  - M2's credential-isolated loopback fixture exercises distinct accounts, rejection, versioned restore hashes and restart/migration; live services and the renderer provider workflow remain uncertified.
 - [ ] Certify Rclone remote/executable selection and unavailable/incorrect remote configuration.
 - [ ] Create compatibility fixtures using the pinned BlinkDisk/core, then connect and restore through DiskPond.
 - [ ] Verify repository identity/duplicate detection, legacy provider aliases, wrong-password handling and unsupported versions.
@@ -125,6 +129,7 @@ Locally verified slice: [owner artwork, local workspace and hosted-service remov
 - [ ] Verify every compression identifier/preset and extension/size filter.
 - [ ] Audit every F13 mapped field against the actual core. Record supported engine behavior, UI exposure and preservation tests individually.
 - [ ] Preserve upload/download bandwidth controls and measure their effect.
+  - M2 managed-connection regressions preserve both limits across description updates, migration and restart. Throughput measurement remains open.
 
 ### History and recovery
 
@@ -210,6 +215,6 @@ Use small vertical tasks. For example: **P09 — create an SFTP vault with a kno
 
 ## First implementation session
 
-M1 is complete: the integration branch/import, pinned core build, desktop command contract, baseline checks, runtime smoke, and service/platform inventories are recorded; the clean Windows workflow passes. M2 branding/local workspace extraction is implemented and locally verified; safe discovery, secure storage and real recovery remain the next gate.
+M1 is complete: the integration branch/import, pinned core build, desktop command contract, baseline checks, runtime smoke, and service/platform inventories are recorded; the published Windows workflow passes. M2 branding/local workspace, vault-password fallback, owned-core nonmutating discovery and approved managed-provider storage have evidence to their recorded scope. Explicit create/connect behavior, truthful renderer restore outcomes and the desktop recovery gate remain open. Credential/core changes and their workflow additions are uncommitted and have no published CI result.
 
 Release ownership, signing access, live provider test access and additional OS hardware remain project-owner inputs at their stated milestones. They do not block beginning M1.

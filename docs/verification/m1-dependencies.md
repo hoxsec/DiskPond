@@ -72,6 +72,10 @@ The smoke attaches Electron `session.webRequest.onBeforeRequest`, cancels remote
 
 ## M2 implementation order
 
+Follow-up: the [M2 vault-password slice](m2-password-storage.md) removes the Electron plaintext/basic-text and engine password-file fallbacks for active local vaults. The subsequent [approved provider-storage slice](m2-provider-storage-design.md) replaces active desktop provider JSON/envelopes with OS-protected/session-only connections and metadata-only managed core configuration. These changes are locally verified and uncommitted; full provider/platform gates remain open. The original M1 findings above remain a historical baseline.
+
+Further follow-up: the owner-approved `hoxsec/diskpond-core` fork contains local, uncommitted [nonmutating discovery changes](m2-read-only-discovery.md), covering `.shards`, legacy-blob discovery and SFTP directory creation, plus the approved managed-provider changes linked above. Published M1/M2 branding CI does not cover these later core changes.
+
 1. Extract the required schema constants/contracts; remove API/db runtime dependencies and map remaining type-only imports.
 2. Promote the existing local collections/workspace, remove online auth/sync/billing/cloud routes and their packages after callers are gone.
 3. Remove analytics/crash SDKs and inherited remote UI assets; implement local diagnostic behavior and broader socket observation.

@@ -1,43 +1,17 @@
-import type { ProviderConfig } from "@blinkdisk/schemas/providers";
 import { CustomError } from "@blinkdisk/utils/error";
-import { useConfigList } from "@desktop/hooks/queries/use-config-list";
 import { useVault } from "@desktop/hooks/queries/use-vault";
-import { useVaultPassword } from "@desktop/hooks/queries/use-vault-password";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
 import { useQuery } from "@tanstack/react-query";
 
 export function useVaultConfig() {
   const { queryKeys } = useQueryKey();
-
   const { data: vault } = useVault();
-  const { data: configs } = useConfigList();
-  const { data: password } = useVaultPassword(vault);
-
   return useQuery({
-    queryKey: queryKeys.vault.config(vault?.id, password),
-    queryFn: async () => {
-      if (!vault || !password || !configs)
-        throw new CustomError("MISSING_REQUIRED_VALUE");
-
-      const localHostName = window.electron.os.hostName(vault.id);
-      const localUserName = window.electron.os.userName(vault.id);
-
-      const config = configs.find((config) =>
-        vault.configLevel === "VAULT"
-          ? config.level === "VAULT" && config.vaultId === vault.id
-          : config.level === "PROFILE" &&
-            config.vaultId === vault.id &&
-            config.hostName === localHostName &&
-            config.userName === localUserName,
-      );
-
-      if (!config) return null;
-
-      return (await window.electron.vault.config.decrypt({
-        password,
-        encrypted: config.data,
-      })) as ProviderConfig;
+    queryKey: queryKeys.vault.config(vault?.id),
+    queryFn: () => {
+      if (!vault) throw new CustomError("MISSING_REQUIRED_VALUE");
+      return window.electron.vault.connectionSummary({ vaultId: vault.id });
     },
-    enabled: !!vault && !!configs && !!password,
+    enabled: !!vault,
   });
 }

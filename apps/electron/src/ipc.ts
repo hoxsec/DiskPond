@@ -1,10 +1,15 @@
 import { platform } from "node:os";
 import { basename, dirname, join } from "node:path";
 import { readClipboard } from "@electron/clipboard";
-import { decryptVaultConfig, encryptVaultConfig } from "@electron/encryption";
 import { folderSize, isDirectory, sourceSize, sourceType } from "@electron/fs";
-import { getPasswordCache, setPasswordCache } from "@electron/password";
+import "@electron/password-ipc";
+import "@electron/vault/connection-ipc";
+import { requireMainWindow } from "@electron/ipc-context";
 import { getHostName, getUserName } from "@electron/profile";
+import {
+  readRendererStore,
+  writeRendererStore,
+} from "@electron/renderer-store";
 import {
   checkEmpty,
   listRestores,
@@ -14,15 +19,8 @@ import {
 } from "@electron/restore";
 import { openBrowser } from "@electron/shell";
 import { sshKeyscan } from "@electron/ssh";
-import { store } from "@electron/store";
 import { getUpdateStatus, installUpdate } from "@electron/updater";
-import {
-  connectVault,
-  createVault,
-  getVaultStatus,
-  retryVault,
-} from "@electron/vault/manage";
-import { validateVaultConfig } from "@electron/vault/validate";
+import { getVaultStatus, retryVault } from "@electron/vault/manage";
 import { setProgressBar, window } from "@electron/window";
 import { openWorkspace } from "@electron/workspace";
 import { app, dialog, ipcMain, shell } from "electron";
@@ -44,7 +42,14 @@ ipcMain.on("window.reload", () => window?.reload());
 ipcMain.on("window.setProgressBar", (_, progress: number) =>
   setProgressBar(progress),
 );
-ipcMain.on("store.get", (e, key) => (e.returnValue = store.get(key)));
+ipcMain.on("store.get", (event, key) => {
+  try {
+    requireMainWindow(event);
+    event.returnValue = readRendererStore(key);
+  } catch {
+    event.returnValue = undefined;
+  }
+});
 ipcMain.on(
   "os.hostName",
   (e, vaultId) => (e.returnValue = getHostName(vaultId)),
@@ -55,8 +60,10 @@ ipcMain.on(
 );
 ipcMain.on("os.platform", (e) => (e.returnValue = platform()));
 
-ipcMain.handle("store.set", (_, key, value) => store.set(key, value));
-ipcMain.handle("store.clear", () => store.clear());
+ipcMain.handle("store.set", (event, key, value) => {
+  requireMainWindow(event);
+  writeRendererStore(key, value);
+});
 ipcMain.handle("path.basename", (_, path) => basename(path));
 ipcMain.handle("path.dirname", (_, path) => dirname(path));
 ipcMain.handle("dialog.open", (_, options) => dialog.showOpenDialog(options));
@@ -68,9 +75,6 @@ ipcMain.handle("dialog.save", (_, { defaultFileName, ...options }) =>
       : {}),
   }),
 );
-ipcMain.handle("vault.validate", (_, config) => validateVaultConfig(config));
-ipcMain.handle("vault.create", (_, config) => createVault(config));
-ipcMain.handle("vault.connect", (_, config) => connectVault(config));
 ipcMain.handle("vault.status", (_, payload) => getVaultStatus(payload));
 ipcMain.handle("vault.retry", (_, id: string) => retryVault(id));
 ipcMain.handle("vault.restore.single", (_, payload) => restoreSingle(payload));
@@ -82,14 +86,6 @@ ipcMain.handle("vault.restore.directory", (_, payload) =>
 );
 ipcMain.handle("vault.restore.list", (_, payload) => listRestores(payload));
 ipcMain.handle("vault.restore.checkEmpty", (_, payload) => checkEmpty(payload));
-ipcMain.handle("vault.config.encrypt", (_, payload) =>
-  encryptVaultConfig(payload),
-);
-ipcMain.handle("vault.config.decrypt", (_, payload) =>
-  decryptVaultConfig(payload),
-);
-ipcMain.handle("vault.password.set", (_, payload) => setPasswordCache(payload));
-ipcMain.handle("vault.password.get", (_, payload) => getPasswordCache(payload));
 ipcMain.handle("shell.open.file", (_, url) => shell.showItemInFolder(url));
 ipcMain.handle("shell.open.folder", (_, url) => shell.openPath(url));
 ipcMain.handle("shell.open.browser", (_, url) => openBrowser(url));

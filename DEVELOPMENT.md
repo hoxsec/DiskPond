@@ -1,6 +1,6 @@
 # DiskPond development guide
 
-Updated 2026-11-02. The Windows x64 development baseline passes locally and on a fresh GitHub-hosted Windows runner. See [M1 evidence](docs/verification/m1-windows-baseline.md) for results and later product gates.
+Updated 2026-11-03. The Windows x64 development baseline passes locally and on a fresh GitHub-hosted Windows runner. Subsequent uncommitted credential/discovery changes have local verification only. See [M1 evidence](docs/verification/m1-windows-baseline.md) and [M2 provider-storage evidence](docs/verification/m2-provider-storage-design.md) for results and later product gates.
 
 ## Toolchain
 
@@ -38,7 +38,13 @@ git -C apps/core rev-parse HEAD
 pnpm install --frozen-lockfile
 ```
 
-The engine revision must be `e8955e7280edd9526b9f104f1592f233cfe6789b`. Do not use `git submodule update --remote` or substitute a globally installed Kopia binary. `pnpm build:core` checks the checkout against the recorded gitlink.
+The engine gitlink is `aad67c688a05ce119859d49ca51bdf67787f0b99`, published on the owner-approved `hoxsec/diskpond-core` fork's `main`. The original upstream baseline remains recorded in [provenance](UPSTREAM.md). Do not use `git submodule update --remote` or substitute a globally installed Kopia binary. `pnpm build:core` checks the checkout against the recorded gitlink and marks modified core source with a `-dirty` build revision. The application starts core with `--managed-storage`, which the original baseline binary does not implement; build the pinned core.
+
+The discovery compatibility fixture also builds the original baseline. In shallow checkouts, fetch that exact object before `pnpm smoke:discovery`, as CI does; this leaves the candidate checkout and gitlink unchanged:
+
+```powershell
+git -C apps/core fetch --no-tags --depth=1 origin e8955e7280edd9526b9f104f1592f233cfe6789b
+```
 
 Installation uses the pinned workspace lockfile and approved dependency build scripts. Retained hosted-service source packages still install their own dependencies; the desktop no longer imports their API/database contracts. Run installation once after intentional manifest changes, before starting parallel checks: pnpm 11 may auto-install on subsequent commands and concurrent installation can race on Windows shims. Regenerate the lockfile with pnpm rather than editing it manually.
 
@@ -61,6 +67,10 @@ First setup/build needs network access for package/Go modules, Electron and pack
 | `pnpm preview:desktop` | Launches the existing build using `diskpondapp://frontend`; run `build:desktop` first. |
 | `pnpm smoke:desktop` | Exercises the built renderer, preload, local onboarding and engine discovery in temporary app data. |
 | `pnpm smoke:desktop --dev` | Runs that smoke through the actual `dev:desktop` wrapper, including server startup and cleanup. |
+| `pnpm smoke:discovery` | Builds a clean baseline in a disposable core worktree, verifies nonmutating discovery through Electron, then restores/hashes both baseline snapshot versions with the candidate core. Requires `build:core`; `DISKPOND_BASELINE_CORE` optionally selects an existing baseline executable. |
+| `pnpm smoke:passwords` | Builds an isolated Electron test entry point and verifies native password protection, failure/session-only modes, wrong-password rejection, application restart and real-engine reconnect. Requires the existing pinned core build. |
+| `pnpm smoke:providers` | Builds a credential-isolated loopback WebDAV service and Electron fixture; checks two-vault versioned snapshots/restores with hashes, protected/session/failure storage, restart, wrong/swapped credentials, both legacy migrations and credential scans. Requires Go and the matching managed-core build; no live-provider credentials. |
+| `pnpm smoke:desktop --session-passwords` | Runs built desktop smoke with test-only unavailable secure storage, verifying the localized notice and password/settings IPC rejection. |
 | `pnpm smoke:windows` | Installs the development NSIS artifact into a disposable directory, checks installed startup/engine/resources, quits and uninstalls. Requires a Windows user with no existing DiskPond installation/data/registration. |
 | `pnpm build:windows` | Builds desktop/core, then invokes electron-builder's Windows NSIS target with `--publish never`. Outputs under `apps/electron/dist/`. |
 | `pnpm lint:ci` | Whole imported application lint/format check; excludes generated routes, worker types and the Go submodule. |
@@ -84,9 +94,11 @@ pnpm dev:desktop
 Remove-Item Env:DISKPOND_DATA_DIR
 ```
 
-The override must be absolute and is ignored in packaged builds. `DISKPOND_TEST_TMP` optionally sets the parent directory for smoke fixtures; it must already exist. The smoke runner deletes only the temporary directory it created. It blocks and fails on remote renderer HTTP(S) and main-process fetch requests, exercises keyboard onboarding, provider selection, settings/theme persistence and retired API rejection, and asks the engine to discover an empty disposable destination. Set `DISKPOND_SMOKE_CAPTURE_DIR` to retain screenshots. The pinned discovery call writes `.shards`; see the [recorded compatibility gap](docs/verification/m1-dependencies.md). This smoke does not certify backup recovery or every network path.
+The override must be absolute and is ignored in packaged builds. `DISKPOND_TEST_TMP` optionally sets the parent directory for smoke fixtures; it must already exist. The smoke runner deletes only the temporary directory it created. It blocks and fails on remote renderer HTTP(S) and main-process fetch requests, exercises keyboard onboarding, provider selection, settings/theme persistence and retired API rejection, and requires engine discovery to leave an empty disposable destination empty. Set `DISKPOND_SMOKE_CAPTURE_DIR` to retain screenshots. This assertion requires the [local owned-core discovery changes](docs/verification/m2-read-only-discovery.md); the unchanged upstream binary writes `.shards` and fails it. This smoke does not certify backup recovery or every network path.
 
 Only packaged builds register the public DiskPond URI handler. Development/preview launches preserve any installed registration; Windows built/dev smoke checks compare its registry state before and after each run. Run the smoke commands sequentially in CI order: built, development, installed.
+
+The password fixture uses three independent local repositories and per-vault engine caches under temporary application data, and scans those fixtures for plaintext/base64 passwords. It does not use the development profile or certify backup/restore. See [password-storage evidence](docs/verification/m2-password-storage.md). The provider fixture adds real versioned restore/hash comparisons, distinct WebDAV credentials and both legacy migrations. It scans fixture profiles/storage/caches/temp files and captured output; live Windows-locked files require a strict post-exit scan. See [provider-storage evidence and limits](docs/verification/m2-provider-storage-design.md). Key-store failure injection exists only in test entry points. The Windows workflow includes both fixtures and session-only built smoke before development/installed smoke; these additions have not yet run in CI.
 
 `.env.template` documents the desktop defaults. Desktop builds no longer consume hosted API/cloud/web URLs or analytics keys. Auth, remote configuration sync, PostHog, LogSnag and Sentry execution have been removed from the desktop/main/preload dependency paths. Packaged update checks still use the DiskPond release feed; update preferences remain an M5 task.
 
@@ -102,7 +114,7 @@ The local Windows 11 installed-startup check passes. Fresh-OS Windows 10/11 cert
 
 ## Core tests
 
-M1 builds the unchanged pinned engine and probes it through Electron. It does not claim the entire core suite passed. Follow `apps/core/Makefile` before running broader suites: the `testing` build tag and `TESTING_ACTION_EXE` helper are required for relevant tests; provider suites also need their specific services/helpers.
+M1 built the unchanged pinned engine and probed it through Electron. M2 adds [focused discovery/filesystem/format checks and real baseline restores](docs/verification/m2-read-only-discovery.md), plus [managed-connection/cache/bandwidth and credential-redaction checks](docs/verification/m2-provider-storage-design.md). These do not certify the entire core suite. Follow `apps/core/Makefile` before running broader suites: the `testing` build tag and `TESTING_ACTION_EXE` helper are required for relevant tests; provider suites also need their specific services/helpers.
 
 The native Windows equivalent of the helper setup and default unit-test selection is shown below as an **unverified broader-suite recipe**, not an M1 passing result:
 

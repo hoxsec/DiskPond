@@ -2,7 +2,11 @@ const assert = require("node:assert/strict");
 const { mkdir, readdir, writeFile } = require("node:fs/promises");
 const { join } = require("node:path");
 const { pathToFileURL } = require("node:url");
-const { app, nativeTheme, session } = require("electron");
+const { app, nativeTheme, safeStorage, session } = require("electron");
+
+// Failure injection belongs only in the isolated smoke entry point.
+const sessionPasswords = process.env.DISKPOND_SMOKE_SESSION_PASSWORDS === "1";
+if (sessionPasswords) safeStorage.isEncryptionAvailable = () => false;
 
 const blocked = [];
 const originalFetch = globalThis.fetch;
@@ -170,6 +174,34 @@ app.on("browser-window-created", (_, window) => {
       contents.sendInputEvent({ type: "char", keyCode: "\r" });
       contents.sendInputEvent({ type: "keyUp", keyCode: "Return" });
       await waitForText(contents, "Create your vault");
+      if (sessionPasswords) {
+        await waitForText(contents, "Vault credentials are session-only");
+        await waitForText(contents, "before scheduled backups can resume");
+        assert.equal(
+          await contents.executeJavaScript(
+            "window.electron.vault.password.status().then(s => s.mode)",
+          ),
+          "SESSION",
+        );
+      }
+      assert.equal(
+        await contents.executeJavaScript(
+          "window.electron.store.get('passwords')",
+        ),
+        undefined,
+      );
+      assert.equal(
+        await contents.executeJavaScript(
+          "window.electron.store.set('passwords.vlt_test', { type: 'PLAIN', data: 'fixture' }).then(() => false, () => true)",
+        ),
+        true,
+      );
+      assert.equal(
+        await contents.executeJavaScript(
+          "window.electron.vault.password.get({ vaultId: '../other' }).then(() => false, () => true)",
+        ),
+        true,
+      );
       await capture(contents, "home");
       await clickButton(contents, "Add vault");
       await waitForText(contents, "SFTP");
@@ -191,6 +223,18 @@ app.on("browser-window-created", (_, window) => {
         "[...document.querySelectorAll('a')].find(element => element.textContent.trim() === 'Settings').click()",
       );
       await waitForText(contents, "Preferences");
+      await waitForText(
+        contents,
+        sessionPasswords
+          ? "Vault credentials are session-only"
+          : "Vault credential storage",
+      );
+      if (sessionPasswords) {
+        await waitFor(
+          contents,
+          "[...document.querySelectorAll('[data-slot=alert-title]')].filter(element => element.textContent === 'Vault credentials are session-only').length === 1",
+        );
+      }
       for (const theme of ["light", "dark"]) {
         await selectTheme(contents, theme);
         await waitFor(
@@ -275,9 +319,7 @@ app.on("browser-window-created", (_, window) => {
         `window.electron.vault.validate(${JSON.stringify({ type: "INTERNAL_DRIVE", config: { path: destination } })})`,
       );
       assert.equal(result.code, "NOT_INITIALIZED");
-      // Pinned engine discovery writes this sharding marker. M2/M3 must add a
-      // genuinely read-only discovery path; no repository is initialized here.
-      assert.deepEqual(await readdir(destination), [".shards"]);
+      assert.deepEqual(await readdir(destination), []);
       assert.deepEqual(blocked, []);
       finish();
     } catch (error) {

@@ -38,6 +38,11 @@ const options = {
     ...process.env,
     DISKPOND_PREVIEW: development ? "0" : "1",
     DISKPOND_DATA_DIR: directory,
+    DISKPOND_SMOKE_SESSION_PASSWORDS: process.argv.includes(
+      "--session-passwords",
+    )
+      ? "1"
+      : "0",
   },
   timeout: 90_000,
 };

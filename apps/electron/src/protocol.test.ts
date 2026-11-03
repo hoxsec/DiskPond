@@ -20,7 +20,25 @@ import {
   registerProtcol,
   resolveProtocolPath,
 } from "@electron/protocol";
+import { fetchVaultRaw } from "@electron/vault/fetch";
 import { protocol } from "electron";
+
+it.each([
+  "create",
+  "connect",
+  "exists",
+  "%63onnect",
+  "../repo/connect",
+  "connect/",
+])("blocks raw credential operations: %s", async (operation) => {
+  listenProtocol();
+  const handler = vi.mocked(protocol.handle).mock.calls.at(-1)?.[1];
+  const response = await handler?.(
+    new Request(`app://vault/api/v1/repo/${operation}`, { method: "POST" }),
+  );
+  expect(response?.status).toBe(403);
+  expect(fetchVaultRaw).not.toHaveBeenCalled();
+});
 
 it("does not proxy the retired hosted API", async () => {
   listenProtocol();

@@ -1,12 +1,10 @@
+import type { PasswordStorageStatus } from "@blinkdisk/schemas/password";
 import { setupSignalDBPreload } from "@blinkdisk/signaldb-electron/preload";
+import type { getConnectionSummary } from "@electron/vault/connection";
 
 setupSignalDBPreload(ipcRenderer, contextBridge);
 
 import type { readClipboard } from "@electron/clipboard";
-import type {
-  decryptVaultConfig,
-  encryptVaultConfig,
-} from "@electron/encryption";
 import type { sourceType } from "@electron/fs";
 import type { getPasswordCache, setPasswordCache } from "@electron/password";
 import type {
@@ -28,6 +26,7 @@ import type {
   getVault,
   getVaultStatus,
   retryVault,
+  unlockVault,
 } from "@electron/vault/manage";
 import type { validateVaultConfig } from "@electron/vault/validate";
 import {
@@ -79,7 +78,6 @@ const api = {
     ) => ipcRenderer.sendSync("store.get", key) as unknown,
     set: setStorage,
     change: listener<void>("store.change"),
-    clear: () => ipcRenderer.invoke("store.clear") as Promise<void>,
   },
   clipboard: {
     read: () =>
@@ -127,6 +125,10 @@ const api = {
     getPathFromFile: (file: File) => webUtils.getPathForFile(file),
   },
   vault: {
+    connectionSummary: (payload: { vaultId: string }) =>
+      ipcRenderer.invoke("vault.connectionSummary", payload) as ReturnType<
+        typeof getConnectionSummary
+      >,
     validate: (payload: Parameters<typeof validateVaultConfig>[0]) =>
       ipcRenderer.invoke("vault.validate", payload) as Promise<
         ReturnType<typeof validateVaultConfig>
@@ -145,13 +147,16 @@ const api = {
       >,
     retry: (id: Parameters<typeof retryVault>[0]) =>
       ipcRenderer.invoke("vault.retry", id) as ReturnType<typeof retryVault>,
-    config: {
-      encrypt: (payload: Parameters<typeof encryptVaultConfig>[0]) =>
-        ipcRenderer.invoke("vault.config.encrypt", payload),
-      decrypt: (payload: Parameters<typeof decryptVaultConfig>[0]) =>
-        ipcRenderer.invoke("vault.config.decrypt", payload),
-    },
+    unlock: (payload: Parameters<typeof unlockVault>[0]) =>
+      ipcRenderer.invoke("vault.unlock", payload) as ReturnType<
+        typeof unlockVault
+      >,
     password: {
+      status: () =>
+        ipcRenderer.invoke(
+          "vault.password.status",
+        ) as Promise<PasswordStorageStatus>,
+      change: listener<PasswordStorageStatus>("vault.password.change"),
       set: (payload: Parameters<typeof setPasswordCache>[0]) =>
         ipcRenderer.invoke("vault.password.set", payload) as Promise<
           ReturnType<typeof setPasswordCache>

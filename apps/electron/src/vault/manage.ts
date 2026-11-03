@@ -1,15 +1,26 @@
 import { LOCAL_ACCOUNT_ID } from "@blinkdisk/constants/account";
 import type { StorageProviderType } from "@blinkdisk/constants/providers";
+import { ZUnlockVaultRequest } from "@blinkdisk/schemas/connection";
 import type { ProviderConfig } from "@blinkdisk/schemas/providers";
 import type { ZVaultOptionsType } from "@blinkdisk/schemas/vault";
 import { collections } from "@electron/db";
 import { log } from "@electron/log";
+import { preparePasswordCache, setPasswordCache } from "@electron/password";
 import { getHostName, getUserName } from "@electron/profile";
+import {
+  completeConnectionMigration,
+  connectionFromProvider,
+  prepareConnection,
+  redactConnectionError,
+  rememberConnectionSecrets,
+  saveConnection,
+} from "@electron/vault/connection";
 import { fetchVault } from "@electron/vault/fetch";
-import { mapConfigFields, mapProviderType } from "@electron/vault/mapping";
+import { connectRepository } from "@electron/vault/reconnect";
 import { startVaultServer } from "@electron/vault/server";
 import type { VaultInstance } from "@electron/vault/types";
 import { validationVault } from "@electron/vault/validate";
+import { z } from "zod";
 
 export const vaults: Record<string, VaultInstance> = {};
 const vaultStartupStates = new Map<string, "STARTING" | "FAILED">();
@@ -43,7 +54,11 @@ export async function createVault(payload: {
   globalPolicy: object;
 }) {
   const options = payload.vault.options;
-  const providerType = mapProviderType(payload.vault.provider);
+  const storage = connectionFromProvider(
+    payload.vault.provider,
+    payload.vault.config,
+  );
+  rememberConnectionSecrets(payload.vault.id, storage, payload.vault.password);
 
   let vault: VaultInstance;
   const existingVault = vaults[payload.vault.id];
@@ -56,10 +71,9 @@ export async function createVault(payload: {
     };
 
   try {
-    const response = await fetchVault(vault, {
-      method: "POST",
-      path: "/api/v1/repo/create",
-      data: {
+    const result = await connectRepository(
+      vault,
+      {
         globalPolicy: payload.globalPolicy,
         userPolicy: payload.userPolicy,
         clientOptions: {
@@ -80,22 +94,24 @@ export async function createVault(payload: {
             splitter: options.splitter,
           },
         },
-        storage: {
-          type: providerType,
-          config: mapConfigFields(payload.vault.provider, payload.vault.config),
-        },
+        storage,
         password: payload.vault.password,
       },
-    });
-
+      true,
+    );
+    if (result.error || result.code) {
+      vault.server.process.kill();
+      return result;
+    }
     vaults[vault.id] = vault;
-
-    return response as { error?: string };
+    saveConnection(vault.id, storage);
+    setPasswordCache({ vaultId: vault.id, password: payload.vault.password });
+    return result;
   } catch (e) {
-    log.error("Failed to create vault, stopping:", e);
+    log.error("Failed to create vault, stopping");
     if (vaults[vault.id]) stopVault(vault.id);
     else vault.server.process.kill();
-    throw asError(e);
+    throw new Error(redactConnectionError(vault.id, asError(e).message));
   }
 }
 
@@ -113,40 +129,103 @@ export async function connectVault({
   password: string;
   version?: number;
 }) {
+  let startedVault: VaultInstance | undefined;
   try {
-    const providerType = mapProviderType(provider);
+    const storage = connectionFromProvider(provider, config);
+    rememberConnectionSecrets(id, storage, password);
     let vault: VaultInstance;
     const existingVault = vaults[id];
     if (existingVault) vault = existingVault;
-    else
-      vault = {
+    else {
+      startedVault = vault = {
         id,
         status: "STARTING",
         server: await startVaultServer(id),
       };
+    }
 
-    const response = await fetchVault(vault, {
-      method: "POST",
-      path: "/api/v1/repo/connect",
-      data: {
-        clientOptions: {
-          description: name,
-          username: getUserName(id),
-          hostname: getHostName(id),
-        },
-        storage: {
-          type: providerType,
-          config: mapConfigFields(provider, config),
-        },
-        password,
+    const result = await connectRepository(vault, {
+      clientOptions: {
+        description: name,
+        username: getUserName(id),
+        hostname: getHostName(id),
       },
+      storage,
+      password,
     });
-
-    return response as { error?: string; code?: string };
+    if (!result.error && !result.code) {
+      saveConnection(id, storage);
+      setPasswordCache({ vaultId: id, password });
+      await completeConnectionMigration(id);
+      vaults[id] = vault;
+      vaultStartupStates.delete(id);
+    } else startedVault?.server.process.kill();
+    return {
+      ...result,
+      ...(result.error
+        ? { error: redactConnectionError(id, result.error) }
+        : {}),
+    };
   } catch (e) {
+    startedVault?.server.process.kill();
     const error = asError(e);
-    return { error: error.message, code: error.code };
+    return {
+      error: redactConnectionError(id, error.message),
+      code: error.code,
+    };
   }
+}
+
+export async function unlockVault(input: z.infer<typeof ZUnlockVaultRequest>) {
+  const { vaultId, password, config } = ZUnlockVaultRequest.parse(input);
+  const descriptor = collections.local?.vault.findOne({
+    id: vaultId,
+    status: "ACTIVE",
+  });
+  if (!descriptor) throw new Error("Local vault not found");
+  const storage = config
+    ? connectionFromProvider(descriptor.provider, config)
+    : await prepareConnection(vaultId, password);
+  if (!storage) return { code: "CONNECTION_REQUIRED" };
+  rememberConnectionSecrets(vaultId, storage, password);
+  const server = vaults[vaultId]?.server || (await startVaultServer(vaultId));
+  const vault = vaults[vaultId] || {
+    id: vaultId,
+    status: "STARTING" as const,
+    server,
+  };
+  vaults[vaultId] = vault;
+  const checked = z
+    .object({ uniqueID: z.string().optional(), code: z.string().optional() })
+    .passthrough()
+    .parse(
+      await fetchVault(vault, {
+        method: "POST",
+        path: "/api/v1/repo/exists",
+        data: { storage, password },
+      }),
+    );
+  if (checked.code) return { code: checked.code };
+  if (
+    Buffer.from(checked.uniqueID || "", "base64").toString("binary") !==
+    descriptor.coreId
+  )
+    return { code: "INCORRECT_VAULT" };
+  const result = await connectRepository(vault, {
+    storage,
+    password,
+    clientOptions: {
+      description: descriptor.name,
+      username: getUserName(vaultId),
+      hostname: getHostName(vaultId),
+    },
+  });
+  if (result.code || result.error)
+    return { code: result.code || "CONNECTION_FAILED" };
+  saveConnection(vaultId, storage);
+  setPasswordCache({ vaultId, password });
+  await completeConnectionMigration(vaultId);
+  return {};
 }
 
 let initPromise: Promise<void> = Promise.resolve();
@@ -161,6 +240,15 @@ export function initVaults(vaultId?: string) {
 export function retryVault(id: string) {
   if (vaultStartupStates.get(id) !== "FAILED") return Promise.resolve();
   return initVaults(id);
+}
+
+export function vaultServerStopped(
+  id: string,
+  process: VaultInstance["server"]["process"],
+) {
+  if (vaults[id]?.server.process !== process) return;
+  delete vaults[id];
+  vaultStartupStates.set(id, "FAILED");
 }
 
 async function reconcileVaults(vaultId?: string) {
@@ -183,6 +271,7 @@ async function reconcileVaults(vaultId?: string) {
 
       vaultStartupStates.set(vault.id, "STARTING");
       try {
+        preparePasswordCache(vault.id);
         vaults[vault.id] = {
           id: vault.id,
           status: "STARTING",

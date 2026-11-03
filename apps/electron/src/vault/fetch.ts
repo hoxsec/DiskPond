@@ -3,6 +3,7 @@ import { rename } from "node:fs/promises";
 import https from "node:https";
 import { VAULT_REQUEST_TIMEOUT_MS } from "@blinkdisk/constants/vault";
 import { VAULT_REQUEST_TIMEOUT_MARKER } from "@blinkdisk/utils/error";
+import { redactConnectionError } from "@electron/vault/connection";
 import type { VaultInstance } from "@electron/vault/types";
 import { Cookie } from "tough-cookie";
 
@@ -16,6 +17,7 @@ export async function fetchVault(
     variant = "renderer",
     filePath,
     raw,
+    timeoutMs,
   }: {
     method: "GET" | "POST" | "PUT" | "DELETE";
     path: string;
@@ -24,6 +26,7 @@ export async function fetchVault(
     variant?: "main" | "renderer";
     filePath?: string;
     raw?: boolean;
+    timeoutMs?: number;
   },
 ) {
   const searchString = search
@@ -37,6 +40,7 @@ export async function fetchVault(
     variant,
     filePath,
     raw,
+    timeoutMs,
   });
 }
 
@@ -49,6 +53,7 @@ export async function fetchVaultRaw(
     variant = "renderer",
     filePath,
     raw,
+    timeoutMs = VAULT_REQUEST_TIMEOUT_MS,
   }: {
     method: "GET" | "POST" | "PUT" | "DELETE";
     path: string;
@@ -56,6 +61,7 @@ export async function fetchVaultRaw(
     variant?: "main" | "renderer";
     filePath?: string;
     raw?: boolean;
+    timeoutMs?: number;
   },
 ) {
   return await new Promise((res, rej) => {
@@ -139,18 +145,24 @@ export async function fetchVaultRaw(
             if (raw) return res(data.toString("utf8"));
 
             try {
-              const parsed = JSON.parse(data.toString("utf8"));
+              const parsed = JSON.parse(
+                data.toString("utf8"),
+                (key, value: unknown) =>
+                  typeof value === "string" &&
+                  ["error", "errorMessage", "message", "msg", "m"].includes(key)
+                    ? redactConnectionError(vault.id, value)
+                    : value,
+              );
               res(parsed);
-            } catch (e) {
-              console.info(data.toString("utf8"));
-              rej(e);
+            } catch {
+              rej(new Error("Invalid backup engine response"));
             }
           });
         }
       },
     );
 
-    req.setTimeout(VAULT_REQUEST_TIMEOUT_MS, () => {
+    req.setTimeout(timeoutMs, () => {
       req.destroy(
         new Error(
           `${VAULT_REQUEST_TIMEOUT_MARKER}: The backup engine did not respond in time`,

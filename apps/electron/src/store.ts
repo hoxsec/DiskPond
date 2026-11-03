@@ -23,6 +23,9 @@ export type GlobalStorageType = {
   passwords: {
     [vaultId: string]: EncryptedString;
   };
+  connections: {
+    [vaultId: string]: EncryptedString;
+  };
   migrations: {
     id: string;
     completedAt: string | Date;

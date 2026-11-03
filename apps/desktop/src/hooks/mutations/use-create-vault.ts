@@ -5,13 +5,13 @@ import {
 } from "@blinkdisk/constants/vault";
 import type { ProviderConfig } from "@blinkdisk/schemas/providers";
 import type { ZCreateVaultType } from "@blinkdisk/schemas/vault";
+import { CustomError } from "@blinkdisk/utils/error";
 import { showErrorToast } from "@blinkdisk/utils/error-toast";
 import { generateId } from "@blinkdisk/utils/id";
-import { removeEmptyStrings } from "@blinkdisk/utils/object";
 import { tryCatch } from "@blinkdisk/utils/try-catch";
 import { useAccountId } from "@desktop/hooks/use-account-id";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
-import { getConfigCollection, getVaultCollection } from "@desktop/lib/db";
+import { getVaultCollection } from "@desktop/lib/db";
 import { convertPolicyToCore, defaultVaultPolicy } from "@desktop/lib/policy";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -49,17 +49,17 @@ export function useCreateVault(onSuccess: (res: CreateVaultResponse) => void) {
 
         if (validation.code === "INVALID_PASSWORD")
           throw { code: "INVALID_PASSWORD" };
+        if (
+          (validation.code || validation.error) &&
+          validation.code !== "NOT_INITIALIZED"
+        )
+          throw new CustomError("STORAGE_UNREACHABLE");
 
         initialised = !!validation.uniqueID;
         if (validation.uniqueID) coreId = atob(validation.uniqueID);
       }
 
       const vaultId = generateId("Vault");
-
-      const encryptedConfig = await window.electron.vault.config.encrypt({
-        password: values.password,
-        config: removeEmptyStrings(values.config),
-      });
 
       if (!initialised) {
         const [res, error] = await tryCatch(
@@ -77,7 +77,7 @@ export function useCreateVault(onSuccess: (res: CreateVaultResponse) => void) {
           }),
         );
 
-        if (error || res.error) {
+        if (error || res.error || res.code) {
           throw error || new Error(res.error?.toString());
         }
       } else {
@@ -92,12 +92,9 @@ export function useCreateVault(onSuccess: (res: CreateVaultResponse) => void) {
           }),
         );
 
-        if (error || (res.error && res.error !== "ALREADY_CONNECTED"))
+        if (error || res.error || res.code)
           throw error || new Error(res.error?.toString());
       }
-
-      const userName = window.electron.os.userName(vaultId);
-      const hostName = window.electron.os.hostName(vaultId);
 
       getVaultCollection(accountId).insert({
         id: vaultId,
@@ -108,16 +105,6 @@ export function useCreateVault(onSuccess: (res: CreateVaultResponse) => void) {
         status: "ACTIVE",
         options: DEFAULT_VAULT_OPTIONS,
         version: LATEST_VAULT_VERSION,
-        createdAt: new Date().toISOString(),
-      });
-
-      getConfigCollection(accountId).insert({
-        id: generateId("Config"),
-        data: encryptedConfig,
-        level: provider.level,
-        userName,
-        hostName,
-        vaultId,
         createdAt: new Date().toISOString(),
       });
 

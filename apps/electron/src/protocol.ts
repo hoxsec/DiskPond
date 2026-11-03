@@ -60,6 +60,23 @@ export function listenProtocol() {
 
       return net.fetch(pathToFileURL(pathToServe).toString());
     } else if (host === PROTOCOL_VAULT_NS) {
+      // Connections require the named, validated main-owned IPC contracts.
+      let canonicalPath: string;
+      try {
+        canonicalPath = path.posix
+          .normalize(decodeURIComponent(pathname))
+          .replace(/\/+$/, "");
+      } catch {
+        return new Response("Invalid path", { status: 400 });
+      }
+      if (
+        ["create", "connect", "exists"].some(
+          (operation) => canonicalPath === `/api/v1/repo/${operation}`,
+        )
+      )
+        return new Response("Use the vault connection interface", {
+          status: 403,
+        });
       const vaultId = req.headers.get("vault-id") || "";
       const vault = getVault(vaultId);
 

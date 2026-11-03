@@ -15,14 +15,12 @@ import "@electron/updater";
 
 import { setupCollections } from "@electron/db";
 import { checkDeepLink } from "@electron/deeplink";
-import { initEncryption } from "@electron/encryption";
 import { runMigrations } from "@electron/migrate";
 import { createTray } from "@electron/tray";
 import { initVaults, stopAllVaults } from "@electron/vault/manage";
 import { createWindow } from "@electron/window";
 
 app.on("ready", async () => {
-  initEncryption();
   await runMigrations();
   await setupCollections();
 

@@ -25,6 +25,8 @@ jobs:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           submodules: true
+      - name: Fetch pinned compatibility baseline
+        run: git -C apps/core fetch --no-tags --depth=1 origin e8955e7280edd9526b9f104f1592f233cfe6789b
       - uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v5.0.0
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
@@ -39,8 +41,23 @@ jobs:
       - run: pnpm types:desktop
       - run: pnpm test:desktop
       - run: pnpm unused
+      - name: Core discovery and managed-connection regressions
+        working-directory: apps/core
+        run: go test -tags testing -count=1 -timeout 180s ./repo ./repo/blob/throttling ./repo/blob/sharded ./repo/blob/sftp ./internal/server -run 'TestManaged|TestLocalConfig|TestThrottler|TestSharded|TestClone|TestSFTPDiscovery|TestRepoExistsDoesNotModifyStorage'
       - run: pnpm build:windows
+      - run: pnpm smoke:discovery
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
+      - run: pnpm smoke:passwords
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
+      - run: pnpm smoke:providers
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
       - run: pnpm smoke:desktop
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
+      - run: pnpm smoke:desktop --session-passwords
         env:
           DISKPOND_TEST_TMP: ${{ runner.temp }}
       - run: pnpm smoke:desktop --dev

@@ -1,6 +1,5 @@
 import { LOCAL_ACCOUNT_ID } from "@blinkdisk/constants/account";
 import { SchemaCollection } from "@blinkdisk/electron/db/schema";
-import { ZConfig, type ZConfigType } from "@blinkdisk/schemas/config";
 import { ZVault, type ZVaultType } from "@blinkdisk/schemas/vault";
 import { createElectronAdapter } from "@blinkdisk/signaldb-electron/renderer";
 import maverickReactivityAdapter from "@signaldb/maverickjs";
@@ -28,31 +27,5 @@ export function getVaultCollection(accountId: string | undefined) {
 
   return vaultCollections[accountId] as ReturnType<
     typeof createVaultCollection
-  >;
-}
-
-const configCollections: Record<
-  string,
-  ReturnType<typeof createConfigCollection>
-> = {};
-
-function createConfigCollection(accountId: string) {
-  return new SchemaCollection({
-    schema: ZConfig,
-    persistence: createElectronAdapter<ZConfigType, string>(
-      `${accountId}/config`,
-    ),
-    reactivity: maverickReactivityAdapter,
-  });
-}
-
-export function getConfigCollection(accountId: string | undefined) {
-  if (!accountId) accountId = LOCAL_ACCOUNT_ID;
-
-  if (!configCollections[accountId])
-    configCollections[accountId] = createConfigCollection(accountId);
-
-  return configCollections[accountId] as ReturnType<
-    typeof createConfigCollection
   >;
 }
