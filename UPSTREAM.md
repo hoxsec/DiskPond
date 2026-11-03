@@ -91,6 +91,12 @@ The owner requested commit/push publication and continuation with TODO item 2 in
 
 ## Distribution and later updates
 
+### M2 restore-outcome source handoff
+
+The owner authorized committing and pushing the restore-outcome slice to application `main`. It changes inherited Electron restore coordination/IPC/preload, desktop restore hooks/result panels and English copy. New schemas, native path checks and native/component fixtures replace the inherited any-non-running-is-success shortcut. Selected items use validated engine tasks with preserved entry metadata; ignored errors/permissions are disabled. ZIP omissions found in the pinned writer are reported as partial. The unused `p-limit` direct dependency/catalog entry is removed through pnpm. Core source/gitlink, repository formats and license notices are unchanged. [Evidence and outstanding gates](docs/verification/m2-restore-outcomes.md) distinguish local verification from pending clean CI. No tag or binary release is included.
+
+### Distribution requirements
+
 DiskPond's source/release namespace is `hoxsec/DiskPond`. Runtime identifiers are documented in [the M1 evidence](docs/verification/m1-windows-baseline.md). Existing BlinkDisk settings are not imported automatically.
 
 Before distributing binaries, publish matching application and core source, build instructions, license/copyright material, dependency notices and checksums. Current development packaging includes both project license texts, owner artwork and this provenance record; a complete third-party notice review and release signing remain M5 gates. Build instructions are in [DEVELOPMENT.md](DEVELOPMENT.md).

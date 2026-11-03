@@ -167,6 +167,10 @@ const api = {
         >,
     },
     restore: {
+      cancel: (payload: { id: string }) =>
+        ipcRenderer.invoke("vault.restore.cancel", payload) as Promise<void>,
+      dismiss: (payload: { id: string }) =>
+        ipcRenderer.invoke("vault.restore.dismiss", payload) as Promise<void>,
       single: (payload: Parameters<typeof restoreSingle>[0]) =>
         ipcRenderer.invoke("vault.restore.single", payload) as Promise<
           ReturnType<typeof restoreSingle>

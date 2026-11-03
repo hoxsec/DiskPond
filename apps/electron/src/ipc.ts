@@ -11,7 +11,9 @@ import {
   writeRendererStore,
 } from "@electron/renderer-store";
 import {
+  cancelRestore,
   checkEmpty,
+  dismissRestore,
   listRestores,
   restoreDirectory,
   restoreMultiple,
@@ -77,15 +79,34 @@ ipcMain.handle("dialog.save", (_, { defaultFileName, ...options }) =>
 );
 ipcMain.handle("vault.status", (_, payload) => getVaultStatus(payload));
 ipcMain.handle("vault.retry", (_, id: string) => retryVault(id));
-ipcMain.handle("vault.restore.single", (_, payload) => restoreSingle(payload));
-ipcMain.handle("vault.restore.multiple", (_, payload) =>
-  restoreMultiple(payload),
-);
-ipcMain.handle("vault.restore.directory", (_, payload) =>
-  restoreDirectory(payload),
-);
-ipcMain.handle("vault.restore.list", (_, payload) => listRestores(payload));
-ipcMain.handle("vault.restore.checkEmpty", (_, payload) => checkEmpty(payload));
+ipcMain.handle("vault.restore.single", (event, payload) => {
+  requireMainWindow(event);
+  return restoreSingle(payload);
+});
+ipcMain.handle("vault.restore.multiple", (event, payload) => {
+  requireMainWindow(event);
+  return restoreMultiple(payload);
+});
+ipcMain.handle("vault.restore.directory", (event, payload) => {
+  requireMainWindow(event);
+  return restoreDirectory(payload);
+});
+ipcMain.handle("vault.restore.list", (event, payload) => {
+  requireMainWindow(event);
+  return listRestores(payload);
+});
+ipcMain.handle("vault.restore.checkEmpty", (event, payload) => {
+  requireMainWindow(event);
+  return checkEmpty(payload);
+});
+ipcMain.handle("vault.restore.cancel", (event, payload) => {
+  requireMainWindow(event);
+  return cancelRestore(payload);
+});
+ipcMain.handle("vault.restore.dismiss", (event, payload) => {
+  requireMainWindow(event);
+  return dismissRestore(payload);
+});
 ipcMain.handle("shell.open.file", (_, url) => shell.showItemInFolder(url));
 ipcMain.handle("shell.open.folder", (_, url) => shell.openPath(url));
 ipcMain.handle("shell.open.browser", (_, url) => openBrowser(url));

@@ -90,6 +90,32 @@
     "submit": "Restore"
   },
   "restore": {
+    "actionError": "Could not complete the action or refresh restore status. Try again.",
+    "status": {
+      "RUNNING": "Restore in progress",
+      "CANCELING": "Canceling restore…",
+      "COMPLETE": "Restore completed",
+      "PARTIAL": "Restore completed with issues",
+      "FAILED": "Restore failed",
+      "CANCELED": "Restore canceled",
+      "UNAVAILABLE": "Restore outcome unavailable"
+    },
+    "issue": {
+      "SPACE": "The destination is full. Free space or choose another destination, then retry to a new folder.",
+      "PERMISSION": "Writing restored data or metadata was denied. Check destination permissions or choose another folder, then retry.",
+      "ZIP": "This engine's ZIP writer omits empty folders and symbolic links. Use unpacked restore to recover those items.",
+      "DESTINATION": "Check that the destination exists, has free space, allows writing and is not in use by another restore, then retry.",
+      "ENGINE": "The backup engine or its task result is unavailable. Reconnect the vault and check the destination before retrying.",
+      "TASK": "The engine could not restore all requested data. Check destination space and permissions and that the backup is readable, then retry to a new folder.",
+      "TIMEOUT": "The restore did not finish within the monitoring limit. Cancellation was requested; check the engine and destination before retrying.",
+      "LINK": "The destination contains a symbolic link or junction. Choose a folder without links to avoid writing outside the destination.",
+      "CONFIRMATION": "The destination is not empty. Confirm overwrite in the restore dialog or choose an empty folder."
+    },
+    "objects": "Backup objects: {{objects}}",
+    "counts": "Last reported restored items: {{restored}} · Skipped: {{skipped}} · Ignored errors: {{errors}}",
+    "incomplete": "Output may be incomplete. Keep the backup and inspect the destination before using restored files.",
+    "cancel": "Cancel restore",
+    "dismiss": "Dismiss result",
     "title": "Restore in progress",
     "description": {
       "files_one": "Currently restoring {{files}} file",

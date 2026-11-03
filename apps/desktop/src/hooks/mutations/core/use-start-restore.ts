@@ -3,6 +3,7 @@ import type { ZRestoreDirectoryType } from "@blinkdisk/schemas/directory";
 import { CustomError } from "@blinkdisk/utils/error";
 import { showErrorToast } from "@blinkdisk/utils/error-toast";
 import type { DirectoryItem } from "@desktop/hooks/queries/core/use-directory";
+import { useDirectoryId } from "@desktop/hooks/use-directory-id";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
 import { useSourceId } from "@desktop/hooks/use-source-id";
 import { useVaultId } from "@desktop/hooks/use-vault-id";
@@ -14,6 +15,7 @@ export function useStartRestore(options?: { onSuccess?: () => void }) {
   const { t } = useAppTranslation("directory.table.restore");
 
   const { vaultId } = useVaultId();
+  const { directoryId } = useDirectoryId();
   const { sourceId } = useSourceId();
   const { queryKeys } = useQueryKey();
 
@@ -21,7 +23,7 @@ export function useStartRestore(options?: { onSuccess?: () => void }) {
     mutationKey: ["file", "restore"],
     mutationFn: async (
       options:
-        | { variant: "single"; item: DirectoryItem }
+        | { variant: "single"; item: DirectoryItem; snapshotId?: string }
         | { variant: "multiple"; items: DirectoryItem[] }
         | {
             variant: "directory";
@@ -31,12 +33,23 @@ export function useStartRestore(options?: { onSuccess?: () => void }) {
     ) => {
       if (!vaultId || !sourceId)
         throw new CustomError("MISSING_REQUIRED_VALUE");
+      if (
+        options.variant !== "directory" &&
+        !directoryId &&
+        !(options.variant === "single" && options.snapshotId)
+      )
+        throw new CustomError("MISSING_REQUIRED_VALUE");
 
       if (options.variant === "single")
         return await window.electron.vault.restore.single({
           vaultId,
           sourceId,
-          item: options.item,
+          item: {
+            ...options.item,
+            ...(options.snapshotId
+              ? { snapshotId: options.snapshotId }
+              : { entryPath: `${directoryId}/${options.item.name}` }),
+          },
           dialogTitle: t("single.dialog.title"),
         });
 
@@ -44,7 +57,10 @@ export function useStartRestore(options?: { onSuccess?: () => void }) {
         return await window.electron.vault.restore.multiple({
           vaultId,
           sourceId,
-          items: options.items,
+          items: options.items.map((item) => ({
+            ...item,
+            entryPath: `${directoryId}/${item.name}`,
+          })),
           dialogTitle: t("multiple.dialog.title"),
         });
 

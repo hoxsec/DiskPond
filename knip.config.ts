@@ -20,6 +20,9 @@ const config: KnipConfig = {
         "scripts/lib/password-fixture.mjs",
         "scripts/lib/discovery-fixture.mjs",
         "scripts/lib/provider-fixture.mjs",
+        "scripts/lib/restore-fixture.mjs",
+        "scripts/lib/restore-ui.mjs",
+        "scripts/lib/restore-ui-state.mjs",
       ],
       project: ["scripts/**/*.{mjs,cjs}"],
       // Smoke/build runners resolve the pinned Electron/build tools from
@@ -28,9 +31,12 @@ const config: KnipConfig = {
         "electron",
         "esbuild",
         "@esbuild-plugins/tsconfig-paths",
+        // Renderer component fixtures resolve these from apps/desktop.
+        "react",
+        "react-dom",
       ],
       // Windows process cleanup, registry and disposable ACL fixtures use OS tools.
-      ignoreBinaries: ["taskkill", "reg", "icacls"],
+      ignoreBinaries: ["taskkill", "reg", "icacls", "powershell.exe"],
     },
     "apps/api": {
       project: commonProject,

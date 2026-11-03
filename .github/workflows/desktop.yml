@@ -61,6 +61,7 @@ jobs:
         env:
           DISKPOND_TEST_TMP: ${{ runner.temp }}
       - run: pnpm smoke:vaults
+      - run: pnpm smoke:restores
         env:
           DISKPOND_TEST_TMP: ${{ runner.temp }}
       - run: pnpm smoke:desktop --dev

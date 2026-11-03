@@ -112,6 +112,7 @@ Use Node 24.15.0 (`.nvmrc`), pnpm 11.7.0 and Go 1.25.5 as documented in DEVELOPM
 | `pnpm smoke:desktop --dev` | Exercise the actual development wrapper and its process cleanup. |
 | `pnpm smoke:discovery` | Isolated nonmutating discovery, native create/connect guards, legacy-write inventories and initial/restart baseline-copy restore/hash checks with candidate/original clients; requires the candidate core build. |
 | `pnpm smoke:vaults` | Built renderer keyboard create/connect, destination/password/duplicate failures, stale-discovery protection, themes/zoom and three-vault restart; disposable picker/Windows ACL fixtures. |
+| `pnpm smoke:restores` | Real-engine native restore outcomes, keep-both/overwrite/hash and ZIP checks, Windows ACL/junction and cancellation/interruption fixtures; isolated renderer result-component keyboard/theme/zoom checks. Requires desktop/core build. Full-volume hardware and the full desktop recovery journey remain separate gates. |
 | `pnpm smoke:passwords` | Isolated native password protection/failure/restart and real-engine reconnect checks; uses the existing pinned core build. |
 | `pnpm smoke:providers` | Credential-isolated loopback WebDAV, two-vault versioned restore/hash checks, protected/session/failure modes, legacy migration and live/post-exit credential scans; requires Go and the matching managed-core build. |
 | `pnpm smoke:desktop --session-passwords` | Built-app session-only notice and IPC rejection checks with test-only secure-storage failure injection. |

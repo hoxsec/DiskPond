@@ -1,433 +1,551 @@
-import { chmod, readdir, symlink } from "node:fs/promises";
-import { dirname, join } from "node:path";
-import type { ZRestoreDirectoryType } from "@blinkdisk/schemas/directory";
-import { fileExists } from "@electron/fs";
+import { randomUUID } from "node:crypto";
+import { readdir } from "node:fs/promises";
+import { dirname, join, resolve, sep } from "node:path";
+import { setTimeout as delay } from "node:timers/promises";
+import {
+  ZRestoreAction,
+  ZRestoreCheckEmpty,
+  ZRestoreFolder,
+  ZRestoreItem,
+  ZRestoreList,
+  ZRestoreMultiple,
+  type ZRestoreResultType,
+  ZRestoreSingle,
+  ZRestoreTask,
+} from "@blinkdisk/schemas/restore";
+import { restorePathExists, validateRestorePath } from "@electron/restore-path";
 import { fetchVault } from "@electron/vault/fetch";
 import { getVault } from "@electron/vault/manage";
 import type { VaultInstance } from "@electron/vault/types";
 import { window } from "@electron/window";
 import { app, dialog } from "electron";
-import pLimit from "p-limit";
+import { z } from "zod";
 
-type Restore = {
-  id: string;
-  status: "RUNNING" | "COMPLETE";
-  sourceId: string;
-  destination: string;
-  progress: number;
-  files?: number;
-  directories?: number;
+type Operation = {
+  result: ZRestoreResultType;
+  vault: VaultInstance;
+  taskId?: string;
+  canceled: boolean;
+  writeStarted: boolean;
+  completed: number;
 };
+const operations = new Map<string, Operation>();
+const destinations = new Set<string>();
 
-const restores: Restore[] = [];
-
-export type RestoreItem = {
-  objectId: string;
-  name: string;
-  type: "FILE" | "SYMLINK" | "DIRECTORY";
-};
-
-export function splitFileName(name: string): {
-  baseName: string;
-  extension: string;
-} {
+export function splitFileName(name: string) {
   const parts = name.split(".");
-  if (parts.length > 1) {
-    return {
-      baseName: parts.slice(0, -1).join("."),
-      extension: parts.at(-1) || "",
-    };
-  }
-  return { baseName: name, extension: "" };
+  return parts.length > 1
+    ? { baseName: parts.slice(0, -1).join("."), extension: parts.at(-1) || "" }
+    : { baseName: name, extension: "" };
 }
-
 export function generateDuplicateName(
   baseName: string,
   extension: string,
   counter: number,
-): string {
+) {
   return `${baseName} (${counter})${extension ? `.${extension}` : ""}`;
 }
 
-async function restore(
-  item: RestoreItem,
-  directory: string,
-  vault: VaultInstance,
-  onProgress?: (progress: number) => void,
+function start(
+  vaultId: string,
+  sourceId: string,
+  destination: string,
+  objects: string[],
+  work: (operation: Operation) => Promise<void>,
 ) {
-  let path = join(directory, item.name);
-  const pathExists = await fileExists(path);
-
-  if (pathExists) {
-    const { baseName: fileBaseName, extension: fileExtension } = splitFileName(
-      item.name,
-    );
-
-    let counter = 1;
-    while (true) {
-      const newPath = join(
-        directory,
-        generateDuplicateName(fileBaseName, fileExtension, counter++),
-      );
-
-      const exists = await fileExists(newPath);
-      if (!exists) {
-        path = newPath;
-        break;
-      }
-    }
-  }
-
-  if (item.type === "DIRECTORY") {
-    const res = (await fetchVault(vault, {
-      method: "POST",
-      path: `/api/v1/restore`,
-      data: {
-        root: item.objectId,
-        options: {
-          incremental: false,
-          ignoreErrors: true,
-          restoreDirEntryAtDepth: 1000000,
-          minSizeForPlaceholder: 1000000,
-        },
-        fsOutput: {
-          targetPath: path,
-          skipOwners: false,
-          skipPermissions: false,
-          skipTimes: false,
-          ignorePermissionErrors: true,
-          overwriteFiles: false,
-          overwriteDirectories: false,
-          overwriteSymlinks: false,
-          writeFilesAtomically: false,
-          writeSparseFiles: false,
-        },
-      },
-    })) as { id: string };
-
-    let total = 0;
-    if (onProgress) total = await getDirectoryItemCount(vault, item.objectId);
-
-    while (true) {
-      const restore = await getRestoreStatus(vault, res.id);
-
-      if (restore.status !== "RUNNING") {
-        try {
-          // Kopia doesn't set the correct permissions on
-          // the parent folder, so we change it manually.
-          // https://github.com/kopia/kopia/issues/4324
-          await chmod(path, 0o755);
-        } catch (e) {
-          console.warn("Failed to change folder permissions:", e);
-        }
-
-        break;
-      }
-
-      if (onProgress) onProgress(restore.count / total);
-
-      await new Promise((res) => setTimeout(res, 1000));
-    }
-  } else if (item.type === "SYMLINK") {
-    const res = (await fetchVault(vault, {
-      method: "GET",
-      path: `/api/v1/objects/${item.objectId}`,
-      search: {
-        fname: item.name,
-      },
-      raw: true,
-    })) as string;
-
-    if (!res) return;
-    await symlink(res, path);
-  } else {
-    await fetchVault(vault, {
-      method: "GET",
-      path: `/api/v1/objects/${item.objectId}`,
-      search: {
-        fname: item.name,
-      },
-      filePath: path,
-    });
-  }
-}
-
-export async function restoreSingle({
-  item,
-  vaultId,
-  sourceId,
-  dialogTitle,
-}: {
-  item: RestoreItem;
-  vaultId: string;
-  sourceId: string;
-  dialogTitle: string;
-}) {
-  if (!window) throw new Error("WINDOW_NOT_INITIALIZED");
-
   const vault = getVault(vaultId);
   if (!vault) throw new Error("VAULT_NOT_FOUND");
-
-  const result = await dialog.showOpenDialog(window, {
-    defaultPath: app.getPath("downloads"),
-    properties: ["openDirectory"],
-    title: dialogTitle,
-  });
-
-  if (result.canceled || !result.filePaths[0]) return false;
-  const destination = result.filePaths[0];
-
-  queueMicrotask(async () => {
-    const restoreId = Math.random().toString(16);
-
-    restores.push({
-      id: restoreId,
-      status: "RUNNING",
+  if (operations.size >= 1000)
+    throw new Error(
+      "Dismiss old restore results before starting another restore",
+    );
+  const operation: Operation = {
+    vault,
+    canceled: false,
+    writeStarted: false,
+    completed: 0,
+    result: {
+      id: randomUUID(),
+      sourceId,
       destination,
+      objects,
+      status: "RUNNING",
       progress: 0,
-      files: item.type !== "DIRECTORY" ? 1 : 0,
-      directories: item.type === "DIRECTORY" ? 1 : 0,
-      sourceId,
+      restored: 0,
+      skipped: 0,
+      errors: 0,
+    },
+  };
+  operations.set(operation.result.id, operation);
+  let destinationKey = resolve(destination);
+  if (process.platform === "win32")
+    destinationKey = destinationKey.toLowerCase();
+  const overlapping = [...destinations].some(
+    (path) =>
+      path === destinationKey ||
+      path.startsWith(destinationKey + sep) ||
+      destinationKey.startsWith(path + sep),
+  );
+  if (overlapping) {
+    operation.result.status = "FAILED";
+    operation.result.issue = "DESTINATION";
+    return true;
+  }
+  destinations.add(destinationKey);
+  void work(operation)
+    .then(() => {
+      if (
+        operation.result.status === "RUNNING" ||
+        operation.result.status === "CANCELING"
+      ) {
+        operation.result.status =
+          operation.canceled && operation.completed < objects.length
+            ? "CANCELED"
+            : operation.result.errors || operation.result.skipped
+              ? "PARTIAL"
+              : "COMPLETE";
+        if (operation.result.status === "COMPLETE")
+          operation.result.progress = 1;
+        if (operation.result.issue === "ZIP")
+          operation.result.restored = Math.max(
+            0,
+            operation.result.restored - operation.result.skipped,
+          );
+      }
+    })
+    .catch((error: unknown) => {
+      const code = error instanceof Error ? error.message : "DESTINATION";
+      operation.result.issue =
+        code === "LINK" ||
+        code === "CONFIRMATION" ||
+        code === "TIMEOUT" ||
+        code === "ENGINE" ||
+        code === "TASK" ||
+        code === "SPACE" ||
+        code === "PERMISSION"
+          ? code
+          : "DESTINATION";
+      operation.result.status =
+        code === "ENGINE" || code === "TIMEOUT" ? "UNAVAILABLE" : "FAILED";
+    })
+    .finally(() => {
+      const engine = operation.vault.server?.process;
+      if (
+        operation.writeStarted &&
+        engine &&
+        engine.exitCode === null &&
+        engine.signalCode === null
+      ) {
+        // An unavailable result is not evidence that native writing stopped.
+        // Keep overlapping destinations reserved until this engine exits.
+        engine.once("exit", () => destinations.delete(destinationKey));
+      } else destinations.delete(destinationKey);
     });
-
-    await restore(item, destination, vault, (progress) =>
-      updateRestore(restoreId, { progress: progress * 0.9 }),
-    );
-
-    completeRestore(restoreId);
-  });
-
   return true;
 }
 
-export async function restoreMultiple({
-  vaultId,
-  sourceId,
-  items,
-  dialogTitle,
-}: {
-  vaultId: string;
-  sourceId: string;
-  items: RestoreItem[];
-  dialogTitle: string;
-}) {
+async function taskRequest(
+  operation: Operation,
+  method: "GET" | "POST",
+  path: string,
+  data?: object,
+) {
+  try {
+    return await fetchVault(operation.vault, {
+      method,
+      path,
+      data,
+      timeoutMs: 15000,
+    });
+  } catch {
+    throw new Error("ENGINE");
+  }
+}
+
+function taskFailure(message?: string) {
+  if (/no space|disk.*full|not enough space|ENOSPC/i.test(message ?? ""))
+    return new Error("SPACE");
+  if (
+    /permission denied|access (?:is )?denied|EPERM|EACCES/i.test(message ?? "")
+  )
+    return new Error("PERMISSION");
+  return new Error("TASK");
+}
+
+async function runTask(operation: Operation, root: string, output: object) {
+  if (operation.canceled) return false;
+  operation.writeStarted = true;
+  const response = await taskRequest(operation, "POST", "/api/v1/restore", {
+    root,
+    options: {
+      incremental: false,
+      ignoreErrors: false,
+      restoreDirEntryAtDepth: 1000000,
+      minSizeForPlaceholder: -1,
+    },
+    ...output,
+  });
+  const started = ZRestoreTask.safeParse(response);
+  if (!started.success) {
+    const error = z.object({ error: z.string() }).safeParse(response);
+    if (error.success) {
+      operation.writeStarted = false;
+      throw taskFailure(error.data.error);
+    }
+    throw new Error("ENGINE");
+  }
+  operation.taskId = started.data.id;
+  const deadline = Date.now() + 24 * 60 * 60 * 1000;
+  let cancelDeadline: number | undefined;
+  let sentCancel = false;
+  while (true) {
+    if (operation.canceled && !sentCancel) {
+      await taskRequest(
+        operation,
+        "POST",
+        `/api/v1/tasks/${operation.taskId}/cancel`,
+      );
+      sentCancel = true;
+      cancelDeadline = Date.now() + 30000;
+    }
+    const parsed = ZRestoreTask.safeParse(
+      await taskRequest(operation, "GET", `/api/v1/tasks/${operation.taskId}`),
+    );
+    if (!parsed.success || parsed.data.id !== operation.taskId)
+      throw new Error("ENGINE");
+    const task = parsed.data;
+    if (task.status === "CANCELING") operation.result.status = "CANCELING";
+    if (task.status !== "RUNNING" && task.status !== "CANCELING") {
+      operation.writeStarted = false;
+      const count = (key: string) => task.counters?.[key]?.value ?? 0;
+      operation.result.restored +=
+        count("Restored Files") +
+        count("Restored Directories") +
+        count("Restored Symlinks");
+      operation.result.errors += count("Ignored Errors");
+      operation.result.skipped += count("Skipped Files");
+      operation.taskId = undefined;
+      if (task.status === "CANCELED") {
+        operation.canceled = true;
+        operation.result.status = "CANCELED";
+      } else if (task.status === "FAILED" || task.errorMessage)
+        throw taskFailure(task.errorMessage);
+      else if (
+        [
+          "Restored Files",
+          "Restored Directories",
+          "Restored Symlinks",
+          "Ignored Errors",
+          "Skipped Files",
+        ].some((key) => !task.counters?.[key])
+      )
+        throw new Error("ENGINE");
+      return task.status === "SUCCESS";
+    }
+    if (Date.now() >= (cancelDeadline ?? deadline)) {
+      if (!sentCancel)
+        await taskRequest(
+          operation,
+          "POST",
+          `/api/v1/tasks/${operation.taskId}/cancel`,
+        );
+      throw new Error("TIMEOUT");
+    }
+    await delay(250);
+  }
+}
+
+function fsOutput(targetPath: string, overwrite: boolean) {
+  return {
+    fsOutput: {
+      targetPath,
+      ignorePermissionErrors: false,
+      overwriteFiles: overwrite,
+      overwriteDirectories: overwrite,
+      overwriteSymlinks: overwrite,
+      writeFilesAtomically: true,
+      flushFiles: true,
+    },
+  };
+}
+
+// Validate snapshot names before giving a recursive tree to the native writer.
+// Directory objects are immutable; do not follow snapshot symlinks as directories.
+type ExpectedOutput = { path: string; type: "f" | "d" | "s"; size?: number };
+const ZDirectoryEntries = z.object({
+  entries: z
+    .array(
+      z.object({
+        name: ZRestoreItem.shape.name,
+        obj: z.string().min(1),
+        type: z.enum(["f", "d", "s"]),
+        size: z.number().nonnegative().optional(),
+      }),
+    )
+    .nullable(),
+});
+
+async function validateSelectedEntry(
+  operation: Operation,
+  item: z.infer<typeof ZRestoreItem>,
+) {
+  if (item.snapshotId) {
+    const response = z
+      .object({
+        snapshots: z.array(
+          z.object({
+            id: z.string(),
+            rootID: z.string(),
+            rootEntryType: z.enum(["f", "d", "s"]).optional(),
+          }),
+        ),
+      })
+      .safeParse(
+        await taskRequest(operation, "GET", "/api/v1/snapshots?all=1"),
+      );
+    if (!response.success) throw new Error("TASK");
+    const snapshot = response.data.snapshots.find(
+      (snapshot) => snapshot.id === item.snapshotId,
+    );
+    const expectedType =
+      item.type === "FILE" ? "f" : item.type === "SYMLINK" ? "s" : "d";
+    if (
+      !snapshot ||
+      snapshot.rootID !== item.objectId ||
+      snapshot.rootEntryType !== expectedType ||
+      item.entryPath
+    )
+      throw new Error("TASK");
+    return { size: undefined };
+  }
+  const suffix = `/${item.name}`;
+  if (!item.entryPath?.endsWith(suffix)) throw new Error("TASK");
+  const parent = item.entryPath.slice(0, -suffix.length);
+  if (!parent || /[\\/]/.test(parent)) throw new Error("TASK");
+  const listing = ZDirectoryEntries.safeParse(
+    await taskRequest(
+      operation,
+      "GET",
+      `/api/v1/objects/${encodeURIComponent(parent)}`,
+    ),
+  );
+  if (!listing.success) throw new Error("TASK");
+  const entry = listing.data.entries?.find((entry) => entry.name === item.name);
+  const type =
+    item.type === "DIRECTORY" ? "d" : item.type === "FILE" ? "f" : "s";
+  if (!entry || entry.obj !== item.objectId || entry.type !== type)
+    throw new Error("TASK");
+  return entry;
+}
+async function validateSnapshot(
+  operation: Operation,
+  root: string,
+  zip = false,
+) {
+  const pending = [{ object: root, path: "" }];
+  const expected: ExpectedOutput[] = [{ path: "", type: "d" }];
+  let visited = 0;
+  while (pending.length) {
+    if (operation.canceled) return expected;
+    const current = pending.pop();
+    if (!current) continue;
+    const { object } = current;
+    if (++visited > 1000000) throw new Error("TASK");
+    const parsed = ZDirectoryEntries.safeParse(
+      await taskRequest(
+        operation,
+        "GET",
+        `/api/v1/objects/${encodeURIComponent(object)}`,
+      ),
+    );
+    if (!parsed.success) throw new Error("TASK");
+    // The pinned ZIP writer omits empty directories and symbolic links.
+    if (zip && !parsed.data.entries?.length) operation.result.skipped++;
+    const names = new Set<string>();
+    for (const entry of parsed.data.entries ?? []) {
+      const name =
+        process.platform === "win32" ? entry.name.toLowerCase() : entry.name;
+      if (names.has(name)) throw new Error("TASK");
+      names.add(name);
+      const path = join(current.path, entry.name);
+      expected.push({
+        path,
+        type: entry.type,
+        size: entry.type === "f" ? (entry.size ?? 0) : undefined,
+      });
+      if (expected.length > 1000000) throw new Error("TASK");
+      if (entry.type === "d") pending.push({ object: entry.obj, path });
+      if (zip && entry.type === "s") operation.result.skipped++;
+    }
+  }
+  if (zip && operation.result.skipped) operation.result.issue = "ZIP";
+  return expected;
+}
+
+async function verifyOutput(
+  operation: Operation,
+  destination: string,
+  expected: ExpectedOutput[],
+) {
+  if (operation.result.skipped || operation.result.errors) return;
+  for (const entry of expected) {
+    const stat = await restorePathExists(join(destination, entry.path));
+    if (
+      !stat ||
+      (entry.type === "d" && !stat.isDirectory()) ||
+      (entry.type === "s" && !stat.isSymbolicLink()) ||
+      (entry.type === "f" &&
+        (!stat.isFile() ||
+          (entry.size !== undefined && stat.size !== entry.size)))
+    )
+      throw new Error("DESTINATION");
+  }
+}
+
+export async function restoreSingle(payload: z.infer<typeof ZRestoreSingle>) {
+  const { item, ...context } = ZRestoreSingle.parse(payload);
+  return restoreMultiple({ ...context, items: [item] });
+}
+
+export async function restoreMultiple(
+  payload: z.infer<typeof ZRestoreMultiple>,
+) {
+  const { vaultId, sourceId, items, dialogTitle } =
+    ZRestoreMultiple.parse(payload);
   if (!window) throw new Error("WINDOW_NOT_INITIALIZED");
-
-  const vault = getVault(vaultId);
-  if (!vault) throw new Error("VAULT_NOT_FOUND");
-
-  const result = await dialog.showOpenDialog(window, {
+  const picked = await dialog.showOpenDialog(window, {
     title: dialogTitle,
     defaultPath: app.getPath("downloads"),
     properties: ["openDirectory"],
   });
-
-  if (result.canceled || !result.filePaths.length) return false;
-  const directory = result.filePaths[0] || app.getPath("downloads");
-
-  queueMicrotask(async () => {
-    const limit = pLimit(10);
-    const restoreId = Math.random().toString(16);
-
-    restores.push({
-      id: restoreId,
-      status: "RUNNING",
-      destination: directory,
-      files: items.filter((item) => item.type !== "DIRECTORY").length,
-      directories: items.filter((item) => item.type === "DIRECTORY").length,
-      progress: 0,
-      sourceId,
-    });
-
-    const tasks = items.map((item) =>
-      limit(async () => {
-        await restore(item, directory, vault);
-        updateRestore(restoreId, {
-          progress: ((items.length - limit.pendingCount) / items.length) * 0.9,
-        });
-      }),
-    );
-
-    await Promise.all(tasks);
-
-    completeRestore(restoreId);
-  });
-
-  return true;
-}
-
-export async function restoreDirectory({
-  vaultId,
-  sourceId,
-  objectId,
-  options,
-}: {
-  vaultId: string;
-  sourceId: string;
-  objectId: string;
-  options: ZRestoreDirectoryType;
-}) {
-  const vault = getVault(vaultId);
-  if (!vault) throw new Error("VAULT_NOT_FOUND");
-
-  queueMicrotask(async () => {
-    const restoreId = Math.random().toString(16);
-
-    restores.push({
-      id: restoreId,
-      status: "RUNNING",
-      destination:
-        options.type === "UNPACKED"
-          ? options.directoryPath
-          : dirname(options.filePath),
-      files: 0,
-      directories: 1,
-      progress: 0,
-      sourceId,
-    });
-
-    const res = (await fetchVault(vault, {
-      method: "POST",
-      path: `/api/v1/restore`,
-      data: {
-        root: objectId,
-        options: {
-          incremental: false,
-          ignoreErrors: true,
-          restoreDirEntryAtDepth: 1000000,
-          minSizeForPlaceholder: 1000000,
-        },
-        ...(options.type === "ZIP"
-          ? {
-              zipFile: options.filePath,
-              uncompressedZip: !options.compress,
-            }
-          : {
-              fsOutput: {
-                targetPath: options.directoryPath,
-                skipOwners: false,
-                skipPermissions: false,
-                skipTimes: false,
-                ignorePermissionErrors: true,
-                overwriteFiles: true,
-                overwriteDirectories: true,
-                overwriteSymlinks: true,
-                writeFilesAtomically: false,
-                writeSparseFiles: false,
-              },
-            }),
-      },
-    })) as { id: string };
-
-    const total = await getDirectoryItemCount(vault, objectId);
-
-    while (true) {
-      const restore = await getRestoreStatus(vault, res.id);
-
-      if (restore.status !== "RUNNING") {
-        if (options.type === "UNPACKED") {
-          // Kopia doesn't set the correct permissions on
-          // the parent folder, so we change it manually.
-          // https://github.com/kopia/kopia/issues/4324
-          await chmod(options.directoryPath, 0o755);
-
-          const items = await readdir(options.directoryPath, {
-            withFileTypes: true,
-          });
-
-          const directories = items.filter((item) => item.isDirectory());
-
-          for (const directory of directories) {
-            // Kopia doesn't set the correct permissions on
-            // the parent folder, so we change it manually.
-            // https://github.com/kopia/kopia/issues/4324
-            try {
-              await chmod(join(options.directoryPath, directory.name), 0o755);
-            } catch (e) {
-              console.warn("Failed to change folder permissions:", e);
-            }
-          }
+  const destination = picked.filePaths[0];
+  if (picked.canceled || !destination) return false;
+  return start(
+    vaultId,
+    sourceId,
+    destination,
+    items.map((item) => item.snapshotId ?? item.entryPath ?? item.objectId),
+    async (operation) => {
+      await validateRestorePath(destination);
+      if (!(await restorePathExists(destination))?.isDirectory())
+        throw new Error("DESTINATION");
+      for (const [index, item] of items.entries()) {
+        if (operation.canceled) break;
+        const entry = await validateSelectedEntry(operation, item);
+        let path = join(destination, item.name);
+        const { baseName, extension } = splitFileName(item.name);
+        for (let counter = 1; await restorePathExists(path); counter++) {
+          if (counter > 10000) throw new Error("DESTINATION");
+          path = join(
+            destination,
+            generateDuplicateName(baseName, extension, counter),
+          );
         }
-
-        completeRestore(restoreId);
-        break;
+        await validateRestorePath(path);
+        const expected: ExpectedOutput[] =
+          item.type === "DIRECTORY"
+            ? await validateSnapshot(operation, item.objectId)
+            : [
+                {
+                  path: "",
+                  type: item.type === "FILE" ? "f" : "s",
+                  size:
+                    item.type === "FILE" && item.entryPath
+                      ? (entry.size ?? 0)
+                      : undefined,
+                },
+              ];
+        if (item.type === "SYMLINK" && !item.entryPath && !item.snapshotId)
+          throw new Error("TASK");
+        const completed = await runTask(
+          operation,
+          item.snapshotId ?? item.entryPath ?? item.objectId,
+          fsOutput(path, false),
+        );
+        if (completed) {
+          await verifyOutput(operation, path, expected);
+          operation.completed++;
+        }
+        operation.result.progress = Math.min(0.99, (index + 1) / items.length);
       }
-
-      updateRestore(restoreId, { progress: (restore.count / total) * 0.9 });
-      await new Promise((res) => setTimeout(res, 1000));
-    }
-  });
-
-  return true;
-}
-
-async function getRestoreStatus(vault: VaultInstance, restoreId: string) {
-  const task = (await fetchVault(vault, {
-    method: "GET",
-    path: `/api/v1/tasks/${restoreId}`,
-  })) as {
-    status: string;
-    counters: {
-      "Ignored Errors": { value: 0 };
-      "Restored Directories": { value: 2924 };
-      "Restored Files": { value: 28481 };
-      "Restored Symlinks": { value: 0 };
-      "Skipped Files": { value: 0 };
-    };
-  };
-
-  const count =
-    (task?.counters?.["Restored Files"]?.value || 0) +
-    (task?.counters?.["Restored Directories"]?.value || 0) +
-    (task?.counters?.["Restored Symlinks"]?.value || 0) +
-    (task?.counters?.["Skipped Files"]?.value || 0);
-
-  return {
-    status: task?.status,
-    count,
-  };
-}
-
-async function getDirectoryItemCount(vault: VaultInstance, objectId: string) {
-  const stats = (await fetchVault(vault, {
-    method: "GET",
-    path: `/api/v1/objects/${objectId}`,
-  })) as {
-    summary: {
-      files: number;
-      symlinks: number;
-      dirs: number;
-    };
-  };
-
-  return (
-    (stats?.summary?.files || 0) +
-    (stats?.summary?.symlinks || 0) +
-    (stats?.summary?.dirs || 0)
+    },
   );
 }
 
-export async function checkEmpty({ directoryPath }: { directoryPath: string }) {
-  const files = await readdir(directoryPath);
-  return files.length === 0;
+export async function restoreDirectory(
+  payload: z.infer<typeof ZRestoreFolder>,
+) {
+  const { vaultId, sourceId, objectId, options } =
+    ZRestoreFolder.parse(payload);
+  const destination =
+    options.type === "UNPACKED"
+      ? options.directoryPath
+      : dirname(options.filePath);
+  return start(
+    vaultId,
+    sourceId,
+    destination,
+    [objectId],
+    async (operation) => {
+      await validateRestorePath(destination, options.type === "UNPACKED");
+      if (!(await restorePathExists(destination))?.isDirectory())
+        throw new Error("DESTINATION");
+      const expected = await validateSnapshot(
+        operation,
+        objectId,
+        options.type === "ZIP",
+      );
+      if (options.type === "UNPACKED") {
+        if ((await readdir(destination)).length && !options.confirmed)
+          throw new Error("CONFIRMATION");
+        if (await runTask(operation, objectId, fsOutput(destination, true))) {
+          await verifyOutput(operation, destination, expected);
+          operation.completed++;
+        }
+      } else {
+        await validateRestorePath(options.filePath);
+        const existing = await restorePathExists(options.filePath);
+        if (existing && (!existing.isFile() || existing.nlink > 1))
+          throw new Error("LINK");
+        const completed = await runTask(operation, objectId, {
+          zipFile: options.filePath,
+          uncompressedZip: !options.compress,
+        });
+        if (completed) {
+          const output = await restorePathExists(options.filePath);
+          if (!output?.isFile() || output.size < 22)
+            throw new Error("DESTINATION");
+          operation.completed++;
+        }
+      }
+    },
+  );
 }
 
-export async function listRestores({ sourceId }: { sourceId: string }) {
-  return restores.filter((restore) => restore.sourceId === sourceId);
+export async function checkEmpty(payload: z.infer<typeof ZRestoreCheckEmpty>) {
+  const { directoryPath } = ZRestoreCheckEmpty.parse(payload);
+  await validateRestorePath(directoryPath);
+  return (await readdir(directoryPath)).length === 0;
 }
-
-function updateRestore(id: string, update: Partial<Restore>) {
-  const index = restores.findIndex((restore) => restore.id === id);
-  if (index !== -1 && restores[index])
-    restores[index] = { ...restores[index], ...update };
+export async function listRestores(payload: z.infer<typeof ZRestoreList>) {
+  const { sourceId } = ZRestoreList.parse(payload);
+  return [...operations.values()]
+    .filter((operation) => operation.result.sourceId === sourceId)
+    .map((operation) => ({ ...operation.result }));
 }
-
-function completeRestore(id: string) {
-  updateRestore(id, { status: "COMPLETE", progress: 1 });
-  setTimeout(() => removeRestore(id), 5000);
+export async function cancelRestore(payload: z.infer<typeof ZRestoreAction>) {
+  const operation = operations.get(ZRestoreAction.parse(payload).id);
+  if (operation?.result.status !== "RUNNING") return;
+  operation.canceled = true;
+  operation.result.status = "CANCELING";
 }
-
-function removeRestore(id: string) {
-  const index = restores.findIndex((restore) => restore.id === id);
-  if (index !== -1) restores.splice(index, 1);
+export async function dismissRestore(payload: z.infer<typeof ZRestoreAction>) {
+  const { id } = ZRestoreAction.parse(payload);
+  const operation = operations.get(id);
+  if (
+    operation &&
+    operation.result.status !== "RUNNING" &&
+    operation.result.status !== "CANCELING"
+  )
+    operations.delete(id);
 }

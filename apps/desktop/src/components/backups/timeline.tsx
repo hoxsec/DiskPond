@@ -280,7 +280,7 @@ function Backup({ backup }: BackupProps) {
       modifiedAt: backup.startTime,
     };
 
-    startRestore({ variant: "single", item });
+    startRestore({ variant: "single", item, snapshotId: backup.id });
   };
 
   return (

@@ -15,6 +15,7 @@
     "smoke:desktop": "node scripts/smoke-desktop.mjs",
     "smoke:discovery": "node scripts/smoke-discovery.mjs",
     "smoke:vaults": "node scripts/smoke-vault-flows.mjs",
+    "smoke:restores": "node scripts/smoke-restores.mjs",
     "smoke:passwords": "node scripts/smoke-password-storage.mjs",
     "smoke:providers": "node scripts/smoke-provider-storage.mjs",
     "smoke:windows": "node scripts/smoke-installed.mjs",

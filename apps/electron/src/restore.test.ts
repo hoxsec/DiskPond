@@ -1,5 +1,3 @@
-vi.mock("@blinkdisk/schemas/directory", () => ({}));
-vi.mock("@electron/fs", () => ({ fileExists: vi.fn() }));
 vi.mock("@electron/vault/fetch", () => ({ fetchVault: vi.fn() }));
 vi.mock("@electron/vault/manage", () => ({ getVault: vi.fn() }));
 vi.mock("@electron/window", () => ({ window: null }));

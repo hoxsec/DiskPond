@@ -1,15 +1,6 @@
-import { access, constants, lstat, stat } from "node:fs/promises";
+import { lstat, stat } from "node:fs/promises";
 import type { SourceType } from "@blinkdisk/schemas/source";
 import getFolderSize from "get-folder-size";
-
-export async function fileExists(path: string) {
-  try {
-    await access(path, constants.F_OK);
-    return true;
-  } catch {
-    return false;
-  }
-}
 
 export async function folderSize(path: string) {
   return await getFolderSize.loose(path, {

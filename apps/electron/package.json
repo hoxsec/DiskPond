@@ -39,7 +39,6 @@
     "electron-store": "catalog:",
     "electron-updater": "catalog:",
     "get-folder-size": "catalog:",
-    "p-limit": "catalog:",
     "tough-cookie": "catalog:",
     "zod": "catalog:"
   },

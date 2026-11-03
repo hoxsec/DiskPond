@@ -106,7 +106,6 @@ catalog:
   mermaid: '11.16.1'
   nanoid: '^5.1.16'
   nodemailer: '10.1.4'
-  p-limit: '^7.3.0'
   pg: '^8.22.0'
   posthog-js: '^1.395.0'
   posthog-node: '^5.38.6'

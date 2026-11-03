@@ -90,6 +90,7 @@ Subsequent credential/discovery/provider changes are also merged into applicatio
 - [ ] Complete one real local-source → encrypted vault → snapshot history → restored-file journey.
 - [ ] Verify changed/deleted source contents can be restored from the correct version.
 - [ ] Distinguish restore success, partial completion and failure in the vertical slice.
+  - [Local native coordinator and renderer-component evidence](docs/verification/m2-restore-outcomes.md) covers explicit terminal states, kept results, cancellation/interruption, hashes, keep-both/overwrite and truthful ZIP omissions. Source handoff is authorized; clean CI, full-volume and full renderer recovery evidence remain open.
 - [ ] Verify restart, window-close/tray behavior and persisted local settings.
 - [ ] Record initial performance and network observations.
 

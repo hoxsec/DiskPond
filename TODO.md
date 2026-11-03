@@ -24,10 +24,14 @@ Work through the M2 items below in order. [ROADMAP.md](ROADMAP.md) owns mileston
 
 **Requirements:** basic F17, DP04 / Q01, Q05; preserve F18 behavior.
 
-- [ ] Replace the inherited `RUNNING`/`COMPLETE` shortcut in `apps/electron/src/restore.ts` with confirmed terminal outcomes. Failed, partial, canceled and unavailable operations must remain distinguishable from success.
-- [ ] Review `ignoreErrors: true`, task-result handling and bounded/cancelable polling; propagate actionable outcomes through preload/contracts, renderer queries and localized restore UI.
-- [ ] Preserve explicit keep-both versus overwrite behavior. Validate destination containment and symlink/junction behavior at the native boundary.
+- [x] Replace the inherited `RUNNING`/`COMPLETE` shortcut in `apps/electron/src/restore.ts` with confirmed terminal outcomes. Failed, partial, canceled and unavailable operations remain distinguishable from success; [scoped local evidence](docs/verification/m2-restore-outcomes.md).
+- [x] Review `ignoreErrors: true`, task-result handling and bounded/cancelable polling; propagate actionable outcomes through validated preload/IPC/contracts, renderer queries and localized retained results.
+- [x] Preserve explicit keep-both versus overwrite behavior. Native name/destination/link/junction preflight and overwrite acknowledgment are implemented and fixture-tested. External filesystem races and broader platform coverage remain explicit evidence limits.
 - [ ] Verify success, permission denial, missing/full destination, cancellation and interrupted-engine cases with disposable output and real-engine hashes. Check the shared ZIP paths for regressions.
+  - Success/hash, keep-both/overwrite, permission denial, missing destination, junction rejection, cancellation/interruption and both ZIP modes pass locally. Real full-volume verification is blocked pending a disposable bounded test volume; simulated ENOSPC mapping is not that evidence.
+  - The pinned ZIP writer omits empty folders/symlinks. Results now report those omissions as partial; complete F18 archive parity remains M4 work.
+
+**Source handoff authorized; local native/component evidence is scoped.** The full offline renderer recovery journey below remains open, as do clean CI and the full-volume case. See [restore outcome evidence and limitations](docs/verification/m2-restore-outcomes.md).
 
 ## 3. Complete the offline desktop recovery journey
 
