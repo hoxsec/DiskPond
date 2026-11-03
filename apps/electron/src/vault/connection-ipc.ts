@@ -23,6 +23,7 @@ import { ipcMain } from "electron";
 import type { z } from "zod";
 
 const operations = new Set<string>();
+let addingVault = false;
 function parse<T>(schema: z.ZodType<T>, args: unknown[]): T {
   if (args.length !== 1) throw new Error("Invalid connection request");
   const result = schema.safeParse(args[0]);
@@ -38,7 +39,8 @@ async function exclusive<T>(
   operation: () => Promise<T>,
   isNew = false,
 ) {
-  if (operations.has(id)) throw new Error("Vault connection is busy");
+  if (operations.has(id) || (isNew && addingVault))
+    throw new Error("Vault connection is busy");
   if (
     isNew &&
     (id === "temporary" ||
@@ -48,10 +50,12 @@ async function exclusive<T>(
   )
     throw new Error("Vault connection already exists");
   operations.add(id);
+  if (isNew) addingVault = true;
   try {
     return await operation();
   } finally {
     operations.delete(id);
+    if (isNew) addingVault = false;
   }
 }
 

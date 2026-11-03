@@ -1,3 +1,4 @@
+import { opendir, stat } from "node:fs/promises";
 import type { StorageProviderType } from "@blinkdisk/constants/providers";
 import type { ProviderConfig } from "@blinkdisk/schemas/providers";
 import {
@@ -16,8 +17,31 @@ export async function validateVaultConfig(vault: {
   config: ProviderConfig;
   version?: number;
   password?: string;
+  intent?: "CREATE" | "CONNECT";
 }) {
   const storage = connectionFromProvider(vault.type, vault.config);
+  let localEmpty: boolean | undefined;
+  if (vault.intent && storage.type === "filesystem") {
+    try {
+      const path = z.string().parse(storage.config.path);
+      if (!(await stat(path)).isDirectory()) return { code: "STORAGE_MISSING" };
+      // Verify directory access for both actions. On Windows an unreadable
+      // directory can report a missing child blob instead of access denied.
+      const directory = await opendir(path);
+      try {
+        localEmpty = (await directory.read()) === null;
+      } finally {
+        await directory.close();
+      }
+    } catch (error) {
+      return {
+        code:
+          error instanceof Error && "code" in error && error.code === "ENOENT"
+            ? "STORAGE_MISSING"
+            : "STORAGE_UNREACHABLE",
+      };
+    }
+  }
   if (
     !validationVault ||
     validationVault.server.process.killed ||
@@ -50,5 +74,22 @@ export async function validateVaultConfig(vault: {
       }),
     );
   if (!result.success) throw new Error("Invalid discovery response");
-  return result.data;
+  const checked = result.data;
+  if (
+    vault.intent &&
+    checked.code === "INTERNAL" &&
+    /invalid format blob|repository format blob has no identity/.test(
+      checked.error || "",
+    )
+  )
+    return { code: "INVALID_REPOSITORY" };
+  if (vault.intent === "CREATE") {
+    if (checked.uniqueID) return { code: "REPOSITORY_EXISTS" };
+    if (checked.code === "NOT_INITIALIZED" && localEmpty === false) {
+      // Even unrelated files or a damaged repository must not become a new
+      // local vault. Read one entry only; never create the selected directory.
+      return { code: "DESTINATION_NOT_EMPTY" };
+    }
+  }
+  return checked;
 }

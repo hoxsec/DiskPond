@@ -9,13 +9,13 @@ import {
 import { CreateVaultConfig } from "@desktop/components/dialogs/create-vault/config";
 import { CreateVaultDetails } from "@desktop/components/dialogs/create-vault/details";
 import { CreateVaultProviders } from "@desktop/components/dialogs/create-vault/providers";
-import { useVaultList } from "@desktop/hooks/queries/use-vault-list";
 import {
   type CreateVaultStep,
   useCreateVaultDialog,
 } from "@desktop/hooks/state/use-create-vault-dialog";
+import { VaultValidationPending } from "@desktop/hooks/use-config-validation";
 import { ArrowLeftIcon } from "lucide-react";
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const backButton: Record<CreateVaultStep, CreateVaultStep> = {
   PROVIDER: "PROVIDER",
@@ -25,10 +25,20 @@ const backButton: Record<CreateVaultStep, CreateVaultStep> = {
 
 export function CreateVaultDialog() {
   const { t } = useAppTranslation("vault.createDialog");
-  const { data: vaults } = useVaultList();
   const { isOpen, setIsOpen, options, setOptions, resetOptions } =
     useCreateVaultDialog();
-  const { step, provider, config } = options;
+  const { step, provider, config, intent } = options;
+  const [busy, setBusy] = useState(false);
+  const content = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isOpen)
+      content.current
+        ?.querySelector<HTMLElement>(
+          step === "CONFIG" ? "form button" : "input",
+        )
+        ?.focus();
+  }, [step, isOpen]);
 
   const close = useCallback(() => {
     setIsOpen(false);
@@ -38,15 +48,24 @@ export function CreateVaultDialog() {
     resetOptions();
   }, [resetOptions]);
 
-  const showFirstVaultTitle = !vaults?.length;
-
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen} onClosed={reset}>
-      <DialogContent className="w-120 block max-h-[80vh] overflow-y-auto">
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!busy) setIsOpen(open);
+      }}
+      onClosed={reset}
+    >
+      <DialogContent
+        ref={content}
+        showCloseButton={!busy}
+        className="w-120 block max-h-[80vh] overflow-y-auto"
+      >
         <div className="flex items-center gap-3">
           {step !== "PROVIDER" ? (
             <Button
               aria-label={t("back")}
+              disabled={busy}
               onClick={() => setOptions({ step: backButton[step] })}
               variant="ghost"
               size="icon-sm"
@@ -55,11 +74,11 @@ export function CreateVaultDialog() {
             </Button>
           ) : null}
           <DialogTitle>
-            {showFirstVaultTitle ? t("title.first") : t("title.default")}
+            {intent === "CREATE" ? t("title.default") : t("title.connect")}
           </DialogTitle>
         </div>
-        <DialogDescription className="sr-only">
-          {t("description")}
+        <DialogDescription className="mt-3">
+          {intent === "CREATE" ? t("description") : t("connectDescription")}
         </DialogDescription>
         {step === "PROVIDER" ? (
           <CreateVaultProviders
@@ -72,22 +91,26 @@ export function CreateVaultDialog() {
             }}
           />
         ) : step === "CONFIG" ? (
-          <CreateVaultConfig
-            config={config}
-            provider={provider}
-            onSubmit={(config) => {
-              setOptions({
-                config,
-                step: "DETAILS",
-              });
-            }}
-          />
+          <VaultValidationPending.Provider value={setBusy}>
+            <CreateVaultConfig
+              intent={intent}
+              config={config}
+              provider={provider}
+              onSubmit={(config) => {
+                setOptions({
+                  config,
+                  step: "DETAILS",
+                });
+              }}
+            />
+          </VaultValidationPending.Provider>
         ) : step === "DETAILS" ? (
           <CreateVaultDetails
+            intent={intent}
+            setBusy={setBusy}
             providerType={provider}
             onSubmit={() => {
               close();
-              setTimeout(reset, 100);
             }}
             config={config}
           />

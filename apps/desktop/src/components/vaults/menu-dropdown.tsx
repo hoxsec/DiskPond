@@ -11,7 +11,7 @@ import { VaultPreview } from "@desktop/components/vaults/preview";
 import { useVaultList } from "@desktop/hooks/queries/use-vault-list";
 import { useCreateVaultDialog } from "@desktop/hooks/state/use-create-vault-dialog";
 import { useVaultId } from "@desktop/hooks/use-vault-id";
-import { PlusIcon } from "lucide-react";
+import { LinkIcon, PlusIcon } from "lucide-react";
 import type { ReactElement } from "react";
 
 export type VaultMenuDropdownProps = {
@@ -23,7 +23,7 @@ export function VaultMenuDropdown({ children }: VaultMenuDropdownProps) {
 
   const { vaultId, changeVault } = useVaultId();
   const { data: vaults } = useVaultList();
-  const { openCreateVault } = useCreateVaultDialog();
+  const { openCreateVault, openConnectVault } = useCreateVaultDialog();
 
   return (
     <DropdownMenu>
@@ -51,6 +51,10 @@ export function VaultMenuDropdown({ children }: VaultMenuDropdownProps) {
         <DropdownMenuItem onClick={() => openCreateVault()}>
           <PlusIcon />
           {t("vaultMenu.createVault")}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={openConnectVault}>
+          <LinkIcon />
+          {t("vaultMenu.connectVault")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

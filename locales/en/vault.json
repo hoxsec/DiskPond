@@ -1,23 +1,25 @@
 {
   "noVaults": {
-    "title": "Create your vault",
-    "description": "You haven't created any vaults yet. Get started by pressing the button below.",
+    "title": "Back up and recover your files",
+    "description": "Create an encrypted vault in storage you provide, or connect a vault to recover existing backups.",
     "refresh": "Reload vaults",
     "add": "Add vault"
   },
   "home": {
     "title": "Vaults",
-    "createVault": "Create vault",
+    "createVault": "Create a new vault",
+    "connectVault": "Connect an existing vault",
     "count_one": "{{count}} vault found",
     "count_other": "{{count}} vaults found"
   },
   "createDialog": {
     "back": "Back",
     "title": {
-      "default": "Create new vault",
-      "first": "Create your first vault"
+      "default": "Create a new vault",
+      "connect": "Connect an existing vault"
     },
-    "description": "Create a new vault.",
+    "description": "Choose an empty destination for a new encrypted vault.",
+    "connectDescription": "Choose the storage containing your vault. You will need its existing encryption password.",
     "providers": {
       "search": {
         "label": "Search storage providers",
@@ -26,6 +28,7 @@
     },
     "config": {
       "submit": "Continue",
+      "checking": "Checking the destination. Please wait.",
       "validationError": {
         "title": "Couldn't verify storage settings",
         "rcloneRemoteNotConfigured": "The rclone remote '{{remote}}' isn't configured on this computer. Check the remote name in your rclone config and try again."
@@ -52,8 +55,23 @@
         "title": "Never forget this password",
         "description": "Keep this encryption password somewhere safe. DiskPond cannot reset it. You will need it to restore your backups on another computer."
       },
-      "submit": "Create vault"
+      "submit": "Create vault",
+      "connect": "Connect vault",
+      "connectHint": "Use the existing vault password. Connecting may copy legacy repository metadata to its current names; existing backups are preserved.",
+      "creating": "Creating vault. Please wait.",
+      "connecting": "Connecting vault. Please wait.",
+      "failed": "Couldn't open the vault"
     }
+  },
+  "connectionErrors": {
+    "password": "The encryption password is incorrect. Enter the existing vault password, including any spaces.",
+    "exists": "This destination already contains a vault. Use Connect an existing vault, or choose an empty destination.",
+    "notEmpty": "This destination contains files or repository data. Choose an empty destination; do not remove existing backups to continue.",
+    "missing": "No vault was found here. Check the destination, or use Create a new vault for an empty destination.",
+    "duplicate": "This vault is already connected on this computer. Open it from the vault list.",
+    "invalid": "The repository identity could not be read. Check that this is a complete, compatible vault.",
+    "destinationMissing": "The destination folder is missing or is not a folder. Reconnect the drive or choose an existing folder.",
+    "unavailable": "The vault could not be opened. Check the destination, access permissions, provider credentials and repository files, then retry."
   },
   "setup": {
     "title": "Set up vault",

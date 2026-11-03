@@ -6,24 +6,32 @@ import { useAppForm } from "@blinkdisk/forms/use-app-form";
 import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
 import type { ProviderConfig } from "@blinkdisk/schemas/providers";
 import { ZCreateVaultDetails } from "@blinkdisk/schemas/vault";
+import { getErrorCode } from "@blinkdisk/utils/error";
 import {
   type CreateVaultResponse,
-  useCreateVault,
-} from "@desktop/hooks/mutations/use-create-vault";
+  useAddVault,
+} from "@desktop/hooks/mutations/use-add-vault";
+import { connectionErrorKey } from "@desktop/lib/vault-connection";
+import { useState } from "react";
+import { z } from "zod";
 
 export function useCreateVaultForm({
   providerType,
   onSuccess,
   config,
+  intent,
+  setBusy,
 }: {
   providerType?: StorageProviderType;
   onSuccess?: (res: CreateVaultResponse) => void;
   config?: ProviderConfig;
+  intent: "CREATE" | "CONNECT";
+  setBusy: (busy: boolean) => void;
 }) {
-  const { t } = useAppTranslation("vault.providers");
+  const { t } = useAppTranslation("vault");
+  const [error, setError] = useState<string>();
 
-  const { mutateAsync } = useCreateVault((res) => {
-    form.reset();
+  const { mutateAsync } = useAddVault(intent, (res) => {
     onSuccess?.(res);
   });
   const displayProviderType = providerType
@@ -32,22 +40,48 @@ export function useCreateVaultForm({
 
   const form = useAppForm({
     defaultValues: {
-      name: displayProviderType ? t(`${displayProviderType}.name`) : "",
+      name: displayProviderType
+        ? t(`providers.${displayProviderType}.name`)
+        : "",
       password: "",
       confirmPassword: "",
     },
     validators: {
-      onSubmit: ZCreateVaultDetails,
+      onSubmit:
+        intent === "CREATE"
+          ? ZCreateVaultDetails.refine(
+              (value) => value.password === value.confirmPassword,
+              { path: ["confirmPassword"], message: "password_mismatch" },
+            )
+          : ZCreateVaultDetails.extend({ confirmPassword: z.string() }),
     },
-    onSubmit: async ({ value }) =>
-      providerType &&
-      (await mutateAsync({
-        name: value.name,
-        provider: providerType,
-        config: config || {},
-        password: value.password,
-      })),
+    onSubmitInvalid: ({ formApi }) => {
+      const first = ["name", "password", "confirmPassword"] as const;
+      const name = first.find(
+        (name) => formApi.getFieldMeta(name)?.errors.length,
+      );
+      if (name) document.getElementById(name)?.focus();
+    },
+    onSubmit: async ({ value }) => {
+      if (!providerType) return;
+      setError(undefined);
+      setBusy(true);
+      try {
+        await mutateAsync({
+          name: value.name,
+          provider: providerType,
+          config: config || {},
+          password: value.password,
+        });
+      } catch (error) {
+        setError(
+          t(`connectionErrors.${connectionErrorKey(getErrorCode(error))}`),
+        );
+      } finally {
+        setBusy(false);
+      }
+    },
   });
 
-  return form;
+  return { form, error };
 }

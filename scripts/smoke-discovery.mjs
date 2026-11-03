@@ -164,6 +164,13 @@ try {
     ]),
   );
   assert.ok(snapshotA.id && snapshotB.id && snapshotA.id !== snapshotB.id);
+  // Isolate connection/migration writes from scheduled maintenance in copies.
+  cli(baseline, "baseline", [
+    "maintenance",
+    "set",
+    "--enable-quick=false",
+    "--enable-full=false",
+  ]);
   const { uniqueID } = JSON.parse(
     await readFile(join(repository, "kopia.repository.f"), "utf8"),
   );
@@ -195,6 +202,16 @@ try {
             join(path, `kopia.${suffix}.f`),
             join(path, `blinkdisk.${suffix}.f`),
           );
+      if (name.startsWith("legacy")) {
+        const file = join(path, "blinkdisk.repository.f");
+        await writeFile(
+          file,
+          (await readFile(file, "utf8")).replaceAll(
+            "https://github.com/kopia/kopia",
+            "https://github.com/blinkdisk/core",
+          ),
+        );
+      }
       if (name.endsWith("no-shards")) await rm(join(path, ".shards"));
       if (name === "invalid-current") {
         code = "INTERNAL";
@@ -208,7 +225,26 @@ try {
     cases.push({ name, parent, path, code });
   }
   const fixture = join(directory, "fixture.json");
-  await writeFile(fixture, JSON.stringify({ cases, uniqueID, password }));
+  await writeFile(
+    fixture,
+    JSON.stringify({
+      cases,
+      uniqueID,
+      password,
+      versions: [
+        {
+          id: snapshotA.id,
+          rootID: snapshotA.rootEntry.obj,
+          hashes: expectedA,
+        },
+        {
+          id: snapshotB.id,
+          rootID: snapshotB.rootEntry.obj,
+          hashes: expectedB,
+        },
+      ],
+    }),
+  );
   await completed(
     pnpm(["--filter", "@blinkdisk/electron", "exec", "install-electron"]),
   );
@@ -231,19 +267,22 @@ try {
       js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
     },
   });
-  child = launch(require("electron"), [bundle], {
-    cwd: electronDirectory,
-    env: {
-      ...process.env,
-      DISKPOND_DATA_DIR: join(directory, "app-data"),
-      DISKPOND_DISCOVERY_FIXTURE: fixture,
-      KOPIA_CHECK_FOR_UPDATES: "false",
-      KOPIA_CACHE_DIRECTORY: join(directory, "discovery-cache"),
-      KOPIA_LOG_DIR: join(directory, "discovery-logs"),
-    },
-    timeout: 135_000,
-  });
-  await completed(child);
+  for (const phase of ["connect", "restart"]) {
+    child = launch(require("electron"), [bundle], {
+      cwd: electronDirectory,
+      env: {
+        ...process.env,
+        DISKPOND_DATA_DIR: join(directory, "app-data"),
+        DISKPOND_DISCOVERY_FIXTURE: fixture,
+        DISKPOND_DISCOVERY_PHASE: phase,
+        KOPIA_CHECK_FOR_UPDATES: "false",
+        KOPIA_CACHE_DIRECTORY: join(directory, "discovery-cache"),
+        KOPIA_LOG_DIR: join(directory, "discovery-logs"),
+      },
+      timeout: 240_000,
+    });
+    await completed(child);
+  }
 
   // Explicit connection is separate from discovery and can write repository
   // metadata. Each CLI invocation restarts the process with its saved config.
@@ -264,6 +303,34 @@ try {
       assert.deepEqual(await hashes(destination), expected);
     }
     console.info(`Two-version restore/hash comparison passed: ${item.name}`);
+    if (item.name.startsWith("legacy")) {
+      // The original pinned client must still recover after explicit migration.
+      cli(baseline, `old-${item.name}`, [
+        "repo",
+        "connect",
+        "filesystem",
+        "--path",
+        item.path,
+      ]);
+      for (const [snapshot, expected] of [
+        [snapshotA, expectedA],
+        [snapshotB, expectedB],
+      ]) {
+        const destination = join(
+          directory,
+          "restored-old",
+          item.name,
+          snapshot.id,
+        );
+        cli(baseline, `old-${item.name}`, [
+          "snapshot",
+          "restore",
+          snapshot.id,
+          destination,
+        ]);
+        assert.deepEqual(await hashes(destination), expected);
+      }
+    }
   }
   console.info(
     "Discovery smoke passed: eight destinations, exact identity/password checks, unchanged file trees and metadata, and both baseline snapshot versions restored from four compatible copies.",

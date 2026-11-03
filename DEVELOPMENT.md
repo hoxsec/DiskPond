@@ -28,7 +28,7 @@ If the Node installation directory is not writable, install the Corepack shims i
 
 ## Prepare the checkout
 
-Use `main`, which includes the M1 baseline and M2 branding/local-workspace, credential-storage and discovery slices:
+Use `main`, which includes the M1 baseline and M2 branding/local-workspace, credential-storage, discovery and explicit create/connect slices:
 
 ```powershell
 git clone --branch main https://github.com/hoxsec/DiskPond.git
@@ -38,7 +38,7 @@ git -C apps/core rev-parse HEAD
 pnpm install --frozen-lockfile
 ```
 
-The engine gitlink is `aad67c688a05ce119859d49ca51bdf67787f0b99`, published on the owner-approved `hoxsec/diskpond-core` fork's `main`. The original upstream baseline remains recorded in [provenance](UPSTREAM.md). Do not use `git submodule update --remote` or substitute a globally installed Kopia binary. `pnpm build:core` checks the checkout against the recorded gitlink and marks modified core source with a `-dirty` build revision. The application starts core with `--managed-storage`, which the original baseline binary does not implement; build the pinned core.
+The engine gitlink is `5971b879111001ba4c8d0e41659723d79565f06d`, published on the owner-approved `hoxsec/diskpond-core` fork's `main`. The original upstream baseline remains recorded in [provenance](UPSTREAM.md). Do not use `git submodule update --remote` or substitute a globally installed Kopia binary. `pnpm build:core` checks the checkout against the recorded gitlink and marks modified core source with a `-dirty` build revision. The application starts core with `--managed-storage`, which the original baseline binary does not implement; build the pinned core.
 
 The discovery compatibility fixture also builds the original baseline. In shallow checkouts, fetch that exact object before `pnpm smoke:discovery`, as CI does; this leaves the candidate checkout and gitlink unchanged:
 
@@ -56,6 +56,8 @@ pnpm --filter @blinkdisk/electron exec install-electron
 
 First setup/build needs network access for package/Go modules, Electron and packager tools. Normal desktop startup needs no API or database service.
 
+The create/connect slice adds a core initialization guard included in the published pin above. The owner-authorized source handoff advances the application gitlink to this exact revision. Local checks passed before publication; clean Windows CI for this slice is pending. See [create/connect evidence](docs/verification/m2-create-connect.md).
+
 ## Commands from the repository root
 
 | Command | Behavior |
@@ -67,7 +69,8 @@ First setup/build needs network access for package/Go modules, Electron and pack
 | `pnpm preview:desktop` | Launches the existing build using `diskpondapp://frontend`; run `build:desktop` first. |
 | `pnpm smoke:desktop` | Exercises the built renderer, preload, local onboarding and engine discovery in temporary app data. |
 | `pnpm smoke:desktop --dev` | Runs that smoke through the actual `dev:desktop` wrapper, including server startup and cleanup. |
-| `pnpm smoke:discovery` | Builds a clean baseline in a disposable core worktree, verifies nonmutating discovery through Electron, then restores/hashes both baseline snapshot versions with the candidate core. Requires `build:core`; `DISKPOND_BASELINE_CORE` optionally selects an existing baseline executable. |
+| `pnpm smoke:discovery` | Builds a clean baseline in a disposable core worktree; checks nonmutating discovery, native create/connect guards, legacy migration writes and restart recovery; restores/hashes baseline versions with both clients. Requires `build:core`; `DISKPOND_BASELINE_CORE` optionally selects an existing baseline executable. |
+| `pnpm smoke:vaults` | Built-desktop keyboard create/connect flows, destination/password/duplicate errors, stale-discovery rejection, light/dark/zoom checks and three-vault restart. Injects only disposable native-picker results. Windows includes an isolated denied-ACL destination. |
 | `pnpm smoke:passwords` | Builds an isolated Electron test entry point and verifies native password protection, failure/session-only modes, wrong-password rejection, application restart and real-engine reconnect. Requires the existing pinned core build. |
 | `pnpm smoke:providers` | Builds a credential-isolated loopback WebDAV service and Electron fixture; checks two-vault versioned snapshots/restores with hashes, protected/session/failure storage, restart, wrong/swapped credentials, both legacy migrations and credential scans. Requires Go and the matching managed-core build; no live-provider credentials. |
 | `pnpm smoke:desktop --session-passwords` | Runs built desktop smoke with test-only unavailable secure storage, verifying the localized notice and password/settings IPC rejection. |

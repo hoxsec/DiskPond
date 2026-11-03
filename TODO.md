@@ -2,7 +2,7 @@
 
 Updated: 2026-11-03. **Active milestone: M2 — account-free local backup alpha.**
 
-Credential storage, migration and nonmutating discovery are merged into application `main` at [`d45cda7`](https://github.com/hoxsec/DiskPond/commit/d45cda77b5a9c166a9d430fd3aabdd918730fc46). The published core is pinned at [`aad67c6`](https://github.com/hoxsec/diskpond-core/commit/aad67c688a05ce119859d49ca51bdf67787f0b99). Both [integration](https://github.com/hoxsec/DiskPond/actions/runs/41548458540) and [merged-main](https://github.com/hoxsec/DiskPond/actions/runs/41550252893) Windows CI passed. See [credential/recovery evidence](docs/verification/m2-provider-storage-design.md) for the verified scope.
+Credential storage, migration and nonmutating discovery are merged into application `main` at [`d45cda7`](https://github.com/hoxsec/DiskPond/commit/d45cda77b5a9c166a9d430fd3aabdd918730fc46). Both [integration](https://github.com/hoxsec/DiskPond/actions/runs/41548458540) and [merged-main](https://github.com/hoxsec/DiskPond/actions/runs/41550252893) Windows CI passed. The create/connect source handoff advances the published core pin to [`5971b87`](https://github.com/hoxsec/diskpond-core/commit/5971b879111001ba4c8d0e41659723d79565f06d); its clean Windows CI is pending. See [credential/recovery evidence](docs/verification/m2-provider-storage-design.md) and [create/connect evidence](docs/verification/m2-create-connect.md) for the verified scope.
 
 Work through the M2 items below in order. [ROADMAP.md](ROADMAP.md) owns milestone gates; [PLAN.md](PLAN.md) owns requirements and acceptance scenarios. Native fixture restores and installed-startup smoke do not complete the desktop recovery gate.
 
@@ -10,13 +10,15 @@ Work through the M2 items below in order. [ROADMAP.md](ROADMAP.md) owns mileston
 
 **Requirements:** P01, F02; supporting F03 / Q02.
 
-- [ ] Give **Create a new vault** and **Connect an existing vault** distinct entry points and operations.
-- [ ] Preserve nonmutating discovery and useful errors for empty, missing, unrelated, corrupt and inaccessible destinations; reject duplicate identities and wrong credentials.
-- [ ] Ensure creation never initializes over existing repository data, and connection never falls back to creation.
-- [ ] Review explicit connection's inherited legacy-blob migration on disposable baseline copies. Record writes and compatibility effects before making it part of the user flow.
-- [ ] Exercise both flows with real repositories, restart/reconnect and restore/hash checks; cover localized loading/error states and keyboard focus.
+- [x] Give **Create a new vault** and **Connect an existing vault** distinct entry points and operations.
+- [x] Preserve nonmutating discovery and useful errors for empty, missing, unrelated, corrupt and inaccessible destinations; reject duplicate identities and wrong credentials.
+- [x] Guard creation against existing repository data, and prevent connection from falling back to creation. Native preflight and the core blob guard are covered; independent-client concurrent initialization remains an uncertified provider boundary.
+- [x] Review explicit connection's inherited legacy-blob migration on disposable baseline copies. Record writes and compatibility effects before making it part of the user flow.
+- [x] Exercise both flows with real repositories, restart/reconnect and restore/hash checks; cover localized loading/error states and keyboard focus.
+- [x] Include the matching application/core changes in the owner-authorized source-publication handoff and advance the core pin to the published initialization guard.
+- [ ] Run clean Windows CI on the published create/connect slice.
 
-Start in `apps/desktop/src/components/dialogs/create-vault/`, the create/setup mutation hooks, `apps/electron/src/vault/connection-ipc.ts`, `manage.ts` and `validate.ts`. Existing [discovery evidence](docs/verification/m2-read-only-discovery.md) is the regression baseline.
+**Locally verified:** [create/connect evidence](docs/verification/m2-create-connect.md), including built-renderer keyboard/error/restart checks and 32 native/CLI restore/hash comparisons. The full renderer recovery gate remains open. Continue implementation with **item 2** from the published application/core pair.
 
 ## 2. Truthful restore outcomes
 

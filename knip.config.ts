@@ -29,8 +29,8 @@ const config: KnipConfig = {
         "esbuild",
         "@esbuild-plugins/tsconfig-paths",
       ],
-      // Windows process-tree cleanup uses the OS-provided executable.
-      ignoreBinaries: ["taskkill", "reg"],
+      // Windows process cleanup, registry and disposable ACL fixtures use OS tools.
+      ignoreBinaries: ["taskkill", "reg", "icacls"],
     },
     "apps/api": {
       project: commonProject,

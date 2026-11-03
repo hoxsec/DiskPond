@@ -1,7 +1,7 @@
 {
   "addFolder": "Add file/folder",
   "selectVault": { "empty": "Select vault", "createVault": "Create vault" },
-  "vaultMenu": { "createVault": "Create vault" },
+  "vaultMenu": { "createVault": "Create a new vault", "connectVault": "Connect an existing vault" },
   "links": {
     "navigation": "Menu",
     "vaultSettings": "Vault settings",

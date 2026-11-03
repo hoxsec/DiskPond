@@ -10,6 +10,10 @@ const mocks = vi.hoisted(() => ({
   getUserName: vi.fn((id: string) => `user-${id}`),
   killValidationVault: vi.fn(() => undefined),
   preparePasswordCache: vi.fn(),
+  validate: vi.fn(async (_input: { intent?: string }) => ({
+    code: undefined as string | undefined,
+    uniqueID: undefined as string | undefined,
+  })),
   logError: vi.fn((_message: unknown, _error?: unknown) => undefined),
   logWarn: vi.fn((_message: unknown) => undefined),
   mapConfigFields: vi.fn((_provider: string, _config: unknown) => ({
@@ -82,6 +86,7 @@ vi.mock("@electron/vault/server", () => ({
 }));
 
 vi.mock("@electron/vault/validate", () => ({
+  validateVaultConfig: mocks.validate,
   validationVault: {
     server: {
       process: {
@@ -91,6 +96,7 @@ vi.mock("@electron/vault/validate", () => ({
   },
 }));
 
+import { DEFAULT_VAULT_OPTIONS } from "@blinkdisk/constants/vault";
 import {
   connectVault,
   createVault,
@@ -124,6 +130,11 @@ describe("vault management", () => {
     for (const key of Object.keys(mocks.collections))
       delete mocks.collections[key];
     mocks.fetchVault.mockResolvedValue({ success: true });
+    mocks.validate.mockImplementation(async ({ intent }) =>
+      intent === "CREATE"
+        ? { code: "NOT_INITIALIZED", uniqueID: undefined }
+        : { code: undefined, uniqueID: btoa("fixture-identity") },
+    );
   });
 
   it("creates a vault server and sends the repo create payload", async () => {
@@ -147,7 +158,7 @@ describe("vault management", () => {
       globalPolicy: { retention: "global" },
     });
 
-    expect(result).toEqual({ success: true });
+    expect(result).toEqual({ success: true, coreId: "vlt_1" });
     expect(mocks.startVaultServer).toHaveBeenCalledWith("vlt_1");
     expect(mocks.fetchVault).toHaveBeenCalledWith(
       expect.objectContaining({ id: "vlt_1" }),
@@ -173,6 +184,105 @@ describe("vault management", () => {
       }),
     );
     expect(vaults.vlt_1).toMatchObject({ id: "vlt_1", status: "STARTING" });
+  });
+
+  it.each([
+    "REPOSITORY_EXISTS",
+    "INVALID_REPOSITORY",
+    "DESTINATION_NOT_EMPTY",
+    "STORAGE_UNREACHABLE",
+  ])("refuses creation before starting a writable engine: %s", async (code) => {
+    mocks.validate.mockResolvedValueOnce({ code, uniqueID: undefined });
+    const result = await createVault({
+      vault: {
+        id: "vlt_new",
+        name: "Fixture",
+        provider: "INTERNAL_DRIVE",
+        config: {},
+        password: "new-password",
+        options: DEFAULT_VAULT_OPTIONS,
+      },
+      userPolicy: {},
+      globalPolicy: {},
+    });
+    expect(result.code).toBe(code);
+    expect(mocks.startVaultServer).not.toHaveBeenCalled();
+    expect(mocks.fetchVault).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    "NOT_INITIALIZED",
+    "INVALID_PASSWORD",
+    "INVALID_REPOSITORY",
+    "STORAGE_MISSING",
+  ])("never falls back to creation when connecting fails: %s", async (code) => {
+    mocks.validate.mockResolvedValueOnce({ code, uniqueID: undefined });
+    expect(
+      (
+        await connectVault({
+          id: "vlt_new",
+          name: "Fixture",
+          provider: "INTERNAL_DRIVE",
+          config: {},
+          password: " exact ",
+        })
+      ).code,
+    ).toBe(code);
+    expect(mocks.startVaultServer).not.toHaveBeenCalled();
+    expect(mocks.fetchVault).not.toHaveBeenCalled();
+  });
+
+  it("rejects duplicate identities during an overlapping connect and permits retry after failure", async () => {
+    const payload = {
+      id: "vlt_first",
+      name: "Fixture",
+      provider: "INTERNAL_DRIVE" as const,
+      config: {},
+      password: " exact ",
+    };
+    let finish!: (value: unknown) => void;
+    mocks.fetchVault.mockReturnValueOnce(
+      new Promise((resolve) => {
+        finish = resolve;
+      }),
+    );
+    const first = connectVault(payload);
+    await vi.waitFor(() => expect(mocks.fetchVault).toHaveBeenCalledOnce());
+    expect((await connectVault({ ...payload, id: "vlt_second" })).code).toBe(
+      "DUPLICATE_VAULT",
+    );
+    finish({ code: "CONNECTION_FAILED" });
+    await first;
+    expect(await connectVault({ ...payload, id: "vlt_second" })).toMatchObject({
+      coreId: "fixture-identity",
+    });
+    expect(mocks.validate).toHaveBeenCalledWith(
+      expect.objectContaining({ password: " exact " }),
+    );
+  });
+
+  it("rejects the identity of a persisted vault even when its engine is stopped", async () => {
+    mocks.collections.local = {
+      vault: {
+        find: vi.fn(() => ({
+          fetch: () => [
+            { id: "vlt_saved", coreId: "fixture-identity", status: "ACTIVE" },
+          ],
+        })),
+      },
+    };
+    expect(
+      (
+        await connectVault({
+          id: "vlt_new",
+          name: "Fixture",
+          provider: "INTERNAL_DRIVE",
+          config: {},
+          password: "exact",
+        })
+      ).code,
+    ).toBe("DUPLICATE_VAULT");
+    expect(mocks.startVaultServer).not.toHaveBeenCalled();
   });
 
   it("stops a newly started vault when repo creation fails", async () => {
@@ -207,6 +317,23 @@ describe("vault management", () => {
     expect(vaults.vlt_1).toBeUndefined();
   });
 
+  it("releases a live identity after an exit before its descriptor was persisted", async () => {
+    const payload = {
+      id: "vlt_first",
+      name: "Fixture",
+      provider: "INTERNAL_DRIVE" as const,
+      config: {},
+      password: "exact",
+    };
+    await connectVault(payload);
+    const first = vaults.vlt_first;
+    if (!first) throw new Error("Vault did not connect");
+    vaultServerStopped(first.id, first.server.process);
+    expect(await connectVault({ ...payload, id: "vlt_retry" })).toMatchObject({
+      coreId: "fixture-identity",
+    });
+  });
+
   it("connects through an existing vault server without starting another one", async () => {
     const kill = vi.fn();
     vaults.vlt_1 = {
@@ -226,7 +353,7 @@ describe("vault management", () => {
         password: "secret",
         version: 2,
       }),
-    ).resolves.toEqual({ success: true });
+    ).resolves.toEqual({ success: true, coreId: "fixture-identity" });
 
     expect(mocks.startVaultServer).not.toHaveBeenCalled();
     expect(mocks.fetchVault).toHaveBeenCalledWith(

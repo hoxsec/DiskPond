@@ -6,12 +6,14 @@ import { useCallback } from "react";
 export type CreateVaultStep = "PROVIDER" | "CONFIG" | "DETAILS";
 
 type CreateVaultDialogOptions = {
+  intent: "CREATE" | "CONNECT";
   step: CreateVaultStep;
   provider?: StorageProviderType;
   config?: ProviderConfig;
 };
 
 const defaultOptions: CreateVaultDialogOptions = {
+  intent: "CREATE",
   step: "PROVIDER",
 };
 
@@ -66,11 +68,16 @@ export function useCreateVaultDialog() {
     }));
   }, []);
 
+  const openConnectVault = useCallback(() => {
+    openCreateVault({ intent: "CONNECT" });
+  }, [openCreateVault]);
+
   return {
     isOpen,
     options,
     setIsOpen,
     openCreateVault,
+    openConnectVault,
     setOptions,
     resetOptions,
   };

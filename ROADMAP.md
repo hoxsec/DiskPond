@@ -1,7 +1,7 @@
 # DiskPond — Roadmap
 
 - **Updated:** 2026-11-03
-- **Current stage:** M1 complete; M2 branding/account-free workspace and credential/discovery slices merged with local and passing integration/merged-main Windows CI evidence; desktop recovery gate open. [TODO.md](TODO.md) orders the next work.
+- **Current stage:** M1 complete; M2 branding/account-free workspace and credential/discovery slices merged with passing Windows CI. Explicit create/connect is locally verified and included in the owner-authorized source handoff with the published core guard pinned; clean CI and the desktop recovery gate remain open. [TODO.md](TODO.md) orders the next work.
 
 This roadmap implements the owner-approved scope in [PLAN.md](PLAN.md). Requirement IDs refer to its parity inventory. [STYLE.md](STYLE.md) defines the interface and [AGENTS.md](AGENTS.md) defines contributor workflow.
 
@@ -78,7 +78,10 @@ Subsequent credential/discovery/provider changes are also merged into applicatio
 - [x] Remove analytics and crash-upload execution, build-time upload plugins and upstream service configuration.
 - [x] Apply DiskPond product identity, isolated storage paths and original UI tokens.
 - [ ] Implement create-versus-connect entry points with provider validation and safe existing-repository detection.
-  - [x] Nonmutating discovery in the owner-approved core fork: no `.shards` write on reads, no legacy migration from `/repo/exists`, no SFTP directory creation during discovery. [Published regressions and baseline-copy restore/hash evidence](docs/verification/m2-read-only-discovery.md) pass locally and in Windows CI. Separate entry points and explicit-connect migration review remain open.
+  - [x] Nonmutating discovery in the owner-approved core fork: no `.shards` write on reads, no legacy migration from `/repo/exists`, no SFTP directory creation during discovery. [Published regressions and baseline-copy restore/hash evidence](docs/verification/m2-read-only-discovery.md) pass locally and in Windows CI.
+  - [x] Separate renderer/native operations, native identity/destination guards, explicit-connect migration inventory and baseline recovery, and keyboard/error/three-vault restart fixture pass locally. [Create/connect evidence](docs/verification/m2-create-connect.md).
+  - [x] Publish and pin the core initialization guard (`5971b879111001ba4c8d0e41659723d79565f06d`) in the owner-authorized matching application source handoff.
+  - [ ] Run clean Windows CI on the published create/connect slice. The parent gate remains open until this reproducibility check passes.
 - [x] Preserve secure vault-password handling; make unavailable secure storage a session-only mode rather than a silent plaintext fallback.
   - [Windows password evidence](docs/verification/m2-password-storage.md): OS-protected round-trip, failure/session-only/re-entry, legacy-cache handling, three-vault engine interruption/reconnect and credential-file scans. Managed startup now reopens exact whitespace passwords automatically. Later-OS runtime checks and full F24/DP01 remain open.
   - [x] Implement owner-approved protected/session-only provider storage, metadata-only managed core connections, and migration of both inherited local provider copies. [Decision, published implementation and native recovery evidence](docs/verification/m2-provider-storage-design.md). Windows CI passes; live-provider and full desktop recovery certification remain open.
@@ -217,6 +220,6 @@ Use small vertical tasks. For example: **P09 — create an SFTP vault with a kno
 
 ## Next implementation session
 
-M1 is complete. M2 branding/local workspace, vault-password fallback, owned-core nonmutating discovery and approved managed-provider storage are published and merged, with evidence to their recorded scope. The credential/core workflow passes on both the integration branch and merged `main`. Begin [TODO.md](TODO.md) with explicit create/connect behavior, then truthful renderer restore outcomes and the offline desktop recovery journey. Interruption/lifecycle and initial performance/network evidence complete the remaining M2 work.
+M1 is complete. M2 branding/local workspace, vault-password fallback, owned-core nonmutating discovery and approved managed-provider storage are published and merged, with evidence to their recorded scope. The credential/core workflow passes on both the integration branch and merged `main`. Explicit create/connect has local evidence and an owner-authorized source handoff with the published core guard pinned; clean Windows CI is pending. Continue [TODO.md](TODO.md) with truthful renderer restore outcomes, then the offline desktop recovery journey. Interruption/lifecycle and initial performance/network evidence complete the remaining M2 work.
 
 Release ownership, signing access, live provider test access and additional OS hardware remain project-owner inputs at their stated milestones. They do not block the next local M2 slice.

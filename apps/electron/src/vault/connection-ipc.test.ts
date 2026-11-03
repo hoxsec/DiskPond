@@ -50,6 +50,7 @@ vi.mock("@electron/vault/validate", () => ({
 }));
 
 import "@electron/vault/connection-ipc";
+import { DEFAULT_VAULT_OPTIONS } from "@blinkdisk/constants/vault";
 
 const payload = {
   id: "vlt_new",
@@ -126,6 +127,9 @@ it("rejects existing saved files and overlapping new connection requests", async
   );
   const pending = invoke("connect", mocks.event, payload);
   await expect(invoke("connect", mocks.event, payload)).rejects.toThrow("busy");
+  await expect(
+    invoke("connect", mocks.event, { ...payload, id: "vlt_other" }),
+  ).rejects.toThrow("busy");
   finish({});
   await pending;
 });
@@ -148,4 +152,14 @@ it("rejects extra arguments and foreign frames", () => {
     invoke("connect", { ...mocks.event, senderFrame: {} }, payload),
   ).toThrow("Invalid desktop request");
   expect(mocks.connect).not.toHaveBeenCalled();
+});
+it("rejects creation IDs shorter than the repository salt minimum before storage writes", () => {
+  expect(() =>
+    invoke("create", mocks.event, {
+      vault: { ...payload, id: "short", options: DEFAULT_VAULT_OPTIONS },
+      userPolicy: {},
+      globalPolicy: {},
+    }),
+  ).toThrow("Invalid connection request");
+  expect(mocks.create).not.toHaveBeenCalled();
 });

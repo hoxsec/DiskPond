@@ -14,6 +14,7 @@
     "test:desktop": "pnpm --filter @blinkdisk/desktop --filter @blinkdisk/electron --filter @blinkdisk/schemas --filter @blinkdisk/utils --no-bail -r test",
     "smoke:desktop": "node scripts/smoke-desktop.mjs",
     "smoke:discovery": "node scripts/smoke-discovery.mjs",
+    "smoke:vaults": "node scripts/smoke-vault-flows.mjs",
     "smoke:passwords": "node scripts/smoke-password-storage.mjs",
     "smoke:providers": "node scripts/smoke-provider-storage.mjs",
     "smoke:windows": "node scripts/smoke-installed.mjs",

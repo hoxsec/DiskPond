@@ -173,7 +173,7 @@ app.on("browser-window-created", (_, window) => {
       contents.sendInputEvent({ type: "keyDown", keyCode: "Return" });
       contents.sendInputEvent({ type: "char", keyCode: "\r" });
       contents.sendInputEvent({ type: "keyUp", keyCode: "Return" });
-      await waitForText(contents, "Create your vault");
+      await waitForText(contents, "Back up and recover your files");
       if (sessionPasswords) {
         await waitForText(contents, "Vault credentials are session-only");
         await waitForText(contents, "before scheduled backups can resume");
@@ -203,7 +203,7 @@ app.on("browser-window-created", (_, window) => {
         true,
       );
       await capture(contents, "home");
-      await clickButton(contents, "Add vault");
+      await clickButton(contents, "Create a new vault");
       await waitForText(contents, "SFTP");
       assert.equal(
         await contents.executeJavaScript(
@@ -217,7 +217,7 @@ app.on("browser-window-created", (_, window) => {
       await waitFor(contents, "!document.querySelector('[role=dialog]')");
       await waitFor(
         contents,
-        "document.activeElement?.textContent.trim() === 'Add vault'",
+        "document.activeElement?.textContent.trim() === 'Create a new vault'",
       );
       await contents.executeJavaScript(
         "[...document.querySelectorAll('a')].find(element => element.textContent.trim() === 'Settings').click()",
@@ -261,8 +261,8 @@ app.on("browser-window-created", (_, window) => {
         "[...document.querySelectorAll('[role=menuitem]')].find(element => element.textContent.trim() === 'Home').click()",
       );
       await waitFor(contents, "!document.querySelector('[role=menu]')");
-      await waitForText(contents, "Create your vault");
-      await clickButton(contents, "Add vault");
+      await waitForText(contents, "Back up and recover your files");
+      await clickButton(contents, "Create a new vault");
       await waitForText(contents, "SFTP");
       await capture(contents, "providers-200-percent");
       contents.sendInputEvent({ type: "keyDown", keyCode: "Escape" });
@@ -305,7 +305,7 @@ app.on("browser-window-created", (_, window) => {
         404,
       );
       await contents.executeJavaScript("location.hash = '#/acct_legacy'");
-      await waitForText(contents, "Create your vault");
+      await waitForText(contents, "Back up and recover your files");
       assert.equal(
         await contents.executeJavaScript("location.hash"),
         "#/local",

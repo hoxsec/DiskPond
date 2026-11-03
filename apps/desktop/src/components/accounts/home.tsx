@@ -8,7 +8,7 @@ import { HealthCard } from "./health-card";
 
 export function AccountHome() {
   const { t } = useAppTranslation("vault.home");
-  const { openCreateVault } = useCreateVaultDialog();
+  const { openCreateVault, openConnectVault } = useCreateVaultDialog();
   const { data: vaults } = useVaultList();
   return (
     <div className="flex min-h-full flex-col overflow-y-auto p-6">
@@ -22,10 +22,15 @@ export function AccountHome() {
             {t("count", { count: vaults?.length ?? 0 })}
           </p>
         </div>
-        <Button onClick={() => openCreateVault()}>
-          <PlusIcon />
-          {t("createVault")}
-        </Button>
+        <div className="flex flex-wrap gap-3">
+          <Button variant="secondary" onClick={openConnectVault}>
+            {t("connectVault")}
+          </Button>
+          <Button onClick={() => openCreateVault()}>
+            <PlusIcon />
+            {t("createVault")}
+          </Button>
+        </div>
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4">
         {vaults?.map((vault) => (

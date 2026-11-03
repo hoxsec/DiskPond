@@ -69,7 +69,11 @@ export const ZConnectVaultRequest = ZProviderConnection.safeExtend({
 });
 export const ZCreateVaultRequest = z
   .object({
-    vault: ZConnectVaultRequest.safeExtend({ options: ZVaultOptions }),
+    vault: ZConnectVaultRequest.safeExtend({
+      // The ID is also used as the engine's repository KDF salt.
+      id: ZPasswordVault.shape.vaultId.min(16),
+      options: ZVaultOptions,
+    }),
     userPolicy: z.record(z.string(), z.unknown()),
     globalPolicy: z.record(z.string(), z.unknown()),
   })
@@ -82,6 +86,7 @@ export const ZValidateConnection = z
   .object({
     type: ZProviderType,
     config: ZProviderConnection.shape.config,
+    intent: z.enum(["CREATE", "CONNECT"]).optional(),
     password: z.string().max(65_536).optional(),
     version: z.number().int().optional(),
   })

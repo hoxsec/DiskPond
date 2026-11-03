@@ -13,7 +13,7 @@ export const Route = createFileRoute("/$accountId/")({
 
 function RouteComponent() {
   const { t } = useAppTranslation("vault");
-  const { openCreateVault } = useCreateVaultDialog();
+  const { openCreateVault, openConnectVault } = useCreateVaultDialog();
   const { data: vaults } = useVaultList();
 
   if (!vaults?.length)
@@ -23,9 +23,14 @@ function RouteComponent() {
         description={t("noVaults.description")}
         icon={<HardDriveIcon />}
       >
-        <Button onClick={() => openCreateVault()} size="lg">
-          <PlusIcon /> {t("noVaults.add")}
-        </Button>
+        <div className="flex flex-wrap justify-center gap-3">
+          <Button onClick={() => openCreateVault()} size="lg">
+            <PlusIcon /> {t("home.createVault")}
+          </Button>
+          <Button onClick={openConnectVault} variant="secondary" size="lg">
+            {t("home.connectVault")}
+          </Button>
+        </div>
       </Empty>
     );
   return <AccountHome />;
