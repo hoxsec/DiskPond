@@ -1,6 +1,6 @@
 # M2 — Approved provider-credential storage and migration
 
-Updated: 2026-11-03. **Owner-approved, implemented and locally verified on Windows; application and core changes remain uncommitted.** Application base: `main` at `d63593263db0a8f60b8b56240873a35b65009643`. Core base/gitlink: `e8955e7280edd9526b9f104f1592f233cfe6789b`, with local discovery and managed-storage changes. Requirements: **F24, F02, DP01, DP03**; supporting **F01, basic F17, F14 preservation and P10** evidence. Other provider certification remains M3.
+Updated: 2026-11-03. **Owner-approved, published and merged into application/core `main`, with local and passing integration/merged-main Windows CI evidence.** Application base: `d63593263db0a8f60b8b56240873a35b65009643`; application merge: `d45cda77b5a9c166a9d430fd3aabdd918730fc46`. Original core baseline: `e8955e7280edd9526b9f104f1592f233cfe6789b`; published gitlink: `aad67c688a05ce119859d49ca51bdf67787f0b99`. Requirements: **F24, F02, DP01, DP03**; supporting **F01, basic F17, F14 preservation and P10** evidence. Other provider certification remains M3.
 
 The owner approved [hoxsec/diskpond-core](https://github.com/hoxsec/diskpond-core), Electron-owned OS-protected/session-only provider storage, and migration of both plaintext core connection JSON and inherited password-encrypted provider envelopes. This record supersedes the earlier proposal. Repository encryption/format and the future setup-export format are unaffected.
 
@@ -43,7 +43,7 @@ Provider aliases and optional form values are retained, including omitted fields
 
 ## Verification and reproduction
 
-Windows 11 x64; Node 24.14.0 locally (repository/CI pin 24.15.0), pnpm 11.7.0, Go 1.25.5, Electron 42.11.16. The candidate reports `e8955e7280edd9526b9f104f1592f233cfe6789b-dirty` from `hoxsec/diskpond-core`. See [DEVELOPMENT.md](../../DEVELOPMENT.md) for the Corepack PATH shim and `GO_BINARY` override used locally.
+Windows 11 x64; Node 24.14.0 locally (repository/CI pin 24.15.0), pnpm 11.7.0, Go 1.25.5, Electron 42.11.16. The pre-publication candidate reported `e8955e7280edd9526b9f104f1592f233cfe6789b-dirty` from `hoxsec/diskpond-core`; clean CI builds the published pin above. See [DEVELOPMENT.md](../../DEVELOPMENT.md) for the Corepack PATH shim and `GO_BINARY` override used locally.
 
 ```powershell
 # From apps/core, with Go on PATH:
@@ -75,7 +75,27 @@ pnpm smoke:desktop --session-passwords
 | `pnpm smoke:desktop` and `--session-passwords` | Both pass against the final production build: protected/session notices, settings/theme persistence, keyboard/zoom flow, IPC rejection and empty-destination discovery; zero remote renderer/main-fetch requests in the exercised flow. |
 | Workflow / source hygiene | `actionlint` passes the updated Windows workflow; application/core `git diff --check` and changed-core `gofmt -l` pass. Local document links checked. |
 
-### Native provider fixture
+## Source publication and Windows CI
+
+The owner authorized commit, push and merge on 2026-11-03. Core source was published first, then the application gitlink advanced; both histories retain merge commits and the original upstream baselines.
+
+| Publication | Revision / result |
+| --- | --- |
+| Core implementation, `diskpond/m2-discovery` | [`6e5c939`](https://github.com/hoxsec/diskpond-core/commit/6e5c939) |
+| Core `main` merge and application gitlink | [`aad67c688a05ce119859d49ca51bdf67787f0b99`](https://github.com/hoxsec/diskpond-core/commit/aad67c688a05ce119859d49ca51bdf67787f0b99) |
+| Application implementation | [`07014e1`](https://github.com/hoxsec/DiskPond/commit/07014e1f9f058643a7fcb66132dd566523b33892) |
+| Exact-baseline CI fetch fix | [`f289baa`](https://github.com/hoxsec/DiskPond/commit/f289baa31edcdc48169f4dc1ee5f661ba5150647) |
+| Application `main` merge | [`d45cda77b5a9c166a9d430fd3aabdd918730fc46`](https://github.com/hoxsec/DiskPond/commit/d45cda77b5a9c166a9d430fd3aabdd918730fc46) |
+| Integration Windows CI | [Run 41548458540](https://github.com/hoxsec/DiskPond/actions/runs/41548458540), `f289baa`: **passed**, 13m25s |
+| Merged-main Windows CI | [Run 41550252893](https://github.com/hoxsec/DiskPond/actions/runs/41550252893), `d45cda7`: **passed**, 14m04s |
+
+Both successful runs passed frozen installation, lint, types, all 572 tests, dependency analysis, core discovery/managed-connection regressions, Windows NSIS packaging, discovery/password/provider fixtures, protected/session-only built smoke, development smoke and installed-startup/uninstall smoke. Both were followed with `gh run watch --exit-status` and confirmed with `gh run view`.
+
+The [first integration run](https://github.com/hoxsec/DiskPond/actions/runs/41547460322) passed tests, core regressions and packaging, then failed before discovery execution because the shallow submodule checkout lacked the original baseline commit. The CI fix fetches only that exact revision from the owned fork without changing the candidate checkout/gitlink. The passing rerun built the baseline and completed all fixtures. This was a CI setup failure, not a passing recovery result.
+
+Windows installed smoke verifies the packaged startup/engine/resources and records the inherited uninstall leftovers; it does not exercise the full renderer backup/restore journey. No tag or binary release accompanies this source publication. [TODO.md](../../TODO.md) orders the next M2 tasks.
+
+## Native provider fixture
 
 `scripts/smoke-provider-storage.mjs` builds a loopback-only Go WebDAV service and an Electron test entry point using the real main/engine modules. Each repository path requires its own provider account. Two vaults use distinct provider and repository passwords, including exact Unicode/whitespace passwords. Four create/restart pairs exercise real native Windows protection plus injected unavailable protection, encryption failure and protected-store write failure. Additional phases seed both legacy storage forms, migrate them, restart with protection, then reopen with a locked store.
 
@@ -92,6 +112,6 @@ The final built-smoke captures were reviewed in light/dark mode: the single cred
 - Full M2 renderer create/backup/history/restore with networking blocked, truthful restore terminal outcomes, explicit create/connect UX and review of connection's inherited repository migration remain open. This native fixture is not the desktop recovery journey.
 - Full F24 damaged-state/upgrade/downgrade coverage, sustained interruption/retention/maintenance behavior and diagnostic export remain later gates. Credential cleanup failures are surfaced; arbitrary damaged collection repair is not implemented.
 - WebDAV loopback evidence does not certify live WebDAV services, S3/B2/GCS/Azure/SFTP/Rclone credentials or macOS/Linux native stores. Full provider/platform matrices remain open.
-- The Windows workflow includes managed-core and provider checks, but this uncommitted slice has no clean-clone CI or installed-artifact result. Modified core source must be published and the gitlink advanced before clean CI can reproduce it. Existing installer artifacts and published CI certify the earlier branding/workspace slice.
+- Published Windows CI and installed-startup smoke cover this pinned slice. Full installed-artifact recovery, upgrades and release certification remain open.
 
-Related evidence: [password storage](m2-password-storage.md), [read-only discovery](m2-read-only-discovery.md), [provenance](../../UPSTREAM.md). No commit, push, tag or release is part of this verification handoff.
+Related evidence: [password storage](m2-password-storage.md), [read-only discovery](m2-read-only-discovery.md), [provenance](../../UPSTREAM.md).

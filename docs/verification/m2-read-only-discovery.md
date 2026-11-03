@@ -1,6 +1,6 @@
 # M2 slice — Nonmutating repository discovery in the owned core fork
 
-Initial verification: 2026-11-02; updated 2026-11-03 after managed-provider integration. Application working tree based on `main` at `d63593263db0a8f60b8b56240873a35b65009643`. Core working tree based on `e8955e7280edd9526b9f104f1592f233cfe6789b`; changes are uncommitted. The application gitlink still identifies that exact baseline. See [provenance](../../UPSTREAM.md).
+Initial verification: 2026-11-02; updated 2026-11-03 after managed-provider integration and source publication. Application base: `d63593263db0a8f60b8b56240873a35b65009643`; original core baseline: `e8955e7280edd9526b9f104f1592f233cfe6789b`. Changes are now merged into application `main` at `d45cda77b5a9c166a9d430fd3aabdd918730fc46`, with published core pin `aad67c688a05ce119859d49ca51bdf67787f0b99`. See [provenance](../../UPSTREAM.md) and [Windows CI](m2-provider-storage-design.md#source-publication-and-windows-ci).
 
 ## Scope and requirements
 
@@ -16,15 +16,15 @@ Discovery returns the existing identity and preserves exact supplied passwords. 
 
 ## Fork and build identity
 
-The owner approved `hoxsec/diskpond-core`, created as a fork of `blinkdisk/core`. `.gitmodules` and local `origin` select the owned fork; local `upstream` retains the original URL. Local core branch: `diskpond/m2-discovery`. No custom source commit or push was made.
+The owner approved `hoxsec/diskpond-core`, created as a fork of `blinkdisk/core`. `.gitmodules` and local `origin` select the owned fork; local `upstream` retains the original URL. Implementation branch `diskpond/m2-discovery` and core `main` are published; the application gitlink pins the merged revision above.
 
-The build still validates core HEAD against the index gitlink. It identifies locally modified builds as:
+The build validates core HEAD against the index gitlink. Initial local verification identified the modified baseline as:
 
 ```text
 0.0.0-diskpond-dev build: e8955e7280edd9526b9f104f1592f233cfe6789b-dirty from: hoxsec/diskpond-core
 ```
 
-The dirty source must be published to the owned core fork and the gitlink advanced before clean-clone CI can reproduce these changes. Existing published CI runs and installer artifacts certify the earlier branding/workspace slice, not this core work.
+The source is now published and the gitlink advanced, so clean Windows CI builds the same reviewed source at `aad67c688a05ce119859d49ca51bdf67787f0b99` without a `-dirty` suffix. Discovery and baseline-copy recovery, packaging and installed-startup smoke pass in both published runs linked above.
 
 ## Checks and reproduction
 
@@ -58,13 +58,14 @@ pnpm unused
 | Password smoke against the modified core | Pass, repeated after managed startup: all seven native phases and three repositories, including exact-password automatic reopening, interruption/reconnect, session-only/locked/failing protection and credential-file scans. |
 | Built desktop smoke with empty-destination assertion | Pass, repeated on the final production build: onboarding, preferences, IPC rejection and discovery leave the destination empty. Zero remote renderer/main-fetch requests in that exercised flow. |
 | Lint / dependency analysis | Initial discovery run passed 684 files and `pnpm unused`; current combined results are in the [provider-storage record](m2-provider-storage-design.md). |
-| Installed-artifact / live providers / other OSes / CI | Not rerun or certified by this slice. |
+| Windows CI / installed artifact | Published integration and merged-main runs pass discovery, packaging and installed-startup smoke. See the publication record linked above. |
+| Live providers / other OSes | Not certified by this slice. |
 
 The first server-regression attempt exposed two fixture assumptions: filesystem initialization returns an access error for a missing root, and Windows can defer directory timestamp updates from fixture creation. Corrected expectations preserve the access error and compare the complete entry set plus file metadata/hashes. No product workaround was needed for those two failures.
 
 ### Baseline compatibility fixture
 
-`scripts/smoke-discovery.mjs` builds the exact baseline from a disposable detached core worktree by default. `DISKPOND_BASELINE_CORE` can instead select an already-built clean baseline executable; the runner checks its printed revision. The default requires that baseline commit to exist in the local core object database. It never checks out over the working core changes. The temporary worktree, fixture profiles and repositories are removed after the run.
+`scripts/smoke-discovery.mjs` builds the exact baseline from a disposable detached core worktree by default. `DISKPOND_BASELINE_CORE` can instead select an already-built clean baseline executable; the runner checks its printed revision. The default requires that baseline commit to exist in the local core object database. CI explicitly fetches that exact revision after the shallow checkout; [DEVELOPMENT.md](../../DEVELOPMENT.md#prepare-the-checkout) documents the same command. It never checks out over the candidate core. The temporary worktree, fixture profiles and repositories are removed after the run.
 
 The clean baseline creates snapshot A containing empty files/directories, nested and Unicode paths, a 1 MiB file and a file later deleted. The source is changed/deleted/extended and snapshot B is created with forced hashing. Copies are prepared as current-name, legacy-name, current-without-`.shards`, and legacy-without-`.shards` repositories. A `{3,3}` sharding layout is deliberately used before removing the marker so these model readable older layouts rather than damaging newer `{1,3}` repositories. Legacy-name cases are constructed by renaming central blobs in the disposable copies; they are not a claim of testing every historical BlinkDisk release.
 
@@ -76,4 +77,4 @@ The current smoke runner disables the core's independent update check in its fix
 
 ## Subsequent credential integration
 
-The owner approved and the working tree implements Electron-owned OS-protected/session-only provider connections, metadata-only managed core configuration and migration of both inherited local credential forms. See [provider lifecycle, implementation and evidence](m2-provider-storage-design.md) and the updated [password slice](m2-password-storage.md). All source changes remain uncommitted; the original core gitlink and upstream provenance are preserved.
+The owner approved and the published implementation provides Electron-owned OS-protected/session-only provider connections, metadata-only managed core configuration and migration of both inherited local credential forms. See [provider lifecycle, implementation and evidence](m2-provider-storage-design.md) and the updated [password slice](m2-password-storage.md). The application pins the published core; the original baseline and upstream provenance remain recorded.

@@ -1,6 +1,6 @@
 # DiskPond development guide
 
-Updated 2026-11-03. The Windows x64 development baseline passes locally and on a fresh GitHub-hosted Windows runner. Subsequent uncommitted credential/discovery changes have local verification only. See [M1 evidence](docs/verification/m1-windows-baseline.md) and [M2 provider-storage evidence](docs/verification/m2-provider-storage-design.md) for results and later product gates.
+Updated 2026-11-03. The Windows x64 development baseline and merged M2 credential/discovery slice pass locally and in clean Windows CI on both integration and merged `main`, including packaging and installed smoke. See [M1 evidence](docs/verification/m1-windows-baseline.md), [M2 publication/evidence](docs/verification/m2-provider-storage-design.md#source-publication-and-windows-ci) and [TODO.md](TODO.md) for results and remaining product gates.
 
 ## Toolchain
 
@@ -28,7 +28,7 @@ If the Node installation directory is not writable, install the Corepack shims i
 
 ## Prepare the checkout
 
-Use `main`, which now includes the M1 baseline and initial M2 branding/local-workspace slice:
+Use `main`, which includes the M1 baseline and M2 branding/local-workspace, credential-storage and discovery slices:
 
 ```powershell
 git clone --branch main https://github.com/hoxsec/DiskPond.git
@@ -94,11 +94,11 @@ pnpm dev:desktop
 Remove-Item Env:DISKPOND_DATA_DIR
 ```
 
-The override must be absolute and is ignored in packaged builds. `DISKPOND_TEST_TMP` optionally sets the parent directory for smoke fixtures; it must already exist. The smoke runner deletes only the temporary directory it created. It blocks and fails on remote renderer HTTP(S) and main-process fetch requests, exercises keyboard onboarding, provider selection, settings/theme persistence and retired API rejection, and requires engine discovery to leave an empty disposable destination empty. Set `DISKPOND_SMOKE_CAPTURE_DIR` to retain screenshots. This assertion requires the [local owned-core discovery changes](docs/verification/m2-read-only-discovery.md); the unchanged upstream binary writes `.shards` and fails it. This smoke does not certify backup recovery or every network path.
+The override must be absolute and is ignored in packaged builds. `DISKPOND_TEST_TMP` optionally sets the parent directory for smoke fixtures; it must already exist. The smoke runner deletes only the temporary directory it created. It blocks and fails on remote renderer HTTP(S) and main-process fetch requests, exercises keyboard onboarding, provider selection, settings/theme persistence and retired API rejection, and requires engine discovery to leave an empty disposable destination empty. Set `DISKPOND_SMOKE_CAPTURE_DIR` to retain screenshots. This assertion requires the [pinned owned-core discovery changes](docs/verification/m2-read-only-discovery.md); the unchanged upstream binary writes `.shards` and fails it. This smoke does not certify backup recovery or every network path.
 
 Only packaged builds register the public DiskPond URI handler. Development/preview launches preserve any installed registration; Windows built/dev smoke checks compare its registry state before and after each run. Run the smoke commands sequentially in CI order: built, development, installed.
 
-The password fixture uses three independent local repositories and per-vault engine caches under temporary application data, and scans those fixtures for plaintext/base64 passwords. It does not use the development profile or certify backup/restore. See [password-storage evidence](docs/verification/m2-password-storage.md). The provider fixture adds real versioned restore/hash comparisons, distinct WebDAV credentials and both legacy migrations. It scans fixture profiles/storage/caches/temp files and captured output; live Windows-locked files require a strict post-exit scan. See [provider-storage evidence and limits](docs/verification/m2-provider-storage-design.md). Key-store failure injection exists only in test entry points. The Windows workflow includes both fixtures and session-only built smoke before development/installed smoke; these additions have not yet run in CI.
+The password fixture uses three independent local repositories and per-vault engine caches under temporary application data, and scans those fixtures for plaintext/base64 passwords. It does not use the development profile or certify backup/restore. See [password-storage evidence](docs/verification/m2-password-storage.md). The provider fixture adds real versioned restore/hash comparisons, distinct WebDAV credentials and both legacy migrations. It scans fixture profiles/storage/caches/temp files and captured output; live Windows-locked files require a strict post-exit scan. See [provider-storage evidence and limits](docs/verification/m2-provider-storage-design.md). Key-store failure injection exists only in test entry points. The Windows workflow includes both fixtures and session-only built smoke before development/installed smoke; all passed in both published runs linked above.
 
 `.env.template` documents the desktop defaults. Desktop builds no longer consume hosted API/cloud/web URLs or analytics keys. Auth, remote configuration sync, PostHog, LogSnag and Sentry execution have been removed from the desktop/main/preload dependency paths. Packaged update checks still use the DiskPond release feed; update preferences remain an M5 task.
 

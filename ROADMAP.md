@@ -1,7 +1,7 @@
 # DiskPond — Roadmap
 
 - **Updated:** 2026-11-03
-- **Current stage:** M1 complete; M2 branding/account-free workspace verified locally and in Windows CI, password/discovery/managed-provider slices have local evidence, desktop recovery gate open.
+- **Current stage:** M1 complete; M2 branding/account-free workspace and credential/discovery slices merged with local and passing integration/merged-main Windows CI evidence; desktop recovery gate open. [TODO.md](TODO.md) orders the next work.
 
 This roadmap implements the owner-approved scope in [PLAN.md](PLAN.md). Requirement IDs refer to its parity inventory. [STYLE.md](STYLE.md) defines the interface and [AGENTS.md](AGENTS.md) defines contributor workflow.
 
@@ -70,16 +70,18 @@ Evidence: [Windows checks and clean CI](docs/verification/m1-windows-baseline.md
 
 Verified slice: [owner artwork, local workspace and hosted-service removal](docs/verification/m2-branding-workspace.md), including built/development/installed Windows smoke. The slice is committed and merged into `main`; integration CI and merged-main CI both passed. The real-recovery gate remains open.
 
+Subsequent credential/discovery/provider changes are also merged into application/core `main`; both [integration CI](https://github.com/hoxsec/DiskPond/actions/runs/41548458540) and [merged-main CI](https://github.com/hoxsec/DiskPond/actions/runs/41550252893) passed, including Windows packaging and installed smoke. See the [publication record](docs/verification/m2-provider-storage-design.md#source-publication-and-windows-ci).
+
 - [x] Promote the existing local-account path to the default account-free workspace.
 - [x] Extract required contracts from cloud/API/database packages and remove hosted-service runtime requirements.
 - [x] Remove login, subscription, billing and CloudBlink entry points; eliminate background authentication/configuration-sync jobs.
 - [x] Remove analytics and crash-upload execution, build-time upload plugins and upstream service configuration.
 - [x] Apply DiskPond product identity, isolated storage paths and original UI tokens.
 - [ ] Implement create-versus-connect entry points with provider validation and safe existing-repository detection.
-  - [x] Nonmutating discovery in the owner-approved core fork: no `.shards` write on reads, no legacy migration from `/repo/exists`, no SFTP directory creation during discovery. [Local regressions and baseline-copy restore/hash evidence](docs/verification/m2-read-only-discovery.md); changes remain uncommitted. Separate entry points and explicit-connect migration review remain open.
+  - [x] Nonmutating discovery in the owner-approved core fork: no `.shards` write on reads, no legacy migration from `/repo/exists`, no SFTP directory creation during discovery. [Published regressions and baseline-copy restore/hash evidence](docs/verification/m2-read-only-discovery.md) pass locally and in Windows CI. Separate entry points and explicit-connect migration review remain open.
 - [x] Preserve secure vault-password handling; make unavailable secure storage a session-only mode rather than a silent plaintext fallback.
   - [Windows password evidence](docs/verification/m2-password-storage.md): OS-protected round-trip, failure/session-only/re-entry, legacy-cache handling, three-vault engine interruption/reconnect and credential-file scans. Managed startup now reopens exact whitespace passwords automatically. Later-OS runtime checks and full F24/DP01 remain open.
-  - [x] Implement owner-approved protected/session-only provider storage, metadata-only managed core connections, and migration of both inherited local provider copies. [Decision, implementation and native recovery evidence](docs/verification/m2-provider-storage-design.md). Changes remain uncommitted; live-provider and full desktop recovery certification remain open.
+  - [x] Implement owner-approved protected/session-only provider storage, metadata-only managed core connections, and migration of both inherited local provider copies. [Decision, published implementation and native recovery evidence](docs/verification/m2-provider-storage-design.md). Windows CI passes; live-provider and full desktop recovery certification remain open.
 - [ ] Supervise the local engine, expose meaningful startup/failure status, and keep its API local/authenticated.
   - Managed disconnected startup, confirmed connection results and retryable unexpected exits are covered by the credential slice. Broader job interruption and desktop failure/recovery flows remain open.
 - [ ] Complete one real local-source → encrypted vault → snapshot history → restored-file journey.
@@ -213,8 +215,8 @@ Each implementation issue should contain:
 
 Use small vertical tasks. For example: **P09 — create an SFTP vault with a known-host entry, back up a fixture, reconnect, restore and compare hashes**. A task named only “add SFTP UI” is insufficient.
 
-## First implementation session
+## Next implementation session
 
-M1 is complete: the integration branch/import, pinned core build, desktop command contract, baseline checks, runtime smoke, and service/platform inventories are recorded; the published Windows workflow passes. M2 branding/local workspace, vault-password fallback, owned-core nonmutating discovery and approved managed-provider storage have evidence to their recorded scope. Explicit create/connect behavior, truthful renderer restore outcomes and the desktop recovery gate remain open. Credential/core changes and their workflow additions are uncommitted and have no published CI result.
+M1 is complete. M2 branding/local workspace, vault-password fallback, owned-core nonmutating discovery and approved managed-provider storage are published and merged, with evidence to their recorded scope. The credential/core workflow passes on both the integration branch and merged `main`. Begin [TODO.md](TODO.md) with explicit create/connect behavior, then truthful renderer restore outcomes and the offline desktop recovery journey. Interruption/lifecycle and initial performance/network evidence complete the remaining M2 work.
 
-Release ownership, signing access, live provider test access and additional OS hardware remain project-owner inputs at their stated milestones. They do not block beginning M1.
+Release ownership, signing access, live provider test access and additional OS hardware remain project-owner inputs at their stated milestones. They do not block the next local M2 slice.

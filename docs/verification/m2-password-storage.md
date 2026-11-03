@@ -1,6 +1,6 @@
 # M2 slice — Protected vault passwords and session-only fallback
 
-Initial verification: 2026-11-02; updated 2026-11-03. Based on `main` at `d63593263db0a8f60b8b56240873a35b65009643`; implementation is uncommitted. The initial checks below used the unchanged core at `e8955e7280edd9526b9f104f1592f233cfe6789b`. Final integration checks use the same gitlink with local [discovery](m2-read-only-discovery.md) and [managed-provider storage](m2-provider-storage-design.md) changes.
+Initial verification: 2026-11-02; updated 2026-11-03. Implementation started from application `d63593263db0a8f60b8b56240873a35b65009643` and is now merged into `main` at `d45cda77b5a9c166a9d430fd3aabdd918730fc46`. The initial checks below used unchanged core `e8955e7280edd9526b9f104f1592f233cfe6789b`; final local checks used that baseline plus the reviewed discovery/managed-provider diff. The published core pin is `aad67c688a05ce119859d49ca51bdf67787f0b99`. See [source publication and Windows CI](m2-provider-storage-design.md#source-publication-and-windows-ci).
 
 ## Scope
 
@@ -78,7 +78,7 @@ Unit coverage exercises protected/session-only round-trips, restart memory loss,
 
 Built desktop smoke exercises the session-only notice and scheduled-backup implication, rejects password/settings IPC bypasses, and retains account-free keyboard onboarding, dialog focus return, theme changes, 200% navigation/scrolling and local settings persistence. The final session-only smoke also asserts exactly one password notice on Settings after correcting the layout's route detection. Visual review of the final `session/settings-light.png` and `session/settings-dark.png` captures confirms the single notice and readable re-entry/recovery guidance; `session/settings-200-percent.png` and `session/about-200-percent.png` show stacked controls and reachable content through scrolling. Captures are retained locally under `diskpond-m2-password-captures` in the approved session temporary directory. The notice uses semantic card/text colors and a text/icon status; full screen-reader certification remains open.
 
-The password fixture and session-only built smoke are added to the Windows workflow. They have not been run on CI for this uncommitted slice. The completed [main CI run](https://github.com/hoxsec/DiskPond/actions/runs/41531861201) certifies the earlier published branding/workspace slice only.
+The password fixture and session-only built smoke passed in [Windows integration run 41548458540](https://github.com/hoxsec/DiskPond/actions/runs/41548458540) and [merged-main run 41550252893](https://github.com/hoxsec/DiskPond/actions/runs/41550252893), alongside discovery/provider fixtures, packaging and built/development/installed smoke. See the [publication record](m2-provider-storage-design.md#source-publication-and-windows-ci). Earlier branding/workspace CI remains historical evidence for that slice only.
 
 ## Remaining blockers and limits
 
@@ -90,4 +90,4 @@ The password fixture and session-only built smoke are added to the Windows workf
 
 The owned development runner was stopped for production compilation; its `%APPDATA%\diskpond-dev` profile was preserved and was not used as a test fixture. Its later exit-code-1 notification is expected after that deliberate stop. Before exiting, the preview renderer logged `Core error: [NOT_FOUND] policy not found`. This is an unverified observation from the preserved developer profile, not recovery evidence; any investigation must reproduce it with disposable fixtures.
 
-Existing installer/win-unpacked snapshots still identify the earlier branding/workspace build; this slice has not been packaged, committed, pushed, tagged or released.
+The pre-publication local installer/win-unpacked snapshots represented the earlier branding/workspace build. Subsequent Windows CI packaged this published slice and passed installed-startup smoke on a clean runner. No tag or binary release was published.

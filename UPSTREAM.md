@@ -32,7 +32,7 @@ Do not replay the tree import over later work. A future clone recreates the core
 
 ## DiskPond modifications to upstream application files
 
-These changes are dated **2026-11-02**, during M1. Review them independently of the source import. The core source was unchanged at M1; subsequent local core changes are recorded below.
+These changes are dated **2026-11-02**, during M1. Review them independently of the source import. The core source was unchanged at M1; subsequent published core changes are recorded below.
 
 | Area | Changed inherited files / purpose |
 | --- | --- |
@@ -70,7 +70,7 @@ Evidence and scope: [read-only discovery](docs/verification/m2-read-only-discove
 
 ## M2 credential storage and managed-core changes
 
-These changes were verified locally on Windows through 2026-11-03, starting from application `d63593263db0a8f60b8b56240873a35b65009643` and the original core baseline. The core implementation is published at the pin above; the application integration and Windows CI are pending. The dependency lockfile is unchanged by this slice.
+These changes were verified locally on Windows through 2026-11-03, starting from application `d63593263db0a8f60b8b56240873a35b65009643` and the original core baseline. Application implementation [`07014e1`](https://github.com/hoxsec/DiskPond/commit/07014e1f9f058643a7fcb66132dd566523b33892) and exact-baseline CI fix [`f289baa`](https://github.com/hoxsec/DiskPond/commit/f289baa31edcdc48169f4dc1ee5f661ba5150647) were pushed on `integrate/m2-credentials`, then merged into `main` as [`d45cda7`](https://github.com/hoxsec/DiskPond/commit/d45cda77b5a9c166a9d430fd3aabdd918730fc46). The core implementation is published at the pin above. Both [integration](https://github.com/hoxsec/DiskPond/actions/runs/41548458540) and [merged-main](https://github.com/hoxsec/DiskPond/actions/runs/41550252893) Windows CI passed; see [publication evidence](docs/verification/m2-provider-storage-design.md#source-publication-and-windows-ci). The dependency lockfile is unchanged by this slice.
 
 | Area | Changed inherited files / purpose |
 | --- | --- |
@@ -79,7 +79,7 @@ These changes were verified locally on Windows through 2026-11-03, starting from
 | Engine supervision | Electron `src/vault/server.ts`, `manage.ts`, `fetch.ts`, `validate.ts` and new `reconnect.ts` start managed sidecars disconnected, supply exact credentials over authenticated loopback, confirm connection outcomes and handle failed/exited children. |
 | Core managed persistence | `cli/command_server_start.go`, `internal/server/{api_repo,server}.go`, `repo/{local_config,connect,open,caching,repository}.go` and new `repo/config_store.go` preserve metadata/cache/bandwidth with provider data in memory, reject standalone managed reopening and restore prior metadata after failed verification. Current throttler limits replace stale startup values in client-option saves. |
 | Core diagnostics | New `repo/managed_storage.go` redacts provider errors while preserving their identities. Managed connection/verification opens disable raw repository/content logs; main redacts process diagnostics. |
-| Verification | Core managed lifecycle/redaction tests, Electron IPC/persistence/reconnect regressions, password/provider/discovery smoke runners and a loopback-only `tests/tools/diskpond-webdav` fixture. The Windows workflow includes their checks but has not run these uncommitted changes. |
+| Verification | Core managed lifecycle/redaction tests, Electron IPC/persistence/reconnect regressions, password/provider/discovery smoke runners and a loopback-only `tests/tools/diskpond-webdav` fixture. The published Windows workflow passes these checks, packaging and built/development/installed smoke on integration and merged `main`. |
 
 The owner approved local migration of plaintext core connection JSON and inherited password-encrypted provider envelopes. Repository formats/encryption, Apache-2.0/AGPL notices, and the inherited Go module path are retained. Managed-mode changes are distinct from the earlier discovery fixes and remain separately inspectable by file/hunk. See [password evidence](docs/verification/m2-password-storage.md) and [provider decision/implementation/evidence](docs/verification/m2-provider-storage-design.md).
 
