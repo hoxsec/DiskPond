@@ -85,13 +85,13 @@ Subsequent credential/discovery/provider changes are also merged into applicatio
 - [x] Preserve secure vault-password handling; make unavailable secure storage a session-only mode rather than a silent plaintext fallback.
   - [Windows password evidence](docs/verification/m2-password-storage.md): OS-protected round-trip, failure/session-only/re-entry, legacy-cache handling, three-vault engine interruption/reconnect and credential-file scans. Managed startup now reopens exact whitespace passwords automatically. Later-OS runtime checks and full F24/DP01 remain open.
   - [x] Implement owner-approved protected/session-only provider storage, metadata-only managed core connections, and migration of both inherited local provider copies. [Decision, published implementation and native recovery evidence](docs/verification/m2-provider-storage-design.md). Windows CI passes; live-provider and full desktop recovery certification remain open.
-- [ ] Supervise the local engine, expose meaningful startup/failure status, and keep its API local/authenticated.
-  - Managed disconnected startup, confirmed connection results and retryable unexpected exits are covered by the credential slice. Broader job interruption and desktop failure/recovery flows remain open.
+- [x] Supervise the local engine, expose meaningful startup/failure status, and keep its API local/authenticated.
+  - Managed disconnected startup and confirmed connection results are covered by the credential slice. [Desktop lifecycle evidence](docs/verification/m2-desktop-recovery.md) adds active-backup interruption, unavailable-storage retry and recovery; native restore interruption is separately verified.
 - [x] Complete one real local-source → encrypted vault → snapshot history → restored-file journey. [Built-desktop local evidence](docs/verification/m2-desktop-recovery.md); broader offline/platform cases remain open.
 - [x] Verify changed/deleted source contents can be restored from the correct version. Both versions pass renderer restore/hash checks before and after restart.
 - [ ] Distinguish restore success, partial completion and failure in the vertical slice.
   - [Local native coordinator and renderer-component evidence](docs/verification/m2-restore-outcomes.md) covers explicit terminal states, kept results, cancellation/interruption, hashes, keep-both/overwrite and truthful ZIP omissions. Source handoff is authorized; clean CI, full-volume and full renderer recovery evidence remain open.
-- [ ] Verify restart, window-close/tray behavior and persisted local settings.
+- [x] Verify restart, window-close/tray behavior and persisted local settings. Both credential modes and owned-child cleanup pass locally in the desktop recovery fixture.
 - [ ] Record initial performance and network observations.
 
 **Gate:** Q01 passes with a real engine and disposable local data; local creation, backup, restore and restart work with networking blocked. DiskPond coexists with BlinkDisk without sharing settings or credentials.

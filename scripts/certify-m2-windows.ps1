@@ -66,6 +66,8 @@ assign letter=$letter
     $env:DISKPOND_OFFLINE_CERTIFICATION = '1'
     & pnpm smoke:recovery
     if ($LASTEXITCODE -ne 0) { throw 'Offline desktop recovery failed.' }
+    & pnpm smoke:recovery --session-passwords
+    if ($LASTEXITCODE -ne 0) { throw 'Offline session-only desktop recovery failed.' }
     Write-Output 'M2 bounded full-volume and firewall-blocked desktop recovery passed.'
 } finally {
     Remove-Item Env:DISKPOND_FULL_VOLUME -ErrorAction SilentlyContinue

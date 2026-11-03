@@ -2,11 +2,15 @@ const assert = require("node:assert/strict");
 const { createHash, randomBytes } = require("node:crypto");
 const {
   mkdir,
+  chmod,
+  open,
   readFile,
+  readlink,
   readdir,
   rename,
   rm,
   stat,
+  symlink,
   writeFile,
 } = require("node:fs/promises");
 const { join } = require("node:path");
@@ -73,6 +77,11 @@ async function recoverVault({
       if (entry.isDirectory()) {
         result[name] = { type: "directory" };
         Object.assign(result, await inventory(root, name));
+      } else if (entry.isSymbolicLink()) {
+        result[name] = {
+          type: "symlink",
+          target: await readlink(join(root, name)),
+        };
       } else {
         assert(entry.isFile(), "Unexpected fixture entry type");
         const path = join(root, name);
@@ -82,6 +91,7 @@ async function recoverVault({
             .update(await readFile(path))
             .digest("hex"),
           modified: Math.round((await stat(path)).mtimeMs / 1000),
+          readonly: ((await stat(path)).mode & 0o222) === 0,
         };
       }
     }
@@ -124,6 +134,17 @@ async function recoverVault({
   if (phase === "setup") {
     await mkdir(join(source, "nested 雪", "empty-folder"), { recursive: true });
     await writeFile(join(source, "empty.txt"), "");
+    await writeFile(join(source, "readonly.txt"), "Read-only fixture");
+    await chmod(join(source, "readonly.txt"), 0o444);
+    try {
+      await symlink("empty.txt", join(source, "empty-link"), "file");
+    } catch (error) {
+      if (error.code !== "EPERM") throw error;
+      console.info(
+        "Source symlink fixture unavailable: Windows symlink privilege is absent.",
+      );
+      if (process.env.DISKPOND_OFFLINE_CERTIFICATION === "1") throw error;
+    }
     await writeFile(
       join(source, "deleted.txt"),
       "Recover this from snapshot A",
@@ -142,6 +163,12 @@ async function recoverVault({
     } else {
       await contents.executeJavaScript("location.hash = '#/local'");
     }
+    await contents.executeJavaScript(
+      `window.electron.store.set('preferences.theme', ${JSON.stringify(vaultIndex ? "dark" : "light")})`,
+    );
+    await contents.executeJavaScript(
+      `window.electron.zoom(${vaultIndex ? 2 : 1})`,
+    );
     await text(contents, "Create a new vault");
     await destination(contents, "CREATE", `vault-${vaultIndex}`);
     await text(contents, "Confirm encryption password");
@@ -167,6 +194,20 @@ async function recoverVault({
     await waitFor(contents, "!document.querySelector('[role=dialog]')");
     await text(contents, "No backups yet");
     const sourceRoute = await contents.executeJavaScript("location.hash");
+    if (!vaultIndex) {
+      const vaultId = sourceRoute.split("/")[2];
+      const policy = await contents.executeJavaScript(`(async () => {
+        const headers = { 'vault-id': ${JSON.stringify(vaultId)}, 'content-type': 'application/json' };
+        const missing = await fetch('diskpondapp://vault/api/v1/policy?host=unused-fixture-host', { headers }).then(response => response.json());
+        const resolved = await fetch('diskpondapp://vault/api/v1/policy/resolve?host=unused-fixture-host', { method: 'POST', headers, body: JSON.stringify({ numUpcomingSnapshotTimes: 0 }) }).then(response => response.json());
+        return { missing, resolved };
+      })()`);
+      assert.equal(policy.missing.code, "NOT_FOUND");
+      assert(policy.resolved.effective && !policy.resolved.code);
+      console.info(
+        "Recovery: undefined host policy returns NOT_FOUND while effective inherited policy resolves.",
+      );
+    }
     const expectedA = await inventory(source);
     const [a] = await backup(1, sourceRoute);
     await writeFile(
@@ -217,11 +258,91 @@ async function recoverVault({
         "Unchanged backup must finish successfully",
       );
       measure("backup-unchanged", started);
+      if (process.env.DISKPOND_RECOVERY_SESSION_PASSWORDS !== "1") {
+        // A bounded, incompressible source keeps a real backup active long
+        // enough to cancel/terminate it through the desktop, without fake jobs.
+        const cancellationPath = join(source, "cancel.bin");
+        const file = await open(cancellationPath, "wx");
+        try {
+          for (let i = 0; i < 16; i++)
+            await file.writeFile(randomBytes(32 * 1024 * 1024));
+        } finally {
+          await file.close();
+        }
+        for (const operation of ["cancel", "terminate"]) {
+          const oldIds = new Set((await tasks()).map((task) => task.id));
+          await waitFor(
+            contents,
+            "[...document.querySelectorAll('button')].some(button => button.textContent.trim() === 'Backup folder' && !button.disabled)",
+          );
+          await activate(contents, "Backup folder");
+          await text(contents, "Cancel backup");
+          if (operation === "cancel") {
+            await activate(contents, "Cancel backup");
+            const deadline = Date.now() + 60_000;
+            let result;
+            while (Date.now() < deadline) {
+              result = (await tasks()).find(
+                (task) =>
+                  task.kind === "Snapshot" &&
+                  !oldIds.has(task.id) &&
+                  ["SUCCESS", "FAILED", "CANCELED"].includes(task.status),
+              );
+              if (result) break;
+              await delay(100);
+            }
+            assert.equal(
+              result?.status,
+              "CANCELED",
+              "Backup cancellation requires terminal confirmation",
+            );
+          } else {
+            assert(
+              (await tasks()).some(
+                (task) =>
+                  task.kind === "Snapshot" &&
+                  !oldIds.has(task.id) &&
+                  task.status === "RUNNING",
+              ),
+              "Backup must still be running at interruption",
+            );
+            await interrupt(vaultId);
+            await text(contents, "Retry");
+            await activate(contents, "Retry");
+          }
+          await text(contents, "Backup folder");
+          console.info(
+            `Recovery: active backup ${operation} completed; earlier snapshots remain available.`,
+          );
+        }
+        await rm(cancellationPath);
+      }
     }
   } else {
     state = JSON.parse(await readFile(statePath, "utf8"));
     await contents.executeJavaScript("location.hash = '#/local'");
     await text(contents, "Vaults");
+    if (process.env.DISKPOND_RECOVERY_SESSION_PASSWORDS === "1") {
+      await contents.executeJavaScript(
+        `location.hash = ${JSON.stringify(state.sourceRoute)}`,
+      );
+      await text(contents, "Set up vault");
+      await text(contents, "before scheduled backups can resume");
+      await fill(
+        contents,
+        "password",
+        ` exact recovery password 雪 ${vaultIndex} `,
+      );
+      await activate(contents, "Continue");
+      await text(contents, "Select destination folder");
+      select(join(directory, `vault-${vaultIndex}`));
+      await activate(contents, "Select destination folder");
+      await activate(contents, "Continue");
+      await text(contents, "Backup folder");
+      console.info(
+        `Recovery session-only vault ${vaultIndex}: restart requires exact password/provider re-entry.`,
+      );
+    }
     if (vaultIndex === 0) {
       const vaultId = state.sourceRoute.split("/")[2];
       await contents.executeJavaScript(
@@ -235,8 +356,11 @@ async function recoverVault({
       await rename(repository, detached);
       try {
         await activate(contents, "Retry");
-        await text(contents, "Starting vault");
-        await text(contents, "Retry");
+        await waitFor(
+          contents,
+          "[...document.querySelectorAll('button')].some(button => button.textContent.trim() === 'Retry' && !button.disabled)",
+        );
+        await text(contents, "Vault unavailable");
       } finally {
         await rename(detached, repository);
       }

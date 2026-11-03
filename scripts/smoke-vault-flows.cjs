@@ -2,7 +2,17 @@ const assert = require("node:assert/strict");
 const { mkdir, readFile, readdir, rm, writeFile } = require("node:fs/promises");
 const { join } = require("node:path");
 const { pathToFileURL } = require("node:url");
-const { app, BrowserWindow, dialog, session, Tray } = require("electron");
+const {
+  app,
+  BrowserWindow,
+  dialog,
+  safeStorage,
+  session,
+  Tray,
+} = require("electron");
+
+if (process.env.DISKPOND_RECOVERY_SESSION_PASSWORDS === "1")
+  safeStorage.isEncryptionAvailable = () => false;
 
 let recoveryStarted = false;
 let trayMenu;
@@ -10,6 +20,10 @@ const corePids = [];
 const coreProcesses = new Map();
 const networkRequests = [];
 if (process.env.DISKPOND_RECOVERY_PHASE) {
+  app.setPath(
+    "appData",
+    join(process.env.DISKPOND_VAULT_FIXTURE, "os-app-data"),
+  );
   const isRemote = (value) => {
     const url = new URL(value);
     return (
@@ -274,6 +288,26 @@ app.on("browser-window-created", (_, window) => {
           join(directory, "core-pids.json"),
           JSON.stringify(corePids),
         );
+        if (process.platform === "win32") {
+          const live = [...coreProcesses.values()]
+            .filter((child) => child.exitCode === null && !child.killed)
+            .map((child) => child.pid);
+          assert(live.length >= 2);
+          console.info(
+            "Recovery core working sets:",
+            require("node:child_process")
+              .execFileSync(
+                "powershell.exe",
+                [
+                  "-NoProfile",
+                  "-Command",
+                  `Get-Process -Id ${live.join(",")} | Select-Object Id,WorkingSet64 | ConvertTo-Json -Compress`,
+                ],
+                { encoding: "utf8", timeout: 10_000 },
+              )
+              .trim(),
+          );
+        }
         return finish();
       }
       if (process.env.DISKPOND_VAULT_PHASE === "restart") {

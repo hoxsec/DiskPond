@@ -43,15 +43,15 @@ Work through the M2 items below in order. [ROADMAP.md](ROADMAP.md) owns mileston
   - Empty entries, nested Unicode and a 32-MiB file pass in the desktop fixture; link/permission metadata remains open.
 - [ ] Repeat after quitting/restarting with networking blocked; include multiple independent vaults and exact whitespace-bearing passwords.
   - Two-vault restart and exact distinct whitespace passwords pass with remote Chromium/main-fetch requests blocked. CI adds scoped OS firewall blocking; its result is pending.
-- [ ] Confirm account-free operation and coexistence with BlinkDisk's profile/registration; exercise the critical journey in both themes, with keyboard navigation and 200% zoom.
+- [x] Confirm account-free operation and coexistence with BlinkDisk's profile/registration; exercise the critical journey in both themes, with keyboard navigation and 200% zoom. Isolated baseline-named profile sentinels and existing registration snapshots remain unchanged; this is namespace isolation, not simultaneous upstream-process certification.
 - [x] Add a reproducible desktop recovery acceptance fixture and evidence under `docs/verification/`. `pnpm smoke:recovery` passes locally and is added to Windows CI; clean CI execution remains pending.
 
 ## 4. Interruption, restart and desktop lifecycle
 
 **Requirements:** basic F05/F22/F24, DP01 / Q05, Q07.
 
-- [ ] Exercise backup/restore cancellation, core termination, application restart and unavailable storage; show actionable retry/re-entry status and retain recoverable snapshots.
-- [ ] Verify protected and session-only credentials across desktop restart, including the need to reconnect before unattended backups resume.
+- [x] Exercise backup/restore cancellation, core termination, application restart and unavailable storage; show actionable retry/re-entry status and retain recoverable snapshots. Native restore interruption and desktop active-backup cancellation/termination preserve recovery; see [desktop evidence](docs/verification/m2-desktop-recovery.md).
+- [x] Verify protected and session-only credentials across desktop restart, including the need to reconnect before unattended backups resume. Both desktop credential modes pass exact-password/provider re-entry and recovery.
 - [x] Verify window close versus tray quit, persisted settings, startup failure reporting and owned-child cleanup without orphan sidecars. [Expanded local recovery](docs/verification/m2-desktop-recovery.md) passes; missing-storage startup now preserves a retryable failure instead of showing setup.
 
 ## 5. Initial network and performance evidence
@@ -59,12 +59,12 @@ Work through the M2 items below in order. [ROADMAP.md](ROADMAP.md) owns mileston
 **Requirements:** DP03 / Q06, Q09.
 
 - [ ] Observe renderer, Electron and core network activity during the complete local journey and restart. Record update behavior and verify no hosted-auth, sync, analytics or crash-upload traffic.
-- [ ] Record hardware/toolchain/dataset, unchanged and incremental backup times, large-directory browsing, sustained restore, UI responsiveness, and memory/log/cache growth.
-- [ ] Publish reproducible commands, observed results and limitations. The existing zero-remote-fetch smoke assertion is only scoped startup evidence.
+- [x] Record hardware/toolchain/dataset, unchanged and incremental backup times, large-directory browsing, sustained restore, UI responsiveness, and memory/log/cache growth. Initial 32-MiB/512-entry measurements and per-process/app-data observations are in [desktop evidence](docs/verification/m2-desktop-recovery.md); long-duration profiling remains later work.
+- [x] Publish reproducible commands, observed results and limitations. The broader OS-blocked network result still requires CI.
 
 ## Observed issue to reproduce during M2
 
-- [ ] Investigate `Core error: [NOT_FOUND] policy not found` using a disposable source/policy fixture (**F08/F24**). It was observed in the preserved developer profile and is not yet a confirmed regression. Distinguish expected missing/inherited policy from an actual failure before choosing a fix; preserve that profile and its repositories.
+- [x] Investigate `Core error: [NOT_FOUND] policy not found` using a disposable source/policy fixture (**F08/F24**). A missing host definition reproduces `NOT_FOUND` while effective inherited policy resolution succeeds; the query already handles it and the API wrapper logs it first. [Evidence](docs/verification/m2-desktop-recovery.md). The preserved developer profile was not changed; wider policy behavior remains M4.
 
 ## M2 completion gate
 
