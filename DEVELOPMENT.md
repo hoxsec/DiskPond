@@ -1,6 +1,6 @@
 # DiskPond development guide
 
-Updated 2026-11-03. The Windows x64 development baseline and merged M2 credential/discovery slice pass locally and in clean Windows CI on both integration and merged `main`, including packaging and installed smoke. See [M1 evidence](docs/verification/m1-windows-baseline.md), [M2 publication/evidence](docs/verification/m2-provider-storage-design.md#source-publication-and-windows-ci) and [TODO.md](TODO.md) for results and remaining product gates.
+Updated 2026-11-03. The Windows x64 development baseline and merged M2 credential/discovery slice pass locally and in clean Windows CI on both integration and merged `main`, including packaging and installed smoke. The published explicit create/connect slice also passes [clean Windows CI](https://github.com/hoxsec/DiskPond/actions/runs/41624170742). See [M1 evidence](docs/verification/m1-windows-baseline.md), [M2 publication/evidence](docs/verification/m2-provider-storage-design.md#source-publication-and-windows-ci), [create/connect evidence](docs/verification/m2-create-connect.md) and [TODO.md](TODO.md) for results and remaining product gates.
 
 ## Toolchain
 
@@ -56,7 +56,7 @@ pnpm --filter @blinkdisk/electron exec install-electron
 
 First setup/build needs network access for package/Go modules, Electron and packager tools. Normal desktop startup needs no API or database service.
 
-The create/connect slice adds a core initialization guard included in the published pin above. The owner-authorized source handoff advances the application gitlink to this exact revision. Local checks passed before publication; clean Windows CI for this slice is pending. See [create/connect evidence](docs/verification/m2-create-connect.md).
+The create/connect slice adds a core initialization guard included in the published pin above. The owner-authorized source handoff advances the application gitlink to this exact revision. Local checks and clean Windows CI pass, including packaging, renderer create/connect, native recovery, development and installed smoke. See [create/connect evidence](docs/verification/m2-create-connect.md).
 
 ## Commands from the repository root
 
