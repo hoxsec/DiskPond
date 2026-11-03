@@ -1,6 +1,6 @@
 # DiskPond — Roadmap
 
-Updated: 2026-11-03. The owner has authorized **v0.1.0**, DiskPond's first stable public Windows release (D15).
+Updated: 2026-11-03. **[v0.1.0](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.0)**, DiskPond's first stable public Windows release, is published as GitHub Latest (D15).
 
 ## Now — First stable public release
 
@@ -8,7 +8,7 @@ Updated: 2026-11-03. The owner has authorized **v0.1.0**, DiskPond's first stabl
 - [x] Deliver the graphite/blue identity, history/profile return navigation, snapshot comparison and Home-level Activity tab (DP04–DP06).
 - [x] Add the GitHub update banner and Settings **Check for updates** (F25).
 - [x] Fix cold-start comparison translations, refresh the README with features/screenshots and remove obsolete root service setup files.
-- [ ] Publish **v0.1.0** as the latest stable release after the compact Windows check; verify downloaded assets. [Release record](docs/verification/windows-v0.1.0.md).
+- [x] Publish **v0.1.0** as the latest stable release. Compact Windows release CI and all 10 downloaded asset checksums passed. [Release record](docs/verification/windows-v0.1.0.md).
 
 ## Next — Improve through actual use
 

@@ -1,6 +1,6 @@
 # GitHub release update banner — F25
 
-Date: 2026-11-03. Implemented and locally verified in `8a85153`; included in the owner-authorized [v0.1.0 release batch](windows-v0.1.0.md).
+Date: 2026-11-03. Implemented and locally verified in `8a85153`; shipped in the verified [v0.1.0 release](windows-v0.1.0.md).
 
 Version follow-up: the Electron package's local version initially advanced to `0.1.0-alpha.3`, then to `0.1.0` for the first stable release. Settings and updater comparisons both use Electron's `app.getVersion()`. Tagged installers retain the existing tag-derived version override; untagged installer smoke reads the package version. Bump the package version when advancing the local release baseline.
 

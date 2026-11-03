@@ -1,7 +1,7 @@
 # DiskPond — Product and Engineering Plan
 
 - **Updated:** 2026-11-03
-- **Status:** The owner has authorized **v0.1.0**, the first stable public Windows release, including the update banner, comparison-label fix and public README refresh. [Release verification](docs/verification/windows-v0.1.0.md) tracks publication. Broad certification remains deferred.
+- **Status:** **v0.1.0**, the first stable public Windows release, is published as GitHub Latest from `4d48be4`, including the update banner, comparison-label fix and public README refresh. [Release CI and downloaded checksums passed](docs/verification/windows-v0.1.0.md). Broad certification remains deferred.
 - **Delivery:** One developer assisted by coding tools; quality-first, milestone-driven.
 
 DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It preserves inherited desktop and bring-your-own-storage functionality, uses its Kopia-based engine, and provides an original, calm interface. Windows x64 is the current release platform; macOS/Linux and full parity are deferred.
@@ -326,4 +326,4 @@ Store evidence under `docs/verification/` with requirement IDs, commits, engine 
 
 The product reaches the full desktop/BYO parity milestone only when every applicable P/F/DP requirement is demonstrated on its required platform(s), all platform/support gaps are resolved or explicitly re-scoped by the owner, and backup recovery succeeds from a fresh installation. Documentation must state the exact supported versions and the X01–X05 exclusions/replacements.
 
-**The first stable Windows release is authorized:** [v0.1.0 release record](docs/verification/windows-v0.1.0.md). M1/M2, the M3 kickoff and all three alpha releases retain their recorded evidence; further certification is deferred under D13. [TODO.md](TODO.md) lists the immediate work.
+**The first stable Windows release is published and verified:** [v0.1.0 release record](docs/verification/windows-v0.1.0.md). M1/M2, the M3 kickoff and all three alpha releases retain their recorded evidence; further certification is deferred under D13. [TODO.md](TODO.md) lists the immediate work.
