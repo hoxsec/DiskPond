@@ -1,6 +1,15 @@
 # DiskPond — Next work
 
-Updated: 2026-11-03. **M2 complete — next milestone: M3 storage breadth.**
+Updated: 2026-11-03. **M2 complete — active milestone: M3 storage breadth.**
+
+## Active M3 work
+
+- [x] Compare inherited provider fields/aliases/mappings with the pinned baseline and core contracts; record the [provider matrix and prerequisites](docs/verification/m3-storage-breadth.md).
+- [ ] Verify the GCS JSON-payload and SFTP scanner fixes in the final Windows CI run.
+- [ ] Add isolated S3-compatible/SFTP fixtures and Rclone helper failure coverage; exercise renderer provider flows and second-profile recovery.
+- [ ] Acquire isolated AWS/B2/GCS/Azure/WebDAV credentials and USB/NAS hardware; complete each provider's recovery/failure gates. Missing access is blocked, not passed.
+
+## Completed M2 history
 
 Final [Windows CI 41639380823](https://github.com/hoxsec/DiskPond/actions/runs/41639380823) passes at application `fb077fa`, core `0f31eef`. [Closure evidence](docs/verification/m2-desktop-recovery.md#final-windows-ci-and-m2-closure) supersedes the earlier pending/local-only notes below. Continue with M3; the M2 sequence is retained as history.
 

@@ -1,7 +1,7 @@
 # DiskPond — Roadmap
 
 - **Updated:** 2026-11-03
-- **Current stage:** M1 and M2 complete. The Windows local-backup alpha passes clean CI, including offline desktop recovery and full-volume failures. M3 storage breadth is next. [TODO.md](TODO.md) orders the next work.
+- **Current stage:** M1 and M2 complete. M3 storage breadth is in progress: provider audit, GCS credential payload and SFTP scanning fixes. Live providers/hardware remain blocked. [TODO.md](TODO.md) orders the next work.
 
 This roadmap implements the owner-approved scope in [PLAN.md](PLAN.md). Requirement IDs refer to its parity inventory. [STYLE.md](STYLE.md) defines the interface and [AGENTS.md](AGENTS.md) defines contributor workflow.
 
@@ -23,7 +23,7 @@ Effort is relative complexity, not a calendar estimate: **M** = contained integr
 | M0 | Agreed scope and planning documents | Owner answers, source review | M | Complete |
 | M1 | Reproducible fork and Windows development build | M0 | M | Complete — local and clean Windows CI pass |
 | M2 | Independent DiskPond local-backup vertical slice | M1 | L | Complete — clean Windows CI and offline desktop recovery pass |
-| M3 | All BYO providers and existing-repository connectivity | M2 | L | Not started |
+| M3 | All BYO providers and existing-repository connectivity | M2 | L | In progress — provider audit and connection fixes |
 | M4 | Complete Windows backup/policy/recovery workflows | M3 | XL | Not started |
 | M5 | Portable setup and release-ready Windows product | M4 | L | Not started |
 | M6 | macOS and Linux parity certification | M5 | XL | Not started |
@@ -101,6 +101,8 @@ Subsequent credential/discovery/provider changes are also merged into applicatio
 ## M3 — Storage breadth and existing-vault compatibility
 
 **Requirements:** P02–P11, F03, basic F20.
+
+Kickoff: [provider audit, connection fixes, prerequisites and evidence matrix](docs/verification/m3-storage-breadth.md). Full provider certification remains open.
 
 - [ ] Preserve all provider form fields, validation, aliases and mapping behavior.
 - [ ] Certify external drives and NAS/UNC paths, including disconnection and reconnection.
@@ -221,6 +223,6 @@ Use small vertical tasks. For example: **P09 — create an SFTP vault with a kno
 
 ## Next implementation session
 
-M1 is complete. M2 branding/local workspace, vault-password fallback, owned-core nonmutating discovery and approved managed-provider storage are published and merged, with evidence to their recorded scope. The credential/core workflow passes on both the integration branch and merged `main`. Explicit create/connect is published with the core guard pinned and passing clean Windows CI. Continue [TODO.md](TODO.md) with truthful renderer restore outcomes, then the offline desktop recovery journey. Interruption/lifecycle and initial performance/network evidence complete the remaining M2 work.
+M1 and M2 are complete. Continue M3 with isolated provider service fixtures, renderer provider journeys and second-profile recovery using the [M3 evidence matrix](docs/verification/m3-storage-breadth.md). Acquire isolated live-provider access and USB/NAS hardware for the remaining gates.
 
-Release ownership, signing access, live provider test access and additional OS hardware remain project-owner inputs at their stated milestones. They do not block the next local M2 slice.
+Release ownership, signing access, live provider test access and additional OS hardware remain project-owner inputs at their stated milestones. Live provider access and USB/NAS hardware block their M3 certification cells, not the isolated-service work.

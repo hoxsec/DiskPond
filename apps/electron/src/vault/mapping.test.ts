@@ -77,16 +77,35 @@ describe("mapConfigFields", () => {
     });
   });
 
-  it("passes through fields without mapping", () => {
+  it("sends GCS credential JSON as an object while preserving other fields", () => {
+    const credentials = {
+      type: "service_account",
+      private_key: "fixture-key",
+      client_email: "fixture@example.invalid",
+    };
     const result = mapConfigFields("GOOGLE_CLOUD_STORAGE", {
       bucket: "my-bucket",
-      credentials: "creds",
+      prefix: "backups/",
+      credentials: JSON.stringify(credentials),
     });
 
     expect(result).toEqual({
       bucket: "my-bucket",
-      credentials: "creds",
+      prefix: "backups/",
+      credentials,
     });
+  });
+
+  it.each([
+    "secret-not-json",
+    '"secret-string"',
+    "null",
+    "[]",
+    "42",
+  ])("rejects invalid GCS credentials without leaking parser input %s", (credentials) => {
+    expect(() =>
+      mapConfigFields("GOOGLE_CLOUD_STORAGE", { credentials }),
+    ).toThrow("Invalid provider configuration");
   });
 
   it("maps Azure fields", () => {

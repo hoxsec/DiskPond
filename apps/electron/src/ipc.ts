@@ -114,7 +114,10 @@ ipcMain.handle("fs.folderSize", (_, path) => folderSize(path));
 ipcMain.handle("fs.isDirectory", (_, path) => isDirectory(path));
 ipcMain.handle("fs.sourceType", (_, path) => sourceType(path));
 ipcMain.handle("fs.sourceSize", (_, path) => sourceSize(path));
-ipcMain.handle("ssh.keyscan", (_, form) => sshKeyscan(form));
+ipcMain.handle("ssh.keyscan", (event, form) => {
+  requireMainWindow(event);
+  return sshKeyscan(form);
+});
 ipcMain.handle("update.status", () => getUpdateStatus());
 ipcMain.handle("update.install", () => installUpdate());
 

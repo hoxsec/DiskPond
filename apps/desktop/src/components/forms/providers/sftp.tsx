@@ -1,4 +1,4 @@
-import { FormDisabledContext, useStore } from "@blinkdisk/forms/use-app-form";
+import { FormDisabledContext } from "@blinkdisk/forms/use-app-form";
 import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
 import type { ZSftpConfigType } from "@blinkdisk/schemas/providers";
 import { Alert, AlertDescription, AlertTitle } from "@blinkdisk/ui/alert";
@@ -27,15 +27,22 @@ export function SftpForm({ action, config, onSubmit }: SftpFormProps) {
     onSubmit,
   });
 
-  const values = useStore(form.store, (store) => store.values);
-
   const {
-    mutateAsync: scan,
+    mutate: scan,
     error,
     isPending,
   } = useMutation({
     mutationFn: async () => {
-      const result = await window.electron.ssh.keyscan(values);
+      const host = form.getFieldValue("host");
+      const port = form.getFieldValue("port");
+      const knownHosts = form.getFieldValue("knownHosts");
+      const result = await window.electron.ssh.keyscan({ host, port });
+      if (
+        host !== form.getFieldValue("host") ||
+        port !== form.getFieldValue("port") ||
+        knownHosts !== form.getFieldValue("knownHosts")
+      )
+        return;
       if (result.error) throw result.error;
 
       form.setFieldValue("knownHosts", result.output || "");
@@ -123,7 +130,7 @@ export function SftpForm({ action, config, onSubmit }: SftpFormProps) {
             ) : null}
             <Button
               variant="secondary"
-              disabled={disabledContext}
+              disabled={disabledContext || isPending}
               onClick={() => scan()}
               loading={isPending}
               type="button"

@@ -18,7 +18,24 @@ export function mapConfigFields(
   const mapped: Record<string, unknown> = {};
 
   for (const [key, value] of Object.entries(config)) {
-    if (provider.coreMapping?.[key]) {
+    if (provider.type === "GOOGLE_CLOUD_STORAGE" && key === "credentials") {
+      // The form stores JSON text; the engine expects a JSON object, not a
+      // JSON-encoded string (gcs.Options.ServiceAccountCredentialJSON).
+      try {
+        const credentials: unknown =
+          typeof value === "string" ? JSON.parse(value) : value;
+        if (
+          !credentials ||
+          typeof credentials !== "object" ||
+          Array.isArray(credentials)
+        )
+          throw new Error("Invalid credentials");
+        mapped[key] = credentials;
+      } catch {
+        // JSON parser errors can include fragments of the private key.
+        throw new Error("Invalid provider configuration");
+      }
+    } else if (provider.coreMapping?.[key]) {
       mapped[provider.coreMapping[key]] = value;
     } else {
       mapped[key] = value;
