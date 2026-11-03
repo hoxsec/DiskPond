@@ -2,13 +2,14 @@
 
 - **Updated:** 2026-11-03
 - **Status:** **v0.1.0**, the first stable public Windows release, is published as GitHub Latest from `4d48be4`, including the update banner, comparison-label fix and public README refresh. [Release CI and downloaded checksums passed](docs/verification/windows-v0.1.0.md). Broad certification remains deferred.
+- **Authorized follow-up:** the owner requested committing/pushing the current batch and publishing **v0.1.1**, including available storage, compact Activity rows and the Windows pnpm launcher fix. [Release preparation](docs/verification/windows-v0.1.1.md).
 - **Delivery:** One developer assisted by coding tools; quality-first, milestone-driven.
 
 DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It preserves inherited desktop and bring-your-own-storage functionality, uses its Kopia-based engine, and provides an original, calm interface. Windows x64 is the current release platform; macOS/Linux and full parity are deferred.
 
 ### Active scope override — 2026-11-03
 
-Latest D14 / DP06 placement correction: the calendar is only in the separate Activity tab reached through Home-level navigation. Vault pages no longer embed it or expose Activity in their navigation. This supersedes earlier per-vault calendar placement references.
+Latest D14 / DP06 placement correction: the calendar is only in the separate Activity tab reached through Home-level navigation. Vault pages no longer embed it or expose Activity in their navigation. This supersedes earlier per-vault calendar placement references. The owner's subsequent density preference uses individually collapsed backup rows below the calendar, keeping folder, completion time, vault, size/file count and status visible; expand for full details.
 
 The owner replaced the M0–M7 certification sequence with the small [Now / Next / Later roadmap](ROADMAP.md). This decision takes precedence over milestone gates, full-parity promises and exhaustive verification requirements retained below as reference. The P/F/DP IDs remain useful feature inventory, not a checklist that must be closed before releasing Windows. Deferred capabilities are not removed or certified by this decision.
 
@@ -131,7 +132,7 @@ All providers must pass create, connect, snapshot, browse, restore/hash comparis
 | F03 | Existing BlinkDisk BYO repositories. | S5, S7; D08 | M3: copied baseline repositories open and restore; an explicit connect path never initializes over an existing repository. |
 | F04 | Individual files and directories as sources; drag/drop, native pickers, names/emoji, size estimation with included/excluded counts. | S4 | M4: both source types survive restart and restore, including unusual paths. |
 | F05 | Manual backup, backup-all, queue/progress, cancellation, checkpoint/resume behavior. | S4, S5 | M4: jobs remain distinguishable, cancel safely, and resume/retry according to actual engine checkpoint semantics. |
-| F06 | Protected file/directory/byte statistics and backup-health summaries. | S4 | M4: counts come from known snapshot semantics; unavailable/partial status is not reported as healthy. |
+| F06 | Protected file/directory/byte statistics, destination available space and backup-health summaries. | S4; owner follow-up | Counts come from known snapshot semantics; unavailable/partial status is not reported as healthy. Filesystem available-space card implemented locally after v0.1.0; [verification](docs/verification/vault-storage-space.md). |
 | F07 | Missing source, permission, failed and partial backup details; task counters, logs, cancellation, copyable details. | S4, S5 | M4: error fixtures produce actionable outcomes; logs preserve useful context without secrets. |
 | F08 | Policy tree, basic/advanced modes, inherited/custom values, source policy drafts and activation/discard. | S3, S4 | M4: edits affect the intended vault/profile/path scope and preserve unrelated fields. |
 | F09 | Manual-only/scheduled modes, preset intervals, custom cron schedules, missed-backup catch-up. | S3 | M4: timezone/DST, midnight, sleep/wake, offline storage, and overlapping-job behavior are documented and tested. |
@@ -164,7 +165,7 @@ Compression parity includes `none`, `gzip` variants, `zstd` variants, `s2` varia
 | DP03 | No telemetry; local logs and user-triggered redacted diagnostics export. | M2 removal / M5 export: observed network traffic matches configured storage and update behavior; exported diagnostics contain no credentials or unapproved identifying paths. |
 | DP04 | Original DiskPond design with accessible, understandable recovery flows. | M2 foundation / M5 complete: STYLE.md applied to all required states and critical workflows. |
 | DP05 | Compare two backups of the same source: added, changed and deleted paths, with before/after size and modification time. | Implemented locally under D14 with passing [focused verification](docs/verification/snapshot-comparison-and-activity.md): deterministic comparisons, explicit metadata/read gaps, bounded/cancelable traversal and paged keyboard-scrollable results. Owner preview remains pending. |
-| DP06 | Backup activity calendar only in Home-level Activity, with vault filtering. | Retained-history slice implemented under D14 with passing [focused verification](docs/verification/snapshot-comparison-and-activity.md): local completion days, drill-down and separately labeled latest issues. Complete failure/cancellation history requires the deferred durable-attempt slice. Owner actual-use feedback remains pending. |
+| DP06 | Backup activity calendar only in Home-level Activity, with vault filtering. | Retained-history slice implemented under D14 with passing [focused verification](docs/verification/snapshot-comparison-and-activity.md): local completion days, drill-down and separately labeled latest issues. Owner-requested [compact expandable rows](docs/verification/activity-compact-rows.md) implemented locally after v0.1.0. Complete failure/cancellation history requires the deferred durable-attempt slice. |
 
 ## 4. Fork and architecture strategy
 

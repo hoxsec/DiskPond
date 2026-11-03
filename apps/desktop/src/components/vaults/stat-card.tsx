@@ -25,13 +25,13 @@ export function VaultStatCard({
         : MinusIcon;
 
   return (
-    <Card className="overflow-hidden py-0">
+    <Card className="min-w-0 overflow-hidden py-0">
       <CardContent className="flex h-full flex-col p-5">
         <div className="flex items-start justify-between gap-4">
           <CardTitle className="text-muted-foreground min-w-0 text-sm font-medium">
             {!isLoading ? title : <Skeleton width={90} />}
           </CardTitle>
-          {!isLoading ? (
+          {!isLoading && history ? (
             <div className="text-foreground flex shrink-0 items-center gap-1 text-xs font-semibold">
               <TrendIcon className="size-4" />
               {formatTrendPercent(trend.percent)}
@@ -39,10 +39,10 @@ export function VaultStatCard({
           ) : null}
         </div>
         <div className="mt-auto flex items-end justify-between gap-4 pt-5">
-          <p className="shrink-0 whitespace-nowrap text-4xl font-semibold tracking-normal">
+          <p className="min-w-0 break-words text-3xl font-semibold tabular-nums tracking-normal">
             {!isLoading ? value : <Skeleton width={120} />}
           </p>
-          {!isLoading ? (
+          {!isLoading && history ? (
             <Sparkline
               className="pointer-events-none h-10 min-w-0 max-w-48 flex-1 text-zinc-400 dark:text-zinc-500"
               values={history ?? []}

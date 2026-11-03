@@ -21,6 +21,7 @@ import {
 } from "@desktop/hooks/queries/core/use-source-list";
 import { useVaultDevices } from "@desktop/hooks/queries/core/use-vault-devices";
 import type { VaultItem } from "@desktop/hooks/queries/use-vault";
+import { useVaultStorageSpace } from "@desktop/hooks/queries/use-vault-storage-space";
 import { useCreateSourceDialog } from "@desktop/hooks/state/use-create-source-dialog";
 import { useLocalProfile } from "@desktop/hooks/use-local-profile";
 import type { SelectedProfile } from "@desktop/hooks/use-profile";
@@ -109,6 +110,7 @@ export function VaultOverview({ vault }: VaultOverviewProps) {
   });
   const { data: allSources } = useSourceList({ unfiltered: true });
   const { data: backups } = useBackupList({ filters: "none" });
+  const storageSpace = useVaultStorageSpace(vault?.id);
 
   const otherProfileSources = useMemo(() => {
     if (!allSources || !localProfile) return undefined;
@@ -192,7 +194,7 @@ export function VaultOverview({ vault }: VaultOverviewProps) {
           {t("otherProfiles.back")}
         </Button>
       ) : null}
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
         <VaultStatCard
           title={t("stats.totalSize")}
           value={stats ? formatSize(stats.totalSize) : undefined}
@@ -210,6 +212,19 @@ export function VaultOverview({ vault }: VaultOverviewProps) {
           value={stats ? formatCompactInt(stats.directoryCount) : undefined}
           history={statHistory?.directoryCount}
           isLoading={isStatsLoading}
+        />
+        <VaultStatCard
+          title={t("stats.storageAvailable")}
+          value={
+            storageSpace.isError
+              ? t("stats.unavailable")
+              : storageSpace.data?.status === "AVAILABLE"
+                ? formatSize(storageSpace.data.availableBytes)
+                : storageSpace.data?.status === "UNSUPPORTED"
+                  ? t("stats.notReported")
+                  : t("stats.unavailable")
+          }
+          isLoading={!vault || storageSpace.isLoading}
         />
       </div>
       <SourceSection

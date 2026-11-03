@@ -17,6 +17,7 @@ const mocks = vi.hoisted(() => {
     connect: vi.fn(async () => ({})),
     unlock: vi.fn(async () => ({})),
     summary: vi.fn(),
+    storageSpace: vi.fn(),
     validate: vi.fn(),
   };
 });
@@ -38,6 +39,7 @@ vi.mock("@electron/db", () => ({
 vi.mock("@electron/vault/connection", () => ({
   hasSavedConnection: mocks.saved,
   getConnectionSummary: mocks.summary,
+  getVaultStorageSpace: mocks.storageSpace,
 }));
 vi.mock("@electron/vault/manage", () => ({
   vaults: {},
@@ -152,6 +154,36 @@ it("rejects extra arguments and foreign frames", () => {
     invoke("connect", { ...mocks.event, senderFrame: {} }, payload),
   ).toThrow("Invalid desktop request");
   expect(mocks.connect).not.toHaveBeenCalled();
+});
+it("scopes storage-space reads to an active vault and the main desktop frame", async () => {
+  mocks.storageSpace.mockResolvedValue({
+    status: "AVAILABLE",
+    availableBytes: 1234,
+  });
+  expect(
+    await invoke("storageSpace", mocks.event, { vaultId: "vlt_local" }),
+  ).toEqual({ status: "AVAILABLE", availableBytes: 1234 });
+  expect(mocks.storageSpace).toHaveBeenCalledWith({ vaultId: "vlt_local" });
+  expect(() =>
+    invoke("storageSpace", mocks.event, { vaultId: "vlt_unknown" }),
+  ).toThrow("Local vault not found");
+  for (const args of [
+    [],
+    [{ vaultId: "../outside" }],
+    [{ vaultId: "vlt_local", path: "C:\\arbitrary" }],
+    [{ vaultId: "vlt_local" }, {}],
+  ])
+    expect(() => invoke("storageSpace", mocks.event, ...args)).toThrow(
+      "Invalid connection request",
+    );
+  for (const event of [
+    { ...mocks.event, sender: {} },
+    { ...mocks.event, senderFrame: {} },
+  ])
+    expect(() =>
+      invoke("storageSpace", event, { vaultId: "vlt_local" }),
+    ).toThrow("Invalid desktop request");
+  expect(mocks.storageSpace).toHaveBeenCalledOnce();
 });
 it("rejects creation IDs shorter than the repository salt minimum before storage writes", () => {
   expect(() =>

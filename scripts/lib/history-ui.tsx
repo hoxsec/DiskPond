@@ -1,5 +1,9 @@
 import { i18n } from "@blinkdisk/utils/i18n";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  onlineManager,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import {
   createMemoryHistory,
   createRootRoute,
@@ -51,8 +55,19 @@ await i18n.init({
   resources: { en: { vault, folder, backup, directory, sidebar } },
   interpolation: { escapeValue: false },
 });
+const storageSpaces = new Map([
+  ["vault-a", { status: "AVAILABLE", availableBytes: 250_000_000_000 }],
+  ["vault-b", { status: "UNSUPPORTED" }],
+]);
 window.electron = {
-  vault: { status: async () => ({ status: "RUNNING" }) },
+  vault: {
+    status: async () => ({ status: "RUNNING" }),
+    storageSpace: async ({ vaultId }) => {
+      const space = storageSpaces.get(vaultId);
+      if (space === "ERROR") throw new Error("Storage query failed");
+      return space;
+    },
+  },
   path: { basename: async (path) => path.split(/[\\/]/).at(-1) },
   platform: async () => "windows",
 };
@@ -246,6 +261,7 @@ const router = createRouter({
   }),
 });
 window.historyFixture = {
+  online: (value) => onlineManager.setOnline(value),
   setReadMode: (value) => {
     mode = value;
   },
@@ -272,11 +288,17 @@ window.historyFixture = {
         otherUserName: "sam",
       },
     }),
-  overview: () =>
+  overview: (vaultId = "vault-a") =>
     router.navigate({
       to: "/$accountId/$vaultId",
-      params: { accountId: "local", vaultId: "vault-a" },
+      params: { accountId: "local", vaultId },
     }),
+  storageSpace: async (vaultId, value) => {
+    storageSpaces.set(vaultId, value);
+    await client.invalidateQueries({
+      queryKey: ["local", "vault", vaultId, "storageSpace"],
+    });
+  },
   location: () => ({
     pathname: router.state.location.pathname,
     search: router.state.location.search,

@@ -145,6 +145,99 @@ app.whenReady().then(async () => {
     await wait("!document.body.innerText.includes('6 retained snapshots')");
     await select("Vault", 1);
     await wait("document.body.innerText.includes('6 retained snapshots')");
+    const entries =
+      "Array.from(document.querySelectorAll('[data-slot=activity-entry]'))";
+    const firstEntry = `${entries}[0]`;
+    const partialEntry = `${entries}.find(entry=>entry.querySelector('summary').textContent.includes('Completed with issues'))`;
+    const failedEntry = `${entries}.find(entry=>entry.querySelector('summary').textContent.includes('Failed'))`;
+    assert.equal(await evaluate(`${entries}.length`), 7);
+    assert.ok(await evaluate(`${entries}.every(entry=>!entry.open)`));
+    assert.ok(
+      await evaluate(
+        `${entries}.some(entry=>{const summary=entry.querySelector('summary');return summary.textContent.includes('Documents') && summary.textContent.includes('Fixture A') && summary.textContent.includes('8 B · 2 files') && summary.textContent.includes('Completed') && summary.querySelector('time[datetime] .sr-only')?.textContent.includes('Ended:');})`,
+      ),
+    );
+    assert.ok(
+      await evaluate(
+        `${entries}.filter(entry=>entry.querySelector('summary').textContent.includes('Single file')).every(entry=>entry.querySelector('summary').textContent.includes('Unavailable') && entry.querySelector('summary').textContent.includes('Outcome unknown'))`,
+      ),
+    );
+    await focus(
+      "document.activeElement?.matches('[data-slot=activity-entry] > summary')",
+    );
+    assert.ok(
+      await evaluate("document.activeElement.matches(':focus-visible')"),
+    );
+    await capture("activity-rows-light");
+    await key("Return");
+    await wait(`${firstEntry}.open`);
+    assert.ok(
+      await evaluate(
+        `${firstEntry}.innerText.includes('Started:') && ${firstEntry}.innerText.includes('Ended:') && ${firstEntry}.innerText.includes('archive-pc:')`,
+      ),
+    );
+    await key("Return");
+    await wait(`!${firstEntry}.open`);
+    await key("Tab");
+    assert.ok(
+      await evaluate(
+        "document.activeElement.matches('[data-slot=activity-entry] > summary')",
+      ),
+    );
+    await focus(
+      `document.activeElement===${partialEntry}.querySelector('summary')`,
+    );
+    await key("Return");
+    await wait(
+      `${partialEntry}.open && document.body.innerText.includes('Fixture read failure')`,
+    );
+    await key("Space");
+    await wait(`!${partialEntry}.open`);
+    await focus(
+      `document.activeElement===${failedEntry}.querySelector('summary')`,
+    );
+    await key("Return");
+    await wait(
+      `${failedEntry}.open && document.body.innerText.includes('Fixture storage unavailable')`,
+    );
+    await key("Return");
+    await evaluate("document.body.classList.add('dark')");
+    contents.setZoomFactor(2);
+    await wait("innerWidth<768");
+    await evaluate(
+      `${partialEntry}.querySelector('summary').scrollIntoView({block:'center'})`,
+    );
+    assert.ok(
+      await evaluate(
+        `${entries}.every(entry=>entry.scrollWidth<=entry.clientWidth)`,
+      ),
+    );
+    await capture("activity-rows-dark-200");
+    await focus(
+      `document.activeElement===${partialEntry}.querySelector('summary')`,
+    );
+    await key("Return");
+    await wait(`${partialEntry}.open`);
+    assert.ok(
+      await evaluate(
+        `${partialEntry}.scrollWidth<=${partialEntry}.clientWidth`,
+      ),
+    );
+    await focus(
+      `document.activeElement?.textContent.trim()==='Open backup history' && document.activeElement.closest('[data-slot=activity-entry]')===${partialEntry}`,
+    );
+    await capture("activity-details-dark-200");
+    await focus(
+      `document.activeElement===${partialEntry}.querySelector('summary')`,
+    );
+    await key("Return");
+    contents.setZoomFactor(1);
+    await evaluate("document.body.classList.remove('dark')");
+    await focus(
+      `document.activeElement===${firstEntry}.querySelector('summary')`,
+    );
+    await key("Return");
+    await wait(`${firstEntry}.open`);
     await button("Open backup history");
     await wait("document.body.innerText.includes('Back to vault')");
     const location = await evaluate("window.historyFixture.location()");
@@ -196,6 +289,35 @@ app.whenReady().then(async () => {
       "All profiles",
     );
     assert.equal(await evaluate("document.querySelector('[data-day]')"), null);
+    await wait(
+      "document.body.innerText.includes('Storage available') && document.body.innerText.includes('250 GB')",
+    );
+    const storageCard =
+      "Array.from(document.querySelectorAll('[data-slot=card]')).find(card=>card.textContent.includes('Storage available'))";
+    assert.ok(await evaluate(`!${storageCard}.textContent.includes('%')`));
+    await capture("vault-storage-light");
+    await evaluate("window.historyFixture.online(false)");
+    await evaluate("window.historyFixture.overview('vault-b')");
+    await wait("document.body.innerText.includes('Not reported')");
+    assert.ok(await evaluate("!document.body.innerText.includes('250 GB')"));
+    await evaluate("window.historyFixture.overview()");
+    await wait("document.body.innerText.includes('250 GB')");
+    await evaluate(
+      "window.historyFixture.storageSpace('vault-a', {status:'AVAILABLE', availableBytes:0})",
+    );
+    await wait(`${storageCard}.textContent.includes('0 B')`);
+    await evaluate("window.historyFixture.storageSpace('vault-a', 'ERROR')");
+    await wait(`${storageCard}.textContent.includes('Unavailable')`);
+    assert.ok(await evaluate(`!${storageCard}.textContent.includes('0 B')`));
+    await evaluate(
+      "window.historyFixture.storageSpace('vault-a', {status:'UNAVAILABLE'})",
+    );
+    await wait(`${storageCard}.textContent.includes('Unavailable')`);
+    await evaluate(
+      "window.historyFixture.storageSpace('vault-a', {status:'AVAILABLE', availableBytes:125_000_000_000})",
+    );
+    await wait(`${storageCard}.textContent.includes('125 GB')`);
+    await evaluate("window.historyFixture.online(true)");
     await evaluate("document.body.classList.add('dark')");
     contents.setZoomFactor(2);
     await wait("innerWidth<768");
@@ -207,6 +329,17 @@ app.whenReady().then(async () => {
       false,
     );
     await key("Escape");
+    assert.ok(
+      await evaluate(
+        `${storageCard}.scrollWidth <= ${storageCard}.clientWidth`,
+      ),
+    );
+    assert.ok(
+      await evaluate(
+        `${storageCard}.querySelector('p').scrollWidth <= ${storageCard}.querySelector('p').clientWidth`,
+      ),
+    );
+    await evaluate(`${storageCard}.scrollIntoView({block:'center'})`);
     await capture("vault-without-calendar-dark-200");
     await evaluate("window.historyFixture.home()");
     await evaluate("window.historyFixture.mode('slow')");
@@ -266,7 +399,7 @@ app.whenReady().then(async () => {
     );
     await button("Back to backup history");
     console.info(
-      "History UI passed: cold-start comparison labels and both entry points, Home and vault without calendars, Activity navigation and vault filtering, no Activity in vault menu, keyboard day selection, comparison selection/filter/swap/browse/return, missing/cancel/large/insufficient states, Light/Dark and 200% zoom.",
+      "History UI passed: cold-start comparison labels and both entry points, Home and vault without calendars, Activity navigation and vault filtering, compact backup/issue summaries with keyboard expansion and history links, no Activity in vault menu, keyboard day selection, comparison selection/filter/swap/browse/return, missing/cancel/large/insufficient states, Light/Dark and 200% zoom.",
     );
     clearTimeout(timeout);
     app.exit(0);

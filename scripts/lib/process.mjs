@@ -1,6 +1,6 @@
 import { spawn, spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
-import { resolve } from "node:path";
+import { basename, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const root = fileURLToPath(new URL("../../", import.meta.url));
@@ -30,11 +30,23 @@ export function run(command, args, options) {
 }
 
 export function pnpm(args, options = {}) {
-  const executable = process.env.npm_execpath;
+  let executable = process.env.npm_execpath;
+  const runtime = process.env.npm_node_execpath;
+  // Nested standalone invocations may report only the PATH command name.
+  if (
+    (executable === "pnpm" || executable === "pnpm.exe") &&
+    runtime &&
+    basename(runtime).toLowerCase() === "pnpm.exe"
+  ) {
+    executable = runtime;
+  }
   if (!executable || !existsSync(executable)) {
     throw new Error("Run this command through pnpm (or corepack pnpm).");
   }
-  return launch(process.execPath, [executable, ...args], options);
+  // Standalone Windows pnpm embeds its runtime; it is not a Node script.
+  return /\.exe$/i.test(executable)
+    ? launch(executable, args, options)
+    : launch(process.execPath, [executable, ...args], options);
 }
 
 export function stop(child) {

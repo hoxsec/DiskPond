@@ -1,6 +1,9 @@
 import type { PasswordStorageStatus } from "@blinkdisk/schemas/password";
 import { setupSignalDBPreload } from "@blinkdisk/signaldb-electron/preload";
-import type { getConnectionSummary } from "@electron/vault/connection";
+import type {
+  getConnectionSummary,
+  getVaultStorageSpace,
+} from "@electron/vault/connection";
 
 setupSignalDBPreload(ipcRenderer, contextBridge);
 
@@ -125,6 +128,10 @@ const api = {
     getPathFromFile: (file: File) => webUtils.getPathForFile(file),
   },
   vault: {
+    storageSpace: (payload: { vaultId: string }) =>
+      ipcRenderer.invoke("vault.storageSpace", payload) as ReturnType<
+        typeof getVaultStorageSpace
+      >,
     connectionSummary: (payload: { vaultId: string }) =>
       ipcRenderer.invoke("vault.connectionSummary", payload) as ReturnType<
         typeof getConnectionSummary

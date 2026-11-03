@@ -2,9 +2,9 @@ import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
 import type { ZHistorySourceIdentityType } from "@blinkdisk/schemas/history";
 import { Button } from "@blinkdisk/ui/button";
 import { cn } from "@blinkdisk/utils/class";
+import { ActivityEntry } from "@desktop/components/history/activity-entry";
 import { HistorySelect } from "@desktop/components/history/select";
 import { useBackupActivity } from "@desktop/hooks/queries/use-backup-activity";
-import { useAccountId } from "@desktop/hooks/use-account-id";
 import {
   activityMonthDays,
   activitySourceKey,
@@ -13,8 +13,6 @@ import {
   shiftActivityMonth,
 } from "@desktop/lib/backup-activity";
 import { formatHistoryTime } from "@desktop/lib/history";
-import { buildSourceId } from "@desktop/lib/source";
-import { Link } from "@tanstack/react-router";
 import {
   AlertTriangleIcon,
   CheckIcon,
@@ -495,74 +493,53 @@ export function BackupActivityCalendar({
             {t(incompleteCoverage ? "calendar.emptyUnknown" : "calendar.empty")}
           </p>
         )}
-        <ol className="space-y-3">
-          {selectedRecords
-            .slice(currentPage * 50, (currentPage + 1) * 50)
-            .map((record) => (
-              <li
-                key={`${record.vaultId}:${record.snapshot.id}`}
-                className="space-y-2 border p-4 text-sm"
-              >
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <p className="font-medium">
-                    {vaultName(record.vaultId)} ·{" "}
-                    {record.sourceName || record.source.path}
-                  </p>
-                  <p
-                    className={
-                      record.outcome === "completed"
-                        ? "text-success"
-                        : "text-warning"
-                    }
+        {selectedRecords.length > 0 && (
+          <ol className="divide-y border">
+            {selectedRecords
+              .slice(currentPage * 50, (currentPage + 1) * 50)
+              .map((record) => (
+                <li key={`${record.vaultId}:${record.snapshot.id}`}>
+                  <ActivityEntry
+                    vault={{
+                      id: record.vaultId,
+                      name: vaultName(record.vaultId),
+                    }}
+                    source={record.source}
+                    sourceName={record.sourceName}
+                    startTime={record.snapshot.startTime}
+                    endTime={record.snapshot.endTime}
+                    outcome={record.outcome}
+                    summary={record.snapshot.summary}
                   >
-                    {t(`outcome.${record.outcome}`)}
-                  </p>
-                </div>
-                <p className="break-all font-mono text-xs">
-                  {record.source.userName}@{record.source.host}:
-                  {record.source.path}
-                </p>
-                {record.snapshot.description && (
-                  <p>{record.snapshot.description}</p>
-                )}
-                <p>
-                  {t("calendar.started", {
-                    time: formatHistoryTime(record.snapshot.startTime),
-                  })}
-                </p>
-                <p>
-                  {t("calendar.ended", {
-                    time: formatHistoryTime(record.snapshot.endTime),
-                  })}
-                </p>
-                {record.snapshot.incomplete && (
-                  <p>
-                    {t("calendar.incompleteReason", {
-                      reason: record.snapshot.incomplete,
-                    })}
-                  </p>
-                )}
-                {record.snapshot.summary?.errors?.length ? (
-                  <details>
-                    <summary className="cursor-pointer">
-                      {t("calendar.details")}
-                    </summary>
-                    <ul>
-                      {record.snapshot.summary.errors.map((error, index) => (
-                        <li key={index} className="break-all">
-                          {error.path}: {error.error}
-                        </li>
-                      ))}
-                    </ul>
-                  </details>
-                ) : null}
-                <ActivityHistoryLink
-                  vaultId={record.vaultId}
-                  source={record.source}
-                />
-              </li>
-            ))}
-        </ol>
+                    {record.snapshot.description && (
+                      <p className="break-all">{record.snapshot.description}</p>
+                    )}
+                    {record.snapshot.incomplete && (
+                      <p className="break-all">
+                        {t("calendar.incompleteReason", {
+                          reason: record.snapshot.incomplete,
+                        })}
+                      </p>
+                    )}
+                    {record.snapshot.summary?.errors?.length ? (
+                      <div>
+                        <p className="font-medium">{t("calendar.details")}</p>
+                        <ul>
+                          {record.snapshot.summary.errors.map(
+                            (error, index) => (
+                              <li key={index} className="break-all">
+                                {error.path}: {error.error}
+                              </li>
+                            ),
+                          )}
+                        </ul>
+                      </div>
+                    ) : null}
+                  </ActivityEntry>
+                </li>
+              ))}
+          </ol>
+        )}
         {selectedRecords.length > 50 && (
           <div className="flex flex-wrap items-center gap-3">
             <Button
@@ -587,52 +564,43 @@ export function BackupActivityCalendar({
             </Button>
           </div>
         )}
-        <div className="space-y-3 border-t pt-4">
-          <h4 className="font-medium">{t("calendar.latestIssues")}</h4>
+        <div className="space-y-2 border-t pt-3">
+          <h4 className="text-sm font-medium">{t("calendar.latestIssues")}</h4>
           {selectedIssues.length ? (
-            selectedIssues.slice(0, 100).map((item) => (
-              <div
-                key={`${item.vaultId}:${activitySourceKey(item.source)}`}
-                className="space-y-2 border border-warning p-4 text-sm"
-              >
-                <p className="font-medium">
-                  {vaultName(item.vaultId)} ·{" "}
-                  {t(
-                    item.lastBackupOutcome?.status === "FAILED"
-                      ? "outcome.failed"
-                      : "outcome.partial",
-                  )}
-                </p>
-                <p className="break-all font-mono">
-                  {item.source.userName}@{item.source.host}:{item.source.path}
-                </p>
-                <p>
-                  {t("calendar.started", {
-                    time: formatHistoryTime(item.lastBackupOutcome?.startTime),
-                  })}
-                </p>
-                <p>
-                  {t("calendar.ended", {
-                    time: formatHistoryTime(item.lastBackupOutcome?.endTime),
-                  })}
-                </p>
-                <p className="break-words">
-                  {item.lastBackupOutcome?.errorMessage ||
-                    t("calendar.noIssueDetails")}
-                </p>
-                {item.lastBackupOutcome?.errorCount !== undefined && (
-                  <p>
-                    {t("calendar.errorCount", {
-                      count: item.lastBackupOutcome.errorCount,
-                    })}
-                  </p>
-                )}
-                <ActivityHistoryLink
-                  vaultId={item.vaultId}
-                  source={item.source}
-                />
-              </div>
-            ))
+            <ul className="divide-y border">
+              {selectedIssues.slice(0, 100).map((item) => {
+                const outcome = item.lastBackupOutcome;
+                if (!outcome) return null;
+                return (
+                  <li key={`${item.vaultId}:${activitySourceKey(item.source)}`}>
+                    <ActivityEntry
+                      vault={{
+                        id: item.vaultId,
+                        name: vaultName(item.vaultId),
+                      }}
+                      source={item.source}
+                      sourceName={item.name}
+                      startTime={outcome.startTime}
+                      endTime={outcome.endTime}
+                      outcome={
+                        outcome.status === "FAILED" ? "failed" : "partial"
+                      }
+                    >
+                      <p className="break-all">
+                        {outcome.errorMessage || t("calendar.noIssueDetails")}
+                      </p>
+                      {outcome.errorCount !== undefined && (
+                        <p>
+                          {t("calendar.errorCount", {
+                            count: outcome.errorCount,
+                          })}
+                        </p>
+                      )}
+                    </ActivityEntry>
+                  </li>
+                );
+              })}
+            </ul>
           ) : (
             <p className="text-sm text-muted-foreground">
               {t("calendar.noKnownIssues")}
@@ -642,43 +610,5 @@ export function BackupActivityCalendar({
         </div>
       </section>
     </section>
-  );
-}
-
-function ActivityHistoryLink({
-  vaultId,
-  source,
-}: {
-  vaultId: string;
-  source: ZHistorySourceIdentityType;
-}) {
-  const { t } = useAppTranslation("history");
-  const { accountId } = useAccountId();
-  return (
-    <Button
-      variant="secondary"
-      size="sm"
-      nativeButton={false}
-      render={
-        <Link
-          to="/$accountId/$vaultId/$sourceId"
-          params={{
-            accountId: accountId ?? "",
-            vaultId,
-            sourceId: buildSourceId({
-              device: source.host,
-              user: source.userName,
-              path: source.path,
-            }),
-          }}
-          search={{
-            otherHostName: source.host,
-            otherUserName: source.userName,
-          }}
-        />
-      }
-    >
-      {t("calendar.history")}
-    </Button>
   );
 }

@@ -74,6 +74,10 @@ For F15 / F16 / F20 / DP04, the inherited source-history route now links back to
 
 For D14 / DP05 / DP06, new validated read contracts, bounded comparison traversal and shared Home/per-vault calendars build on the inherited history/browser API. Changes to inherited source-history/timeline/overview/Home components add entry points and placement; directory reads now preserve file size and use vault-scoped caches. Source-status changes and existing snapshot mutations refresh history queries. `apps/desktop/src/lib/vault.ts`, Electron `protocol.ts` and `vault/fetch.ts` propagate read cancellation; the existing authenticated boundary and core pin remain intact. English copy is in `locales/en/history.json`. [Focused verification and limitations](docs/verification/snapshot-comparison-and-activity.md) record the local batch. Repository formats, persisted contracts and licenses are unchanged.
 
+## Vault available-space follow-up (2026-11-03)
+
+For F06 / P01–P03, the inherited vault overview/stat-card, query keys, Electron connection IPC/preload and English vault copy now expose destination available space. New shared read-result validation, a bounded native filesystem probe and a vault-scoped renderer query use main-owned connection paths. Filesystem destinations report the current user's available bytes; other providers show **Not reported**, and failed reads show **Unavailable**. The new card has no historical trend. [Verification](docs/verification/vault-storage-space.md) records this local, unreleased change.
+
 ## M2 owned-core discovery work
 
 On 2026-11-02 the owner approved and created [hoxsec/diskpond-core](https://github.com/hoxsec/diskpond-core), a GitHub fork of `blinkdisk/core`. The exact upstream baseline remains available in that fork. `.gitmodules` now selects the owned fork; local core `origin` points there and `upstream` retains `https://github.com/blinkdisk/core.git`.
@@ -106,6 +110,10 @@ The application separates create/connect entry points, strengthens main-owned de
 The owner requested commit/push publication and continuation with TODO item 2 in a new session. Application implementation [`b969093`](https://github.com/hoxsec/DiskPond/commit/b969093f813827d4fce4eb7ddaf04c04d01e0438) and core guard [`5971b87`](https://github.com/hoxsec/diskpond-core/commit/5971b879111001ba4c8d0e41659723d79565f06d) are published on their respective `main` branches. Initial CI exposed an inherited initialization test that hid format blobs in a nonempty repository; core [`dca6bebcba9c50f6f2658ae3662a52414f77bcf9`](https://github.com/hoxsec/diskpond-core/commit/dca6bebcba9c50f6f2658ae3662a52414f77bcf9) corrects that fixture using empty map storage and is the new application gitlink. Production engine behavior is unchanged by the test-only correction. Application [`a28d178`](https://github.com/hoxsec/DiskPond/commit/a28d178385d240ba677edf9e5ae85da2dcd86af2) pins the corrected core; [`5743e23`](https://github.com/hoxsec/DiskPond/commit/5743e23a86dbe6358ac5ceeadbdd53886377720b) updates the installed smoke's stale heading assertion. Local verification used the guard before commit (`aad67c6…-dirty`); the corrected core CI selection also passes locally. [Clean Windows CI run 41624170742](https://github.com/hoxsec/DiskPond/actions/runs/41624170742) passes on the published pair, including packaging and installed smoke. No tag or binary release is part of this handoff.
 
 ## Distribution and later updates
+
+### v0.1.1 release preparation (2026-11-03)
+
+The owner authorized committing/pushing the available-space feature, compact Activity rows and Windows pnpm launcher fix as **v0.1.1**. Activity's inherited calendar now delegates backup/latest-issue rows to a shared expandable entry with keyboard support and preserved history/profile links; English labels and fixture coverage accompany it. The desktop process wrapper supports both JavaScript and standalone pnpm entry points, with a new subprocess regression in compact CI. [Release record](docs/verification/windows-v0.1.1.md).
 
 ### First stable public release (2026-11-03)
 

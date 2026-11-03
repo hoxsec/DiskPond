@@ -43,6 +43,7 @@ jobs:
       - run: pnpm lint:ci
       - run: pnpm types:desktop
       - run: pnpm test:desktop
+      - run: node --test scripts/lib/process.test.mjs
       - run: pnpm build:windows
       - run: pnpm smoke:windows
         env:

@@ -460,7 +460,10 @@
     "stats": {
       "totalSize": "Protected data",
       "files": "Protected files",
-      "directories": "Protected directories"
+      "directories": "Protected directories",
+      "storageAvailable": "Storage available",
+      "notReported": "Not reported",
+      "unavailable": "Unavailable"
     },
     "score": {
       "empty": {

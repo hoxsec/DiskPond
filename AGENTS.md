@@ -105,6 +105,7 @@ Use Node 24.15.0 (`.nvmrc`), pnpm 11.7.0 and Go 1.25.5 as documented in DEVELOPM
 | `pnpm lint:ci` | Check formatting/lint without rewriting files. |
 | `pnpm types` | Desktop/Electron/library type checking (`types:desktop`). |
 | `pnpm test` | Electron/desktop/schema/utility Vitest suites (`test:desktop`); scope to affected packages during normal development. |
+| `node --test scripts/lib/process.test.mjs` | Desktop launcher subprocess checks for JavaScript/standalone pnpm and nested command names, including literal arguments and option forwarding. |
 | `pnpm unused` | Dependency/export checks after extraction or package changes. |
 | `pnpm dev:desktop` | Renderer + main/compiler; builds the pinned engine, started on demand. No hosted service requirements for the local path. |
 | `pnpm build:core` | Build the pinned native engine into expected resource paths; validates checkout against gitlink. |
@@ -113,13 +114,13 @@ Use Node 24.15.0 (`.nvmrc`), pnpm 11.7.0 and Go 1.25.5 as documented in DEVELOPM
 | `pnpm smoke:desktop` | Built-app onboarding/IPC/engine probe using temporary settings and an empty destination. |
 | `pnpm smoke:desktop --dev` | Exercise the actual development wrapper and its process cleanup. |
 | `pnpm smoke:discovery` | Isolated nonmutating discovery, native create/connect guards, legacy-write inventories and initial/restart baseline-copy restore/hash checks with candidate/original clients; requires the candidate core build. |
-| `pnpm smoke:vaults` | Built renderer keyboard create/connect, destination/password/duplicate failures, stale-discovery protection, themes/zoom and three-vault restart; disposable picker/Windows ACL fixtures. |
+| `pnpm smoke:vaults` | Built renderer keyboard create/connect, destination/password/duplicate failures, stale-discovery protection, actual destination available space, themes/zoom and three-vault restart; disposable picker/Windows ACL fixtures. |
 | `pnpm smoke:restores` | Real-engine native restore outcomes, keep-both/overwrite/hash and ZIP checks, Windows ACL/junction and cancellation/interruption fixtures; isolated renderer result-component keyboard/theme/zoom checks. Requires desktop/core build. Full-volume hardware and the full desktop recovery journey remain separate gates. |
 | `pnpm smoke:recovery` | Built-desktop two-vault/two-version recovery, hashes/entries/file mtimes, restart/tray lifecycle and missing-storage retry, with timing/memory observations. Requires desktop/core build and installed Electron runtime. Local interception covers Chromium/main-fetch; CI's `scripts/certify-m2-windows.ps1` adds scoped OS firewall rules and a disposable full-volume VHD. |
 | `pnpm smoke:passwords` | Isolated native password protection/failure/restart and real-engine reconnect checks; uses the existing pinned core build. |
 | `pnpm smoke:providers` | Credential-isolated loopback WebDAV, two-vault versioned restore/hash checks, protected/session/failure modes, legacy migration and live/post-exit credential scans; requires Go and the matching managed-core build. |
 | `node scripts/smoke-history.mjs` | Isolated real-engine comparison and retained-calendar reads across two vaults/profiles, identical snapshots, root files, restart, failed attempts without snapshots and two-version recovery. Requires the matching core build and Electron runtime; retains its evidence directory. |
-| `node scripts/smoke-history-ui.mjs` | Isolated actual Home/vault/history/comparison/browser components with fixture data, keyboard/filter/navigation/cancel/retry and Light/Dark/200% table-layout checks. Requires the current renderer build; retains screenshots. |
+| `node scripts/smoke-history-ui.mjs` | Isolated actual Home/vault/history/comparison/browser components with fixture data, keyboard/filter/navigation/cancel/retry, available-space states/offline reads and Light/Dark/200% layout checks. Requires the current renderer build; retains screenshots. |
 | `node scripts/capture-readme.mjs` | Windows README screenshots from the built desktop and real disposable backups. Uses a temporary drive mapping and demo identity; cleans its own app data/storage. Requires the current renderer/main/core builds. |
 | `pnpm smoke:desktop --session-passwords` | Built-app session-only notice and IPC rejection checks with test-only secure-storage failure injection. |
 | `pnpm build:windows` | Desktop/core/resources plus NSIS packaging; publishing disabled. |

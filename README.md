@@ -11,7 +11,7 @@ DiskPond is a free, open-source desktop backup app for Windows. Back up files an
 
 [**Download for Windows**](https://github.com/hoxsec/DiskPond/releases/latest/download/DiskPond-Windows.exe) · [Release notes](https://github.com/hoxsec/DiskPond/releases/latest) · [Installation & recovery](docs/windows-release.md)
 
-Windows 10/11 · x64 · **v0.1.0**. The installer is currently unsigned; installation details and checksums are on the release page.
+Windows 10/11 · x64 · **v0.1.1**. The installer is currently unsigned; installation details and checksums are on the release page.
 
 ![DiskPond in dark mode, showing a vault with Documents and Projects backups](docs/images/vault-dark.png)
 
@@ -19,10 +19,11 @@ Windows 10/11 · x64 · **v0.1.0**. The installer is currently unsigned; install
 
 - **Encrypted, versioned backups** with incremental storage, deduplication and compression, powered by the Kopia-derived engine.
 - **Your choice of storage** with multiple independent vaults and separate create/connect flows.
+- **Available storage** on each filesystem vault's destination, refreshed automatically in its overview.
 - **Manual or scheduled backups**, retention rules, pinned backups and file exclusions.
 - **Browse and restore** individual files, selected items or whole folders; export a folder as a ZIP.
 - **Compare backups** to see added, changed and deleted paths, with before/after sizes and modification times.
-- **Activity calendar** for retained backups, with vault filtering and daily drill-down.
+- **Activity calendar** for retained backups, with vault filtering and compact, expandable backup details.
 - **Light, dark and system themes**, keyboard navigation and tray/background operation.
 - **Update notifications** with a manual check in Settings and a link to GitHub releases.
 - **Account-free and private**: no subscriptions, analytics or automatic crash uploads. Credentials use OS-protected storage, with session-only storage when protection is unavailable.

@@ -12,6 +12,7 @@ import {
   ZPasswordVault,
   ZStoredPassword,
 } from "@blinkdisk/schemas/password";
+import type { VaultStorageSpace } from "@blinkdisk/schemas/storage";
 import { writeAtomicJson } from "@electron/atomic-json";
 import { collections } from "@electron/db";
 import {
@@ -23,6 +24,7 @@ import {
 import { updateConnectionStorageStatus } from "@electron/password";
 import { globalAccountDirectory, globalVaultDirectory } from "@electron/path";
 import { getHostName, getUserName } from "@electron/profile";
+import { readStorageSpace } from "@electron/storage-space";
 import { store } from "@electron/store";
 import { mapConfigFields, mapProviderType } from "@electron/vault/mapping";
 import { z } from "zod";
@@ -354,6 +356,19 @@ export function hasSavedConnection(id: string) {
     store.has(`connections.${id}`) ||
     existsSync(resolve(globalVaultDirectory(), `${id}.config`))
   );
+}
+
+export async function getVaultStorageSpace({
+  vaultId,
+}: {
+  vaultId: string;
+}): Promise<VaultStorageSpace> {
+  const connection = getConnection(vaultId);
+  if (!connection) return { status: "UNAVAILABLE" };
+  if (connection.type !== "filesystem") return { status: "UNSUPPORTED" };
+  const path = connection.config.path;
+  if (typeof path !== "string") return { status: "UNAVAILABLE" };
+  return readStorageSpace(path);
 }
 
 export async function getConnectionSummary({

@@ -5,6 +5,7 @@ import {
   readdirSync,
   readFileSync,
   rmSync,
+  statfsSync,
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
@@ -411,4 +412,54 @@ it("preserves malformed inherited records and permits manual credential recovery
   expect(mocks.status).toHaveBeenLastCalledWith(
     expect.objectContaining({ cleanupFailed: true }),
   );
+});
+
+it("reads each vault's actual filesystem destination, including after restart", async () => {
+  const path = join(directory, "vault & '雪'");
+  mkdirSync(path);
+  const connection = await import("@electron/vault/connection");
+  connection.saveConnection("vlt_local", {
+    type: "filesystem",
+    config: { path },
+  });
+  connection.saveConnection("vlt_missing", {
+    type: "filesystem",
+    config: { path: join(directory, "disconnected") },
+  });
+  vi.resetModules();
+  const restarted = await import("@electron/vault/connection");
+  const stats = statfsSync(path, { bigint: true });
+  const result = await restarted.getVaultStorageSpace({ vaultId: "vlt_local" });
+  expect(result.status).toBe("AVAILABLE");
+  if (result.status !== "AVAILABLE") throw new Error("Missing storage reading");
+  expect(result.availableBytes).toBeGreaterThan(0);
+  expect(result.availableBytes).toBeLessThanOrEqual(
+    Number(stats.blocks * stats.bsize),
+  );
+  // Other processes may allocate/free disk space between these two native reads.
+  expect(
+    Math.abs(result.availableBytes - Number(stats.bavail * stats.bsize)),
+  ).toBeLessThan(64 * 1024 * 1024);
+  expect(
+    await restarted.getVaultStorageSpace({ vaultId: "vlt_missing" }),
+  ).toEqual({ status: "UNAVAILABLE" });
+  expect(readdirSync(path)).toEqual([]);
+});
+
+it("distinguishes unsupported providers from missing or locked connections", async () => {
+  const connection = await import("@electron/vault/connection");
+  connection.saveConnection("vlt_remote", storage);
+  expect(
+    await connection.getVaultStorageSpace({ vaultId: "vlt_remote" }),
+  ).toEqual({ status: "UNSUPPORTED" });
+  expect(
+    await connection.getVaultStorageSpace({ vaultId: "vlt_missing" }),
+  ).toEqual({ status: "UNAVAILABLE" });
+  vi.resetModules();
+  mocks.available = false;
+  expect(
+    await (await import("@electron/vault/connection")).getVaultStorageSpace({
+      vaultId: "vlt_remote",
+    }),
+  ).toEqual({ status: "UNAVAILABLE" });
 });

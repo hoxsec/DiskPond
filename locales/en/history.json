@@ -34,6 +34,8 @@
     "empty": "No retained backups on this day",
     "emptyUnknown": "No backups loaded · History incomplete",
     "started": "Started: {{time}}", "ended": "Ended: {{time}}",
+    "sizeAndFiles": "Size and file count",
+    "files_one": "{{formatted}} file", "files_other": "{{formatted}} files",
     "incompleteReason": "Engine incomplete reason: {{reason}}",
     "details": "Available issue details", "history": "Open backup history",
     "latestIssues": "Latest known issues on this day",

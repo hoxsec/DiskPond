@@ -2,6 +2,8 @@
 
 Updated: 2026-11-03. **[v0.1.0](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.0)**, DiskPond's first stable public Windows release, is published as GitHub Latest (D15).
 
+The owner authorized **v0.1.1** for the completed follow-ups below. [Release preparation and checks](docs/verification/windows-v0.1.1.md).
+
 ## Now — First stable public release
 
 - [x] Deliver tag-triggered Windows installer, updater metadata, checksums and matching source/license assets. The three alpha releases have passing publication and installed backup/restore evidence.
@@ -13,6 +15,10 @@ Updated: 2026-11-03. **[v0.1.0](https://github.com/hoxsec/DiskPond/releases/tag/
 ## Next — Improve through actual use
 
 Fix reported backup, scheduling, retention, restore and usability issues. Collect installation and everyday-use feedback on the stable release. Add encrypted setup export/import and improve diagnostics when needed.
+
+- [x] Add **Storage available** to vault overviews for filesystem destinations (F06 / P01–P03), with explicit unavailable/unsupported states. [Local verification](docs/verification/vault-storage-space.md); included in the v0.1.1 candidate.
+- [x] Compact Activity's backup and latest-issue details into individually expandable rows (DP06 / DP04), keeping key metadata visible. [Local verification](docs/verification/activity-compact-rows.md); included in the v0.1.1 candidate.
+- [x] Fix Windows build/development launchers for standalone `pnpm.exe`, including nested scripts (D13). [Local verification](docs/verification/desktop-pnpm-launcher.md).
 
 ## Later — Optional expansion
 

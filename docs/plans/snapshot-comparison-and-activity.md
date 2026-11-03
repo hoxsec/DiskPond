@@ -2,6 +2,8 @@
 
 Latest owner placement correction (2026-11-03): Activity is available only through Home-level navigation. Remove the embedded per-vault calendar and the Activity link from compact vault navigation. This supersedes the earlier two-placement scope below (D14 / DP06).
 
+Owner density follow-up (2026-11-03): each backup and latest-issue entry below the calendar is collapsed individually. Its compact summary shows folder name, completion time, vault, available logical size/file count and outcome. Expand for full names/path/profile, timestamps, errors and history navigation. [Local verification](../verification/activity-compact-rows.md); pending a future release.
+
 Date: 2026-11-03. Status: **snapshot comparison and retained-history calendars implemented locally; focused verification passed**. Decision **D14**, requirements **DP05 / DP06**, building on F15 / F16 / F20 and DP04. The owner explicitly authorized implementation in a new session, superseding the earlier planning-only choice. [Delivery evidence](../verification/snapshot-comparison-and-activity.md) records commands, results and limitations. Owner preview is next; this batch is uncommitted and publication requires separate authorization.
 
 The owner selected these two additions after the profile/history navigation fix. Requested comparison detail is added, changed and deleted paths with before/after sizes and modification times. Subsequent owner feedback moves the cross-vault calendar from Home to a separate **Activity** tab, retaining the per-vault calendar, and removes explanatory UI prose from calendar/comparison screens. Concise status and error labels retain truthful outcomes. Concrete backup/recovery problems remain higher priority under D13.

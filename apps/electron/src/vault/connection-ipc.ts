@@ -10,6 +10,7 @@ import { collections } from "@electron/db";
 import { requireMainWindow } from "@electron/ipc-context";
 import {
   getConnectionSummary,
+  getVaultStorageSpace,
   hasSavedConnection,
 } from "@electron/vault/connection";
 import {
@@ -86,4 +87,10 @@ ipcMain.handle("vault.connectionSummary", (event, ...args: unknown[]) => {
   const value = parse(ZPasswordVault, args);
   requireLocalVault(value.vaultId);
   return getConnectionSummary(value);
+});
+ipcMain.handle("vault.storageSpace", (event, ...args: unknown[]) => {
+  requireMainWindow(event);
+  const value = parse(ZPasswordVault, args);
+  requireLocalVault(value.vaultId);
+  return getVaultStorageSpace(value);
 });

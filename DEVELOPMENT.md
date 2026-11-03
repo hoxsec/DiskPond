@@ -26,6 +26,8 @@ go version
 
 If the Node installation directory is not writable, install the Corepack shims into a user-owned directory and add it to PATH. A `pnpm` executable must be discoverable by nested package scripts; running only `corepack pnpm` without a shim is insufficient for some inherited commands. `GO_BINARY` may specify an absolute Go executable path for the core wrapper.
 
+The desktop wrappers support both Corepack/JavaScript pnpm and standalone Windows `pnpm.exe` installations. Standalone pnpm is launched directly, including nested script invocations; it must not be passed to `node` as a script.
+
 ## Prepare the checkout
 
 Use `main` for current source, or the release tag to reproduce a published version:
@@ -70,13 +72,13 @@ The create/connect slice adds a core initialization guard included in the publis
 | `pnpm smoke:desktop` | Exercises the built renderer, preload, local onboarding and engine discovery in temporary app data. |
 | `pnpm smoke:desktop --dev` | Runs that smoke through the actual `dev:desktop` wrapper, including server startup and cleanup. |
 | `pnpm smoke:discovery` | Builds a clean baseline in a disposable core worktree; checks nonmutating discovery, native create/connect guards, legacy migration writes and restart recovery; restores/hashes baseline versions with both clients. Requires `build:core`; `DISKPOND_BASELINE_CORE` optionally selects an existing baseline executable. |
-| `pnpm smoke:vaults` | Built-desktop keyboard create/connect flows, destination/password/duplicate errors, stale-discovery rejection, light/dark/zoom checks and three-vault restart. Injects only disposable native-picker results. Windows includes an isolated denied-ACL destination. |
+| `pnpm smoke:vaults` | Built-desktop keyboard create/connect flows, destination/password/duplicate errors, stale-discovery rejection, actual destination available-space reads, light/dark/zoom checks and three-vault restart. Injects only disposable native-picker results. Windows includes an isolated denied-ACL destination. |
 | `pnpm smoke:restores` | Requires `build:desktop`. Exercises the native restore coordinator with real-engine hashes, keep-both/overwrite, denied/missing/junction destinations, cancellation/interruption and ZIP modes, then an isolated result-component keyboard/theme/zoom fixture. See [scope and full-volume blocker](docs/verification/m2-restore-outcomes.md). |
 | `pnpm smoke:recovery` | Requires `build:desktop` and the installed Electron runtime. Two-vault/two-version renderer recovery, restart/tray lifecycle and missing-storage retry; compares hashes/entries/file mtimes and records initial timing/memory observations. Blocks remote Chromium/main-fetch requests. CI runs it under scoped OS firewall rules through `scripts/certify-m2-windows.ps1`, which also provisions a disposable full-volume VHD for `smoke:restores`. |
 | `pnpm smoke:passwords` | Builds an isolated Electron test entry point and verifies native password protection, failure/session-only modes, wrong-password rejection, application restart and real-engine reconnect. Requires the existing pinned core build. |
 | `pnpm smoke:providers` | Builds a credential-isolated loopback WebDAV service and Electron fixture; checks two-vault versioned snapshots/restores with hashes, protected/session/failure storage, restart, wrong/swapped credentials, both legacy migrations and credential scans. Requires Go and the matching managed-core build; no live-provider credentials. |
 | `node scripts/smoke-history.mjs` | Requires the matching `build:core` output and Electron runtime. Creates two disposable repositories and checks validated comparison/calendar reads, repeated snapshots, root-file metadata, profile identity, engine restart, failures without snapshots and two-version recovery. Retains the evidence directory. |
-| `node scripts/smoke-history-ui.mjs` | Requires the current renderer build (`pnpm --filter @blinkdisk/electron build:frontend`). Exercises actual Home/vault/history/comparison/browser components with isolated fixture reads, keyboard/filter/navigation/cancel/retry flows and Light/Dark/200% table-layout checks. Retains screenshots; see [scope and evidence](docs/verification/snapshot-comparison-and-activity.md). |
+| `node scripts/smoke-history-ui.mjs` | Requires the current renderer build (`pnpm --filter @blinkdisk/electron build:frontend`). Exercises actual Home/vault/history/comparison/browser components with isolated fixture reads, keyboard/filter/navigation/cancel/retry flows, available-space states/offline reads and Light/Dark/200% layout checks. Retains screenshots; see [history evidence](docs/verification/snapshot-comparison-and-activity.md) and [available-space evidence](docs/verification/vault-storage-space.md). |
 | `node scripts/capture-readme.mjs` | Requires the built desktop and pinned core on Windows. Captures `docs/images/` using real disposable snapshots and a demo identity, with a temporary drive mapping for non-personal paths. Cleans up its own storage/profile and drive mapping. |
 | `pnpm smoke:desktop --session-passwords` | Runs built desktop smoke with test-only unavailable secure storage, verifying the localized notice and password/settings IPC rejection. |
 | `pnpm smoke:windows` | Installs the NSIS artifact into a disposable directory, checks installed startup/engine/resources and bundled-engine backup/restore hashes, quits and uninstalls. Validates the tag version when supplied. Requires a Windows user with no existing DiskPond installation/data/registration. |
@@ -84,6 +86,7 @@ The create/connect slice adds a core initialization guard included in the publis
 | `pnpm lint:ci` | Whole imported application lint/format check; excludes generated routes, worker types and the Go submodule. |
 | `pnpm types` / `pnpm types:desktop` | Type-checks desktop, Electron and inherited libraries with a `types` script. |
 | `pnpm test` / `pnpm test:desktop` | Existing Electron, renderer, schema and utility Vitest suites. |
+| `node --test scripts/lib/process.test.mjs` | Desktop process-launcher regressions for JavaScript pnpm, standalone executables and nested command names; checks argument, working-directory and environment forwarding. |
 | `pnpm unused` | Whole-workspace dependency/export analysis, including inherited service sources. |
 
 `pnpm dev` and `pnpm build` alias the desktop commands. They no longer launch the upstream hosted stack. Use the root packaging wrapper: the inherited package-level `build:windows` invokes the packager without building its inputs.
@@ -112,7 +115,7 @@ No `.env` file is needed. Set optional `GO_BINARY`, `DISKPOND_DATA_DIR`, `DISKPO
 
 ## Windows packaging
 
-`pnpm build:windows` builds a local installer using `apps/electron/package.json`'s version (`0.1.0`) when no release tag is supplied. Expected output is `apps/electron/dist/DiskPond-Windows.exe` plus `win-unpacked/`. It packages the engine, both project license texts and provenance record. GitHub publishing is disabled by the wrapper.
+`pnpm build:windows` builds a local installer using `apps/electron/package.json`'s version (`0.1.1`) when no release tag is supplied. Expected output is `apps/electron/dist/DiskPond-Windows.exe` plus `win-unpacked/`. It packages the engine, both project license texts and provenance record. GitHub publishing is disabled by the wrapper.
 
 The first stable release, **v0.1.0**, is published with passing release CI and downloaded checksums. The inherited optional `CERTUM_*` signing variables remain available for future integration; the release workflow uses no certificate. Installer identity/feed metadata belongs to `hoxsec/DiskPond`. [Release instructions](docs/windows-release.md) describe tag-triggered checks, asset publication and source reproduction; [verification](docs/verification/windows-v0.1.0.md) records this release.
 

@@ -25,7 +25,11 @@ export const sources = [
   source("Documents", "sam", "D:\\Documents"),
   { ...source("Single file", "alex", "D:\\single.txt"), type: "file" },
   {
-    ...source("Partial folder", "sam", "D:\\Partial"),
+    ...source(
+      `Partial folder — ${"long-name-雪-".repeat(12)}`,
+      "sam",
+      "D:\\Partial",
+    ),
     lastBackupOutcome: {
       id: "known-failure",
       status: "FAILED",

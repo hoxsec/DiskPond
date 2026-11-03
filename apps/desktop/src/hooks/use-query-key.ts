@@ -10,6 +10,11 @@ export function useQueryKey() {
       vault: {
         all: [accountId, "vault"],
         status: (vaultId?: string) => [...keys.vault.all, vaultId, "status"],
+        storageSpace: (vaultId?: string) => [
+          ...keys.vault.all,
+          vaultId,
+          "storageSpace",
+        ],
         config: (vaultId?: string) => [...keys.vault.all, vaultId, "config"],
         password: (vaultId?: string) => [
           ...keys.vault.all,

@@ -1,5 +1,12 @@
 const assert = require("node:assert/strict");
-const { mkdir, readFile, readdir, rm, writeFile } = require("node:fs/promises");
+const {
+  mkdir,
+  readFile,
+  readdir,
+  rm,
+  statfs,
+  writeFile,
+} = require("node:fs/promises");
 const { join } = require("node:path");
 const { pathToFileURL } = require("node:url");
 const {
@@ -208,6 +215,24 @@ async function savedVaults() {
   );
 }
 
+async function verifyStorageSpace(contents) {
+  const stats = await statfs(directory, { bigint: true });
+  const space = await contents.executeJavaScript(
+    "window.electron.vault.storageSpace({vaultId: location.hash.split('/')[2]})",
+  );
+  assert.equal(space.status, "AVAILABLE");
+  assert(space.availableBytes > 0);
+  assert(
+    Math.abs(space.availableBytes - Number(stats.bavail * stats.bsize)) <
+      64 * 1024 * 1024,
+    "Vault capacity should match its actual destination volume",
+  );
+  await waitFor(
+    contents,
+    "Array.from(document.querySelectorAll('[data-slot=card]')).some(card => card.textContent.includes('Storage available') && /[0-9].*B/.test(card.querySelector('p')?.textContent || ''))",
+  );
+}
+
 app.on("browser-window-created", (_, window) => {
   const contents = window.webContents;
   if (process.env.DISKPOND_RECOVERY_PHASE)
@@ -357,6 +382,7 @@ app.on("browser-window-created", (_, window) => {
             `location.hash = ${JSON.stringify(`#/local/${vault.id}`)}`,
           );
           await text(contents, "Add file/folder");
+          await verifyStorageSpace(contents);
         }
         return finish();
       }
@@ -437,6 +463,8 @@ app.on("browser-window-created", (_, window) => {
         await activate(contents, "Create vault");
         await waitFor(contents, "!document.querySelector('[role=dialog]')");
         await text(contents, "Add file/folder");
+        await verifyStorageSpace(contents);
+        await capture(contents, `vault-storage-${index ? "dark" : "light"}`);
         await home(contents);
       }
 
@@ -470,6 +498,7 @@ app.on("browser-window-created", (_, window) => {
       await waitFor(contents, "!document.querySelector('[role=dialog]')");
       await contents.executeJavaScript("window.electron.zoom(1)");
       await text(contents, "Add file/folder");
+      await verifyStorageSpace(contents);
       await home(contents);
       await destination(contents, "CONNECT", "existing");
       await text(
