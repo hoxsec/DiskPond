@@ -30,10 +30,16 @@ git archive --format=zip --output="$output/DiskPond-$tag-source.zip" HEAD
 git -C apps/core archive --format=zip --output="$output/DiskPond-$tag-core-source.zip" $core
 Copy-Item LICENSE, UPSTREAM.md, DEVELOPMENT.md $output
 Copy-Item apps/core/LICENSE "$output/core-LICENSE.txt"
+$notesPath = Join-Path 'docs/releases' "$tag.md"
+$summary = if (Test-Path $notesPath) { Get-Content $notesPath -Raw } else { 'Encrypted desktop backups to storage you control. See the installation guide for features and supported platforms.' }
 @"
 # DiskPond $tag — Windows x64
 
-Unsigned Windows prerelease/release build. Windows may show an unknown-publisher or reputation prompt. Download only from hoxsec/DiskPond and compare SHA256SUMS.txt.
+$summary
+
+## Verification and source
+
+Unsigned Windows build. Compare SHA256SUMS.txt with the downloaded assets.
 
 Install DiskPond-Windows.exe. See https://github.com/hoxsec/DiskPond/blob/$tag/docs/windows-release.md for installation, backup and recovery instructions and current limitations.
 
@@ -42,7 +48,7 @@ Core source: $core (hoxsec/diskpond-core)
 
 The two source ZIPs contain the exact tracked application and core source. Extract the application ZIP, then the core ZIP into apps/core. Licenses, notices, pinned dependency manifests and build instructions are included. For the Git-based build wrappers, clone tag $tag recursively as described in DEVELOPMENT.md instead; GitHub's automatic source archives alone omit the core submodule.
 
-Checks: lint, desktop types, existing unit tests, Windows packaging and installed startup plus bundled-engine backup/restore hash smoke. Extended provider/platform certification, upgrades and automatic-update installation are deferred. Prior recovery evidence is retained in docs/verification.
+Checks: lint, desktop types, existing unit tests, Windows packaging and installed startup plus bundled-engine backup/restore hash smoke. Prior recovery evidence is retained in docs/verification. Updates open GitHub releases for manual installation.
 
 DiskPond derives from BlinkDisk (AGPL-3.0); the Kopia-derived core retains Apache-2.0. See LICENSE, core-LICENSE.txt and UPSTREAM.md.
 "@ | Set-Content "$output/RELEASE-NOTES.md" -Encoding utf8

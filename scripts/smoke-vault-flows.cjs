@@ -75,6 +75,14 @@ if (process.env.DISKPOND_RECOVERY_PHASE) {
 }
 
 const directory = process.env.DISKPOND_VAULT_FIXTURE;
+if (process.env.DISKPOND_VAULT_PHASE === "screenshots") {
+  // Use a demo identity in the disposable repositories captured for the README.
+  const os = require("node:os");
+  const userInfo = os.userInfo;
+  os.hostname = () => "desktop";
+  os.userInfo = (options) => ({ ...userInfo(options), username: "sam" });
+  require("node:module").syncBuiltinESMExports();
+}
 let selected;
 // Only the native picker result is injected; renderer forms, IPC, persistence
 // and real engines run unchanged, using this runner's disposable destinations.
@@ -217,6 +225,25 @@ app.on("browser-window-created", (_, window) => {
       window.focus();
       contents.focus();
       contents.closeDevTools();
+      if (process.env.DISKPOND_VAULT_PHASE === "screenshots") {
+        window.setContentSize(1600, 1050);
+        await require("./capture-readme.cjs")({
+          contents,
+          directory,
+          activate,
+          fill,
+          text,
+          waitFor,
+          tabTo,
+          key,
+          destination,
+          capture,
+          select: (path) => {
+            selected = path;
+          },
+        });
+        return finish();
+      }
       if (process.env.DISKPOND_RECOVERY_PHASE) {
         recoveryStarted = true;
         await require("./smoke-recovery.cjs")({

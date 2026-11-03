@@ -107,6 +107,14 @@ The owner requested commit/push publication and continuation with TODO item 2 in
 
 ## Distribution and later updates
 
+### First stable public release (2026-11-03)
+
+For D15 / DP04 / DP05 / F25, **v0.1.0** includes the notification-only GitHub update flow, Settings checks and the cold-start comparison-label fix in both history entry points. Each comparison entry now requests the history translation namespace explicitly. The README presents the released desktop app with real screenshots and features. `docker-compose.yml`, the empty `.github/FUNDING.yml` and redundant `.env.template` are removed; runtime options are documented in DEVELOPMENT.md. Stale release-status prose is consolidated in the active planning documents; historical evidence remains available.
+
+Stable tag releases now become GitHub's Latest release, with version-specific public notes from `docs/releases/`. The core pin, repository formats, encryption and licenses are retained. [Release evidence](docs/verification/windows-v0.1.0.md).
+
+The inherited `apps/api`, `apps/cloud`, `apps/web`, `apps/marketing` and `libs/emails` sources remain outside the desktop runtime/build. Their service copy describes upstream BlinkDisk, not DiskPond offerings. Private `@blinkdisk/*` package names, external dependencies and persisted compatibility identifiers retain their existing names.
+
 ### Windows release automation (2026-11-03)
 
 The D13 release-first slice adds a tag-triggered GitHub Release workflow and source/checksum assembly, changes the default Windows workflow to compact checks, and retains the earlier extended suites as a manual workflow. Installed smoke now checks tagged application versions and performs a disposable bundled-core snapshot/restore hash comparison. The first unsigned `v0.1.0-alpha.1` prerelease was published with owner authorization; [verification](docs/verification/windows-release-cicd.md) records its release CI and checksums. The owner-authorized [v0.1.0-alpha.2 follow-up](docs/verification/windows-alpha-2.md) publishes the identity/navigation refinements above from application `f872617`, with passing release CI and downloaded checksums. Core source/gitlink, repository formats and license notices are unchanged by this UI release.

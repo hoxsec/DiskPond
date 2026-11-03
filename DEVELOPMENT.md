@@ -1,6 +1,6 @@
 # DiskPond development guide
 
-Updated 2026-11-03. The Windows x64 development baseline and merged M2 credential/discovery slice pass locally and in clean Windows CI on both integration and merged `main`, including packaging and installed smoke. The published explicit create/connect slice also passes [clean Windows CI](https://github.com/hoxsec/DiskPond/actions/runs/41624170742). See [M1 evidence](docs/verification/m1-windows-baseline.md), [M2 publication/evidence](docs/verification/m2-provider-storage-design.md#source-publication-and-windows-ci), [create/connect evidence](docs/verification/m2-create-connect.md) and [TODO.md](TODO.md) for results and remaining product gates.
+Build and contribute to DiskPond's Windows desktop application. The [release guide](docs/windows-release.md) covers installation and tagged source reproduction; [verification records](docs/verification/) retain the scoped build, recovery and compatibility evidence. See [TODO.md](TODO.md) for current work.
 
 ## Toolchain
 
@@ -28,7 +28,7 @@ If the Node installation directory is not writable, install the Corepack shims i
 
 ## Prepare the checkout
 
-Use `main`, which includes the M1 baseline and M2 branding/local-workspace, credential-storage, discovery and explicit create/connect slices:
+Use `main` for current source, or the release tag to reproduce a published version:
 
 ```powershell
 git clone --branch main https://github.com/hoxsec/DiskPond.git
@@ -77,6 +77,7 @@ The create/connect slice adds a core initialization guard included in the publis
 | `pnpm smoke:providers` | Builds a credential-isolated loopback WebDAV service and Electron fixture; checks two-vault versioned snapshots/restores with hashes, protected/session/failure storage, restart, wrong/swapped credentials, both legacy migrations and credential scans. Requires Go and the matching managed-core build; no live-provider credentials. |
 | `node scripts/smoke-history.mjs` | Requires the matching `build:core` output and Electron runtime. Creates two disposable repositories and checks validated comparison/calendar reads, repeated snapshots, root-file metadata, profile identity, engine restart, failures without snapshots and two-version recovery. Retains the evidence directory. |
 | `node scripts/smoke-history-ui.mjs` | Requires the current renderer build (`pnpm --filter @blinkdisk/electron build:frontend`). Exercises actual Home/vault/history/comparison/browser components with isolated fixture reads, keyboard/filter/navigation/cancel/retry flows and Light/Dark/200% table-layout checks. Retains screenshots; see [scope and evidence](docs/verification/snapshot-comparison-and-activity.md). |
+| `node scripts/capture-readme.mjs` | Requires the built desktop and pinned core on Windows. Captures `docs/images/` using real disposable snapshots and a demo identity, with a temporary drive mapping for non-personal paths. Cleans up its own storage/profile and drive mapping. |
 | `pnpm smoke:desktop --session-passwords` | Runs built desktop smoke with test-only unavailable secure storage, verifying the localized notice and password/settings IPC rejection. |
 | `pnpm smoke:windows` | Installs the NSIS artifact into a disposable directory, checks installed startup/engine/resources and bundled-engine backup/restore hashes, quits and uninstalls. Validates the tag version when supplied. Requires a Windows user with no existing DiskPond installation/data/registration. |
 | `pnpm build:windows` | Builds desktop/core, then invokes electron-builder's Windows NSIS target with `--publish never`. Outputs under `apps/electron/dist/`. |
@@ -107,17 +108,17 @@ Only packaged builds register the public DiskPond URI handler. Development/previ
 
 The password fixture uses three independent local repositories and per-vault engine caches under temporary application data, and scans those fixtures for plaintext/base64 passwords. It does not use the development profile or certify backup/restore. See [password-storage evidence](docs/verification/m2-password-storage.md). The provider fixture adds real versioned restore/hash comparisons, distinct WebDAV credentials and both legacy migrations. It scans fixture profiles/storage/caches/temp files and captured output; live Windows-locked files require a strict post-exit scan. See [provider-storage evidence and limits](docs/verification/m2-provider-storage-design.md). Key-store failure injection exists only in test entry points. The Windows workflow includes both fixtures and session-only built smoke before development/installed smoke; all passed in both published runs linked above.
 
-`.env.template` documents the desktop defaults. Desktop builds no longer consume hosted API/cloud/web URLs or analytics keys. Auth, remote configuration sync, PostHog, LogSnag and Sentry execution have been removed from the desktop/main/preload dependency paths. Packaged update checks still use the DiskPond release feed; update preferences remain an M5 task.
+No `.env` file is needed. Set optional `GO_BINARY`, `DISKPOND_DATA_DIR`, `DISKPOND_TEST_TMP` and `DISKPOND_SMOKE_CAPTURE_DIR` in the calling shell as described above. Desktop builds do not consume hosted API/cloud/web URLs or analytics keys. Auth, remote configuration sync, PostHog, LogSnag and Sentry execution are removed from desktop/main/preload paths. [Update discovery](docs/verification/update-banner.md) uses DiskPond's GitHub releases, with Settings opt-out and manual checking.
 
 ## Windows packaging
 
-`pnpm build:windows` is a development packaging command, with local version `0.0.0` when no release tag is supplied. Expected output is `apps/electron/dist/DiskPond-Windows.exe` plus `win-unpacked/`. It packages the engine, both project license texts and provenance record. GitHub publishing is disabled by the wrapper.
+`pnpm build:windows` builds a local installer using `apps/electron/package.json`'s version (`0.1.0`) when no release tag is supplied. Expected output is `apps/electron/dist/DiskPond-Windows.exe` plus `win-unpacked/`. It packages the engine, both project license texts and provenance record. GitHub publishing is disabled by the wrapper.
 
-The unsigned `v0.1.0-alpha.2` prerelease is published with owner authorization. The inherited optional `CERTUM_*` signing variables remain available for future integration; the release workflow uses no certificate. Installer identity/feed metadata belongs to `hoxsec/DiskPond`. [Release instructions](docs/windows-release.md) describe tag-triggered checks, asset publication and source reproduction; [verification](docs/verification/windows-alpha-2.md) records passing release CI and downloaded checksums.
+The first stable release is **v0.1.0**, authorized by the owner. The inherited optional `CERTUM_*` signing variables remain available for future integration; the release workflow uses no certificate. Installer identity/feed metadata belongs to `hoxsec/DiskPond`. [Release instructions](docs/windows-release.md) describe tag-triggered checks, asset publication and source reproduction; [verification](docs/verification/windows-v0.1.0.md) tracks this release.
 
-After building, `pnpm smoke:windows` exercises the installed artifact on a fresh test user/runner. It expects `0.0.0` for development, or the version in `GITHUB_REF_NAME` when `GITHUB_REF_TYPE=tag`. It temporarily registers installer/URI/startup entries, checks the installed executable via loopback debug connections, and uses the installed core CLI to create a disposable snapshot, delete its fixture source, restore and compare hashes/entries. This compact check reuses prior renderer recovery evidence; it does not certify upgrade/update flows. The inherited uninstaller leaves app-created startup/URI entries; the harness records that gap and removes only entries pointing to its own fixture. It refuses to replace an existing installation or data directory.
+After building, `pnpm smoke:windows` exercises the installed artifact on a fresh test user/runner. It expects the package version, or the version in `GITHUB_REF_NAME` when `GITHUB_REF_TYPE=tag`. It temporarily registers installer/URI/startup entries, checks the installed executable via loopback debug connections, and uses the installed core CLI to create a disposable snapshot, delete its fixture source, restore and compare hashes/entries. This compact check reuses prior renderer recovery evidence; it does not certify upgrade/update flows. The inherited uninstaller leaves app-created startup/URI entries; the harness records that gap and removes only entries pointing to its own fixture. It refuses to replace an existing installation or data directory.
 
-The local Windows 11 installed-startup check passes. Fresh-OS Windows 10/11 certification, upgrades, complete uninstall behavior, update preferences, signing and full notice/assets review remain M5 gates. macOS universal/lipo packaging and the Linux architecture/format matrix are M6; the native-core path mappings alone do not certify them.
+The local Windows 11 installed-startup check passes. Fresh-OS Windows 10/11 matrices, upgrades, complete uninstall behavior, signing, full notice/assets review and macOS/Linux delivery remain deferred under D13. Native-core path mappings alone do not certify a platform.
 
 ## Core tests
 

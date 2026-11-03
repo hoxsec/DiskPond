@@ -1,8 +1,8 @@
 # GitHub release update banner — F25
 
-Date: 2026-11-03. Implemented and locally verified; not released.
+Date: 2026-11-03. Implemented and locally verified in `8a85153`; included in the owner-authorized [v0.1.0 release batch](windows-v0.1.0.md).
 
-Version follow-up: the Electron package's local version is `0.1.0-alpha.3`, matching the current release baseline instead of the inherited `0.0.0` placeholder. Settings and updater comparisons both use Electron's `app.getVersion()`. Tagged installers retain the existing tag-derived version override; untagged installer smoke reads the package version. Bump the package version when advancing the local release baseline.
+Version follow-up: the Electron package's local version initially advanced to `0.1.0-alpha.3`, then to `0.1.0` for the first stable release. Settings and updater comparisons both use Electron's `app.getVersion()`. Tagged installers retain the existing tag-derived version override; untagged installer smoke reads the package version. Bump the package version when advancing the local release baseline.
 
 ## Behavior
 
@@ -25,4 +25,4 @@ Environment: Windows, Node 24.14.0, pnpm 11.7.0 through Corepack (the plain `pnp
 - `corepack pnpm lint:ci`: passed.
 - `corepack pnpm unused`: passed after removing the progress component whose only consumer was the retired update dialog.
 
-The UI fixture mocks discovery/browser launch and does not exercise a published-version transition. Installed-artifact discovery against a subsequent release and visual theme/zoom review remain release follow-up; no installer or release was published for this change. The existing electron-updater dependency remains only for electron-builder's release metadata generation; runtime discovery uses bounded fetch, YAML parsing and SemVer comparison.
+The UI fixture mocks discovery/browser launch and does not exercise a published-version transition. Installed-artifact discovery against a subsequent release and visual theme/zoom review remain follow-up. Publication is tracked in the [v0.1.0 release record](windows-v0.1.0.md). The existing electron-updater dependency remains only for electron-builder's release metadata generation; runtime discovery uses bounded fetch, YAML parsing and SemVer comparison.

@@ -1,10 +1,10 @@
 # DiskPond — Product and Engineering Plan
 
 - **Updated:** 2026-11-03
-- **Status:** Unsigned Windows prerelease v0.1.0-alpha.3 is published from `660fff0` with owner authorization, snapshot comparison and the Home-level Activity calendar. [Release CI and downloaded checksums passed](docs/verification/windows-alpha-3.md). Owner installation/actual-use feedback is next; broad certification remains deferred.
+- **Status:** The owner has authorized **v0.1.0**, the first stable public Windows release, including the update banner, comparison-label fix and public README refresh. [Release verification](docs/verification/windows-v0.1.0.md) tracks publication. Broad certification remains deferred.
 - **Delivery:** One developer assisted by coding tools; quality-first, milestone-driven.
 
-DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It preserves inherited desktop and bring-your-own-storage functionality, uses its Kopia-based engine, and introduces an original, calm interface. The immediate deliverable is a usable Windows release; macOS/Linux and full parity are deferred.
+DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It preserves inherited desktop and bring-your-own-storage functionality, uses its Kopia-based engine, and provides an original, calm interface. Windows x64 is the current release platform; macOS/Linux and full parity are deferred.
 
 ### Active scope override — 2026-11-03
 
@@ -38,6 +38,7 @@ These decisions were made with the project owner. Changes must be recorded here 
 | D12 | Electron owns OS-protected/session-only vault passwords and provider connections. Migrate active local plaintext core connection JSON and inherited password-encrypted provider envelopes; preserve profile/cache/bandwidth metadata and compatible repository data. Managed sidecars start disconnected and receive exact credentials through the authenticated loopback API. |
 | D13 | Windows release first: replace M0–M7 delivery gates with Now / Next / Later; prioritize release CI/CD, use owner-confirmed behavior and existing CI as baseline, minimize repeated testing, and defer broad provider/platform/parity certification. |
 | D14 | Snapshot comparison with added/changed/deleted paths and before/after sizes and modification times, plus a backup activity calendar only in the separate Home-level Activity tab. Following implementation authorization, the owner removed calendar placements on Home content and inside vaults, and requested no explanatory UI prose. Use concise status/coverage labels. Durable attempt persistence remains a separate owner-reviewed contract. See [the feature plan](docs/plans/snapshot-comparison-and-activity.md). |
+| D15 | On 2026-11-03 the owner authorized fixing the comparison label, committing/pushing the current work and publishing the first stable public release, **v0.1.0**, for Windows x64. Present DiskPond as a released product, add real screenshots/features to the README and remove unnecessary repository clutter. Keep the existing unsigned distribution path and deferred certification scope. |
 
 ### Document responsibilities
 
@@ -99,7 +100,7 @@ Mobile clients, full-disk imaging/bare-metal recovery, live folder synchronizati
 
 ### Feature inventory
 
-**Status for every requirement below: planned, not yet verified in DiskPond.** `M#` identifies the main verification milestone in ROADMAP.md. Keep these IDs stable in issues, pull requests, and acceptance records. Existing fork code can satisfy a requirement only after verification.
+The inventory below records the original verification targets, not the current release checklist. `M#` refers to the archived milestones in ROADMAP-HISTORY.md. Current results are in `docs/verification/`; D13 defers exhaustive certification. Keep requirement IDs stable in issues, pull requests and acceptance records.
 
 #### Storage providers
 
@@ -149,7 +150,7 @@ All providers must pass create, connect, snapshot, browse, restore/hash comparis
 | F22 | Tray/background mode, login startup, single-instance behavior, native dialogs, taskbar progress, relevant app links. | S5 | M2 basic / M5 complete / M6 ports: closing a window versus quitting is clear; automatic jobs run while the desktop process is running. |
 | F23 | Light/dark/system themes, English UI, localization infrastructure and preferences. | S4 | M5: all workflows in both themes; English is the baseline's currently listed language. |
 | F24 | Local settings/configuration persistence, migrations, password handling, and startup recovery. | S5 | M2 basic / M5 complete: settings survive upgrades, secrets use OS protection or session-only storage, and damaged state produces a recovery path. |
-| F25 | Update discovery, download progress, installation, failure/retry, release notes. | S5, S6 | M5 Windows / M6 ports: only DiskPond release feeds; users can disable automatic checks; updates respect active operations. |
+| F25 | Update discovery, notification banner, manual check, failure/retry and GitHub release link. | S5, S6; owner override | Implemented: only DiskPond releases, Settings opt-out and manual installation through GitHub; [verification](docs/verification/update-banner.md). |
 | F26 | Installers and packaged backup engine for every declared target. | S1, S6 | M5 Windows / M6 other targets: install, launch, snapshot, restore, upgrade, and uninstall matrix passes. |
 
 Compression parity includes `none`, `gzip` variants, `zstd` variants, `s2` variants (including parallel variants), `pgzip` variants, `deflate` variants, and `lz4`, as enumerated in the pinned `libs/constants/src/algorithms.ts`. Preserve stored algorithm identifiers; UI presets are only labels over engine settings.
@@ -325,4 +326,4 @@ Store evidence under `docs/verification/` with requirement IDs, commits, engine 
 
 The product reaches the full desktop/BYO parity milestone only when every applicable P/F/DP requirement is demonstrated on its required platform(s), all platform/support gaps are resolved or explicitly re-scoped by the owner, and backup recovery succeeds from a fresh installation. Documentation must state the exact supported versions and the X01–X05 exclusions/replacements.
 
-**The first Windows prerelease is published:** [v0.1.0-alpha.1](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.0-alpha.1), delivered by release CI/CD. Owner installation and feedback are next. M1/M2 and the M3 kickoff retain their recorded evidence; further certification is deferred under D13. [TODO.md](TODO.md) lists the immediate work.
+**The first stable Windows release is authorized:** [v0.1.0 release record](docs/verification/windows-v0.1.0.md). M1/M2, the M3 kickoff and all three alpha releases retain their recorded evidence; further certification is deferred under D13. [TODO.md](TODO.md) lists the immediate work.

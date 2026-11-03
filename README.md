@@ -1,45 +1,75 @@
 # DiskPond
 
-An account-free desktop backup application being developed from [BlinkDisk](https://github.com/blinkdisk/blinkdisk), using the [DiskPond Kopia-derived engine fork](https://github.com/hoxsec/diskpond-core).
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="libs/assets/brand/diskpond-logo-dark.svg">
+  <img alt="DiskPond" src="libs/assets/brand/diskpond-logo.svg" width="360">
+</picture>
 
-DiskPond's target is encrypted, versioned backups to storage you provide: local/external drives, NAS, S3-compatible storage, B2, Google Cloud Storage, Azure, SFTP, WebDAV and Rclone. Windows comes first; macOS and Linux remain required targets.
+**Encrypted backups. Your storage. No account.**
 
-## Development status
+DiskPond is a free, open-source desktop backup app for Windows. Back up files and folders, keep earlier versions, compare what changed, and restore the files you need—all using storage you control.
 
-**Windows release first.** The current application passes [Windows CI](https://github.com/hoxsec/DiskPond/actions/runs/41645023929), including recovery, packaging and installed smoke. Hosted login, managed cloud storage, billing, configuration sync and telemetry paths are removed.
+[**Download for Windows**](https://github.com/hoxsec/DiskPond/releases/latest/download/DiskPond-Windows.exe) · [Release notes](https://github.com/hoxsec/DiskPond/releases/latest) · [Installation & recovery](docs/windows-release.md)
 
-The latest unsigned Windows prerelease, [**v0.1.0-alpha.3**](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.0-alpha.3), adds snapshot comparison and a retained-history calendar in the Home-level **Activity** tab. It retains the graphite/blue square-corner design and profile/history return navigation. [Release CI and all downloaded checksums](docs/verification/windows-alpha-3.md) passed, including installed backup/restore checks. See [Windows installation and recovery instructions](docs/windows-release.md) and [feature evidence and limitations](docs/verification/snapshot-comparison-and-activity.md). Owner installation and actual-use feedback are next. Encrypted setup export/import, durable attempt history and broader provider/platform certification remain deferred.
+Windows 10/11 · x64 · **v0.1.0**. The installer is currently unsigned; installation details and checksums are on the release page.
 
-See [ROADMAP.md](ROADMAP.md) for Now / Next / Later and [PLAN.md](PLAN.md) for the requirement inventory.
+![DiskPond in dark mode, showing a vault with Documents and Projects backups](docs/images/vault-dark.png)
 
-## Build and run
+## Features
 
-Use the `main` checkout, Node **24.15.0**, pnpm **11.7.0**, and Go **1.25.5**:
+- **Encrypted, versioned backups** with incremental storage, deduplication and compression, powered by the Kopia-derived engine.
+- **Your choice of storage** with multiple independent vaults and separate create/connect flows.
+- **Manual or scheduled backups**, retention rules, pinned backups and file exclusions.
+- **Browse and restore** individual files, selected items or whole folders; export a folder as a ZIP.
+- **Compare backups** to see added, changed and deleted paths, with before/after sizes and modification times.
+- **Activity calendar** for retained backups, with vault filtering and daily drill-down.
+- **Light, dark and system themes**, keyboard navigation and tray/background operation.
+- **Update notifications** with a manual check in Settings and a link to GitHub releases.
+- **Account-free and private**: no subscriptions, analytics or automatic crash uploads. Credentials use OS-protected storage, with session-only storage when protection is unavailable.
+
+### See what changed
+
+![Backup comparison in light mode, showing added, changed and deleted files](docs/images/comparison-light.png)
+
+### Keep track of your backups
+
+![The Activity tab in dark mode, showing retained backups on a calendar](docs/images/activity-dark.png)
+
+Screenshots use disposable demo files and real backups. The calendar reflects retained history; it is not a complete log of every failed or canceled attempt.
+
+## Storage integrations
+
+| Local & network | Object storage | Other connections |
+| --- | --- | --- |
+| Internal and external drives | Amazon S3 and S3-compatible services | SFTP |
+| Mounted network drives / NAS | Backblaze B2 | WebDAV |
+| | Google Cloud Storage, Azure Blob | Rclone remotes |
+
+These integrations are available in the app. Provider-by-provider certification and macOS/Linux releases are tracked in the [roadmap](ROADMAP.md).
+
+## Get started
+
+1. [Install DiskPond](docs/windows-release.md) and choose **Create a new vault**, or **Connect an existing vault** to open existing backup storage.
+2. Choose your destination and encryption password, then add files or folders.
+3. Run a backup. Open its history to browse, compare or restore a saved version.
+
+Scheduled backups run while DiskPond is open or running in the tray. Keep your vault password somewhere recoverable.
+
+## Build from source
+
+Use Node **24.15.0**, pnpm **11.7.0**, and Go **1.25.5**:
 
 ```powershell
-git submodule update --init --checkout apps/core
+git clone --recurse-submodules https://github.com/hoxsec/DiskPond.git
+cd DiskPond
 pnpm install --frozen-lockfile
 pnpm dev:desktop
 ```
 
-Choose **Open DiskPond** on first launch. Existing local workspaces reopen directly. Desktop development starts the renderer and Electron; the bundled engine starts when storage is probed or a vault connects.
-
-Full commands, prerequisites and isolated smoke checks: [DEVELOPMENT.md](DEVELOPMENT.md).
-
-## Project documents
-
-- [Windows baseline evidence](docs/verification/m1-windows-baseline.md)
-- [Service dependency and endpoint inventory](docs/verification/m1-dependencies.md)
-- [Platform compatibility findings](docs/verification/m1-platforms.md)
-- [Design conventions](STYLE.md) and [contributor instructions](AGENTS.md)
-- [Upstream pins, attribution and modification record](UPSTREAM.md)
-
-## Remaining upstream names
-
-The desktop product, artwork, application identifiers and Windows artifacts use **DiskPond**. Remaining `BlinkDisk` names in licenses/About preserve attribution; legacy repository, password and policy identifiers preserve compatibility. Internal `@blinkdisk/*` workspace packages and the external `@blinkdisk/signaldb-electron` dependency retain their existing names.
-
-`apps/api`, `apps/cloud`, `apps/web`, `apps/marketing` and `libs/emails` contain inherited hosted-service sources, excluded from the desktop runtime and build. Their branding, service addresses, commercial copy and legal pages describe upstream BlinkDisk, not DiskPond offerings. DiskPond's project home is [hoxsec/DiskPond](https://github.com/hoxsec/DiskPond); it provides no hosted account, billing or managed-storage service.
+[Build instructions](DEVELOPMENT.md) · [Contributing](AGENTS.md) · [Report an issue](https://github.com/hoxsec/DiskPond/issues) · [Roadmap](ROADMAP.md)
 
 ## License and credits
 
-DiskPond preserves BlinkDisk's **AGPL-3.0** application license: [LICENSE](LICENSE). The pinned engine preserves its separate **Apache-2.0** license: [apps/core/LICENSE](apps/core/LICENSE). Thank you to the BlinkDisk and Kopia contributors. Third-party dependencies and assets retain their own licenses.
+DiskPond is a fork of [BlinkDisk](https://github.com/blinkdisk/blinkdisk), licensed under [**AGPL-3.0**](LICENSE). Its [Kopia-derived engine fork](https://github.com/hoxsec/diskpond-core) retains its separate [**Apache-2.0** license](apps/core/LICENSE). Thanks to the BlinkDisk, Kopia and dependency contributors.
+
+[Upstream provenance and modification record](UPSTREAM.md). Third-party dependencies and assets retain their own licenses.

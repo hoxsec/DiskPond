@@ -40,8 +40,8 @@ const config: KnipConfig = {
         "@tanstack/react-query",
         "@tanstack/react-router",
       ],
-      // Windows process cleanup, registry and disposable ACL fixtures use OS tools.
-      ignoreBinaries: ["taskkill", "reg", "icacls", "powershell.exe"],
+      // Windows process, registry, ACL and screenshot fixtures use OS tools.
+      ignoreBinaries: ["taskkill", "reg", "icacls", "powershell.exe", "subst"],
     },
     "apps/api": {
       project: commonProject,
