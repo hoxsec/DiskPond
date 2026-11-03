@@ -255,6 +255,7 @@ type BackupProps = {
 
 function Backup({ backup }: BackupProps) {
   const { t } = useAppTranslation("backup.list.item");
+  const { t: tComparison } = useAppTranslation("history.comparison");
   const { data: source } = useSource();
   const { openDeleteBackupDialog } = useDeleteBackupDialog();
   const { openPinBackupDialog } = usePinBackupDialog();
@@ -387,7 +388,7 @@ function Backup({ backup }: BackupProps) {
                 }
               >
                 <GitCompareArrowsIcon aria-hidden="true" />
-                {t("history:comparison.title")}
+                {tComparison("title")}
               </DropdownMenuItem>
               {backup.id && backup.rootID && !isFileLikeBackup ? (
                 <DropdownMenuItem

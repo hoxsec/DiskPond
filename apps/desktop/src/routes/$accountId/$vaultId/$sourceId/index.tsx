@@ -32,6 +32,7 @@ export const Route = createFileRoute("/$accountId/$vaultId/$sourceId/")({
 
 function RouteComponent() {
   const { t } = useAppTranslation("backup.list");
+  const { t: tComparison } = useAppTranslation("history.comparison");
 
   const { data: source } = useSource();
   const { data: backups } = useCompletedBackupList();
@@ -88,7 +89,7 @@ function RouteComponent() {
             }
           >
             <GitCompareArrowsIcon aria-hidden="true" />
-            {t("history:comparison.title")}
+            {tComparison("title")}
           </Button>
           {backups !== null && backups !== undefined ? (
             <>

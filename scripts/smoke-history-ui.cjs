@@ -77,8 +77,25 @@ app.whenReady().then(async () => {
       );
     };
     await wait(
-      "window.historyFixture && document.body.innerText.includes('Fixture A')",
+      "window.historyFixture && document.body.innerText.includes('Back to vault') && document.body.innerText.includes('Compare backups')",
     );
+    assert.ok(
+      await evaluate("!document.body.innerText.includes('comparison.title')"),
+    );
+    await focus(
+      "document.activeElement?.getAttribute('aria-haspopup')==='menu' && document.activeElement.closest('.bg-card')",
+    );
+    await key("Return");
+    await wait(
+      "Array.from(document.querySelectorAll('[role=menuitem]')).some(item=>item.textContent.trim()==='Compare backups')",
+    );
+    await button("Compare backups");
+    await wait("document.body.innerText.includes('Comparison finished')");
+    await button("Back to backup history");
+    await button("Compare backups");
+    await wait("document.body.innerText.includes('Comparison finished')");
+    await evaluate("window.historyFixture.home()");
+    await wait("document.body.innerText.includes('Fixture A')");
     assert.equal(await evaluate("document.querySelector('[data-day]')"), null);
     contents.setZoomFactor(2);
     await wait("innerWidth<768");
@@ -249,7 +266,7 @@ app.whenReady().then(async () => {
     );
     await button("Back to backup history");
     console.info(
-      "History UI passed: Home and vault without calendars, Activity navigation and vault filtering, no Activity in vault menu, keyboard day selection, comparison selection/filter/swap/browse/return, missing/cancel/large/insufficient states, Light/Dark and 200% zoom.",
+      "History UI passed: cold-start comparison labels and both entry points, Home and vault without calendars, Activity navigation and vault filtering, no Activity in vault menu, keyboard day selection, comparison selection/filter/swap/browse/return, missing/cancel/large/insufficient states, Light/Dark and 200% zoom.",
     );
     clearTimeout(timeout);
     app.exit(0);

@@ -32,10 +32,23 @@ import {
   time,
 } from "./history-ui-state.mjs";
 
+// Match a fresh application launch: history is loaded only when a component
+// requests its namespace, rather than being bundled eagerly by this fixture.
+i18n.use({
+  type: "backend",
+  init() {},
+  read(_language, namespace, callback) {
+    queueMicrotask(() =>
+      callback(null, namespace === "history" ? history : {}),
+    );
+  },
+});
 await i18n.init({
   lng: "en",
   fallbackLng: "en",
-  resources: { en: { history, vault, folder, backup, directory, sidebar } },
+  ns: ["vault", "folder", "backup", "directory", "sidebar"],
+  partialBundledLanguages: true,
+  resources: { en: { vault, folder, backup, directory, sidebar } },
   interpolation: { escapeValue: false },
 });
 window.electron = {
@@ -228,7 +241,9 @@ const router = createRouter({
       ]),
     ]),
   ]),
-  history: createMemoryHistory({ initialEntries: ["/local/"] }),
+  history: createMemoryHistory({
+    initialEntries: [`/local/vault-a/${encodeURIComponent(sources[0].id)}`],
+  }),
 });
 window.historyFixture = {
   setReadMode: (value) => {
