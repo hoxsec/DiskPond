@@ -24,7 +24,6 @@ catalog:
   '@fontsource/inter': '^5.2.8'
   '@fontsource/space-mono': '^5.2.9'
   '@hono/trpc-server': '^0.4.2'
-  '@lottiefiles/dotlottie-react': '^0.19.5'
   '@lucide/astro': '^1.21.0'
   '@maverick-js/signals': '^6.0.0'
   '@plunk/node': '^3.0.3'

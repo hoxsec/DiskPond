@@ -21,7 +21,6 @@
     "@blinkdisk/styles": "workspace:*",
     "@blinkdisk/ui": "workspace:*",
     "@blinkdisk/utils": "workspace:*",
-    "@lottiefiles/dotlottie-react": "catalog:",
     "@maverick-js/signals": "catalog:",
     "@signaldb/maverickjs": "catalog:",
     "@signaldb/react": "catalog:",

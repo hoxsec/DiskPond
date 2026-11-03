@@ -15,7 +15,7 @@ dialog.showOpenDialog = async () => ({
 let finished = false;
 const watchdog = setTimeout(
   () => finish(new Error("Vault flow smoke timed out")),
-  165_000,
+  process.env.DISKPOND_RECOVERY_PHASE ? 240_000 : 165_000,
 );
 function finish(error) {
   if (finished) return;
@@ -140,6 +140,24 @@ app.on("browser-window-created", (_, window) => {
       window.focus();
       contents.focus();
       contents.closeDevTools();
+      if (process.env.DISKPOND_RECOVERY_PHASE) {
+        await require("./smoke-recovery.cjs")({
+          contents,
+          directory,
+          activate,
+          fill,
+          text,
+          waitFor,
+          tabTo,
+          key,
+          destination,
+          capture,
+          select: (path) => {
+            selected = path;
+          },
+        });
+        return finish();
+      }
       if (process.env.DISKPOND_VAULT_PHASE === "restart") {
         await text(contents, "Vaults");
         const vaults = await savedVaults();

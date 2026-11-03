@@ -47,8 +47,6 @@ const config: KnipConfig = {
     "apps/desktop": {
       entry: ["vite.config.ts"],
       project: commonProject,
-      // Vite resolves this from apps/desktop/public at build time.
-      ignoreUnresolved: [/^\/animations\/backup\.lottie(\?url)?$/],
       vite: { config: [] },
     },
     "apps/electron": {

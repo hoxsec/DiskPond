@@ -37,12 +37,14 @@ Work through the M2 items below in order. [ROADMAP.md](ROADMAP.md) owns mileston
 
 **Requirements:** P01, F01–F02, basic F17/F24, DP01 / Q01, Q02, Q08.
 
-- [ ] From a fresh isolated desktop profile, create a local encrypted vault, add a source through the UI, make snapshot A, change/delete/add files, then make snapshot B.
-- [ ] Browse both versions and restore them through the renderer to separate destinations. Compare file SHA-256 hashes, directory entries and supported metadata, including deleted-file recovery from A.
+- [x] From a fresh isolated desktop profile, create a local encrypted vault, add a source through the UI, make snapshot A, change/delete/add files, then make snapshot B.
+- [x] Browse both versions and restore them through the renderer to separate destinations. Compare file SHA-256 hashes, directory entries and supported metadata, including deleted-file recovery from A. [Local desktop evidence](docs/verification/m2-desktop-recovery.md) covers entries/hashes/file modification times before and after restart; broader metadata remains below.
 - [ ] Include empty files/directories, nested Unicode paths, a large file, and link/permission fixtures with documented platform limits.
+  - Empty entries, nested Unicode and a 32-MiB file pass in the desktop fixture; link/permission metadata remains open.
 - [ ] Repeat after quitting/restarting with networking blocked; include multiple independent vaults and exact whitespace-bearing passwords.
+  - One-vault restart and exact whitespace password pass with remote Chromium requests blocked. All-process offline blocking and multiple-vault recovery remain open.
 - [ ] Confirm account-free operation and coexistence with BlinkDisk's profile/registration; exercise the critical journey in both themes, with keyboard navigation and 200% zoom.
-- [ ] Add a reproducible desktop recovery acceptance fixture and evidence under `docs/verification/`. Extend CI once the fixture is reliable.
+- [x] Add a reproducible desktop recovery acceptance fixture and evidence under `docs/verification/`. `pnpm smoke:recovery` passes locally and is added to Windows CI; clean CI execution remains pending.
 
 ## 4. Interruption, restart and desktop lifecycle
 

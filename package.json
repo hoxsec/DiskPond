@@ -16,6 +16,7 @@
     "smoke:discovery": "node scripts/smoke-discovery.mjs",
     "smoke:vaults": "node scripts/smoke-vault-flows.mjs",
     "smoke:restores": "node scripts/smoke-restores.mjs",
+    "smoke:recovery": "node scripts/smoke-recovery.mjs",
     "smoke:passwords": "node scripts/smoke-password-storage.mjs",
     "smoke:providers": "node scripts/smoke-provider-storage.mjs",
     "smoke:windows": "node scripts/smoke-installed.mjs",

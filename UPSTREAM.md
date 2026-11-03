@@ -101,6 +101,8 @@ The owner authorized committing and pushing the restore-outcome slice to applica
 
 ### Distribution requirements
 
+M2 desktop recovery follow-up (2026-11-03): the inherited source-history page's initial-backup Lottie animation attempted to download its WASM runtime from jsDelivr/unpkg. It now uses the existing local Lucide backup icon and retains the engine-backed progress display. The unused `@lottiefiles/dotlottie-react` dependency/catalog entry and its transitive player were removed using pnpm; no other locked resolutions changed. The built-renderer recovery fixture checks for remote Chromium requests during its journey. See [desktop recovery evidence](docs/verification/m2-desktop-recovery.md).
+
 DiskPond's source/release namespace is `hoxsec/DiskPond`. Runtime identifiers are documented in [the M1 evidence](docs/verification/m1-windows-baseline.md). Existing BlinkDisk settings are not imported automatically.
 
 Before distributing binaries, publish matching application and core source, build instructions, license/copyright material, dependency notices and checksums. Current development packaging includes both project license texts, owner artwork and this provenance record; a complete third-party notice review and release signing remain M5 gates. Build instructions are in [DEVELOPMENT.md](DEVELOPMENT.md).

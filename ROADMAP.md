@@ -87,8 +87,8 @@ Subsequent credential/discovery/provider changes are also merged into applicatio
   - [x] Implement owner-approved protected/session-only provider storage, metadata-only managed core connections, and migration of both inherited local provider copies. [Decision, published implementation and native recovery evidence](docs/verification/m2-provider-storage-design.md). Windows CI passes; live-provider and full desktop recovery certification remain open.
 - [ ] Supervise the local engine, expose meaningful startup/failure status, and keep its API local/authenticated.
   - Managed disconnected startup, confirmed connection results and retryable unexpected exits are covered by the credential slice. Broader job interruption and desktop failure/recovery flows remain open.
-- [ ] Complete one real local-source → encrypted vault → snapshot history → restored-file journey.
-- [ ] Verify changed/deleted source contents can be restored from the correct version.
+- [x] Complete one real local-source → encrypted vault → snapshot history → restored-file journey. [Built-desktop local evidence](docs/verification/m2-desktop-recovery.md); broader offline/platform cases remain open.
+- [x] Verify changed/deleted source contents can be restored from the correct version. Both versions pass renderer restore/hash checks before and after restart.
 - [ ] Distinguish restore success, partial completion and failure in the vertical slice.
   - [Local native coordinator and renderer-component evidence](docs/verification/m2-restore-outcomes.md) covers explicit terminal states, kept results, cancellation/interruption, hashes, keep-both/overwrite and truthful ZIP omissions. Source handoff is authorized; clean CI, full-volume and full renderer recovery evidence remain open.
 - [ ] Verify restart, window-close/tray behavior and persisted local settings.
