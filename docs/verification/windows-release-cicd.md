@@ -10,7 +10,7 @@ Application: working changes on `b58b03ba61ed45efd99937c122195b0646ff54b6`. Core
 - Earlier extended workflow preserved as manual `desktop-extended.yml`.
 - Validated version tags, unsigned artifacts, source ZIPs for the exact application/core revisions, notices/build instructions and SHA-256 manifest.
 - Build job has read-only repository permissions; separate publishing job receives only the successful run's assets, creates a draft, uploads them and publishes. Prerelease tags set GitHub prerelease status. Existing releases are not overwritten.
-- Owner selected `v0.1.0-alpha.1`, unsigned. Subsequently authorized committing/pushing this batch, merging to `main` and removing other branches/open PRs. Tagging and binary publication remain unauthorized.
+- Owner selected `v0.1.0-alpha.1`, unsigned, authorized the source merge/cleanup and then requested one release. The tag and prerelease are now published.
 
 ## Results
 
@@ -30,6 +30,12 @@ The installed recovery fixture creates a local encrypted repository using the **
 
 Local asset assembly archives committed HEAD, so its test ZIPs intentionally exclude this uncommitted implementation. On a tagged checkout the archives include the tagged release implementation. They are not published release candidates.
 
+## Publication
+
+Application `dd6e3c2e68e7d7aacbf4b82887bd033337c2834a` was fast-forward merged to `main`; [main CI 41653650520](https://github.com/hoxsec/DiskPond/actions/runs/41653650520) passed. Other DiskPond branches were deleted and the unmerged Dependabot PR was closed at the owner's request.
+
+Annotated tag `v0.1.0-alpha.1` points to that application commit. [Release run 41654918106](https://github.com/hoxsec/DiskPond/actions/runs/41654918106) passed the compact check, tagged installed smoke, asset assembly/upload and publication. [The release](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.0-alpha.1) is public, non-draft and marked prerelease. All 11 assets were downloaded; all 10 entries in SHA256SUMS.txt matched. Installer SHA-256: `1c367429197eedd4e16eec38e3facfae12c22891fbd42eb6a82919ddcd761aa6`.
+
 ## Remaining
 
-One final GitHub run on the committed release batch, separate tag/publication authorization, and owner installation of the downloadable artifact remain pending. The owner has authorized the source commit/push/merge and branch/PR cleanup. The Now task is not complete until binary delivery succeeds. Broad provider/platform certification, upgrades, automatic-update installation, signing and exhaustive parity are deferred. Prior Windows recovery evidence: [run 41645023929](https://github.com/hoxsec/DiskPond/actions/runs/41645023929).
+Release delivery is complete. Owner installation and actual-use feedback remain pending. Broad provider/platform certification, upgrades, automatic-update installation, signing and exhaustive parity are deferred. Prior Windows recovery evidence: [run 41645023929](https://github.com/hoxsec/DiskPond/actions/runs/41645023929).

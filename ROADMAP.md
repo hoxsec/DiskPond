@@ -7,11 +7,13 @@ The owner confirms the current workflow works. Existing [Windows CI](https://git
 ## Now — Windows release CI/CD
 
 - [x] Add a version-tag release workflow that builds the pinned core and Windows installer.
-- [ ] Verify the compact release check in GitHub: lint/types, existing unit tests and installed + bundled-engine backup/restore smoke. Extended suites are manual.
-- [ ] Publish installer, updater metadata, checksums and matching source/license information to a GitHub Release in `hoxsec/DiskPond`; automation is implemented, publication pending.
-- [ ] Cut the first Windows prerelease. [Release/install/recovery instructions](docs/windows-release.md) are implemented; owner selected **v0.1.0-alpha.1**, unsigned. Tagging/publication still requires authorization.
+- [x] Verify the compact release check in GitHub: [release run 41654918106](https://github.com/hoxsec/DiskPond/actions/runs/41654918106) passed lint/types, unit tests and installed + bundled-engine backup/restore smoke. Extended suites are manual.
+- [x] Publish installer, updater metadata, checksums and matching source/license information to [GitHub Release v0.1.0-alpha.1](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.0-alpha.1); downloaded asset checksums verified.
+- [x] Cut the first Windows prerelease, **v0.1.0-alpha.1**, unsigned, with owner authorization. [Release/install/recovery instructions](docs/windows-release.md) are available.
 
 **Done when:** a version tag produces a downloadable installer that the owner can install and use. Broad provider/platform certification does not block this release.
+
+Delivery complete; owner installation and actual-use feedback are next. This does not claim owner acceptance testing has occurred.
 
 ## Next — Improve through actual use
 

@@ -1,10 +1,10 @@
 # Windows releases
 
-The first planned release is **v0.1.0-alpha.1**, an **unsigned Windows x64 prerelease**, as approved by the owner. Windows 10/11 is the initial target; broader OS/provider certification is deferred.
+The first release is [**v0.1.0-alpha.1**](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.0-alpha.1), an **unsigned Windows x64 prerelease**, published with owner authorization on 2026-11-03. Windows 10/11 is the initial target; broader OS/provider certification is deferred.
 
 ## Publish a version
 
-Commit and push the reviewed release batch first. From a clean checkout at that commit:
+Commit and push the reviewed release batch first. The first release used the following commands; for another release, choose a new version rather than repeating this existing tag:
 
 ```powershell
 git tag -a v0.1.0-alpha.1 -m "DiskPond Windows alpha 1"

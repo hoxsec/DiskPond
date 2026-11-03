@@ -12,7 +12,7 @@ The owner replaced the M0–M7 certification sequence with the small [Now / Next
 
 Prioritize tag-triggered Windows release CI/CD and a compact release check, then fix problems reported during actual use. Reuse existing passing recovery evidence. Test changed backup/security behavior narrowly; keep extended provider/platform suites manual. Existing cryptography, repository compatibility, truthful outcomes, credential protection and license obligations remain binding. No binary publication is authorized by this planning change alone.
 
-Release implementation update: tag-triggered automation and compact installed backup/restore smoke are implemented. The owner selected **v0.1.0-alpha.1**, **unsigned**, for the first prerelease. GitHub verification, tagging and publication remain pending separate authorization. See [release instructions](docs/windows-release.md) and [local evidence](docs/verification/windows-release-cicd.md).
+Release update: with owner authorization, **v0.1.0-alpha.1**, **unsigned**, is published from application `dd6e3c2`. [Release CI](https://github.com/hoxsec/DiskPond/actions/runs/41654918106) and downloaded checksums passed. Owner installation/feedback is next. See [release instructions](docs/windows-release.md) and [verification evidence](docs/verification/windows-release-cicd.md).
 
 ## 1. Confirmed decisions
 
@@ -316,4 +316,4 @@ Store evidence under `docs/verification/` with requirement IDs, commits, engine 
 
 The product reaches the full desktop/BYO parity milestone only when every applicable P/F/DP requirement is demonstrated on its required platform(s), all platform/support gaps are resolved or explicitly re-scoped by the owner, and backup recovery succeeds from a fresh installation. Documentation must state the exact supported versions and the X01–X05 exclusions/replacements.
 
-**The active completion target is the first usable Windows prerelease**, delivered by the release CI/CD in [ROADMAP.md](ROADMAP.md). M1/M2 and the M3 kickoff retain their recorded evidence; further certification is deferred under D13. [TODO.md](TODO.md) lists the immediate work. No DiskPond binary release has been published.
+**The first Windows prerelease is published:** [v0.1.0-alpha.1](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.0-alpha.1), delivered by release CI/CD. Owner installation and feedback are next. M1/M2 and the M3 kickoff retain their recorded evidence; further certification is deferred under D13. [TODO.md](TODO.md) lists the immediate work.
