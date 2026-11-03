@@ -2,9 +2,9 @@
 
 ## Purpose and current state
 
-DiskPond is an AGPL-3.0 fork of BlinkDisk focused on account-free desktop backups to user-provided storage. It uses Electron/React/TypeScript and a pinned Kopia-derived Go sidecar. Windows is first; macOS and Linux are required later targets.
+DiskPond is an AGPL-3.0 fork of BlinkDisk focused on account-free desktop backups to user-provided storage. It uses Electron/React/TypeScript and a pinned Kopia-derived Go sidecar. Windows release CI/CD is the priority; macOS/Linux delivery and certification are deferred.
 
-**Current repository state:** M1 and M2 are complete. Clean Windows CI run `41639380823` at application `fb077fa` passes offline two-version desktop recovery in protected/session-only modes, lifecycle, symlink/read-only metadata, real full-volume failures, packaging and installed smoke. Evidence is in `docs/verification/m2-desktop-recovery.md`. Desktop account/cloud UI and auth/sync/telemetry paths are removed. The owned core is pinned at published `0f31eefe409cb4f0571baf65abd7d063784598cd`, including copy/ZIP failure output cleanup. M3 provider breadth is in progress with the provider audit and GCS/SFTP connection fixes; follow `TODO.md` and `docs/verification/m3-storage-breadth.md` for evidence and blockers. Prior pins and verification remain in `UPSTREAM.md` and `docs/verification/`. M2 is a Windows local-backup alpha, not full feature/platform parity.
+**Current repository state:** The owner confirms the Windows workflow works and has replaced M0–M7 delivery gates with a short release-first roadmap (PLAN.md D13). **Next: Windows release CI/CD**, following `ROADMAP.md` and `TODO.md`. Application `62ab2dd` passes Windows CI `41645023929`, including GCS/SFTP regressions, recovery, packaging and installed smoke. The owned core remains pinned at `0f31eefe409cb4f0571baf65abd7d063784598cd`. Desktop account/cloud UI and auth/sync/telemetry paths are removed. Preserve evidence in `docs/verification/`; old milestones/tasks are in `ROADMAP-HISTORY.md` and `TODO-HISTORY.md`. Further provider/platform/parity certification is deferred, not a first-release blocker or a claim of support. Release publishing automation is not implemented yet.
 
 Read these documents before implementation:
 
@@ -21,16 +21,16 @@ Keep documentation status synchronized with actual implementation. Follow applic
 - Local workspace, manual repository connection, encrypted setup export/import, and compatible existing BlinkDisk BYO vaults.
 - No analytics or automatic crash uploads. Diagnostics are local, redacted on export, and exported by user action.
 - Original DiskPond identity, light/dark/system themes, and the calm utility design in STYLE.md.
-- Preserve every applicable P/F requirement in PLAN.md. Record discoveries and unresolved compatibility gaps; do not silently reduce parity.
+- Preserve existing P/F functionality and record compatibility gaps. PLAN.md D13 defers exhaustive parity/provider/platform certification; do not reinstate it as a first-release prerequisite.
 
 ## Start-of-task workflow
 
 1. Inspect repository status and relevant existing changes. Preserve user work and unrelated files.
-2. Identify the active roadmap milestone and the requirement IDs for the task.
+2. Identify the active Now / Next / Later priority and relevant requirement IDs where useful.
 3. Inspect the corresponding upstream/inherited behavior and nearby implementation before editing.
 4. Implement the smallest complete user-visible slice using existing abstractions.
 5. Run checks appropriate to the changed behavior; report commands, results and actual blockers.
-6. Update requirement evidence and milestone status when the acceptance criteria are met.
+6. Update release-task status and evidence when the relevant acceptance criteria are met.
 
 Ask when a decision changes product scope, on-disk/repository compatibility, cryptographic format, supported platforms, or release ownership. Routine implementation details should follow the documented defaults. Use subagents only when explicitly requested by the user or applicable instructions.
 
@@ -130,10 +130,10 @@ Keep this table synchronized with verified commands. `pnpm build` aliases `build
 - Backup/restore/retention/engine changes: real-engine recovery/hash verification and relevant interruption/compatibility fixtures.
 - Packaging/update/platform changes: installed-artifact checks on the affected OS/architecture.
 
-Run the required checks once the implementation is ready. Broaden or repeat when new changes, failures or unresolved concerns justify it. CI/provider credentials/hardware being unavailable must be reported as a blocker, not as a passing check.
+Use a compact Windows release check and one final GitHub run per release-ready batch. Reuse passing evidence; keep extended certification suites manual. Run focused checks for changed backup/security logic, and broaden or repeat only for relevant changes, failures or unresolved concerns. No tests are needed for documentation-only changes. Missing provider credentials/hardware means deferred certification, not a passed check or a blocker for the initial Windows release. The current workflow still runs the extended baseline until the release CI/CD task changes it.
 
 ## Completion and handoff
 
-An implementation task is complete when its user-visible behavior, appropriate checks, localization, error/empty states and required evidence are present. Update ROADMAP.md only when its gate actually passes.
+An implementation task is complete when its user-visible behavior, appropriate focused checks, localization, error/empty states and relevant evidence are present. Mark roadmap items complete only when their stated outcome is delivered; do not require deferred certification work for the first Windows release.
 
 Summarize: what changed, affected requirement IDs, checks/results, and concrete remaining blockers. Never claim full parity based on the feature list alone. Do not commit, push, tag or publish unless the user requested that action.

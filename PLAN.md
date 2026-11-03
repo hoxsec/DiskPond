@@ -1,10 +1,16 @@
 # DiskPond — Product and Engineering Plan
 
 - **Updated:** 2026-11-03
-- **Status:** M1 and M2 complete. The Windows account-free local-backup alpha passes [clean CI and offline two-version desktop recovery](docs/verification/m2-desktop-recovery.md#final-windows-ci-and-m2-closure) at application `fb077fa`, core `0f31eef`. [M3 storage breadth](docs/verification/m3-storage-breadth.md) is in progress; full product/platform parity remains open.
+- **Status:** Owner-approved Windows release-first scope. The current workflow is owner-confirmed and has [passing Windows CI](https://github.com/hoxsec/DiskPond/actions/runs/41645023929). Release CI/CD is next; broad certification is deferred.
 - **Delivery:** One developer assisted by coding tools; quality-first, milestone-driven.
 
-DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It will preserve BlinkDisk's desktop and bring-your-own-storage capabilities, use its Kopia-based engine, and introduce an original, calm interface. Windows ships first; macOS and Linux remain required parity targets.
+DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It preserves inherited desktop and bring-your-own-storage functionality, uses its Kopia-based engine, and introduces an original, calm interface. The immediate deliverable is a usable Windows release; macOS/Linux and full parity are deferred.
+
+### Active scope override — 2026-11-03
+
+The owner replaced the M0–M7 certification sequence with the small [Now / Next / Later roadmap](ROADMAP.md). This decision takes precedence over milestone gates, full-parity promises and exhaustive verification requirements retained below as reference. The P/F/DP IDs remain useful feature inventory, not a checklist that must be closed before releasing Windows. Deferred capabilities are not removed or certified by this decision.
+
+Prioritize tag-triggered Windows release CI/CD and a compact release check, then fix problems reported during actual use. Reuse existing passing recovery evidence. Test changed backup/security behavior narrowly; keep extended provider/platform suites manual. Existing cryptography, repository compatibility, truthful outcomes, credential protection and license obligations remain binding. No binary publication is authorized by this planning change alone.
 
 ## 1. Confirmed decisions
 
@@ -24,6 +30,7 @@ These decisions were made with the project owner. Changes must be recorded here 
 | D10 | Original calm utility design: neutral surfaces, restrained teal/blue, light/dark/system themes. |
 | D11 | Solo, quality-first development; milestones have acceptance gates rather than invented dates. |
 | D12 | Electron owns OS-protected/session-only vault passwords and provider connections. Migrate active local plaintext core connection JSON and inherited password-encrypted provider envelopes; preserve profile/cache/bandwidth metadata and compatible repository data. Managed sidecars start disconnected and receive exact credentials through the authenticated loopback API. |
+| D13 | Windows release first: replace M0–M7 delivery gates with Now / Next / Later; prioritize release CI/CD, use owner-confirmed behavior and existing CI as baseline, minimize repeated testing, and defer broad provider/platform/parity certification. |
 
 ### Document responsibilities
 
@@ -307,4 +314,4 @@ Store evidence under `docs/verification/` with requirement IDs, commits, engine 
 
 The product reaches the full desktop/BYO parity milestone only when every applicable P/F/DP requirement is demonstrated on its required platform(s), all platform/support gaps are resolved or explicitly re-scoped by the owner, and backup recovery succeeds from a fresh installation. Documentation must state the exact supported versions and the X01–X05 exclusions/replacements.
 
-**M1 and M2 are complete**, including [final Windows CI and offline desktop recovery](docs/verification/m2-desktop-recovery.md#final-windows-ci-and-m2-closure). **M3 is in progress** with a [provider audit, connection fixes and explicit certification blockers](docs/verification/m3-storage-breadth.md). [TODO.md](TODO.md) orders the remaining work. No DiskPond binary release has been published.
+**The active completion target is the first usable Windows prerelease**, delivered by the release CI/CD in [ROADMAP.md](ROADMAP.md). M1/M2 and the M3 kickoff retain their recorded evidence; further certification is deferred under D13. [TODO.md](TODO.md) lists the immediate work. No DiskPond binary release has been published.
