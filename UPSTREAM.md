@@ -66,6 +66,10 @@ For DP04, the inherited GitHub sponsorship destination was cleared and the devel
 
 For D10 / DP04 / F23, the owner selected graphite/blue, clean technical styling, square UI corners throughout, the existing DiskPond artwork and a Settings-only theme selector. Changes to `libs/styles/globals.css`, shared UI primitives, desktop vault cards/loading presentation and the Electron startup background implement this direction. Inherited pill/fixed-radius overrides and decorative vault-card hardware are replaced by flat, token-based styling. Toasts use semantic status colors and the active theme; skeletons use shared surface/shape tokens. [Verification](docs/verification/graphite-blue-identity.md) records the scoped build, contrast and desktop checks.
 
+## Profile/history navigation (2026-11-03)
+
+For F15 / F16 / F20 / DP04, the inherited source-history route now links back to its vault and the overview exposes a device/user filter-reset action. Snapshot browsing also links directly back to source history from root or nested folders. Source-card, snapshot-card and menu links preserve profile search parameters; returning to history clears the snapshot breadcrumb. English labels, accessible link names, focus handling and responsive layout accompany the changes in `apps/desktop/src/components/{sources/list,vaults/overview,backups/timeline}.tsx`, the source-history and snapshot-browser routes, and `locales/en/{backup,directory,folder,vault}.json`. [Verification](docs/verification/profile-history-navigation.md) records the scoped build and keyboard/zoom checks.
+
 ## M2 owned-core discovery work
 
 On 2026-11-02 the owner approved and created [hoxsec/diskpond-core](https://github.com/hoxsec/diskpond-core), a GitHub fork of `blinkdisk/core`. The exact upstream baseline remains available in that fork. `.gitmodules` now selects the owned fork; local core `origin` points there and `upstream` retains `https://github.com/blinkdisk/core.git`.

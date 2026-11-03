@@ -13,6 +13,8 @@ Date: 2026-11-03. Requirements: **D10, DP04, F23**, with focused Q08 review.
 
 The design was implemented against application `532a9ad50404e0d5d247652b5bedf71088f85411`, after `v0.1.0-alpha.1`; that published installer still has the previous design. On 2026-11-03 the owner approved the visual changes and authorized committing them locally, with pushing deferred.
 
+The resulting identity commit is `7a8a6fa`. Later on 2026-11-03 the owner authorized pushing the complete identity/navigation batch and publishing the next release; see [v0.1.0-alpha.2 verification](windows-alpha-2.md).
+
 ## Contrast review
 
 Calculated sRGB/WCAG contrast from the shared tokens, including primary hover and secondary hover surfaces:

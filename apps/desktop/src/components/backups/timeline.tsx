@@ -294,7 +294,9 @@ function Backup({ backup }: BackupProps) {
             backupId: backup.id,
             directoryId: backup.rootID,
           })}
-          className="absolute inset-0"
+          search={(search) => ({ ...search, path: undefined })}
+          aria-label={t("browseFiles", { date: formatBackupDate(backup) })}
+          className="absolute inset-0 outline-none focus-visible:ring-2 focus-visible:ring-ring"
         />
       ) : backup?.id && backup.rootID ? (
         <button
@@ -385,6 +387,7 @@ function Backup({ backup }: BackupProps) {
                         backupId: backup.id,
                         directoryId: backup.rootID,
                       })}
+                      search={(search) => ({ ...search, path: undefined })}
                     >
                       <FileSearchIcon />
                       {t("dropdown.browse")}

@@ -114,7 +114,11 @@ function Source({ source, profile, allowBackupActions }: SourceProps) {
           to="/$accountId/$vaultId/$sourceId"
           from="/$accountId/$vaultId"
           params={sourceRouteParams}
-          className="absolute inset-0"
+          search={true}
+          aria-label={t("browseBackups", {
+            name: source.name || source.source.path,
+          })}
+          className="absolute inset-0 outline-none focus-visible:ring-2 focus-visible:ring-ring"
         />
       ) : null}
       <SourcePreview source={source} />
@@ -166,6 +170,7 @@ function Source({ source, profile, allowBackupActions }: SourceProps) {
                     to="/$accountId/$vaultId/$sourceId"
                     from="/$accountId/$vaultId"
                     params={sourceRouteParams}
+                    search={true}
                   >
                     <FolderSearchIcon />
                     {t("dropdown.browse")}

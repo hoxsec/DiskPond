@@ -56,6 +56,7 @@
   },
   "list": {
     "item": {
+      "browseBackups": "Browse backups for {{name}}",
       "stats": "{{fileCount}} files ⸱ {{size}}",
       "dropdown": {
         "browse": "Browse backups",

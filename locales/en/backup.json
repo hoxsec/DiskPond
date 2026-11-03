@@ -1,11 +1,13 @@
 {
   "list": {
     "back": "Go back",
+    "backToVault": "Back to vault",
     "settings": {
       "folder": "Folder policy",
       "file": "File policy"
     },
     "item": {
+      "browseFiles": "Browse files in backup from {{date}}",
       "files_one": "{{formatted}} file",
       "files_other": "{{formatted}} files",
       "dropdown": {

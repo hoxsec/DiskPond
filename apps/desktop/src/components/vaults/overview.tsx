@@ -39,6 +39,7 @@ import {
 } from "@desktop/lib/vault-stats";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import {
+  ArrowLeftIcon,
   CheckIcon,
   ChevronDownIcon,
   CloudUploadIcon,
@@ -48,7 +49,7 @@ import {
   UserIcon,
   XIcon,
 } from "lucide-react";
-import { Fragment, useCallback, useMemo } from "react";
+import { Fragment, type RefObject, useCallback, useMemo, useRef } from "react";
 
 type VaultOverviewProps = {
   vault?: VaultItem;
@@ -56,6 +57,7 @@ type VaultOverviewProps = {
 
 export function VaultOverview({ vault }: VaultOverviewProps) {
   const { t } = useAppTranslation("vault.overview");
+  const profileSelectRef = useRef<HTMLButtonElement>(null);
 
   const navigate = useNavigate({ from: "/$accountId/$vaultId" });
   const { otherHostName, otherUserName } =
@@ -176,6 +178,20 @@ export function VaultOverview({ vault }: VaultOverviewProps) {
         currentSources !== undefined ? "overflow-y-auto" : "overflow-hidden",
       )}
     >
+      {otherHostName || otherUserName ? (
+        <Button
+          variant="secondary"
+          size="sm"
+          className="mb-6 w-fit shrink-0"
+          onClick={() => {
+            setOtherProfileListFilters({ deviceName: null, userName: null });
+            profileSelectRef.current?.focus();
+          }}
+        >
+          <ArrowLeftIcon aria-hidden="true" />
+          {t("otherProfiles.back")}
+        </Button>
+      ) : null}
       <div className="grid grid-cols-3 gap-6">
         <VaultStatCard
           title={t("stats.totalSize")}
@@ -253,6 +269,7 @@ export function VaultOverview({ vault }: VaultOverviewProps) {
           allowBackupActions={false}
           actions={
             <ProfileSelects
+              triggerRef={profileSelectRef}
               profiles={otherProfiles}
               value={otherProfileListFilters}
               onChange={setOtherProfileListFilters}
@@ -310,7 +327,7 @@ function SourceSection({
         fillAvailableSpace && "flex min-h-0 flex-1 flex-col",
       )}
     >
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex min-w-0 flex-col">
           <h2 className="truncate text-xl font-semibold">
             {sources !== undefined ? title : <Skeleton width={120} />}
@@ -324,7 +341,9 @@ function SourceSection({
           </p>
         </div>
         {actions ? (
-          <div className="flex items-center gap-3">{actions}</div>
+          <div className="flex max-w-full flex-wrap items-center gap-3">
+            {actions}
+          </div>
         ) : null}
       </div>
       {sources !== null && sources !== undefined && !sources.length && empty ? (
@@ -351,12 +370,18 @@ function SourceSection({
 }
 
 type ProfileSelectsProps = {
+  triggerRef: RefObject<HTMLButtonElement | null>;
   profiles: ReturnType<typeof getOtherProfiles>;
   value: ProfileListFilters;
   onChange: (filters: ProfileListFilters) => void;
 };
 
-function ProfileSelects({ profiles, value, onChange }: ProfileSelectsProps) {
+function ProfileSelects({
+  triggerRef,
+  profiles,
+  value,
+  onChange,
+}: ProfileSelectsProps) {
   const { t } = useAppTranslation("vault.overview.otherProfiles.select");
 
   const isFiltered = !!value.deviceName || !!value.userName;
@@ -368,10 +393,11 @@ function ProfileSelects({ profiles, value, onChange }: ProfileSelectsProps) {
 
   return (
     <DropdownMenu>
-      <div className="relative">
+      <div className="relative min-w-0 max-w-full">
         <DropdownMenuTrigger
+          ref={triggerRef}
           className={cn(
-            "border-input bg-card hover:bg-card-hover flex h-11 w-64 select-none items-center justify-between gap-1.5 whitespace-nowrap rounded-lg border py-2 pl-3 pr-3 text-sm outline-none transition-colors focus:z-10",
+            "border-input bg-card hover:bg-card-hover flex h-11 w-64 max-w-full select-none items-center justify-between gap-1.5 whitespace-nowrap rounded-lg border py-2 pl-3 pr-3 text-sm outline-none transition-colors focus:z-10 focus-visible:ring-2 focus-visible:ring-ring",
           )}
         >
           <div

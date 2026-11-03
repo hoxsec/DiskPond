@@ -15,8 +15,13 @@ import { useRestoreDirectoryDialog } from "@desktop/hooks/state/use-restore-dire
 import { useBackup } from "@desktop/hooks/use-backup";
 import { useDirectoryId } from "@desktop/hooks/use-directory-id";
 import { useSource } from "@desktop/hooks/use-source";
-import { createFileRoute } from "@tanstack/react-router";
-import { CloudDownloadIcon, FilePlusIcon, FolderOpenIcon } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  ArrowLeftIcon,
+  CloudDownloadIcon,
+  FilePlusIcon,
+  FolderOpenIcon,
+} from "lucide-react";
 import { useCallback, useRef, useState } from "react";
 import { z } from "zod";
 
@@ -70,15 +75,34 @@ function RouteComponent() {
   return (
     <div
       ref={scrollParent}
-      className="flex h-full w-full flex-col overflow-hidden p-6"
+      className="flex h-full min-h-0 w-full flex-col overflow-y-auto p-6"
     >
-      <div className="mb-6 flex h-10 w-full items-center justify-between gap-4">
-        {backup && source ? (
-          <BackupPreview backup={backup} source={source} />
-        ) : (
-          <div />
-        )}
-        <div className="flex shrink-0 items-center gap-x-2">
+      <Button
+        variant="secondary"
+        size="sm"
+        className="mb-6 w-fit shrink-0"
+        nativeButton={false}
+        render={
+          <Link
+            to="/$accountId/$vaultId/$sourceId"
+            from="/$accountId/$vaultId/$sourceId/$backupId/$directoryId/"
+            search={({ otherHostName, otherUserName }) => ({
+              otherHostName,
+              otherUserName,
+            })}
+          />
+        }
+      >
+        <ArrowLeftIcon aria-hidden="true" />
+        {t("backToHistory")}
+      </Button>
+      <div className="mb-6 flex w-full shrink-0 flex-wrap items-center justify-between gap-4">
+        <div className="min-w-0 flex-1 basis-60">
+          {backup && source ? (
+            <BackupPreview backup={backup} source={source} />
+          ) : null}
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
           <Button
             onClick={() => startMount()}
             loading={isStartMountPending}
@@ -131,7 +155,7 @@ function RouteComponent() {
           </Button>
         </div>
       </div>
-      <div className="flex h-[calc(100vh-8.9rem)] w-full flex-col">
+      <div className="flex min-h-60 w-full flex-1 flex-col">
         <VaultRestores />
         {directory !== null &&
         directory !== undefined &&

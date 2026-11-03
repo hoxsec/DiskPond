@@ -426,6 +426,7 @@
     },
     "otherProfiles": {
       "title": "Other profiles",
+      "back": "Back to all profiles",
       "select": {
         "all": "All profiles",
         "clear": "Clear profile filter",

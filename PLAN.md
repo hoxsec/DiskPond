@@ -1,7 +1,7 @@
 # DiskPond — Product and Engineering Plan
 
 - **Updated:** 2026-11-03
-- **Status:** Owner-approved Windows release-first scope. The current workflow is owner-confirmed and has [passing Windows CI](https://github.com/hoxsec/DiskPond/actions/runs/41645023929). Release CI/CD is next; broad certification is deferred.
+- **Status:** First unsigned Windows prerelease published; owner installation and actual-use feedback are next. The owner approved the local visual redesign and selected snapshot comparison and an activity calendar for planning. Broad certification is deferred.
 - **Delivery:** One developer assisted by coding tools; quality-first, milestone-driven.
 
 DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It preserves inherited desktop and bring-your-own-storage functionality, uses its Kopia-based engine, and introduces an original, calm interface. The immediate deliverable is a usable Windows release; macOS/Linux and full parity are deferred.
@@ -13,6 +13,8 @@ The owner replaced the M0–M7 certification sequence with the small [Now / Next
 Prioritize tag-triggered Windows release CI/CD and a compact release check, then fix problems reported during actual use. Reuse existing passing recovery evidence. Test changed backup/security behavior narrowly; keep extended provider/platform suites manual. Existing cryptography, repository compatibility, truthful outcomes, credential protection and license obligations remain binding. No binary publication is authorized by this planning change alone.
 
 Release update: with owner authorization, **v0.1.0-alpha.1**, **unsigned**, is published from application `dd6e3c2`. [Release CI](https://github.com/hoxsec/DiskPond/actions/runs/41654918106) and downloaded checksums passed. Owner installation/feedback is next. See [release instructions](docs/windows-release.md) and [verification evidence](docs/verification/windows-release-cicd.md).
+
+On 2026-11-03 the owner authorized committing and pushing the complete graphite/blue identity, return-navigation and feature-planning batch to `main`, followed by the next unsigned Windows prerelease, **v0.1.0-alpha.2**. Publication and asset verification are pending; [the release record](docs/verification/windows-alpha-2.md) tracks this batch.
 
 ## 1. Confirmed decisions
 
@@ -33,6 +35,7 @@ These decisions were made with the project owner. Changes must be recorded here 
 | D11 | Solo, quality-first development; milestones have acceptance gates rather than invented dates. |
 | D12 | Electron owns OS-protected/session-only vault passwords and provider connections. Migrate active local plaintext core connection JSON and inherited password-encrypted provider envelopes; preserve profile/cache/bandwidth metadata and compatible repository data. Managed sidecars start disconnected and receive exact credentials through the authenticated loopback API. |
 | D13 | Windows release first: replace M0–M7 delivery gates with Now / Next / Later; prioritize release CI/CD, use owner-confirmed behavior and existing CI as baseline, minimize repeated testing, and defer broad provider/platform/parity certification. |
+| D14 | After the profile/history navigation fix, plan snapshot comparison with added/changed/deleted paths and before/after sizes and modification times, plus a backup activity calendar on Home and inside each vault. Owner selected planning only on 2026-11-03; implementation is future work. See [the feature plan](docs/plans/snapshot-comparison-and-activity.md). |
 
 ### Document responsibilities
 
@@ -155,6 +158,8 @@ Compression parity includes `none`, `gzip` variants, `zstd` variants, `s2` varia
 | DP02 | Encrypted setup export/import. | M5: a second installation imports selected configurations using an export passphrase, remaps local paths, requests missing secrets, and reconnects to existing snapshots. |
 | DP03 | No telemetry; local logs and user-triggered redacted diagnostics export. | M2 removal / M5 export: observed network traffic matches configured storage and update behavior; exported diagnostics contain no credentials or unapproved identifying paths. |
 | DP04 | Original DiskPond design with accessible, understandable recovery flows. | M2 foundation / M5 complete: STYLE.md applied to all required states and critical workflows. |
+| DP05 | Compare two backups of the same source: added, changed and deleted paths, with before/after size and modification time. | Planned under D14: deterministic comparisons, metadata gaps and incomplete reads visible, bounded/cancelable traversal, keyboard-accessible results. See [scope and acceptance](docs/plans/snapshot-comparison-and-activity.md#snapshot-comparison-dp05). |
+| DP06 | Backup activity calendar on Home across vaults and within each vault. | Planned under D14: local-day grouping, drill-down, truthful completed/partial/failed/incomplete states and explicit history/availability coverage. See [scope and acceptance](docs/plans/snapshot-comparison-and-activity.md#backup-activity-calendar-dp06). |
 
 ## 4. Fork and architecture strategy
 

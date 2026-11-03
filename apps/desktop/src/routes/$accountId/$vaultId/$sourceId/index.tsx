@@ -15,8 +15,9 @@ import { useCancelBackup } from "@desktop/hooks/mutations/core/use-cancel-backup
 import { useCompletedBackupList } from "@desktop/hooks/queries/use-completed-backup-list";
 import { useSource } from "@desktop/hooks/use-source";
 import { policyTargetToSearch } from "@desktop/lib/policy-target";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
+  ArrowLeftIcon,
   ClockIcon,
   CloudUploadIcon,
   FileCogIcon,
@@ -52,10 +53,28 @@ function RouteComponent() {
           : "overflow-hidden",
       )}
     >
+      <Button
+        variant="secondary"
+        size="sm"
+        className="mb-6 w-fit shrink-0"
+        nativeButton={false}
+        render={
+          <Link
+            to="/$accountId/$vaultId"
+            from="/$accountId/$vaultId/$sourceId/"
+            search={true}
+          />
+        }
+      >
+        <ArrowLeftIcon aria-hidden="true" />
+        {t("backToVault")}
+      </Button>
       <VaultRestores />
-      <div className="mb-8 flex items-center justify-between">
-        <SourcePreview source={source} />
-        <div className="flex items-center gap-2">
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <div className="min-w-0 flex-1 basis-60">
+          <SourcePreview source={source} />
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
           {backups !== null && backups !== undefined ? (
             <>
               <Button

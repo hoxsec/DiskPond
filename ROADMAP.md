@@ -20,6 +20,12 @@ Delivery complete; owner installation and actual-use feedback are next. This doe
 Fix reported backup, scheduling, retention, restore and usability issues. Add encrypted setup export/import and improve updates/diagnostics when needed; these do not block the first release.
 
 - [x] Apply the owner's graphite/blue, clean technical identity with square UI corners; retain the DiskPond artwork and Settings-only Light / Dark / System selector (D10, DP04, F23). [Implementation and focused verification](docs/verification/graphite-blue-identity.md). The owner approved the visual changes and authorized a local commit on 2026-11-03.
+- [x] Add **Back to backup history** from snapshot browsing, **Back to vault** from history with the profile filter preserved, and **Back to all profiles** to clear device/user filters in the same vault (F15, F16, F20, DP04). [Focused navigation evidence](docs/verification/profile-history-navigation.md).
+- [x] Record the owner's next-feature choices and implementation plan (D14): [snapshot comparison and backup activity calendar](docs/plans/snapshot-comparison-and-activity.md).
+- [ ] Implement snapshot comparison with added/changed/deleted paths and before/after sizes and modification times (DP05).
+- [ ] Implement the activity calendar on Home and in each vault, with honest history coverage and outcome handling (DP06).
+
+The redesign commit is `7a8a6fa`. On 2026-11-03 the owner authorized committing/pushing the complete identity/navigation/planning batch to `main` and publishing **v0.1.0-alpha.2**. [Release verification](docs/verification/windows-alpha-2.md) is pending. The two new features are planned, not implemented.
 
 ## Later — Optional expansion
 
