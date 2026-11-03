@@ -1,6 +1,6 @@
 # DiskPond
 
-An account-free desktop backup application being developed from [BlinkDisk](https://github.com/blinkdisk/blinkdisk), using its [Kopia-derived engine](https://github.com/blinkdisk/core).
+An account-free desktop backup application being developed from [BlinkDisk](https://github.com/blinkdisk/blinkdisk), using the [DiskPond Kopia-derived engine fork](https://github.com/hoxsec/diskpond-core).
 
 DiskPond's target is encrypted, versioned backups to storage you provide: local/external drives, NAS, S3-compatible storage, B2, Google Cloud Storage, Azure, SFTP, WebDAV and Rclone. Windows comes first; macOS and Linux remain required targets.
 
@@ -33,6 +33,12 @@ Full commands, prerequisites and isolated smoke checks: [DEVELOPMENT.md](DEVELOP
 - [Platform compatibility findings](docs/verification/m1-platforms.md)
 - [Design conventions](STYLE.md) and [contributor instructions](AGENTS.md)
 - [Upstream pins, attribution and modification record](UPSTREAM.md)
+
+## Remaining upstream names
+
+The desktop product, artwork, application identifiers and Windows artifacts use **DiskPond**. Remaining `BlinkDisk` names in licenses/About preserve attribution; legacy repository, password and policy identifiers preserve compatibility. Internal `@blinkdisk/*` workspace packages and the external `@blinkdisk/signaldb-electron` dependency retain their existing names.
+
+`apps/api`, `apps/cloud`, `apps/web`, `apps/marketing` and `libs/emails` contain inherited hosted-service sources, excluded from the desktop runtime and build. Their branding, service addresses, commercial copy and legal pages describe upstream BlinkDisk, not DiskPond offerings. DiskPond's project home is [hoxsec/DiskPond](https://github.com/hoxsec/DiskPond); it provides no hosted account, billing or managed-storage service.
 
 ## License and credits
 

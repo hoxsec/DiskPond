@@ -41,7 +41,7 @@ const fallbackUserName = "nobody";
 const fallbackHostName = "nohost";
 
 // This behaviour should match the one from the core
-// https://github.com/blinkdisk/core/blob/main/repo/userhost.go
+// https://github.com/hoxsec/diskpond-core/blob/dca6bebcba9c50f6f2658ae3662a52414f77bcf9/repo/userhost.go
 function getCurrentUserName() {
   try {
     let username = userInfo().username;
@@ -61,7 +61,7 @@ function getCurrentUserName() {
 }
 
 // This behaviour should match the one from the core
-// https://github.com/blinkdisk/core/blob/main/repo/userhost.go
+// https://github.com/hoxsec/diskpond-core/blob/dca6bebcba9c50f6f2658ae3662a52414f77bcf9/repo/userhost.go
 function getCurrentHostName() {
   try {
     const host = hostname();
