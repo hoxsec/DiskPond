@@ -95,6 +95,10 @@ The owner requested commit/push publication and continuation with TODO item 2 in
 
 ## Distribution and later updates
 
+### Windows release automation (2026-11-03)
+
+The D13 release-first slice adds a tag-triggered GitHub Release workflow and source/checksum assembly, changes the default Windows workflow to compact checks, and retains the earlier extended suites as a manual workflow. Installed smoke now checks tagged application versions and performs a disposable bundled-core snapshot/restore hash comparison. README/development/release guidance records the owner-selected unsigned `v0.1.0-alpha.1` prerelease. Application runtime, core source/gitlink, repository formats and license notices are unchanged. [Local verification](docs/verification/windows-release-cicd.md); publication is pending authorization.
+
 ### M2 restore-outcome source handoff
 
 The owner authorized committing and pushing the restore-outcome slice to application `main`. It changes inherited Electron restore coordination/IPC/preload, desktop restore hooks/result panels and English copy. New schemas, native path checks and native/component fixtures replace the inherited any-non-running-is-success shortcut. Selected items use validated engine tasks with preserved entry metadata; ignored errors/permissions are disabled. ZIP omissions found in the pinned writer are reported as partial. The unused `p-limit` direct dependency/catalog entry is removed through pnpm. Core source/gitlink, repository formats and license notices are unchanged. [Evidence and outstanding gates](docs/verification/m2-restore-outcomes.md) distinguish local verification from pending clean CI. No tag or binary release is included.

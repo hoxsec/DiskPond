@@ -12,6 +12,8 @@ The owner replaced the M0–M7 certification sequence with the small [Now / Next
 
 Prioritize tag-triggered Windows release CI/CD and a compact release check, then fix problems reported during actual use. Reuse existing passing recovery evidence. Test changed backup/security behavior narrowly; keep extended provider/platform suites manual. Existing cryptography, repository compatibility, truthful outcomes, credential protection and license obligations remain binding. No binary publication is authorized by this planning change alone.
 
+Release implementation update: tag-triggered automation and compact installed backup/restore smoke are implemented. The owner selected **v0.1.0-alpha.1**, **unsigned**, for the first prerelease. GitHub verification, tagging and publication remain pending separate authorization. See [release instructions](docs/windows-release.md) and [local evidence](docs/verification/windows-release-cicd.md).
+
 ## 1. Confirmed decisions
 
 These decisions were made with the project owner. Changes must be recorded here and reflected in the roadmap.

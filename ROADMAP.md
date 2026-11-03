@@ -6,10 +6,10 @@ The owner confirms the current workflow works. Existing [Windows CI](https://git
 
 ## Now — Windows release CI/CD
 
-- [ ] Add a version-tag release workflow that builds the pinned core and Windows installer.
-- [ ] Run one release check: lint/types, existing unit tests and a small install + backup/restore smoke check. Keep extended suites manual; add focused checks only for changed backup/security logic.
-- [ ] Upload the installer, updater metadata, checksums and matching source/license information to a GitHub Release in `hoxsec/DiskPond`.
-- [ ] Document the tag/release command, installation and recovery basics; cut the first Windows prerelease. Signing availability and the first version/tag are settled before publishing.
+- [x] Add a version-tag release workflow that builds the pinned core and Windows installer.
+- [ ] Verify the compact release check in GitHub: lint/types, existing unit tests and installed + bundled-engine backup/restore smoke. Extended suites are manual.
+- [ ] Publish installer, updater metadata, checksums and matching source/license information to a GitHub Release in `hoxsec/DiskPond`; automation is implemented, publication pending.
+- [ ] Cut the first Windows prerelease. [Release/install/recovery instructions](docs/windows-release.md) are implemented; owner selected **v0.1.0-alpha.1**, unsigned. Tagging/publication still requires authorization.
 
 **Done when:** a version tag produces a downloadable installer that the owner can install and use. Broad provider/platform certification does not block this release.
 

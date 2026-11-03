@@ -4,7 +4,7 @@
 
 DiskPond is an AGPL-3.0 fork of BlinkDisk focused on account-free desktop backups to user-provided storage. It uses Electron/React/TypeScript and a pinned Kopia-derived Go sidecar. Windows release CI/CD is the priority; macOS/Linux delivery and certification are deferred.
 
-**Current repository state:** The owner confirms the Windows workflow works and has replaced M0–M7 delivery gates with a short release-first roadmap (PLAN.md D13). **Next: Windows release CI/CD**, following `ROADMAP.md` and `TODO.md`. Application `62ab2dd` passes Windows CI `41645023929`, including GCS/SFTP regressions, recovery, packaging and installed smoke. The owned core remains pinned at `0f31eefe409cb4f0571baf65abd7d063784598cd`. Desktop account/cloud UI and auth/sync/telemetry paths are removed. Preserve evidence in `docs/verification/`; old milestones/tasks are in `ROADMAP-HISTORY.md` and `TODO-HISTORY.md`. Further provider/platform/parity certification is deferred, not a first-release blocker or a claim of support. Release publishing automation is not implemented yet.
+**Current repository state:** The owner confirms the Windows workflow works and has replaced M0–M7 delivery gates with a short release-first roadmap (PLAN.md D13). **Now: Windows release CI/CD**, following `ROADMAP.md` and `TODO.md`. Application `62ab2dd` passes Windows CI `41645023929`, including GCS/SFTP regressions, recovery, packaging and installed smoke. The owned core remains pinned at `0f31eefe409cb4f0571baf65abd7d063784598cd`. Desktop account/cloud UI and auth/sync/telemetry paths are removed. Preserve evidence in `docs/verification/`; old milestones/tasks are in `ROADMAP-HISTORY.md` and `TODO-HISTORY.md`. Further provider/platform/parity certification is deferred. Release automation is implemented; GitHub verification and publication remain pending. The owner selected `v0.1.0-alpha.1`, unsigned; no tagging/publication authorization has been given.
 
 Read these documents before implementation:
 
@@ -118,7 +118,7 @@ Use Node 24.15.0 (`.nvmrc`), pnpm 11.7.0 and Go 1.25.5 as documented in DEVELOPM
 | `pnpm smoke:providers` | Credential-isolated loopback WebDAV, two-vault versioned restore/hash checks, protected/session/failure modes, legacy migration and live/post-exit credential scans; requires Go and the matching managed-core build. |
 | `pnpm smoke:desktop --session-passwords` | Built-app session-only notice and IPC rejection checks with test-only secure-storage failure injection. |
 | `pnpm build:windows` | Desktop/core/resources plus NSIS packaging; publishing disabled. |
-| `pnpm smoke:windows` | Install/start/probe/quit/uninstall a disposable development artifact; requires a Windows user without existing DiskPond data/install/registration. Records inherited uninstall leftovers and cleans only its fixture. |
+| `pnpm smoke:windows` | Install/start/probe, bundled-engine backup/restore hash check, quit/uninstall a disposable artifact; validates tag version when supplied. Requires a Windows user without existing DiskPond data/install/registration. Records inherited uninstall leftovers and cleans only its fixture. |
 
 Keep this table synchronized with verified commands. `pnpm build` aliases `build:desktop`, not the installer. Core test commands depend on build tags and helper binaries; follow its pinned Makefile and DEVELOPMENT.md. The whole core/provider suite has not been certified by M1.
 
@@ -130,7 +130,7 @@ Keep this table synchronized with verified commands. `pnpm build` aliases `build
 - Backup/restore/retention/engine changes: real-engine recovery/hash verification and relevant interruption/compatibility fixtures.
 - Packaging/update/platform changes: installed-artifact checks on the affected OS/architecture.
 
-Use a compact Windows release check and one final GitHub run per release-ready batch. Reuse passing evidence; keep extended certification suites manual. Run focused checks for changed backup/security logic, and broaden or repeat only for relevant changes, failures or unresolved concerns. No tests are needed for documentation-only changes. Missing provider credentials/hardware means deferred certification, not a passed check or a blocker for the initial Windows release. The current workflow still runs the extended baseline until the release CI/CD task changes it.
+Use a compact Windows release check and one final GitHub run per release-ready batch. Reuse passing evidence; keep extended certification suites manual in `desktop-extended.yml`. Run focused checks for changed backup/security logic, and broaden or repeat only for relevant changes, failures or unresolved concerns. No tests are needed for documentation-only changes. Missing provider credentials/hardware means deferred certification, not a passed check or a blocker for the initial Windows release. `desktop.yml` is the compact check shared by PR/main and tag releases.
 
 ## Completion and handoff
 

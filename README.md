@@ -6,11 +6,11 @@ DiskPond's target is encrypted, versioned backups to storage you provide: local/
 
 ## Development status
 
-**M1 complete — verified Windows development baseline.** The pinned engine, desktop and installer pass local checks and [clean Windows CI](https://github.com/hoxsec/DiskPond/actions/runs/41521154820). Built, development and installed smoke checks reach the inherited local workspace and probe the real engine. Backup/restore certification is still ahead.
+**Windows release first.** The current application passes [Windows CI](https://github.com/hoxsec/DiskPond/actions/runs/41645023929), including recovery, packaging and installed smoke. Hosted login, managed cloud storage, billing, configuration sync and telemetry paths are removed.
 
-**M2 is in progress.** The desktop now uses the owner's DiskPond artwork and a local workspace, with hosted login, CloudBlink, billing, configuration sync and telemetry integrations removed. [Branding/workspace evidence](docs/verification/m2-branding-workspace.md) records passing local checks, Windows packaging and built/development/installed smoke for this working tree. The first complete backup/restore certification remains open; encrypted setup export/import follows in M5. There is no DiskPond stable installer release yet.
+Tag-triggered release automation is implemented. The first planned prerelease is **v0.1.0-alpha.1**, unsigned; publication is pending. See [Windows release, installation and recovery instructions](docs/windows-release.md). Encrypted setup export/import and broader provider/platform certification remain deferred.
 
-See [ROADMAP.md](ROADMAP.md) for milestone gates and [PLAN.md](PLAN.md) for the full requirement inventory.
+See [ROADMAP.md](ROADMAP.md) for Now / Next / Later and [PLAN.md](PLAN.md) for the requirement inventory.
 
 ## Build and run
 

@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
-import { spawn, spawnSync } from "node:child_process";
+import { execFileSync, spawn, spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
 import {
   mkdir,
@@ -187,7 +188,12 @@ try {
   );
   assert.equal(registration.status, 0, "Packaged URI registration is missing");
   assert.ok(registration.stdout.includes(join(destination, "DiskPond.exe")));
-  assert.equal(await evaluate("window.electron.app.version()"), "0.0.0");
+  assert.equal(
+    await evaluate("window.electron.app.version()"),
+    process.env.GITHUB_REF_TYPE === "tag"
+      ? process.env.GITHUB_REF_NAME.replace(/^v/, "")
+      : "0.0.0",
+  );
   assert.equal(
     await evaluate("'auth' in window.electron || 'sync' in window.electron"),
     false,
@@ -227,6 +233,49 @@ try {
   );
   assert.match(update, /owner: hoxsec/);
   assert.match(update, /repo: DiskPond/);
+  // Exercise the actual installed engine with a disposable repository.
+  const core = join(destination, "resources/binaries/kopia.exe");
+  const cli = (args) =>
+    execFileSync(
+      core,
+      [
+        "--config-file",
+        join(temp, "recovery.config"),
+        "--no-persist-credentials",
+        "--disable-repository-log",
+        ...args,
+      ],
+      {
+        encoding: "utf8",
+        timeout: 90_000,
+        env: {
+          ...process.env,
+          KOPIA_PASSWORD: "installed-disposable-fixture-only",
+          KOPIA_CHECK_FOR_UPDATES: "false",
+          KOPIA_CACHE_DIRECTORY: join(temp, "cache"),
+          KOPIA_LOG_DIR: join(temp, "logs"),
+        },
+      },
+    );
+  const source = join(temp, "source");
+  await mkdir(source);
+  await writeFile(join(source, "雪.txt"), "Installed recovery fixture\n");
+  await writeFile(join(source, "empty.txt"), "");
+  const hash = async (path) =>
+    createHash("sha256")
+      .update(await readFile(path))
+      .digest("hex");
+  const expected = await hash(join(source, "雪.txt"));
+  cli(["repo", "create", "filesystem", "--path", probe]);
+  const snapshot = JSON.parse(cli(["snapshot", "create", source, "--json"]));
+  assert.ok(snapshot.id);
+  await rm(source, { recursive: true });
+  const restored = join(temp, "restored");
+  cli(["snapshot", "restore", snapshot.id, restored]);
+  assert.deepEqual((await readdir(restored)).sort(), ["empty.txt", "雪.txt"]);
+  assert.equal(await hash(join(restored, "雪.txt")), expected);
+  assert.equal(await readFile(join(restored, "empty.txt"), "utf8"), "");
+  console.info("Installed bundled-engine backup/restore hashes passed.");
   client.close();
   client = null;
   await mainClient.call("Runtime.evaluate", {

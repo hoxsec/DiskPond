@@ -1,0 +1,73 @@
+name: Desktop extended certification (manual)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: desktop-extended-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TURBO_TELEMETRY_DISABLED: "1"
+  ASTRO_TELEMETRY_DISABLED: "1"
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          submodules: true
+      - name: Fetch pinned compatibility baseline
+        run: git -C apps/core fetch --no-tags --depth=1 origin e8955e7280edd9526b9f104f1592f233cfe6789b
+      - uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v5.0.0
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00 # v6.0.0
+        with:
+          go-version: "1.25.5"
+          cache-dependency-path: apps/core/go.sum
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint:ci
+      - run: pnpm types:desktop
+      - run: pnpm test:desktop
+      - run: pnpm unused
+      - name: Core creation, discovery and managed-connection regressions
+        working-directory: apps/core
+        run: go test -tags testing -count=1 -timeout 180s ./repo ./repo/format ./repo/blob/throttling ./repo/blob/sharded ./repo/blob/sftp ./internal/server -run 'TestInitialize|TestManaged|TestLocalConfig|TestThrottler|TestSharded|TestClone|TestSFTPDiscovery|TestRepoExistsDoesNotModifyStorage'
+      - name: ZIP failure cleanup regression
+        working-directory: apps/core
+        run: go test -tags testing -count=1 -timeout 60s ./snapshot/restore -run TestZipOutputClose
+      - run: pnpm build:windows
+      - run: pnpm smoke:discovery
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
+      - run: pnpm smoke:passwords
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
+      - run: pnpm smoke:providers
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
+      - run: pnpm smoke:desktop
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
+      - run: pnpm smoke:desktop --session-passwords
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
+      - run: pnpm smoke:vaults
+      - name: M2 full-volume and offline desktop recovery
+        run: ./scripts/certify-m2-windows.ps1
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
+      - run: pnpm smoke:desktop --dev
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
+      - run: pnpm smoke:windows
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
