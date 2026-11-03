@@ -41,6 +41,8 @@ These decisions were made with the project owner. Changes must be recorded here 
 
 ### Document responsibilities
 
+Owner update preference (2026-11-03, F25): show an in-app banner when a newer release is available; its action opens DiskPond's GitHub releases page in the default browser. Replace inherited automatic download/install and modal behavior with this notification-only flow. Automatic checks remain user-disableable. Settings also offers **Check for updates**, with a button spinner and result from the release's `latest.yml` asset; manual checks work in development. [Local verification](docs/verification/update-banner.md).
+
 - [PLAN.md](PLAN.md): scope, evidence, architecture, behavior, and verification requirements.
 - [ROADMAP.md](ROADMAP.md): implementation order, dependencies, milestone checklists, and release gates.
 - [AGENTS.md](AGENTS.md): operational instructions for contributors and coding agents.

@@ -21,7 +21,11 @@ import {
 } from "@electron/restore";
 import { openBrowser } from "@electron/shell";
 import { sshKeyscan } from "@electron/ssh";
-import { getUpdateStatus, installUpdate } from "@electron/updater";
+import {
+  checkForUpdates,
+  getUpdateStatus,
+  openUpdateReleases,
+} from "@electron/updater";
 import { getVaultStatus, retryVault } from "@electron/vault/manage";
 import { setProgressBar, window } from "@electron/window";
 import { openWorkspace } from "@electron/workspace";
@@ -118,7 +122,19 @@ ipcMain.handle("ssh.keyscan", (event, form) => {
   requireMainWindow(event);
   return sshKeyscan(form);
 });
-ipcMain.handle("update.status", () => getUpdateStatus());
-ipcMain.handle("update.install", () => installUpdate());
+ipcMain.handle("update.status", (event) => {
+  requireMainWindow(event);
+  return getUpdateStatus();
+});
+ipcMain.handle("update.check", (event, ...args: unknown[]) => {
+  requireMainWindow(event);
+  if (args.length) throw new Error("Invalid update request");
+  return checkForUpdates();
+});
+ipcMain.handle("update.openReleases", (event, ...args: unknown[]) => {
+  requireMainWindow(event);
+  if (args.length) throw new Error("Invalid update request");
+  return openUpdateReleases();
+});
 
 ipcMain.handle("clipboard.read", () => readClipboard());

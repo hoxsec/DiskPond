@@ -1,5 +1,7 @@
 # DiskPond — Next work
 
+Update follow-up (F25): notification-only GitHub release banner implemented locally with a Settings opt-out. [Checks and release follow-up](docs/verification/update-banner.md). Not yet released.
+
 **Priority: owner preview of the completed comparison/calendar batch and actual-use feedback.** Follow the short [roadmap](ROADMAP.md).
 
 1. Install the published unsigned [v0.1.0-alpha.2 prerelease](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.0-alpha.2) and try backup/recovery with your chosen storage.

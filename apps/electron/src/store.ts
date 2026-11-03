@@ -15,6 +15,7 @@ export type GlobalStorageType = {
     };
   };
   preferences: {
+    checkForUpdates?: boolean;
     theme: "system" | "dark" | "light";
     mode?: "basic" | "advanced";
     language?: string;

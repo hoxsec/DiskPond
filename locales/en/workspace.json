@@ -12,6 +12,11 @@
       "version": "Version {{version}}",
       "attribution": "DiskPond is free software derived from BlinkDisk (AGPL-3.0), using its Kopia-based backup engine (Apache-2.0). Source code, license notices and build instructions are available in the project repository.",
       "source": "Source and licenses",
+      "releases": "View GitHub releases",
+      "checkUpdates": "Check for updates",
+      "upToDate": "You're up to date",
+      "updateAvailable": "DiskPond {{version}} available",
+      "updateError": "Couldn't check for updates. Try again.",
       "issues": "Report an issue"
     }
   }

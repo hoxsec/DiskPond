@@ -12,8 +12,8 @@
     "policies": "Policies"
   },
   "updateAlert": {
-    "title": "Update available",
-    "description": "A new version is available.",
-    "button": "Update"
+    "title": "DiskPond {{version}} available",
+    "error": "Couldn't open browser. Try again.",
+    "button": "View GitHub releases"
   }
 }

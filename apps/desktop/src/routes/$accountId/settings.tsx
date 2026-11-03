@@ -8,6 +8,7 @@ import {
   SettingsPanel,
   SettingsRow,
 } from "@desktop/components/settings";
+import { CheckForUpdates } from "@desktop/components/settings/check-for-updates";
 import { PasswordStorageNotice } from "@desktop/components/vaults/password-storage-notice";
 import { useUpdatePreferencesForm } from "@desktop/hooks/forms/use-update-preferences-form";
 import { useAppVersion } from "@desktop/hooks/queries/use-app-version";
@@ -36,6 +37,9 @@ function Settings() {
               }
             >
               <Logo />
+            </SettingsRow>
+            <SettingsRow fullWidth>
+              <CheckForUpdates />
             </SettingsRow>
             <SettingsRow fullWidth>
               <p className="text-sm text-muted-foreground">
@@ -77,6 +81,13 @@ function Preferences() {
         }}
       >
         <SettingsPanel>
+          <SettingsRow fullWidth>
+            <form.AppField name="checkForUpdates">
+              {(field) => (
+                <field.Switch label={{ title: t("checkForUpdates") }} />
+              )}
+            </form.AppField>
+          </SettingsRow>
           <SettingsRow
             title={t("theme.label")}
             description={t("theme.description")}

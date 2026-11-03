@@ -13,6 +13,8 @@ export function useUpdatePreferencesForm() {
     defaultValues: {
       theme: theme,
       language: i18n.language as LanguageCode,
+      checkForUpdates:
+        window.electron.store.get("preferences.checkForUpdates") !== false,
     },
     validators: {
       onSubmit: ZUpdatePreferences,

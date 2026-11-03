@@ -208,9 +208,11 @@ const api = {
       ipcRenderer.invoke("ssh.keyscan", form) as ReturnType<typeof sshKeyscan>,
   },
   update: {
+    check: () => ipcRenderer.invoke("update.check") as Promise<UpdateStatus>,
     change: listener<UpdateStatus>("update.available"),
     status: () => ipcRenderer.invoke("update.status") as Promise<UpdateStatus>,
-    install: () => ipcRenderer.invoke("update.install") as Promise<void>,
+    openReleases: () =>
+      ipcRenderer.invoke("update.openReleases") as Promise<void>,
   },
 };
 

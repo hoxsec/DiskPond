@@ -5,7 +5,7 @@
   "author": {
     "name": "DiskPond contributors"
   },
-  "version": "0.0.0",
+  "version": "0.1.0-alpha.3",
   "private": true,
   "type": "module",
   "exports": {
@@ -39,13 +39,16 @@
     "electron-store": "catalog:",
     "electron-updater": "catalog:",
     "get-folder-size": "catalog:",
+    "semver": "7.8.5",
     "tough-cookie": "catalog:",
+    "yaml": "2.9.0",
     "zod": "catalog:"
   },
   "devDependencies": {
     "@blinkdisk/typescript": "workspace:*",
     "@types/auto-launch": "catalog:",
     "@types/node": "catalog:",
+    "@types/semver": "^7.8.0",
     "concurrently": "catalog:",
     "dotenv": "catalog:",
     "electron": "catalog:",

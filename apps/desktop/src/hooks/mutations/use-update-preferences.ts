@@ -12,6 +12,10 @@ export function useUpdatePreferences(onSuccess: () => void) {
       await setTheme(values.theme);
       await window.electron.store.set("preferences.language", values.language);
       await i18n.changeLanguage(values.language);
+      await window.electron.store.set(
+        "preferences.checkForUpdates",
+        values.checkForUpdates,
+      );
     },
     onError: showErrorToast,
     onSuccess,

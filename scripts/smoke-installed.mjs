@@ -192,7 +192,12 @@ try {
     await evaluate("window.electron.app.version()"),
     process.env.GITHUB_REF_TYPE === "tag"
       ? process.env.GITHUB_REF_NAME.replace(/^v/, "")
-      : "0.0.0",
+      : JSON.parse(
+          await readFile(
+            join(repository, "apps/electron/package.json"),
+            "utf8",
+          ),
+        ).version,
   );
   assert.equal(
     await evaluate("'auth' in window.electron || 'sync' in window.electron"),

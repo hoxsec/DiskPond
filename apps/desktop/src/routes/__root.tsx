@@ -5,7 +5,6 @@ import { SkeletonTheme } from "@blinkdisk/ui/skeleton";
 import { Toaster } from "@blinkdisk/ui/toast";
 import { TooltipProvider } from "@blinkdisk/ui/tooltip";
 import { I18nextProvider } from "@blinkdisk/utils/i18n";
-import { UpdateDialog } from "@desktop/components/dialogs/update";
 import { useStorageListener } from "@desktop/hooks/use-app-storage";
 import { useDeeplinkListener } from "@desktop/hooks/use-deeplink-listener";
 import { useShortcutListener } from "@desktop/hooks/use-shortcut-listener";
@@ -36,7 +35,6 @@ function RootComponent() {
             <SkeletonTheme dark={theme.dark}>
               <Outlet />
               <Toaster dark={theme.dark} />
-              <UpdateDialog />
             </SkeletonTheme>
           </QueryClientProvider>
         </SidebarProvider>

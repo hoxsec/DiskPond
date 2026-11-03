@@ -50,6 +50,11 @@ it("rejects writes that bypass password protection or overwrite hosted records",
 it("validates the retained theme/language/mode/update/local-vault preferences", () => {
   writeRendererStore("preferences.theme", "light");
   expect(mocks.set).toHaveBeenCalledWith("preferences.theme", "light");
+  writeRendererStore("preferences.checkForUpdates", false);
+  expect(mocks.set).toHaveBeenCalledWith("preferences.checkForUpdates", false);
+  expect(() =>
+    writeRendererStore("preferences.checkForUpdates", "false"),
+  ).toThrow("Invalid preference value");
   expect(() => writeRendererStore("preferences.theme", "secret")).toThrow(
     "Invalid preference value",
   );

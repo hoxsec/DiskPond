@@ -21,6 +21,7 @@ Delivery complete; owner installation and actual-use feedback are next. This doe
 The owner-authorized comparison and Activity-only calendar batch is committed/pushed as `660fff0` and published as **v0.1.0-alpha.3**. [Release CI and all downloaded checksums passed](docs/verification/windows-alpha-3.md), superseding earlier uncommitted/authorization-pending notes below. Owner installation and actual-use feedback are next.
 
 - [x] Apply the owner's latest DP06 correction: calendar only in Home-level Activity; remove the per-vault calendar and compact vault Activity link.
+- [x] Implement the owner-requested update banner linking to GitHub releases, with startup/hourly discovery, Settings opt-out and manual **Check for updates** using release `latest.yml` metadata (F25). [Local verification](docs/verification/update-banner.md); unreleased.
 
 Fix reported backup, scheduling, retention, restore and usability issues. Add encrypted setup export/import and improve updates/diagnostics when needed; these do not block the first release.
 

@@ -1,6 +1,7 @@
 {
   "account": {
     "preferences": {
+      "checkForUpdates": "Automatically check for updates",
       "title": "Preferences",
       "theme": {
         "label": "Theme",

@@ -2,6 +2,7 @@ import { store } from "@electron/store";
 import { z } from "zod";
 
 const writable = {
+  "preferences.checkForUpdates": z.boolean(),
   "preferences.theme": z.enum(["system", "light", "dark"]),
   "preferences.language": z.literal("en"),
   "preferences.mode": z.enum(["basic", "advanced"]),
@@ -15,6 +16,7 @@ export function readRendererStore(key?: unknown): unknown {
   const snapshot = {
     workspaceReady: store.get("workspaceReady"),
     preferences: {
+      checkForUpdates: store.get("preferences.checkForUpdates"),
       theme: store.get("preferences.theme"),
       language: store.get("preferences.language"),
       mode: store.get("preferences.mode"),
