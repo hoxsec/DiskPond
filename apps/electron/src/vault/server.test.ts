@@ -307,13 +307,22 @@ describe("startVaultServer", () => {
     });
   });
 
-  it("stops its child if reconnect transport fails", async () => {
+  it.each([
+    "transport",
+    "repository",
+  ])("stops its child if reconnect %s fails", async (failureKind) => {
     vi.mocked(prepareConnection).mockResolvedValue({
       type: "filesystem",
       config: { path: "fixture" },
     });
     vi.mocked(getPasswordCache).mockReturnValue("secret");
-    vi.mocked(connectRepository).mockRejectedValue(new Error("Disconnected"));
+    if (failureKind === "transport")
+      vi.mocked(connectRepository).mockRejectedValue(new Error("Disconnected"));
+    else
+      vi.mocked(connectRepository).mockResolvedValue({
+        code: "CONNECTION_FAILED",
+        error: "Unavailable storage",
+      });
     const proc = createMockProcess();
     vi.mocked(spawn).mockReturnValue(proc);
     const result = startVaultServer("test", false);

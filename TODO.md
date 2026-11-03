@@ -42,7 +42,7 @@ Work through the M2 items below in order. [ROADMAP.md](ROADMAP.md) owns mileston
 - [ ] Include empty files/directories, nested Unicode paths, a large file, and link/permission fixtures with documented platform limits.
   - Empty entries, nested Unicode and a 32-MiB file pass in the desktop fixture; link/permission metadata remains open.
 - [ ] Repeat after quitting/restarting with networking blocked; include multiple independent vaults and exact whitespace-bearing passwords.
-  - One-vault restart and exact whitespace password pass with remote Chromium requests blocked. All-process offline blocking and multiple-vault recovery remain open.
+  - Two-vault restart and exact distinct whitespace passwords pass with remote Chromium/main-fetch requests blocked. CI adds scoped OS firewall blocking; its result is pending.
 - [ ] Confirm account-free operation and coexistence with BlinkDisk's profile/registration; exercise the critical journey in both themes, with keyboard navigation and 200% zoom.
 - [x] Add a reproducible desktop recovery acceptance fixture and evidence under `docs/verification/`. `pnpm smoke:recovery` passes locally and is added to Windows CI; clean CI execution remains pending.
 
@@ -52,7 +52,7 @@ Work through the M2 items below in order. [ROADMAP.md](ROADMAP.md) owns mileston
 
 - [ ] Exercise backup/restore cancellation, core termination, application restart and unavailable storage; show actionable retry/re-entry status and retain recoverable snapshots.
 - [ ] Verify protected and session-only credentials across desktop restart, including the need to reconnect before unattended backups resume.
-- [ ] Verify window close versus tray quit, persisted settings, startup failure reporting and owned-child cleanup without orphan sidecars.
+- [x] Verify window close versus tray quit, persisted settings, startup failure reporting and owned-child cleanup without orphan sidecars. [Expanded local recovery](docs/verification/m2-desktop-recovery.md) passes; missing-storage startup now preserves a retryable failure instead of showing setup.
 
 ## 5. Initial network and performance evidence
 

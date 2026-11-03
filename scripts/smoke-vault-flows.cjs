@@ -2,7 +2,63 @@ const assert = require("node:assert/strict");
 const { mkdir, readFile, readdir, rm, writeFile } = require("node:fs/promises");
 const { join } = require("node:path");
 const { pathToFileURL } = require("node:url");
-const { app, dialog } = require("electron");
+const { app, BrowserWindow, dialog, session, Tray } = require("electron");
+
+let recoveryStarted = false;
+let trayMenu;
+const corePids = [];
+const coreProcesses = new Map();
+const networkRequests = [];
+if (process.env.DISKPOND_RECOVERY_PHASE) {
+  const isRemote = (value) => {
+    const url = new URL(value);
+    return (
+      ["http:", "https:", "ws:", "wss:"].includes(url.protocol) &&
+      !["127.0.0.1", "localhost", "[::1]"].includes(url.hostname)
+    );
+  };
+  const fetch = globalThis.fetch;
+  globalThis.fetch = (input, options) => {
+    const url =
+      typeof input === "string" || input instanceof URL ? input : input.url;
+    if (isRemote(url)) {
+      networkRequests.push(`main:${new URL(url).origin}`);
+      return Promise.reject(
+        new Error("Remote fetch blocked by recovery fixture"),
+      );
+    }
+    return fetch(input, options);
+  };
+  app.on("ready", () =>
+    session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
+      const remote = isRemote(details.url);
+      if (remote)
+        networkRequests.push(`chromium:${new URL(details.url).origin}`);
+      callback({ cancel: remote });
+    }),
+  );
+  const childProcess = require("node:child_process");
+  const spawn = childProcess.spawn;
+  childProcess.spawn = function (command, args, options) {
+    const child = spawn.call(this, command, args, options);
+    if (/kopia(?:\.exe)?$/i.test(command) && child.pid) {
+      corePids.push(child.pid);
+      const configIndex = args.indexOf("--config-file");
+      if (configIndex >= 0)
+        coreProcesses.set(
+          require("node:path").basename(args[configIndex + 1], ".config"),
+          child,
+        );
+    }
+    return child;
+  };
+  require("node:module").syncBuiltinESMExports();
+  const setContextMenu = Tray.prototype.setContextMenu;
+  Tray.prototype.setContextMenu = function (menu) {
+    trayMenu = menu;
+    return setContextMenu.call(this, menu);
+  };
+}
 
 const directory = process.env.DISKPOND_VAULT_FIXTURE;
 let selected;
@@ -27,7 +83,8 @@ function finish(error) {
       `Desktop create/connect ${process.env.DISKPOND_VAULT_PHASE} passed.`,
     );
   app.once("will-quit", () => app.exit(error ? 1 : 0));
-  app.quit();
+  if (trayMenu) trayMenu.items.find((item) => item.label === "Quit").click();
+  else app.quit();
 }
 process.on("uncaughtException", finish);
 process.on("unhandledRejection", finish);
@@ -57,10 +114,10 @@ async function key(contents, keyCode, modifiers = []) {
     "new Promise(resolve => requestAnimationFrame(resolve))",
   );
 }
-async function tabTo(contents, expression) {
+async function tabTo(contents, expression, modifiers = []) {
   for (let index = 0; index < 80; index++) {
     if (await contents.executeJavaScript(expression)) return;
-    await key(contents, "Tab");
+    await key(contents, "Tab", modifiers);
   }
   throw new Error(`Keyboard could not reach ${expression}`);
 }
@@ -131,16 +188,23 @@ async function savedVaults() {
 
 app.on("browser-window-created", (_, window) => {
   const contents = window.webContents;
+  if (process.env.DISKPOND_RECOVERY_PHASE)
+    contents.on("console-message", (_, details) => {
+      if (details.level === "error")
+        console.error("Recovery renderer:", details.message);
+    });
   contents.on("preload-error", (_, file, error) =>
     finish(new Error(`${file}: ${error.message}`)),
   );
   contents.once("did-finish-load", async () => {
     try {
+      if (process.env.DISKPOND_RECOVERY_PHASE && recoveryStarted) return;
       window.show();
       window.focus();
       contents.focus();
       contents.closeDevTools();
       if (process.env.DISKPOND_RECOVERY_PHASE) {
+        recoveryStarted = true;
         await require("./smoke-recovery.cjs")({
           contents,
           directory,
@@ -152,10 +216,64 @@ app.on("browser-window-created", (_, window) => {
           key,
           destination,
           capture,
+          networkRequests,
+          interrupt: async (id) => {
+            const child = coreProcesses.get(id);
+            assert(child, "Expected an owned vault process");
+            const exited = new Promise((resolve) =>
+              child.once("exit", resolve),
+            );
+            child.kill();
+            await exited;
+          },
           select: (path) => {
             selected = path;
           },
+          reopen: async () => {
+            await new Promise((resolve, reject) => {
+              const deadline = Date.now() + 20_000;
+              function check() {
+                if (corePids.length >= 2) return resolve();
+                if (Date.now() >= deadline)
+                  return reject(
+                    new Error("Engines did not start before window close"),
+                  );
+                setTimeout(check, 50);
+              }
+              check();
+            });
+            const current = BrowserWindow.fromWebContents(contents);
+            const closed = new Promise((resolve) =>
+              current.once("closed", resolve),
+            );
+            current.close();
+            await closed;
+            assert.equal(
+              (await savedVaults()).length,
+              2,
+              "Window close must preserve vault descriptors",
+            );
+            assert.equal(BrowserWindow.getAllWindows().length, 0);
+            assert(corePids.length > 0);
+            for (const pid of corePids) process.kill(pid, 0);
+            const loaded = new Promise((resolve) => {
+              app.once("browser-window-created", (_, next) => {
+                next.webContents.once("did-finish-load", () => {
+                  next.show();
+                  next.focus();
+                  next.webContents.focus();
+                  resolve(next.webContents);
+                });
+              });
+            });
+            trayMenu.items.find((item) => item.label === "Open").click();
+            return loaded;
+          },
         });
+        await writeFile(
+          join(directory, "core-pids.json"),
+          JSON.stringify(corePids),
+        );
         return finish();
       }
       if (process.env.DISKPOND_VAULT_PHASE === "restart") {

@@ -72,8 +72,8 @@
     "description": "DiskPond could not reach the storage location. Please check that the path or server is available and that your settings are correct."
   },
   "VAULT_SERVER_UNAVAILABLE": {
-    "title": "Backup engine did not start",
-    "description": "The backup engine did not start in time. Please try again or restart the app."
+    "title": "Vault unavailable",
+    "description": "DiskPond could not start the backup engine or reconnect this vault. Check that its storage is available, then retry."
   },
   "ACCOUNT_SYNC_FAILED": {
     "title": "Could not sync your account",

@@ -226,7 +226,9 @@ async function startManagedServer(id: string, pollStatus: boolean) {
                 { id, status: "STARTING", server },
                 { storage: connection, password: cachedPassword },
               );
-              if (!result.code) await completeConnectionMigration(id);
+              if (result.code || result.error)
+                throw new Error("The saved repository connection failed");
+              await completeConnectionMigration(id);
             }
             if (process.killed || process.exitCode !== null)
               throw new Error("Engine stopped during initialization");

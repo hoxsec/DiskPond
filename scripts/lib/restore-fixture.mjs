@@ -1,12 +1,13 @@
 import "../../apps/electron/src/identity.ts";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { createHash } from "node:crypto";
+import { createHash, randomBytes } from "node:crypto";
 import {
   mkdir,
   readdir,
   readFile,
   rm,
+  statfs,
   symlink,
   writeFile,
 } from "node:fs/promises";
@@ -136,7 +137,9 @@ void app.whenReady().then(async () => {
     );
     await writeFile(
       join(source, "large.bin"),
-      Buffer.alloc(32 * 1024 * 1024, 73),
+      process.env.DISKPOND_FULL_VOLUME
+        ? randomBytes(32 * 1024 * 1024)
+        : Buffer.alloc(32 * 1024 * 1024, 73),
     );
     const expected = await hashes(source);
     await request("POST", "sources", {
@@ -158,6 +161,41 @@ void app.whenReady().then(async () => {
       "COMPLETE",
     );
     assert.deepEqual(await hashes(output), expected);
+    if (process.env.DISKPOND_FULL_VOLUME) {
+      const volume = process.env.DISKPOND_FULL_VOLUME;
+      const volumeStats = await statfs(volume);
+      assert(volumeStats.blocks * volumeStats.bsize <= 128 * 1024 * 1024);
+      assert(volumeStats.bavail * volumeStats.bsize < 2 * 1024 * 1024);
+      assert.equal(
+        await readFile(join(volume, "diskpond-fixture.txt"), "utf8"),
+        "Disposable DiskPond full-volume fixture",
+      );
+      for (const mode of ["UNPACKED", "ZIP", "ZIP_COMPRESSED"]) {
+        const destination = join(volume, "output");
+        await mkdir(destination);
+        try {
+          const result = await run(
+            `full-volume-${mode}`,
+            objectId,
+            mode === "UNPACKED"
+              ? {
+                  type: "UNPACKED",
+                  directoryPath: destination,
+                  confirmed: false,
+                }
+              : {
+                  type: "ZIP",
+                  filePath: join(destination, "restore.zip"),
+                  compress: mode === "ZIP_COMPRESSED",
+                },
+            "FAILED",
+          );
+          assert.equal(result.issue, "SPACE", JSON.stringify(result));
+        } finally {
+          await rm(destination, { recursive: true, force: true });
+        }
+      }
+    }
     await writeFile(join(output, "empty.txt"), "conflicting content");
     await run(
       "confirmation",

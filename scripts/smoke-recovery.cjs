@@ -1,18 +1,42 @@
 const assert = require("node:assert/strict");
-const { createHash } = require("node:crypto");
+const { createHash, randomBytes } = require("node:crypto");
 const {
   mkdir,
   readFile,
   readdir,
+  rename,
   rm,
   stat,
   writeFile,
 } = require("node:fs/promises");
 const { join } = require("node:path");
+const { setTimeout: delay } = require("node:timers/promises");
+const { app } = require("electron");
 
 // Reuse the built-app keyboard driver. Only native picker responses are injected;
 // source creation, backup, browsing and restore use production UI/preload/core.
-module.exports = async function recovery({
+module.exports = async function recovery(options) {
+  if (process.env.DISKPOND_RECOVERY_PHASE === "restart") {
+    await options.text(options.contents, "Vaults");
+    options.contents = await options.reopen();
+    await options.text(options.contents, "Vaults");
+    assert.equal(
+      await options.contents.executeJavaScript(
+        "window.electron.store.get('preferences.theme')",
+      ),
+      "dark",
+    );
+  }
+  for (const vaultIndex of [0, 1])
+    await recoverVault({ ...options, vaultIndex });
+  assert.deepEqual(
+    options.networkRequests,
+    [],
+    "Unexpected remote Chromium/main-fetch requests",
+  );
+};
+
+async function recoverVault({
   contents,
   directory,
   activate,
@@ -24,19 +48,21 @@ module.exports = async function recovery({
   destination,
   capture,
   select,
+  vaultIndex,
+  interrupt,
 }) {
-  const source = join(directory, "source");
-  const statePath = join(directory, "recovery.json");
+  const source = join(directory, `source-${vaultIndex}`);
+  const statePath = join(directory, `recovery-${vaultIndex}.json`);
   const phase = process.env.DISKPOND_RECOVERY_PHASE;
-  const remoteRequests = [];
-  contents.session.webRequest.onBeforeRequest((details, callback) => {
-    const url = new URL(details.url);
-    const remote =
-      ["http:", "https:", "ws:", "wss:"].includes(url.protocol) &&
-      !["127.0.0.1", "localhost", "[::1]"].includes(url.hostname);
-    if (remote) remoteRequests.push(`${url.protocol}//${url.host}`);
-    callback({ cancel: remote });
-  });
+  const measurements = [];
+  const measure = (operation, started) =>
+    measurements.push({
+      operation,
+      milliseconds: Math.round(performance.now() - started),
+      electronWorkingSetKiB: app
+        .getAppMetrics()
+        .reduce((sum, metric) => sum + metric.memory.workingSetSize, 0),
+    });
 
   async function inventory(root, prefix = "") {
     const result = {};
@@ -73,6 +99,7 @@ module.exports = async function recovery({
       "[...document.querySelectorAll('a[href]')].map(a => a.getAttribute('href'))",
     );
   async function backup(count, sourceRoute) {
+    const started = performance.now();
     await activate(contents, count === 1 ? "Backup now" : "Backup folder");
     const prefix = `/${sourceRoute.replace(/\/$/, "")}/`;
     await waitFor(
@@ -82,6 +109,7 @@ module.exports = async function recovery({
       console.error("Snapshot links:", await links());
       throw error;
     });
+    measure(`backup-${count}`, started);
     return [
       ...new Set(
         (await links()).filter(
@@ -101,18 +129,33 @@ module.exports = async function recovery({
       "Recover this from snapshot A",
     );
     await writeFile(join(source, "nested 雪", "changed.txt"), "Version A");
-    await writeFile(
-      join(source, "large.bin"),
-      Buffer.alloc(32 * 1024 * 1024, 0x5a),
-    );
-    await text(contents, "Open DiskPond");
-    await activate(contents, "Open DiskPond");
+    await writeFile(join(source, "large.bin"), randomBytes(32 * 1024 * 1024));
+    if (!vaultIndex)
+      for (let i = 0; i < 512; i++)
+        await writeFile(
+          join(source, `entry-${String(i).padStart(4, "0")}.txt`),
+          `Entry ${i}`,
+        );
+    if (!vaultIndex) {
+      await text(contents, "Open DiskPond");
+      await activate(contents, "Open DiskPond");
+    } else {
+      await contents.executeJavaScript("location.hash = '#/local'");
+    }
     await text(contents, "Create a new vault");
-    await destination(contents, "CREATE", "vault");
+    await destination(contents, "CREATE", `vault-${vaultIndex}`);
     await text(contents, "Confirm encryption password");
-    await fill(contents, "name", "Recovery vault");
-    await fill(contents, "password", " exact recovery password 雪 ");
-    await fill(contents, "confirmPassword", " exact recovery password 雪 ");
+    await fill(contents, "name", `Recovery vault ${vaultIndex}`);
+    await fill(
+      contents,
+      "password",
+      ` exact recovery password 雪 ${vaultIndex} `,
+    );
+    await fill(
+      contents,
+      "confirmPassword",
+      ` exact recovery password 雪 ${vaultIndex} `,
+    );
     await activate(contents, "Create vault");
     await waitFor(contents, "!document.querySelector('[role=dialog]')");
     await text(contents, "Add file/folder");
@@ -144,12 +187,69 @@ module.exports = async function recovery({
       ],
     };
     await writeFile(statePath, JSON.stringify(state));
+    if (!vaultIndex) {
+      const vaultId = sourceRoute.split("/")[2];
+      const tasks = () =>
+        contents.executeJavaScript(
+          `fetch('diskpondapp://vault/api/v1/tasks', { headers: { 'vault-id': ${JSON.stringify(vaultId)} } }).then(response => response.json()).then(result => result.tasks)`,
+        );
+      const previous = new Set((await tasks()).map((task) => task.id));
+      await waitFor(
+        contents,
+        "[...document.querySelectorAll('button')].some(button => button.textContent.trim() === 'Backup folder' && !button.disabled)",
+      );
+      const started = performance.now();
+      await activate(contents, "Backup folder");
+      let terminal;
+      while (performance.now() - started < 60_000) {
+        terminal = (await tasks()).find(
+          (task) =>
+            task.kind === "Snapshot" &&
+            !previous.has(task.id) &&
+            ["SUCCESS", "FAILED", "CANCELED"].includes(task.status),
+        );
+        if (terminal) break;
+        await delay(100);
+      }
+      assert.equal(
+        terminal?.status,
+        "SUCCESS",
+        "Unchanged backup must finish successfully",
+      );
+      measure("backup-unchanged", started);
+    }
   } else {
     state = JSON.parse(await readFile(statePath, "utf8"));
+    await contents.executeJavaScript("location.hash = '#/local'");
     await text(contents, "Vaults");
+    if (vaultIndex === 0) {
+      const vaultId = state.sourceRoute.split("/")[2];
+      await contents.executeJavaScript(
+        `location.hash = ${JSON.stringify(state.sourceRoute)}`,
+      );
+      await text(contents, "Backup folder");
+      await interrupt(vaultId);
+      await text(contents, "Retry");
+      const repository = join(directory, `vault-${vaultIndex}`);
+      const detached = `${repository}-detached`;
+      await rename(repository, detached);
+      try {
+        await activate(contents, "Retry");
+        await text(contents, "Starting vault");
+        await text(contents, "Retry");
+      } finally {
+        await rename(detached, repository);
+      }
+      await activate(contents, "Retry");
+      await text(contents, "Backup folder");
+      console.info(
+        "Recovery: engine exit and unavailable storage show Retry; reattached storage reconnects.",
+      );
+    }
   }
 
   for (const [index, snapshot] of state.snapshots.entries()) {
+    await contents.executeJavaScript(`window.electron.zoom(${index ? 2 : 1})`);
     await contents.executeJavaScript(
       `window.electron.store.set('preferences.theme', ${JSON.stringify(index ? "dark" : "light")})`,
     );
@@ -163,10 +263,30 @@ module.exports = async function recovery({
     );
     await follow(snapshot.href);
     await text(contents, index ? "added.txt" : "deleted.txt");
-    const output = join(directory, `${phase}-${index}`);
+    if (!vaultIndex && !index) {
+      const started = performance.now();
+      await tabTo(
+        contents,
+        "document.activeElement?.getAttribute('placeholder') === 'Search for files or folders...'",
+      );
+      await contents.insertText("entry-0511.txt");
+      await text(contents, "entry-0511.txt");
+      await key(contents, "A", ["control"]);
+      await key(contents, "Backspace");
+      await text(contents, "deleted.txt");
+      measure("browse-filter-512", started);
+    }
+    const output = join(directory, `${phase}-${vaultIndex}-${index}`);
     await mkdir(output);
     select(output);
-    await activate(contents, "Restore folder");
+    if (!vaultIndex && !index) {
+      await tabTo(
+        contents,
+        "document.activeElement?.matches('button') && document.activeElement.textContent.trim() === 'Restore folder'",
+        ["shift"],
+      );
+      await key(contents, "Return");
+    } else await activate(contents, "Restore folder");
     await text(contents, "Unpacked files");
     await activate(contents, "Select destination folder path");
     await text(contents, output);
@@ -175,21 +295,26 @@ module.exports = async function recovery({
       "document.activeElement?.matches('button[type=submit]') && document.activeElement.textContent.trim() === 'Restore'",
     );
     await key(contents, "Return");
+    const started = performance.now();
     await waitFor(contents, "!document.querySelector('[role=dialog]')");
     await waitFor(
       contents,
       "[...document.querySelectorAll('[role=status]')].some(node => node.textContent.trim() === 'Restore completed')",
     );
     assert.deepEqual(await inventory(output), snapshot.expected);
-    await capture(contents, `recovery-${phase}-${index}`);
+    measure(`restore-${index}`, started);
+    await capture(contents, `recovery-${phase}-${vaultIndex}-${index}`);
     await activate(contents, "Dismiss result");
     await waitFor(
       contents,
       "![...document.querySelectorAll('button')].some(node => node.textContent.trim() === 'Dismiss result')",
     );
     console.info(
-      `Recovery ${phase} snapshot ${index ? "B" : "A"}: hashes, entries and file mtimes match.`,
+      `Recovery ${phase} vault ${vaultIndex} snapshot ${index ? "B" : "A"}: hashes, entries and file mtimes match.`,
     );
   }
-  assert.deepEqual(remoteRequests, [], "Unexpected Chromium remote requests");
-};
+  await contents.executeJavaScript("window.electron.zoom(1)");
+  console.info(
+    `Recovery measurements ${phase} vault ${vaultIndex}: ${JSON.stringify(measurements)}`,
+  );
+}

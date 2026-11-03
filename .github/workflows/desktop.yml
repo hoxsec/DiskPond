@@ -61,8 +61,8 @@ jobs:
         env:
           DISKPOND_TEST_TMP: ${{ runner.temp }}
       - run: pnpm smoke:vaults
-      - run: pnpm smoke:restores
-      - run: pnpm smoke:recovery
+      - name: M2 full-volume and offline desktop recovery
+        run: ./scripts/certify-m2-windows.ps1
         env:
           DISKPOND_TEST_TMP: ${{ runner.temp }}
       - run: pnpm smoke:desktop --dev
