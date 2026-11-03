@@ -1,6 +1,6 @@
 # In-app updates — F25
 
-Date: 2026-11-03; release handoff updated 2026-11-04. The owner authorized committing/pushing and publishing this batch; v0.1.4 continues after the unpublished v0.1.3 fixture failure. [Release record](windows-v0.1.4.md).
+Date: 2026-11-03; publication verified 2026-11-04. Released with owner authorization in **v0.1.4**, now GitHub Latest. Windows release CI, installed-updater checks and downloaded checksums passed. [Release record](windows-v0.1.4.md).
 
 The owner's in-app update request supersedes the notification-only behavior recorded in [update-banner.md](update-banner.md).
 
@@ -32,6 +32,8 @@ Environment: Windows, Node 24.14.0, repository-managed pnpm (added `%LOCALAPPDAT
 
 Fixture development exposed missing optional SSH native-addon exclusions/ESM `__dirname`, Electron readiness blocked by top-level await, and a missing empty restore destination. The fixture now uses the production bundling exclusions, asynchronous ready callback and an explicitly created disposable destination. The passing run above supersedes these fixture-only failures.
 
-## Remaining release check
+## Installed release verification
 
-The compact release check now includes checksum-pinned v0.1.2 installer replacement and a real candidate-updater download/NSIS/relaunch fixture. It routes a synthetic newer version to the candidate installer through test-only inspector injection and checks truthful unconfirmed-version history, retained settings and post-update recovery. The clean Windows CI result is pending in the release record. The developer's current Windows user has an existing DiskPond installation and is not used for installed tests. Existing v0.1.2 installations still use the old external update flow until a build containing this change is installed.
+The compact Windows release check passed checksum-pinned v0.1.2-to-v0.1.4 installer replacement and the actual native updater's download/checksum, NSIS handoff/relaunch, retained settings and post-update recovery hash. Test-only inspector routing offers the real candidate installer as synthetic version `99.0.0`; the actual `0.1.4` relaunch correctly records **NOT_INSTALLED**. Matching-version confirmation is covered by focused unit tests. [Release CI 41738718581, attempt 2](https://github.com/hoxsec/DiskPond/actions/runs/41738718581) passed all 739 desktop-scoped tests and published v0.1.4; all 10 downloaded asset checksums passed afterward.
+
+The release record preserves v0.1.3's corrected fixture cache failure and v0.1.4's non-reproducing first-attempt worker exit. Installed tests used a clean Windows runner. Existing v0.1.2 installations need one manual installer update to receive this updater. Exhaustive public-feed version-to-version matrices remain deferred.

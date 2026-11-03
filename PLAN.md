@@ -1,14 +1,14 @@
 # DiskPond — Product and Engineering Plan
 
 - **Updated:** 2026-11-04
-- **Status:** The owner authorized committing/pushing and publishing the in-app updater batch. **v0.1.4** continues after v0.1.3's unpublished installed-fixture cache failure. [Corrected release CI and publication](docs/verification/windows-v0.1.4.md) are pending. **v0.1.2** remains GitHub Latest until publication. Live-provider and broad certification remain deferred.
+- **Status:** **v0.1.4** is published as GitHub Latest from `6c88777` with owner authorization, adding in-app updates and six updater refinements. [Release CI, installed-updater checks and downloaded checksums passed](docs/verification/windows-v0.1.4.md). v0.1.3 remains unpublished; live-provider and broad certification remain deferred.
 - **Delivery:** One developer assisted by coding tools; quality-first, milestone-driven.
 
 DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It preserves inherited desktop and bring-your-own-storage functionality, uses its Kopia-based engine, and provides an original, calm interface. Windows x64 is the current release platform; macOS/Linux and full parity are deferred.
 
 ### Active scope override — 2026-11-04
 
-The owner authorized committing/pushing and publishing the complete in-app updater batch. [v0.1.4 release verification](docs/verification/windows-v0.1.4.md) tracks its corrected compact Windows check after the unpublished v0.1.3 fixture failure. This authorization includes the new local update-history preference contract; backup-attempt persistence remains a separate deferred decision.
+The owner-authorized in-app updater batch is published in **v0.1.4**. [Release verification](docs/verification/windows-v0.1.4.md) records the passing compact Windows check and downloaded checksums, preserving the unpublished v0.1.3 fixture failure and v0.1.4's successful unchanged retry. This authorization includes the new local update-history preference contract; backup-attempt persistence remains a separate deferred decision.
 
 Latest D14 / DP06 placement correction: the calendar is only in the separate Activity tab reached through Home-level navigation. Vault pages no longer embed it or expose Activity in their navigation. This supersedes earlier per-vault calendar placement references. The owner's subsequent density preference uses individually collapsed backup rows below the calendar, keeping folder, completion time, vault, size/file count and status visible; expand for full details.
 
@@ -44,9 +44,9 @@ These decisions were made with the project owner. Changes must be recorded here 
 
 ### Document responsibilities
 
-Owner update preference (2026-11-03, F25): download updates inside DiskPond, then offer **Restart and install**. This supersedes the earlier GitHub-page notification-only preference. Downloads and installation are user-triggered; quitting normally does not install an update. Automatic discovery remains user-disableable; Settings retains **Check for updates**, including read-only checks in development. Windows installed builds use the existing electron-updater integration and DiskPond release metadata. [Local verification and remaining installed-upgrade check](docs/verification/in-app-updates.md).
+Owner update preference (2026-11-03, F25): download updates inside DiskPond, then offer **Restart and install**. This supersedes the earlier GitHub-page notification-only preference. Downloads and installation are user-triggered; quitting normally does not install an update. Automatic discovery remains user-disableable; Settings retains **Check for updates**, including read-only checks in development. Windows installed builds use the existing electron-updater integration and DiskPond release metadata. [Local and installed-release verification](docs/verification/in-app-updates.md).
 
-Owner-authorized updater improvements: offer installation only when native backups/restores are idle, with another activity check at installation; in-app release notes, cancelable downloads, transferred/total size and speed, a version-specific 24-hour reminder, and local update history. Retain the latest 50 attempts in the existing settings store, with version/timestamps/outcomes only. Confirm installation after a packaged relaunch at the target version; interrupted and unconfirmed attempts remain distinct. These additions are implemented locally under F25; installed Windows upgrade verification remains pending.
+Owner-authorized updater improvements: offer installation only when native backups/restores are idle, with another activity check at installation; in-app release notes, cancelable downloads, transferred/total size and speed, a version-specific 24-hour reminder, and local update history. Retain the latest 50 attempts in the existing settings store, with version/timestamps/outcomes only. Confirm installation after a packaged relaunch at the target version; interrupted and unconfirmed attempts remain distinct. These additions are released in v0.1.4 under F25; installed Windows upgrade and synthetic-version updater checks passed.
 
 - [PLAN.md](PLAN.md): scope, evidence, architecture, behavior, and verification requirements.
 - [ROADMAP.md](ROADMAP.md): implementation order, dependencies, milestone checklists, and release gates.
@@ -154,7 +154,7 @@ All providers must pass create, connect, snapshot, browse, restore/hash comparis
 | F22 | Tray/background mode, login startup, single-instance behavior, native dialogs, taskbar progress, relevant app links. | S5 | M2 basic / M5 complete / M6 ports: closing a window versus quitting is clear; automatic jobs run while the desktop process is running. |
 | F23 | Light/dark/system themes, English UI, localization infrastructure and preferences. | S4 | M5: all workflows in both themes; English is the baseline's currently listed language. |
 | F24 | Local settings/configuration persistence, migrations, password handling, and startup recovery. | S5 | M2 basic / M5 complete: settings survive upgrades, secrets use OS protection or session-only storage, and damaged state produces a recovery path. |
-| F25 | Update discovery, notification banner, manual check, in-app download, restart/install and failure/retry. | S5, S6; owner override | Implemented locally for installed Windows builds; Settings opt-out and read-only development checks retained. Installed-artifact upgrade verification pending; [verification](docs/verification/in-app-updates.md). |
+| F25 | Update discovery, notification banner, manual check, in-app download, restart/install and failure/retry. | S5, S6; owner override | Released in v0.1.4 for installed Windows builds; Settings opt-out and read-only development checks retained. Installed upgrade, native updater handoff/relaunch and recovery checks passed; [verification](docs/verification/in-app-updates.md). Exhaustive public-feed upgrade matrices deferred. |
 | F26 | Installers and packaged backup engine for every declared target. | S1, S6 | M5 Windows / M6 other targets: install, launch, snapshot, restore, upgrade, and uninstall matrix passes. |
 
 Compression parity includes `none`, `gzip` variants, `zstd` variants, `s2` variants (including parallel variants), `pgzip` variants, `deflate` variants, and `lz4`, as enumerated in the pinned `libs/constants/src/algorithms.ts`. Preserve stored algorithm identifiers; UI presets are only labels over engine settings.
