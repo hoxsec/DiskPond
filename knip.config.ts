@@ -23,8 +23,11 @@ const config: KnipConfig = {
         "scripts/lib/restore-fixture.mjs",
         "scripts/lib/restore-ui.mjs",
         "scripts/lib/restore-ui-state.mjs",
+        "scripts/lib/history-fixture.mjs",
+        "scripts/lib/history-ui.tsx",
+        "scripts/lib/history-ui-state.mjs",
       ],
-      project: ["scripts/**/*.{mjs,cjs}"],
+      project: ["scripts/**/*.{mjs,cjs,tsx}"],
       // Smoke/build runners resolve the pinned Electron/build tools from
       // apps/electron via createRequire; they are declared in that workspace.
       ignoreDependencies: [
@@ -34,6 +37,8 @@ const config: KnipConfig = {
         // Renderer component fixtures resolve these from apps/desktop.
         "react",
         "react-dom",
+        "@tanstack/react-query",
+        "@tanstack/react-router",
       ],
       // Windows process cleanup, registry and disposable ACL fixtures use OS tools.
       ignoreBinaries: ["taskkill", "reg", "icacls", "powershell.exe"],

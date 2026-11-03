@@ -89,6 +89,7 @@ export function listenProtocol() {
           method: req.method as "GET" | "POST" | "PUT" | "DELETE",
           path: `${pathname}${search}`,
           data,
+          signal: req.signal,
         });
 
         return new Response(JSON.stringify(res), {

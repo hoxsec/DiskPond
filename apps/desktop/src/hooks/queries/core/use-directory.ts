@@ -2,7 +2,7 @@ import { useVaultStatus } from "@desktop/hooks/queries/use-vault-status";
 import { useDirectoryId } from "@desktop/hooks/use-directory-id";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
 import { useVaultId } from "@desktop/hooks/use-vault-id";
-import { vaultApi } from "@desktop/lib/vault";
+import { readHistoryDirectory } from "@desktop/lib/history";
 import { useQuery } from "@tanstack/react-query";
 
 export type CoreDirectorySummary = {
@@ -14,18 +14,6 @@ export type CoreDirectorySummary = {
   numFailed: number;
   numIgnoredErrors?: number;
   errors?: { path: string; error: string }[];
-};
-
-export type CoreDirectoryItem = {
-  name: string;
-  type: "d" | "f" | "s";
-  mode: string;
-  mtime: string;
-  uid: number;
-  gid: number;
-  obj: string;
-  size?: number;
-  summ?: CoreDirectorySummary;
 };
 
 export type DirectoryItem = {
@@ -57,23 +45,18 @@ export function useDirectory() {
   const { running } = useVaultStatus();
 
   return useQuery({
-    queryKey: queryKeys.directory.detail(directoryId),
-    queryFn: async () => {
-      const res = await vaultApi(vaultId).get<{
-        stream: string;
-        summary: CoreDirectorySummary;
-        entries: CoreDirectoryItem[];
-        error?: string;
-      }>(`/api/v1/objects/${directoryId}`);
-
-      if (!res.data.entries) return [];
-
-      return res.data.entries.map(
+    queryKey: [...queryKeys.directory.detail(directoryId), vaultId],
+    queryFn: async ({ signal }) => {
+      if (!vaultId || !directoryId)
+        throw new Error("Missing directory identity");
+      const entries = await readHistoryDirectory(vaultId, directoryId, signal);
+      return entries.map(
         (entry) =>
           ({
             id: `${entry.obj}:${entry.name}`,
             objectId: entry.obj,
             name: entry.name,
+            size: entry.size,
             type:
               entry.type === "d"
                 ? "DIRECTORY"
@@ -81,9 +64,9 @@ export function useDirectory() {
                   ? "SYMLINK"
                   : "FILE",
             meta: {
-              mode: entry.mode,
-              uid: entry.uid,
-              gid: entry.gid,
+              mode: entry.mode ?? "",
+              uid: entry.uid ?? 0,
+              gid: entry.gid ?? 0,
             },
             stats: {
               size: entry.size || entry.summ?.size || 0,
@@ -97,7 +80,7 @@ export function useDirectory() {
                   }
                 : {}),
             },
-            modifiedAt: entry.mtime,
+            modifiedAt: entry.mtime ?? "",
           }) satisfies DirectoryItem,
       );
     },

@@ -29,4 +29,29 @@ describe("vaultApi", () => {
     });
     await expect(vaultApi().get("/mount")).rejects.toBeInstanceOf(CoreError);
   });
+
+  it("aborts reads on caller cancellation and bounded timeouts", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(
+        (_url: URL, init: RequestInit) =>
+          new Promise((_, reject) => {
+            init.signal?.addEventListener(
+              "abort",
+              () => reject(init.signal?.reason),
+              { once: true },
+            );
+          }),
+      ),
+    );
+    const controller = new AbortController();
+    const pending = vaultApi("fixture").get("/read", {
+      signal: controller.signal,
+    });
+    controller.abort();
+    await expect(pending).rejects.toMatchObject({ name: "AbortError" });
+    await expect(
+      vaultApi("fixture").get("/read", { timeoutMs: 5 }),
+    ).rejects.toMatchObject({ name: "TimeoutError" });
+  });
 });

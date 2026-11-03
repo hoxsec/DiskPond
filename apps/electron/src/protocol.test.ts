@@ -5,7 +5,9 @@ vi.mock("@blinkdisk/constants/app", () => ({
   PROTOCOL_VAULT_NS: "vault",
 }));
 vi.mock("@electron/vault/fetch", () => ({ fetchVaultRaw: vi.fn() }));
-vi.mock("@electron/vault/manage", () => ({ getVault: vi.fn() }));
+vi.mock("@electron/vault/manage", () => ({
+  getVault: vi.fn(() => ({ id: "fixture" })),
+}));
 vi.mock("electron", () => ({
   app: { isPackaged: false },
   net: { fetch: vi.fn() },
@@ -106,4 +108,19 @@ describe("isPathSafe", () => {
     const filePath = path.resolve(baseDir, "assets/js/main.js");
     expect(isPathSafe(baseDir, filePath)).toBe(true);
   });
+});
+
+it("forwards renderer cancellation to the authenticated native request", async () => {
+  vi.mocked(fetchVaultRaw).mockResolvedValue({ snapshots: [] });
+  listenProtocol();
+  const handler = vi.mocked(protocol.handle).mock.calls.at(-1)?.[1];
+  const controller = new AbortController();
+  const request = new Request("app://vault/api/v1/snapshots", {
+    signal: controller.signal,
+  });
+  await handler?.(request);
+  const options = vi.mocked(fetchVaultRaw).mock.calls.at(-1)?.[1];
+  expect(options?.signal).toBe(request.signal);
+  controller.abort();
+  expect(options?.signal?.aborted).toBe(true);
 });

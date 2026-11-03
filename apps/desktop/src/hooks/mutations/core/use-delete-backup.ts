@@ -33,7 +33,7 @@ export function useDeleteBackup({ onSuccess }: { onSuccess?: () => void }) {
     onError: showErrorToast,
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: queryKeys.backup.list(source?.id),
+        queryKey: queryKeys.backup.all,
       });
 
       onSuccess?.();

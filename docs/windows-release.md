@@ -4,6 +4,8 @@ The latest release is [**v0.1.0-alpha.2**](https://github.com/hoxsec/DiskPond/re
 
 ## Publish a version
 
+The owner has authorized **v0.1.0-alpha.3** with snapshot comparison and the Home-level Activity calendar. See [the release record](verification/windows-alpha-3.md) for publication status; the preceding release remains the latest verified download until the new workflow succeeds.
+
 Commit and push the reviewed release batch first. The current release used the following commands; for another release, choose a new version rather than repeating this existing tag:
 
 ```powershell

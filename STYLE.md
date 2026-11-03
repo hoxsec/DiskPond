@@ -234,6 +234,8 @@ Vault connection state and backup job state are separate. A connected vault is n
 
 Write concise, plain English. Describe the actual outcome and the next useful action. Avoid promises such as “100% safe,” vague alarm messages, or success language for incomplete work.
 
+Owner preference (2026-11-03): do not add explanatory UI prose, instructional paragraphs or legends. Use concise labels, statuses and errors. Keep required destructive-action consequences and accessible control names explicit.
+
 | Term | Meaning |
 | --- | --- |
 | Vault | Encrypted backup repository in a selected storage destination. |

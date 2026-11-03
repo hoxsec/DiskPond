@@ -14,7 +14,8 @@ import { isDraftPolicyUserName } from "@desktop/lib/policy-target";
 import { kopiaParamsFromProfile } from "@desktop/lib/profile";
 import { buildSourceId } from "@desktop/lib/source";
 import { vaultApi } from "@desktop/lib/vault";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useRef } from "react";
 
 type SourceStatus = "IDLE" | "PENDING" | "UPLOADING" | "REMOTE";
 
@@ -109,6 +110,8 @@ type UseSourceListOptions = {
 };
 
 export function useSourceList(options: UseSourceListOptions = {}) {
+  const queryClient = useQueryClient();
+  const previousHistory = useRef<string | undefined>(undefined);
   const { includeDrafts = false, unfiltered = false } = options;
   const { profile: routeSelectedProfile } = useProfile();
   const { queryKeys } = useQueryKey();
@@ -119,7 +122,7 @@ export function useSourceList(options: UseSourceListOptions = {}) {
   const params =
     unfiltered || !profile ? undefined : kopiaParamsFromProfile(profile);
 
-  return useQuery({
+  const query = useQuery({
     queryKey: [
       ...(unfiltered
         ? [...queryKeys.source.all, "list", vaultId, "unfiltered"]
@@ -175,4 +178,32 @@ export function useSourceList(options: UseSourceListOptions = {}) {
     refetchInterval: 1000,
     enabled: !!vaultId && (unfiltered || !!profile) && running,
   });
+
+  const historyVersion = query.data
+    ?.map((source) =>
+      JSON.stringify([
+        source.id,
+        source.lastSnapshot?.id,
+        source.lastBackupOutcome?.id,
+        source.status,
+      ]),
+    )
+    .sort()
+    .join("\n");
+  useEffect(() => {
+    if (!unfiltered || historyVersion === undefined) return;
+    if (
+      previousHistory.current !== undefined &&
+      previousHistory.current !== historyVersion
+    ) {
+      void queryClient.invalidateQueries({
+        queryKey: [...queryKeys.backup.all, "activity", vaultId],
+      });
+      void queryClient.invalidateQueries({
+        queryKey: [...queryKeys.backup.all, "history", vaultId],
+      });
+    }
+    previousHistory.current = historyVersion;
+  }, [historyVersion, unfiltered, vaultId, queryClient, queryKeys]);
+  return query;
 }

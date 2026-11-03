@@ -1,12 +1,14 @@
 # DiskPond — Product and Engineering Plan
 
 - **Updated:** 2026-11-03
-- **Status:** Unsigned Windows prerelease v0.1.0-alpha.2 is published with the approved visual redesign and return navigation; owner installation and actual-use feedback are next. Snapshot comparison and an activity calendar are planned. Broad certification is deferred.
+- **Status:** Unsigned Windows prerelease v0.1.0-alpha.2 is published with the approved visual redesign and return navigation. Owner-authorized snapshot comparison and Activity/per-vault retained-history calendars are implemented locally with passing focused checks; this batch is uncommitted and unreleased. Owner preview/actual-use feedback is next; broad certification remains deferred.
 - **Delivery:** One developer assisted by coding tools; quality-first, milestone-driven.
 
 DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It preserves inherited desktop and bring-your-own-storage functionality, uses its Kopia-based engine, and introduces an original, calm interface. The immediate deliverable is a usable Windows release; macOS/Linux and full parity are deferred.
 
 ### Active scope override — 2026-11-03
+
+Latest D14 / DP06 placement correction: the calendar is only in the separate Activity tab reached through Home-level navigation. Vault pages no longer embed it or expose Activity in their navigation. This supersedes earlier per-vault calendar placement references.
 
 The owner replaced the M0–M7 certification sequence with the small [Now / Next / Later roadmap](ROADMAP.md). This decision takes precedence over milestone gates, full-parity promises and exhaustive verification requirements retained below as reference. The P/F/DP IDs remain useful feature inventory, not a checklist that must be closed before releasing Windows. Deferred capabilities are not removed or certified by this decision.
 
@@ -35,7 +37,7 @@ These decisions were made with the project owner. Changes must be recorded here 
 | D11 | Solo, quality-first development; milestones have acceptance gates rather than invented dates. |
 | D12 | Electron owns OS-protected/session-only vault passwords and provider connections. Migrate active local plaintext core connection JSON and inherited password-encrypted provider envelopes; preserve profile/cache/bandwidth metadata and compatible repository data. Managed sidecars start disconnected and receive exact credentials through the authenticated loopback API. |
 | D13 | Windows release first: replace M0–M7 delivery gates with Now / Next / Later; prioritize release CI/CD, use owner-confirmed behavior and existing CI as baseline, minimize repeated testing, and defer broad provider/platform/parity certification. |
-| D14 | After the profile/history navigation fix, plan snapshot comparison with added/changed/deleted paths and before/after sizes and modification times, plus a backup activity calendar on Home and inside each vault. Owner selected planning only on 2026-11-03; implementation is future work. See [the feature plan](docs/plans/snapshot-comparison-and-activity.md). |
+| D14 | Snapshot comparison with added/changed/deleted paths and before/after sizes and modification times, plus a backup activity calendar only in the separate Home-level Activity tab. Following implementation authorization, the owner removed calendar placements on Home content and inside vaults, and requested no explanatory UI prose. Use concise status/coverage labels. Durable attempt persistence remains a separate owner-reviewed contract. See [the feature plan](docs/plans/snapshot-comparison-and-activity.md). |
 
 ### Document responsibilities
 
@@ -158,8 +160,8 @@ Compression parity includes `none`, `gzip` variants, `zstd` variants, `s2` varia
 | DP02 | Encrypted setup export/import. | M5: a second installation imports selected configurations using an export passphrase, remaps local paths, requests missing secrets, and reconnects to existing snapshots. |
 | DP03 | No telemetry; local logs and user-triggered redacted diagnostics export. | M2 removal / M5 export: observed network traffic matches configured storage and update behavior; exported diagnostics contain no credentials or unapproved identifying paths. |
 | DP04 | Original DiskPond design with accessible, understandable recovery flows. | M2 foundation / M5 complete: STYLE.md applied to all required states and critical workflows. |
-| DP05 | Compare two backups of the same source: added, changed and deleted paths, with before/after size and modification time. | Planned under D14: deterministic comparisons, metadata gaps and incomplete reads visible, bounded/cancelable traversal, keyboard-accessible results. See [scope and acceptance](docs/plans/snapshot-comparison-and-activity.md#snapshot-comparison-dp05). |
-| DP06 | Backup activity calendar on Home across vaults and within each vault. | Planned under D14: local-day grouping, drill-down, truthful completed/partial/failed/incomplete states and explicit history/availability coverage. See [scope and acceptance](docs/plans/snapshot-comparison-and-activity.md#backup-activity-calendar-dp06). |
+| DP05 | Compare two backups of the same source: added, changed and deleted paths, with before/after size and modification time. | Implemented locally under D14 with passing [focused verification](docs/verification/snapshot-comparison-and-activity.md): deterministic comparisons, explicit metadata/read gaps, bounded/cancelable traversal and paged keyboard-scrollable results. Owner preview remains pending. |
+| DP06 | Backup activity calendar only in Home-level Activity, with vault filtering. | Retained-history slice implemented under D14 with passing [focused verification](docs/verification/snapshot-comparison-and-activity.md): local completion days, drill-down and separately labeled latest issues. Complete failure/cancellation history requires the deferred durable-attempt slice. Owner actual-use feedback remains pending. |
 
 ## 4. Fork and architecture strategy
 

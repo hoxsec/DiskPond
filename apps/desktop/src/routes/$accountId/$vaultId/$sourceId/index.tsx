@@ -21,6 +21,7 @@ import {
   ClockIcon,
   CloudUploadIcon,
   FileCogIcon,
+  GitCompareArrowsIcon,
   ListPlusIcon,
   SquareIcon,
 } from "lucide-react";
@@ -75,6 +76,20 @@ function RouteComponent() {
           <SourcePreview source={source} />
         </div>
         <div className="flex flex-wrap items-center gap-2">
+          <Button
+            variant="secondary"
+            nativeButton={false}
+            render={
+              <Link
+                to="/$accountId/$vaultId/$sourceId/compare"
+                from="/$accountId/$vaultId/$sourceId/"
+                search={true}
+              />
+            }
+          >
+            <GitCompareArrowsIcon aria-hidden="true" />
+            {t("history:comparison.title")}
+          </Button>
           {backups !== null && backups !== undefined ? (
             <>
               <Button

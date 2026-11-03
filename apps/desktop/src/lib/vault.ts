@@ -3,6 +3,8 @@ import { CoreError } from "@blinkdisk/utils/error";
 
 type VaultRequestConfig = {
   params?: Record<string, boolean | number | string | null | undefined>;
+  signal?: AbortSignal;
+  timeoutMs?: number;
 };
 
 type VaultResponse<T> = {
@@ -85,6 +87,12 @@ async function request<T>({
     body: body === undefined ? undefined : JSON.stringify(body),
     headers,
     method,
+    signal: config?.timeoutMs
+      ? AbortSignal.any([
+          ...(config.signal ? [config.signal] : []),
+          AbortSignal.timeout(config.timeoutMs),
+        ])
+      : config?.signal,
   });
   const data = await parseResponse(response);
 

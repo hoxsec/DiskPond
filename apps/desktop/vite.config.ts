@@ -51,7 +51,7 @@ export default defineConfig({
       targets: [
         {
           src: [
-            "../../locales/en/{translation,error,workspace,settings,validation,sidebar,vault,folder,cron,policy,directory,backup,update,task}.json",
+            "../../locales/en/{translation,error,workspace,settings,validation,sidebar,vault,folder,cron,policy,directory,backup,history,update,task}.json",
           ],
           dest: "locales/en",
           rename: { stripBase: true },

@@ -68,6 +68,13 @@ export function CompactNavigation() {
               </DropdownMenuItem>
             </>
           ) : null}
+          {!vaultId ? (
+            <DropdownMenuItem
+              render={<Link to="/$accountId/activity" from="/$accountId" />}
+            >
+              {t("activity")}
+            </DropdownMenuItem>
+          ) : null}
           <DropdownMenuItem
             render={<Link to="/$accountId/settings" from="/$accountId" />}
           >

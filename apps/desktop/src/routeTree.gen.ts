@@ -15,12 +15,14 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountIdIndexRouteImport } from './routes/$accountId/index'
 import { Route as AccountIdSettingsRouteImport } from './routes/$accountId/settings'
 import { Route as AccountIdLoadingRouteImport } from './routes/$accountId/loading'
+import { Route as AccountIdActivityRouteImport } from './routes/$accountId/activity'
 import { Route as AccountIdVaultIdRouteRouteImport } from './routes/$accountId/$vaultId/route'
 import { Route as AccountIdVaultIdIndexRouteImport } from './routes/$accountId/$vaultId/index'
 import { Route as AccountIdVaultIdPoliciesRouteImport } from './routes/$accountId/$vaultId/policies'
 import { Route as AccountIdVaultIdSettingsRouteRouteImport } from './routes/$accountId/$vaultId/settings/route'
 import { Route as AccountIdVaultIdSourceIdRouteRouteImport } from './routes/$accountId/$vaultId/$sourceId/route'
 import { Route as AccountIdVaultIdSourceIdIndexRouteImport } from './routes/$accountId/$vaultId/$sourceId/index'
+import { Route as AccountIdVaultIdSourceIdCompareRouteImport } from './routes/$accountId/$vaultId/$sourceId/compare'
 import { Route as AccountIdVaultIdSourceIdBackupIdDirectoryIdRouteRouteImport } from './routes/$accountId/$vaultId/$sourceId/$backupId/$directoryId/route'
 import { Route as AccountIdVaultIdSourceIdBackupIdDirectoryIdIndexRouteImport } from './routes/$accountId/$vaultId/$sourceId/$backupId/$directoryId/index'
 
@@ -52,6 +54,11 @@ const AccountIdSettingsRoute = AccountIdSettingsRouteImport.update({
 const AccountIdLoadingRoute = AccountIdLoadingRouteImport.update({
   id: '/loading',
   path: '/loading',
+  getParentRoute: () => AccountIdRouteRoute,
+} as any)
+const AccountIdActivityRoute = AccountIdActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
   getParentRoute: () => AccountIdRouteRoute,
 } as any)
 const AccountIdVaultIdRouteRoute = AccountIdVaultIdRouteRouteImport.update({
@@ -88,6 +95,12 @@ const AccountIdVaultIdSourceIdIndexRoute =
     path: '/',
     getParentRoute: () => AccountIdVaultIdSourceIdRouteRoute,
   } as any)
+const AccountIdVaultIdSourceIdCompareRoute =
+  AccountIdVaultIdSourceIdCompareRouteImport.update({
+    id: '/compare',
+    path: '/compare',
+    getParentRoute: () => AccountIdVaultIdSourceIdRouteRoute,
+  } as any)
 const AccountIdVaultIdSourceIdBackupIdDirectoryIdRouteRoute =
   AccountIdVaultIdSourceIdBackupIdDirectoryIdRouteRouteImport.update({
     id: '/$backupId/$directoryId',
@@ -106,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/$accountId': typeof AccountIdRouteRouteWithChildren
   '/welcome': typeof WelcomeRoute
   '/$accountId/$vaultId': typeof AccountIdVaultIdRouteRouteWithChildren
+  '/$accountId/activity': typeof AccountIdActivityRoute
   '/$accountId/loading': typeof AccountIdLoadingRoute
   '/$accountId/settings': typeof AccountIdSettingsRoute
   '/$accountId/': typeof AccountIdIndexRoute
@@ -113,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/$accountId/$vaultId/settings': typeof AccountIdVaultIdSettingsRouteRoute
   '/$accountId/$vaultId/policies': typeof AccountIdVaultIdPoliciesRoute
   '/$accountId/$vaultId/': typeof AccountIdVaultIdIndexRoute
+  '/$accountId/$vaultId/$sourceId/compare': typeof AccountIdVaultIdSourceIdCompareRoute
   '/$accountId/$vaultId/$sourceId/': typeof AccountIdVaultIdSourceIdIndexRoute
   '/$accountId/$vaultId/$sourceId/$backupId/$directoryId': typeof AccountIdVaultIdSourceIdBackupIdDirectoryIdRouteRouteWithChildren
   '/$accountId/$vaultId/$sourceId/$backupId/$directoryId/': typeof AccountIdVaultIdSourceIdBackupIdDirectoryIdIndexRoute
@@ -120,12 +135,14 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/welcome': typeof WelcomeRoute
+  '/$accountId/activity': typeof AccountIdActivityRoute
   '/$accountId/loading': typeof AccountIdLoadingRoute
   '/$accountId/settings': typeof AccountIdSettingsRoute
   '/$accountId': typeof AccountIdIndexRoute
   '/$accountId/$vaultId/settings': typeof AccountIdVaultIdSettingsRouteRoute
   '/$accountId/$vaultId/policies': typeof AccountIdVaultIdPoliciesRoute
   '/$accountId/$vaultId': typeof AccountIdVaultIdIndexRoute
+  '/$accountId/$vaultId/$sourceId/compare': typeof AccountIdVaultIdSourceIdCompareRoute
   '/$accountId/$vaultId/$sourceId': typeof AccountIdVaultIdSourceIdIndexRoute
   '/$accountId/$vaultId/$sourceId/$backupId/$directoryId': typeof AccountIdVaultIdSourceIdBackupIdDirectoryIdIndexRoute
 }
@@ -135,6 +152,7 @@ export interface FileRoutesById {
   '/$accountId': typeof AccountIdRouteRouteWithChildren
   '/welcome': typeof WelcomeRoute
   '/$accountId/$vaultId': typeof AccountIdVaultIdRouteRouteWithChildren
+  '/$accountId/activity': typeof AccountIdActivityRoute
   '/$accountId/loading': typeof AccountIdLoadingRoute
   '/$accountId/settings': typeof AccountIdSettingsRoute
   '/$accountId/': typeof AccountIdIndexRoute
@@ -142,6 +160,7 @@ export interface FileRoutesById {
   '/$accountId/$vaultId/settings': typeof AccountIdVaultIdSettingsRouteRoute
   '/$accountId/$vaultId/policies': typeof AccountIdVaultIdPoliciesRoute
   '/$accountId/$vaultId/': typeof AccountIdVaultIdIndexRoute
+  '/$accountId/$vaultId/$sourceId/compare': typeof AccountIdVaultIdSourceIdCompareRoute
   '/$accountId/$vaultId/$sourceId/': typeof AccountIdVaultIdSourceIdIndexRoute
   '/$accountId/$vaultId/$sourceId/$backupId/$directoryId': typeof AccountIdVaultIdSourceIdBackupIdDirectoryIdRouteRouteWithChildren
   '/$accountId/$vaultId/$sourceId/$backupId/$directoryId/': typeof AccountIdVaultIdSourceIdBackupIdDirectoryIdIndexRoute
@@ -153,6 +172,7 @@ export interface FileRouteTypes {
     | '/$accountId'
     | '/welcome'
     | '/$accountId/$vaultId'
+    | '/$accountId/activity'
     | '/$accountId/loading'
     | '/$accountId/settings'
     | '/$accountId/'
@@ -160,6 +180,7 @@ export interface FileRouteTypes {
     | '/$accountId/$vaultId/settings'
     | '/$accountId/$vaultId/policies'
     | '/$accountId/$vaultId/'
+    | '/$accountId/$vaultId/$sourceId/compare'
     | '/$accountId/$vaultId/$sourceId/'
     | '/$accountId/$vaultId/$sourceId/$backupId/$directoryId'
     | '/$accountId/$vaultId/$sourceId/$backupId/$directoryId/'
@@ -167,12 +188,14 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/welcome'
+    | '/$accountId/activity'
     | '/$accountId/loading'
     | '/$accountId/settings'
     | '/$accountId'
     | '/$accountId/$vaultId/settings'
     | '/$accountId/$vaultId/policies'
     | '/$accountId/$vaultId'
+    | '/$accountId/$vaultId/$sourceId/compare'
     | '/$accountId/$vaultId/$sourceId'
     | '/$accountId/$vaultId/$sourceId/$backupId/$directoryId'
   id:
@@ -181,6 +204,7 @@ export interface FileRouteTypes {
     | '/$accountId'
     | '/welcome'
     | '/$accountId/$vaultId'
+    | '/$accountId/activity'
     | '/$accountId/loading'
     | '/$accountId/settings'
     | '/$accountId/'
@@ -188,6 +212,7 @@ export interface FileRouteTypes {
     | '/$accountId/$vaultId/settings'
     | '/$accountId/$vaultId/policies'
     | '/$accountId/$vaultId/'
+    | '/$accountId/$vaultId/$sourceId/compare'
     | '/$accountId/$vaultId/$sourceId/'
     | '/$accountId/$vaultId/$sourceId/$backupId/$directoryId'
     | '/$accountId/$vaultId/$sourceId/$backupId/$directoryId/'
@@ -243,6 +268,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountIdLoadingRouteImport
       parentRoute: typeof AccountIdRouteRoute
     }
+    '/$accountId/activity': {
+      id: '/$accountId/activity'
+      path: '/activity'
+      fullPath: '/$accountId/activity'
+      preLoaderRoute: typeof AccountIdActivityRouteImport
+      parentRoute: typeof AccountIdRouteRoute
+    }
     '/$accountId/$vaultId': {
       id: '/$accountId/$vaultId'
       path: '/$vaultId'
@@ -285,6 +317,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountIdVaultIdSourceIdIndexRouteImport
       parentRoute: typeof AccountIdVaultIdSourceIdRouteRoute
     }
+    '/$accountId/$vaultId/$sourceId/compare': {
+      id: '/$accountId/$vaultId/$sourceId/compare'
+      path: '/compare'
+      fullPath: '/$accountId/$vaultId/$sourceId/compare'
+      preLoaderRoute: typeof AccountIdVaultIdSourceIdCompareRouteImport
+      parentRoute: typeof AccountIdVaultIdSourceIdRouteRoute
+    }
     '/$accountId/$vaultId/$sourceId/$backupId/$directoryId': {
       id: '/$accountId/$vaultId/$sourceId/$backupId/$directoryId'
       path: '/$backupId/$directoryId'
@@ -318,12 +357,14 @@ const AccountIdVaultIdSourceIdBackupIdDirectoryIdRouteRouteWithChildren =
   )
 
 interface AccountIdVaultIdSourceIdRouteRouteChildren {
+  AccountIdVaultIdSourceIdCompareRoute: typeof AccountIdVaultIdSourceIdCompareRoute
   AccountIdVaultIdSourceIdIndexRoute: typeof AccountIdVaultIdSourceIdIndexRoute
   AccountIdVaultIdSourceIdBackupIdDirectoryIdRouteRoute: typeof AccountIdVaultIdSourceIdBackupIdDirectoryIdRouteRouteWithChildren
 }
 
 const AccountIdVaultIdSourceIdRouteRouteChildren: AccountIdVaultIdSourceIdRouteRouteChildren =
   {
+    AccountIdVaultIdSourceIdCompareRoute: AccountIdVaultIdSourceIdCompareRoute,
     AccountIdVaultIdSourceIdIndexRoute: AccountIdVaultIdSourceIdIndexRoute,
     AccountIdVaultIdSourceIdBackupIdDirectoryIdRouteRoute:
       AccountIdVaultIdSourceIdBackupIdDirectoryIdRouteRouteWithChildren,
@@ -356,6 +397,7 @@ const AccountIdVaultIdRouteRouteWithChildren =
 
 interface AccountIdRouteRouteChildren {
   AccountIdVaultIdRouteRoute: typeof AccountIdVaultIdRouteRouteWithChildren
+  AccountIdActivityRoute: typeof AccountIdActivityRoute
   AccountIdLoadingRoute: typeof AccountIdLoadingRoute
   AccountIdSettingsRoute: typeof AccountIdSettingsRoute
   AccountIdIndexRoute: typeof AccountIdIndexRoute
@@ -363,6 +405,7 @@ interface AccountIdRouteRouteChildren {
 
 const AccountIdRouteRouteChildren: AccountIdRouteRouteChildren = {
   AccountIdVaultIdRouteRoute: AccountIdVaultIdRouteRouteWithChildren,
+  AccountIdActivityRoute: AccountIdActivityRoute,
   AccountIdLoadingRoute: AccountIdLoadingRoute,
   AccountIdSettingsRoute: AccountIdSettingsRoute,
   AccountIdIndexRoute: AccountIdIndexRoute,

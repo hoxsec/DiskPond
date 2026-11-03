@@ -17,6 +17,7 @@ import { useVault } from "@desktop/hooks/queries/use-vault";
 import { Link, useLocation, useParams } from "@tanstack/react-router";
 import {
   ArrowLeftIcon,
+  CalendarDaysIcon,
   FileCogIcon,
   HomeIcon,
   LayoutDashboardIcon,
@@ -67,6 +68,18 @@ export function Sidebar({ ...props }: ComponentProps<typeof SidebarContainer>) {
                     <Link to="/$accountId" from="/$accountId">
                       <HomeIcon />
                       {t("home")}
+                    </Link>
+                  }
+                />
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  className="px-3"
+                  isActive={pathname === `/${accountId}/activity`}
+                  render={
+                    <Link to="/$accountId/activity" from="/$accountId">
+                      <CalendarDaysIcon />
+                      {t("activity")}
                     </Link>
                   }
                 />

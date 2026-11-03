@@ -70,6 +70,10 @@ For D10 / DP04 / F23, the owner selected graphite/blue, clean technical styling,
 
 For F15 / F16 / F20 / DP04, the inherited source-history route now links back to its vault and the overview exposes a device/user filter-reset action. Snapshot browsing also links directly back to source history from root or nested folders. Source-card, snapshot-card and menu links preserve profile search parameters; returning to history clears the snapshot breadcrumb. English labels, accessible link names, focus handling and responsive layout accompany the changes in `apps/desktop/src/components/{sources/list,vaults/overview,backups/timeline}.tsx`, the source-history and snapshot-browser routes, and `locales/en/{backup,directory,folder,vault}.json`. [Verification](docs/verification/profile-history-navigation.md) records the scoped build and keyboard/zoom checks.
 
+## Snapshot comparison and retained activity (2026-11-03)
+
+For D14 / DP05 / DP06, new validated read contracts, bounded comparison traversal and shared Home/per-vault calendars build on the inherited history/browser API. Changes to inherited source-history/timeline/overview/Home components add entry points and placement; directory reads now preserve file size and use vault-scoped caches. Source-status changes and existing snapshot mutations refresh history queries. `apps/desktop/src/lib/vault.ts`, Electron `protocol.ts` and `vault/fetch.ts` propagate read cancellation; the existing authenticated boundary and core pin remain intact. English copy is in `locales/en/history.json`. [Focused verification and limitations](docs/verification/snapshot-comparison-and-activity.md) record the local batch. Repository formats, persisted contracts and licenses are unchanged.
+
 ## M2 owned-core discovery work
 
 On 2026-11-02 the owner approved and created [hoxsec/diskpond-core](https://github.com/hoxsec/diskpond-core), a GitHub fork of `blinkdisk/core`. The exact upstream baseline remains available in that fork. `.gitmodules` now selects the owned fork; local core `origin` points there and `upstream` retains `https://github.com/blinkdisk/core.git`.

@@ -41,6 +41,7 @@ export function useDeleteSource({
       await queryClient.invalidateQueries({
         queryKey: queryKeys.source.list(vaultId, profile),
       });
+      await queryClient.invalidateQueries({ queryKey: queryKeys.backup.all });
 
       onSuccess?.();
     },

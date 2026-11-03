@@ -29,6 +29,7 @@ import {
   CloudDownloadIcon,
   FileSearchIcon,
   FilesIcon,
+  GitCompareArrowsIcon,
   HardDriveIcon,
   MoreVerticalIcon,
   PenLineIcon,
@@ -376,6 +377,18 @@ function Backup({ backup }: BackupProps) {
               }
             />
             <DropdownMenuContent className="w-48" align="end">
+              <DropdownMenuItem
+                render={
+                  <Link
+                    to="/$accountId/$vaultId/$sourceId/compare"
+                    from="/$accountId/$vaultId/$sourceId/"
+                    search={(search) => ({ ...search, snapshot: backup.id })}
+                  />
+                }
+              >
+                <GitCompareArrowsIcon aria-hidden="true" />
+                {t("history:comparison.title")}
+              </DropdownMenuItem>
               {backup.id && backup.rootID && !isFileLikeBackup ? (
                 <DropdownMenuItem
                   render={

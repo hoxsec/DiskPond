@@ -18,19 +18,26 @@ Delivery complete; owner installation and actual-use feedback are next. This doe
 
 ## Next — Improve through actual use
 
+The owner authorized committing/pushing the completed comparison and Activity-only calendar batch and publishing **v0.1.0-alpha.3**. [Release status](docs/verification/windows-alpha-3.md) supersedes earlier uncommitted/authorization-pending notes below.
+
+- [x] Apply the owner's latest DP06 correction: calendar only in Home-level Activity; remove the per-vault calendar and compact vault Activity link.
+
 Fix reported backup, scheduling, retention, restore and usability issues. Add encrypted setup export/import and improve updates/diagnostics when needed; these do not block the first release.
 
 - [x] Apply the owner's graphite/blue, clean technical identity with square UI corners; retain the DiskPond artwork and Settings-only Light / Dark / System selector (D10, DP04, F23). [Implementation and focused verification](docs/verification/graphite-blue-identity.md). The owner approved the visual changes and authorized a local commit on 2026-11-03.
 - [x] Add **Back to backup history** from snapshot browsing, **Back to vault** from history with the profile filter preserved, and **Back to all profiles** to clear device/user filters in the same vault (F15, F16, F20, DP04). [Focused navigation evidence](docs/verification/profile-history-navigation.md).
 - [x] Record the owner's next-feature choices and implementation plan (D14): [snapshot comparison and backup activity calendar](docs/plans/snapshot-comparison-and-activity.md).
-- [ ] Implement snapshot comparison with added/changed/deleted paths and before/after sizes and modification times (DP05).
-- [ ] Implement the activity calendar on Home and in each vault, with honest history coverage and outcome handling (DP06).
+- [x] Implement snapshot comparison with added/changed/deleted paths and before/after sizes and modification times (DP05). Bounded/cancelable reads, explicit unknown/partial coverage and paged keyboard-scrollable results; [focused verification](docs/verification/snapshot-comparison-and-activity.md) passes.
+- [x] Implement the retained-history activity calendar in a separate Activity tab and in each vault, with concise status labels (DP06). Owner feedback moved it off Home and removed explanatory calendar/comparison prose. Latest known issues are labeled and counted separately; [focused verification](docs/verification/snapshot-comparison-and-activity.md) passes.
+- [ ] Owner preview and actual-use feedback on comparison and both calendar placements.
 
-The redesign commit `7a8a6fa` and navigation/planning commit `f872617` are pushed to `main` and included in **v0.1.0-alpha.2**, published with owner authorization. [Release verification](docs/verification/windows-alpha-2.md) passed. The two new features are planned, not implemented.
+The redesign commit `7a8a6fa` and navigation/planning commit `f872617` are pushed to `main` and included in **v0.1.0-alpha.2**, published with owner authorization. [Release verification](docs/verification/windows-alpha-2.md) passed. The owner subsequently authorized implementing both features in a new session. Their local implementation and focused verification are complete; this batch is not committed or published. Another release requires owner authorization.
 
 ## Later — Optional expansion
 
 Live-provider/USB/NAS certification, second-device matrices, macOS/Linux, exhaustive parity, performance and accessibility audits. Keep existing features available; describe unverified cases as deferred, not certified.
+
+Complete historical failure/cancellation accounting needs a separately approved durable attempt-history contract; the delivered calendar intentionally reports available retained history and latest issue evidence.
 
 ## Working rule
 

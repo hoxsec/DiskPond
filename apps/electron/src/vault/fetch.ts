@@ -54,6 +54,7 @@ export async function fetchVaultRaw(
     filePath,
     raw,
     timeoutMs = VAULT_REQUEST_TIMEOUT_MS,
+    signal,
   }: {
     method: "GET" | "POST" | "PUT" | "DELETE";
     path: string;
@@ -62,6 +63,7 @@ export async function fetchVaultRaw(
     filePath?: string;
     raw?: boolean;
     timeoutMs?: number;
+    signal?: AbortSignal;
   },
 ) {
   return await new Promise((res, rej) => {
@@ -75,6 +77,7 @@ export async function fetchVaultRaw(
         port: parseInt(new URL(address).port, 10).toString(),
         method,
         path,
+        signal,
         headers: {
           ...(data && {
             "Content-Type": "application/json",
