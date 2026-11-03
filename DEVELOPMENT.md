@@ -38,7 +38,7 @@ git -C apps/core rev-parse HEAD
 pnpm install --frozen-lockfile
 ```
 
-The engine gitlink is `5971b879111001ba4c8d0e41659723d79565f06d`, published on the owner-approved `hoxsec/diskpond-core` fork's `main`. The original upstream baseline remains recorded in [provenance](UPSTREAM.md). Do not use `git submodule update --remote` or substitute a globally installed Kopia binary. `pnpm build:core` checks the checkout against the recorded gitlink and marks modified core source with a `-dirty` build revision. The application starts core with `--managed-storage`, which the original baseline binary does not implement; build the pinned core.
+The engine gitlink is `dca6bebcba9c50f6f2658ae3662a52414f77bcf9`, published on the owner-approved `hoxsec/diskpond-core` fork's `main`. The original upstream baseline remains recorded in [provenance](UPSTREAM.md). Do not use `git submodule update --remote` or substitute a globally installed Kopia binary. `pnpm build:core` checks the checkout against the recorded gitlink and marks modified core source with a `-dirty` build revision. The application starts core with `--managed-storage`, which the original baseline binary does not implement; build the pinned core.
 
 The discovery compatibility fixture also builds the original baseline. In shallow checkouts, fetch that exact object before `pnpm smoke:discovery`, as CI does; this leaves the candidate checkout and gitlink unchanged:
 

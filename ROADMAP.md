@@ -80,7 +80,7 @@ Subsequent credential/discovery/provider changes are also merged into applicatio
 - [ ] Implement create-versus-connect entry points with provider validation and safe existing-repository detection.
   - [x] Nonmutating discovery in the owner-approved core fork: no `.shards` write on reads, no legacy migration from `/repo/exists`, no SFTP directory creation during discovery. [Published regressions and baseline-copy restore/hash evidence](docs/verification/m2-read-only-discovery.md) pass locally and in Windows CI.
   - [x] Separate renderer/native operations, native identity/destination guards, explicit-connect migration inventory and baseline recovery, and keyboard/error/three-vault restart fixture pass locally. [Create/connect evidence](docs/verification/m2-create-connect.md).
-  - [x] Publish and pin the core initialization guard (`5971b879111001ba4c8d0e41659723d79565f06d`) in the owner-authorized matching application source handoff.
+  - [x] Publish and pin the core initialization guard and inherited fixture correction (`dca6bebcba9c50f6f2658ae3662a52414f77bcf9`) in the owner-authorized matching application source handoff.
   - [ ] Run clean Windows CI on the published create/connect slice. The parent gate remains open until this reproducibility check passes.
 - [x] Preserve secure vault-password handling; make unavailable secure storage a session-only mode rather than a silent plaintext fallback.
   - [Windows password evidence](docs/verification/m2-password-storage.md): OS-protected round-trip, failure/session-only/re-entry, legacy-cache handling, three-vault engine interruption/reconnect and credential-file scans. Managed startup now reopens exact whitespace passwords automatically. Later-OS runtime checks and full F24/DP01 remain open.

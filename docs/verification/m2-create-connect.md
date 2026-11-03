@@ -1,6 +1,6 @@
 # M2 slice — Explicit create and connect
 
-2026-11-03. Requirements: **P01/F02**, supporting **F03/Q02** and setup **Q08**. Application base: `bf4c6c2b10eadd593c7f352a52b41ba7fd5578fe`. Core base: `aad67c688a05ce119859d49ca51bdf67787f0b99`; the initialization guard is now published on core `main` and pinned at [`5971b879111001ba4c8d0e41659723d79565f06d`](https://github.com/hoxsec/diskpond-core/commit/5971b879111001ba4c8d0e41659723d79565f06d). Local checks below used the same source before commit (`aad67c6…-dirty`). Original compatibility baseline: `blinkdisk/core@e8955e7280edd9526b9f104f1592f233cfe6789b`.
+2026-11-03. Requirements: **P01/F02**, supporting **F03/Q02** and setup **Q08**. Application base: `bf4c6c2b10eadd593c7f352a52b41ba7fd5578fe`. Core base: `aad67c688a05ce119859d49ca51bdf67787f0b99`; the initialization guard and inherited fixture correction are published on core `main` and pinned at [`dca6bebcba9c50f6f2658ae3662a52414f77bcf9`](https://github.com/hoxsec/diskpond-core/commit/dca6bebcba9c50f6f2658ae3662a52414f77bcf9). Initial local checks below used the same production source before commit (`aad67c6…-dirty`). Original compatibility baseline: `blinkdisk/core@e8955e7280edd9526b9f104f1592f233cfe6789b`.
 
 ## Behavior
 
@@ -63,7 +63,11 @@ pnpm smoke:desktop
 
 ## Source publication and Windows CI
 
-The owner authorized committing and pushing the verified application/core pair on 2026-11-03. Core `5971b879111001ba4c8d0e41659723d79565f06d` was pushed first; this application handoff advances the gitlink and includes the extended Windows workflow. Clean Windows CI is pending, so packaging/installed evidence for this slice remains unverified. No tag or binary release accompanies the source handoff.
+The owner authorized committing and pushing the verified application/core pair on 2026-11-03. Core guard [`5971b87`](https://github.com/hoxsec/diskpond-core/commit/5971b879111001ba4c8d0e41659723d79565f06d) was pushed first, followed by application implementation [`b969093`](https://github.com/hoxsec/DiskPond/commit/b969093f813827d4fce4eb7ddaf04c04d01e0438) with the matching gitlink and extended Windows workflow.
+
+[Initial CI run 41620721355](https://github.com/hoxsec/DiskPond/actions/runs/41620721355) passed install/lint/types/tests/dependency checks, then failed `TestInitializeWithBlobCfgRetentionBlob` in the newly expanded core selection. Its inherited write-failure scenario hid format blobs in an already initialized repository, which the new blob-listing guard correctly rejects. Core [`dca6beb`](https://github.com/hoxsec/diskpond-core/commit/dca6bebcba9c50f6f2658ae3662a52414f77bcf9) uses genuinely empty map storage for that write-failure fixture. This is a test-only correction; production behavior and the nonempty-destination guard are preserved. The full CI core package/regex selection passes locally after this correction (the unchanged packages passed together; `./repo` passed after correcting its test import).
+
+Clean Windows CI on the corrected published pin is pending, so packaging/installed evidence for this slice remains unverified. No tag or binary release accompanies the source handoff.
 
 ## Remaining gates
 

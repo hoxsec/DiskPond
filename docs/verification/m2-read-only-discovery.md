@@ -12,7 +12,7 @@ This verifies the **discovery portion of P01/F02**, with supporting **F03, F01 a
 
 Discovery returns the existing identity and preserves exact supplied passwords. Wrong passwords, malformed data and inaccessible local paths remain errors. A missing filesystem root retains its inherited storage-access error; it is not classified as an empty repository. No repository-format or encryption change was introduced.
 
-**This does not close M2 or F03.** Subsequent [create/connect evidence](m2-create-connect.md) covers separate entry points and explicit connection's inherited legacy migration; the source handoff pins the published initialization guard at `5971b879111001ba4c8d0e41659723d79565f06d`. Renderer restore terminal outcomes, full recovery/interruption/network verification and the live-provider/platform matrices remain open. Provider-secret storage is covered by the [approved managed-storage slice](m2-provider-storage-design.md).
+**This does not close M2 or F03.** Subsequent [create/connect evidence](m2-create-connect.md) covers separate entry points and explicit connection's inherited legacy migration; the source handoff pins the published initialization guard and test correction at `dca6bebcba9c50f6f2658ae3662a52414f77bcf9`. Renderer restore terminal outcomes, full recovery/interruption/network verification and the live-provider/platform matrices remain open. Provider-secret storage is covered by the [approved managed-storage slice](m2-provider-storage-design.md).
 
 ## Fork and build identity
 
