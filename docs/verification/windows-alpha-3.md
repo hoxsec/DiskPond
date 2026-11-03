@@ -13,4 +13,8 @@ Date: 2026-11-03. Owner explicitly authorized committing and pushing the current
 
 Focused implementation, native recovery and UI evidence: [snapshot comparison and activity](snapshot-comparison-and-activity.md). Latest presentation checks passed desktop types, lint and the actual-component Electron UI smoke, including keyboard navigation and 200% zoom.
 
-Publication is pending the tag-triggered compact Windows workflow: lint, types, unit tests, packaging, installed recovery smoke and publication. Downloaded asset checksums will be verified after publication. The release remains unsigned and a prerelease; durable attempt history and broad provider/platform certification remain deferred.
+Published [v0.1.0-alpha.3](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.0-alpha.3) from application `660fff0adfd27a7cfe443c27fab68f2d81964afd`. [Release CI 41687237347](https://github.com/hoxsec/DiskPond/actions/runs/41687237347) passed lint, types, unit tests, Windows packaging, installed startup/bundled-engine backup and restore hash smoke, asset assembly and publication.
+
+Downloaded every release asset using `gh release download v0.1.0-alpha.3 --repo hoxsec/DiskPond` into `%LOCALAPPDATA%\Temp\opencode\diskpond-alpha-3-downloads`. All **10** SHA-256 entries match `SHA256SUMS.txt`, including installer, blockmap, updater metadata, both source archives, notices and build instructions.
+
+The release remains unsigned and a prerelease; owner installation/actual-use feedback, durable attempt history and broad provider/platform certification remain deferred. No application or core changes were made after the release tag; the follow-up commit records publication evidence only.

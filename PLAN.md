@@ -1,7 +1,7 @@
 # DiskPond — Product and Engineering Plan
 
 - **Updated:** 2026-11-03
-- **Status:** Unsigned Windows prerelease v0.1.0-alpha.2 is published with the approved visual redesign and return navigation. Owner-authorized snapshot comparison and Activity/per-vault retained-history calendars are implemented locally with passing focused checks; this batch is uncommitted and unreleased. Owner preview/actual-use feedback is next; broad certification remains deferred.
+- **Status:** Unsigned Windows prerelease v0.1.0-alpha.3 is published from `660fff0` with owner authorization, snapshot comparison and the Home-level Activity calendar. [Release CI and downloaded checksums passed](docs/verification/windows-alpha-3.md). Owner installation/actual-use feedback is next; broad certification remains deferred.
 - **Delivery:** One developer assisted by coding tools; quality-first, milestone-driven.
 
 DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It preserves inherited desktop and bring-your-own-storage functionality, uses its Kopia-based engine, and introduces an original, calm interface. The immediate deliverable is a usable Windows release; macOS/Linux and full parity are deferred.

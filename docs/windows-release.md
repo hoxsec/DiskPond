@@ -1,16 +1,16 @@
 # Windows releases
 
-The latest release is [**v0.1.0-alpha.2**](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.0-alpha.2), an **unsigned Windows x64 prerelease**, published with owner authorization on 2026-11-03. It includes the graphite/blue square-corner design and return navigation through snapshot browsing, backup history and profiles. [Release CI and downloaded asset verification](verification/windows-alpha-2.md) passed. Windows 10/11 is the initial target; broader OS/provider certification is deferred.
+The latest release is [**v0.1.0-alpha.3**](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.0-alpha.3), an **unsigned Windows x64 prerelease**, published with owner authorization on 2026-11-03. It adds snapshot comparison and the Home-level Activity calendar, retaining the graphite/blue design and return navigation. [Release CI and downloaded asset verification](verification/windows-alpha-3.md) passed. Windows 10/11 is the initial target; broader OS/provider certification is deferred.
 
 ## Publish a version
 
-The owner has authorized **v0.1.0-alpha.3** with snapshot comparison and the Home-level Activity calendar. See [the release record](verification/windows-alpha-3.md) for publication status; the preceding release remains the latest verified download until the new workflow succeeds.
+**v0.1.0-alpha.3** is published and verified; see [the release record](verification/windows-alpha-3.md).
 
 Commit and push the reviewed release batch first. The current release used the following commands; for another release, choose a new version rather than repeating this existing tag:
 
 ```powershell
-git tag -a v0.1.0-alpha.2 -m "DiskPond Windows alpha 2"
-git push origin v0.1.0-alpha.2
+git tag -a v0.1.0-alpha.3 -m "DiskPond Windows alpha 3"
+git push origin v0.1.0-alpha.3
 ```
 
 Pushing the tag authorizes automatic publication. Supported tags are `vMAJOR.MINOR.PATCH` or `vMAJOR.MINOR.PATCH-alpha.N`, `-beta.N`, `-rc.N`. The tag supplies the packaged application version. Never move a published tag. Remove an unpublished failed draft before rerunning the same unchanged tag; code fixes require a new version.
@@ -22,11 +22,11 @@ Assets include `DiskPond-Windows.exe`, its blockmap, `latest.yml` updater metada
 For a source checkout with the exact engine and Git metadata required by the build scripts:
 
 ```powershell
-git clone --branch v0.1.0-alpha.2 --recurse-submodules https://github.com/hoxsec/DiskPond.git
+git clone --branch v0.1.0-alpha.3 --recurse-submodules https://github.com/hoxsec/DiskPond.git
 cd DiskPond
 pnpm install --frozen-lockfile
 $env:GITHUB_REF_TYPE = 'tag'
-$env:GITHUB_REF_NAME = 'v0.1.0-alpha.2'
+$env:GITHUB_REF_NAME = 'v0.1.0-alpha.3'
 pnpm build:windows
 ```
 

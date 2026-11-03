@@ -18,7 +18,7 @@ Delivery complete; owner installation and actual-use feedback are next. This doe
 
 ## Next — Improve through actual use
 
-The owner authorized committing/pushing the completed comparison and Activity-only calendar batch and publishing **v0.1.0-alpha.3**. [Release status](docs/verification/windows-alpha-3.md) supersedes earlier uncommitted/authorization-pending notes below.
+The owner-authorized comparison and Activity-only calendar batch is committed/pushed as `660fff0` and published as **v0.1.0-alpha.3**. [Release CI and all downloaded checksums passed](docs/verification/windows-alpha-3.md), superseding earlier uncommitted/authorization-pending notes below. Owner installation and actual-use feedback are next.
 
 - [x] Apply the owner's latest DP06 correction: calendar only in Home-level Activity; remove the per-vault calendar and compact vault Activity link.
 
