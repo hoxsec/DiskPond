@@ -5,7 +5,7 @@ Updated: 2026-11-03. **M2 complete — active milestone: M3 storage breadth.**
 ## Active M3 work
 
 - [x] Compare inherited provider fields/aliases/mappings with the pinned baseline and core contracts; record the [provider matrix and prerequisites](docs/verification/m3-storage-breadth.md).
-- [ ] Verify the GCS JSON-payload and SFTP scanner fixes in the final Windows CI run.
+- [x] Verify the GCS JSON-payload and SFTP scanner regressions in the single final [Windows CI run 41645023929](https://github.com/hoxsec/DiskPond/actions/runs/41645023929), application `62ab2dd`; full provider/renderer certification remains open.
 - [ ] Add isolated S3-compatible/SFTP fixtures and Rclone helper failure coverage; exercise renderer provider flows and second-profile recovery.
 - [ ] Acquire isolated AWS/B2/GCS/Azure/WebDAV credentials and USB/NAS hardware; complete each provider's recovery/failure gates. Missing access is blocked, not passed.
 

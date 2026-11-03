@@ -74,8 +74,15 @@ Local verification passed:
 - `corepack pnpm --filter @blinkdisk/electron --filter @blinkdisk/desktop -r types`: both packages passed.
 - Scoped Biome check/format: six changed TypeScript/TSX files passed.
 
-One final existing Windows GitHub Actions workflow is requested
-on `integrate/m3-storage`. The workflow includes types, tests, pinned-core checks,
-loopback provider recovery, offline desktop recovery, packaging and installed
-smoke. Its result must be recorded before claiming verification; it cannot certify
-the blocked live providers/hardware above.
+The single final [Windows CI run 41645023929](https://github.com/hoxsec/DiskPond/actions/runs/41645023929)
+passed in **16m27s** on `integrate/m3-storage` at application
+`62ab2dd5d0f23455ff0652049bae4b036ce381a2`, with the unchanged core pin above.
+Installation, lint, types, desktop tests, unused analysis, pinned-core regressions,
+Windows packaging, discovery/password/loopback-provider recovery, desktop and
+session-only smoke, vault flows, full-volume/offline recovery, development smoke
+and installed-app smoke all passed. This verifies the focused regressions and
+existing Windows baseline; it does not certify live GCS/SFTP recovery, the full
+SFTP renderer scan interaction, or the blocked providers/hardware above.
+
+The subsequent evidence-only commit skips CI to preserve the requested single
+GitHub verification run; executable code remains exactly the tested revision.
