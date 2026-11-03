@@ -67,7 +67,7 @@ The owner authorized committing and pushing the verified application/core pair o
 
 [Initial CI run 41620721355](https://github.com/hoxsec/DiskPond/actions/runs/41620721355) passed install/lint/types/tests/dependency checks, then failed `TestInitializeWithBlobCfgRetentionBlob` in the newly expanded core selection. Its inherited write-failure scenario hid format blobs in an already initialized repository, which the new blob-listing guard correctly rejects. Core [`dca6beb`](https://github.com/hoxsec/diskpond-core/commit/dca6bebcba9c50f6f2658ae3662a52414f77bcf9) uses genuinely empty map storage for that write-failure fixture. This is a test-only correction; production behavior and the nonempty-destination guard are preserved. The full CI core package/regex selection passes locally after this correction (the unchanged packages passed together; `./repo` passed after correcting its test import).
 
-Clean Windows CI on the corrected published pin is pending, so packaging/installed evidence for this slice remains unverified. No tag or binary release accompanies the source handoff.
+[Run 41622014497](https://github.com/hoxsec/DiskPond/actions/runs/41622014497), application [`a28d178`](https://github.com/hoxsec/DiskPond/commit/a28d178385d240ba677edf9e5ae85da2dcd86af2), passed the corrected core selection, Windows packaging, discovery/password/provider recovery, built/session-only create/connect and development smoke. Installed smoke then failed on its stale `Create your vault` heading assertion. The fixture now checks the new empty-workspace heading and both distinct entry-point labels. Clean Windows CI including installed smoke remains pending. No tag or binary release accompanies the source handoff.
 
 ## Remaining gates
 

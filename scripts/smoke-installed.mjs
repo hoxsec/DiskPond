@@ -193,7 +193,9 @@ try {
     false,
   );
   await click("Open DiskPond");
-  await waitText("Create your vault");
+  await waitText("Back up and recover your files");
+  await waitText("Create a new vault");
+  await waitText("Connect an existing vault");
   const probe = join(temp, "destination");
   await mkdir(probe);
   const result = await evaluate(
