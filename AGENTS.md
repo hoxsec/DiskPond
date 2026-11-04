@@ -10,6 +10,10 @@ Owner presentation follow-up: the calendar lives only in the separate **Activity
 
 Owner updater follow-up (F25): in-app downloads remain user-triggered; offer explicit restart/install only when native work is idle. Release notes, cancellation, download size/speed, 24-hour reminders and the last 50 local update attempts are released in v0.1.4. Confirm installed outcomes only after a matching-version relaunch. [Verification](docs/verification/in-app-updates.md) includes the passing installed Windows upgrade and synthetic-version updater fixture; exhaustive public-feed upgrade matrices remain deferred.
 
+Owner website expansion (D16 / WEB01): `apps/marketing/site` is the active DiskPond prelaunch website, inspired by BlinkDisk. Use `diskpond.com`, sales/support addresses at that domain, 500 GB at €5/month VAT included, €45/year (25% off), and enterprise by enquiry. Managed storage is coming soon; checkout/provisioning remain pending (WEB02). `src/` and `public/` in the marketing package retain inactive upstream source. [Website verification](docs/verification/website.md). The free BYO desktop remains account-free.
+
+The owner authorized branch/merge publication of the website/screenshot batch and **v0.1.5**; [release verification](docs/verification/windows-v0.1.5.md) is in progress. Website files must stay out of the Windows installer. `apps/electron` packages only desktop build/frontend inputs and native resources; the installed smoke checks the actual ASAR/resource boundary.
+
 Read these documents before implementation:
 
 1. [PLAN.md](PLAN.md) — confirmed decisions, pinned baseline, scope and parity IDs.
@@ -21,7 +25,7 @@ Keep documentation status synchronized with actual implementation. Follow applic
 ## Product decisions to preserve
 
 - Fork and reuse BlinkDisk; preserve its AGPL terms/notices and the core's separate Apache-2.0 terms/notices.
-- No managed storage, subscriptions, billing, hosted login, or automatic configuration-sync service.
+- The free BYO desktop has no required hosted login, subscription, or automatic configuration-sync service. D16 authorizes an optional managed-storage offering and its website; current cloud CTAs are prelaunch email enquiries.
 - Local workspace, manual repository connection, encrypted setup export/import, and compatible existing BlinkDisk BYO vaults.
 - No analytics or automatic crash uploads. Diagnostics are local, redacted on export, and exported by user action.
 - Original DiskPond identity, light/dark/system themes, and the calm utility design in STYLE.md.
@@ -58,6 +62,7 @@ Current inherited locations:
 | `apps/desktop` | React screens, presentation state, TanStack queries/forms/router. |
 | `apps/electron` | Main/preload, validated IPC, native dialogs, process supervision, secrets, persistence, restore coordination, updates. |
 | `apps/core` | Pinned Go backup engine: repository format, encryption, snapshots, policies, retention and storage adapters. |
+| `apps/marketing/site` | Static DiskPond website, pricing presentation, download links, guides and email enquiries. |
 | `libs/schemas` | Shared runtime-validated contracts and domain types. |
 | `libs/ui`, `libs/components`, `libs/forms` | Reusable UI and form behavior. |
 | `libs/styles`, `libs/assets`, `locales/en` | Tokens, fonts/assets and translated copy. |
@@ -105,6 +110,10 @@ Use Node 24.15.0 (`.nvmrc`), pnpm 11.7.0 and Go 1.25.5 as documented in DEVELOPM
 | --- | --- |
 | `pnpm install --frozen-lockfile` | Reproduce the pinned workspace. |
 | `pnpm lint:ci` | Check formatting/lint without rewriting files. |
+| `pnpm dev:site` | Run the DiskPond Astro site on `http://127.0.0.1:3000`. |
+| `pnpm build:site` / `pnpm preview:site` | Build static output to `apps/marketing/dist`, or preview the built site. |
+| `pnpm types:site` | Type-check active website source. Run sequentially with the site build on Windows because Astro shares generated caches. |
+| `pnpm smoke:site` | Built-site keyboard/gallery/FAQ/pricing/contact/theme checks, mobile/200% layouts and local link/asset crawl using an isolated Electron profile. Requires `build:site` and Electron; records screenshots. |
 | `pnpm types` | Desktop/Electron/library type checking (`types:desktop`). |
 | `pnpm test` | Electron/desktop/schema/utility Vitest suites (`test:desktop`); scope to affected packages during normal development. |
 | `node --test scripts/lib/process.test.mjs` | Desktop launcher subprocess checks for JavaScript/standalone pnpm and nested command names, including literal arguments and option forwarding. |
@@ -125,10 +134,10 @@ Use Node 24.15.0 (`.nvmrc`), pnpm 11.7.0 and Go 1.25.5 as documented in DEVELOPM
 | `node scripts/smoke-history-ui.mjs` | Isolated actual Home/vault/history/comparison/browser components with fixture data, keyboard/filter/navigation/cancel/retry, available-space states/offline reads and Light/Dark/200% layout checks. Requires the current renderer build; retains screenshots. |
 | `node scripts/smoke-update-ui.mjs` | Actual updater controls with fixture IPC: keyboard download/retry/cancel, size/speed, safe release notes, history, reminder, idle-only install and Light/Dark/200% layout. Requires renderer CSS and Electron; does not install an update. |
 | `node scripts/smoke-update-activity.mjs` | Isolated pinned-engine backup/restore activity guard and return-to-idle checks, with 32 restored file hashes. Requires the matching core build and Electron; does not install an update. |
-| `node scripts/capture-readme.mjs` | Windows README screenshots from the built desktop and real disposable backups. Uses a temporary drive mapping and demo identity; cleans its own app data/storage. Requires the current renderer/main/core builds. |
+| `node scripts/capture-readme.mjs` | Website/README screenshots: nine views in Light/Dark from the built Windows desktop and five real disposable snapshots. Includes storage picker, policies, browsing and restore controls; uses a temporary drive/demo identity and cleans its own data/storage. Requires current renderer/main/core builds. |
 | `pnpm smoke:desktop --session-passwords` | Built-app session-only notice and IPC rejection checks with test-only secure-storage failure injection. |
 | `pnpm build:windows` | Desktop/core/resources plus NSIS packaging; publishing disabled. |
-| `pnpm smoke:windows` | Checksum-pinned v0.1.2-to-candidate installer replacement, startup/preferences, native updater download/install/relaunch through a synthetic-version loopback feed, bundled-engine recovery hashes and fixture uninstall. Validates tag version when supplied. Requires a Windows user without existing DiskPond data/install/registration/updater cache. Records inherited uninstall leftovers and cleans only its fixture. |
+| `pnpm smoke:windows` | Checksum-pinned v0.1.2-to-candidate installer replacement, desktop-only ASAR/resources, startup/preferences, native updater download/install/relaunch through a synthetic-version loopback feed, bundled-engine recovery hashes and fixture uninstall. Validates tag version when supplied. Requires a Windows user without existing DiskPond data/install/registration/updater cache. Records inherited uninstall leftovers and cleans only its fixture. |
 
 Keep this table synchronized with verified commands. `pnpm build` aliases `build:desktop`, not the installer. Core test commands depend on build tags and helper binaries; follow its pinned Makefile and DEVELOPMENT.md. The whole core/provider suite has not been certified by M1.
 

@@ -1,0 +1,77 @@
+---
+import logo from "@blinkdisk/assets/brand/diskpond-logo.svg?url";
+import darkLogo from "@blinkdisk/assets/brand/diskpond-logo-dark.svg?url";
+import { site } from "../config";
+import { copy } from "../content";
+
+const groups = [
+  {
+    title: copy.footer.product,
+    links: [
+      [copy.common.download, "/download"],
+      [copy.footer.cloud, "/cloud"],
+      [copy.footer.pricing, "/pricing"],
+    ],
+  },
+  {
+    title: copy.footer.resources,
+    links: [
+      [copy.footer.guides, "/guides"],
+      [copy.footer.roadmap, `${site.repository}/blob/main/ROADMAP.md`],
+      [copy.footer.source, site.repository],
+    ],
+  },
+  {
+    title: copy.footer.company,
+    links: [
+      [copy.footer.contact, "/contact"],
+      [copy.footer.support, `mailto:${site.supportEmail}`],
+      [copy.footer.sales, `mailto:${site.salesEmail}`],
+    ],
+  },
+];
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="brand" href="/" aria-label={copy.common.home}>
+          <img class="logo-light" src={logo} width="709" height="232" alt="DiskPond" loading="lazy" />
+          <img class="logo-dark" src={darkLogo} width="709" height="232" alt="DiskPond" loading="lazy" />
+        </a>
+        <p>{copy.footer.tagline}</p>
+      </div>
+      {groups.map((group) => <div class="footer-group"><h2>{group.title}</h2><ul>{group.links.map(([label, href]) => <li><a href={href}>{label}</a></li>)}</ul></div>)}
+    </div>
+    <div class="footer-bottom">
+      <span>© {new Date().getFullYear()} DiskPond</span>
+      <div class="footer-legal"><a href="/privacy">{copy.footer.privacy}</a><a href="/terms">{copy.footer.terms}</a><a href="/licenses.txt">{copy.footer.licenses}</a></div>
+      <label class="theme-control">{copy.footer.theme}
+        <select id="site-theme" aria-label={copy.footer.theme}>
+          {Object.entries(copy.footer.themes).map(([value, label]) => <option value={value}>{label}</option>)}
+        </select>
+      </label>
+    </div>
+    <p class="footer-credit">{copy.footer.credit} <a href={`${site.repository}/blob/main/UPSTREAM.md`}>{copy.footer.source} ↗</a></p>
+  </div>
+</footer>
+
+<script>
+  const control = document.querySelector<HTMLSelectElement>("#site-theme");
+  const system = matchMedia("(prefers-color-scheme: dark)");
+  let preference = "system";
+  try { preference = localStorage.getItem("diskpond.site.theme") || "system"; } catch {}
+  if (!["system", "light", "dark"].includes(preference)) preference = "system";
+  const apply = () => {
+    document.documentElement.classList.toggle("dark", preference === "dark" || (preference === "system" && system.matches));
+    if (control) control.value = preference;
+  };
+  control?.addEventListener("change", () => {
+    preference = control.value;
+    try { localStorage.setItem("diskpond.site.theme", preference); } catch {}
+    apply();
+  });
+  system.addEventListener("change", apply);
+  apply();
+</script>

@@ -271,6 +271,10 @@ Use “back up” as a verb and “backup” as a noun/adjective. Format dates, 
 
 ## 11. UI acceptance checklist
 
+### Website presentation (D16 / WEB01)
+
+The owner-requested BlinkDisk-inspired marketing site uses spacious sections, larger responsive headings, concise benefit copy and FAQs/guides. The working-screen preference against explanatory paragraphs does not prevent necessary marketing or documentation copy. Keep the supplied logo, shared graphite/blue semantic colors, square corners, local Inter fonts, accessible controls and 12px minimum captions. Website appearance is selected in the footer (Light / Dark / System). Use real DiskPond screenshots and accurately label the upcoming cloud service; desktop themes and settings placement retain their existing conventions.
+
 Before marking a workflow visually complete:
 
 - [ ] Light, dark and system themes use shared tokens with checked contrast.

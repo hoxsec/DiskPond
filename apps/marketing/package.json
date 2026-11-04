@@ -4,11 +4,11 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "cp ../../.env .env && astro dev",
+    "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "types": "astro check",
-    "deploy": "wrangler deploy",
+    "deploy": "astro build && wrangler deploy",
     "test": "vitest run"
   },
   "dependencies": {

@@ -4,6 +4,8 @@ Updated: 2026-11-04. **[v0.1.4](https://github.com/hoxsec/DiskPond/releases/tag/
 
 ## Now — Stable Windows releases
 
+- [ ] Publish owner-authorized **v0.1.5** with the website/screenshot batch and an installed-package check that excludes website files from the Windows installer. [Release record](docs/verification/windows-v0.1.5.md).
+
 - [x] Publish **v0.1.4** with the owner-authorized in-app updater batch. Compact Windows CI, installed upgrade/updater/recovery and all 10 downloaded checksums passed. [Release record](docs/verification/windows-v0.1.4.md).
 
 - [x] Publish owner-authorized **v0.1.2** with RustFS/SFTP storage reporting. Compact Windows CI, installed recovery and all 10 downloaded checksums passed. [Release record](docs/verification/windows-v0.1.2.md).
@@ -16,6 +18,15 @@ Updated: 2026-11-04. **[v0.1.4](https://github.com/hoxsec/DiskPond/releases/tag/
 - [x] Publish **v0.1.1** with the available-space, Activity and launcher improvements below. Compact Windows release CI, installed recovery and all 10 downloaded checksums passed. [Release record](docs/verification/windows-v0.1.1.md).
 
 ## Next — Improve through actual use
+
+### Website and optional managed storage (D16)
+
+- [x] Implement the DiskPond prelaunch marketing site (WEB01), with real screenshots, Windows downloads, cloud plans, annual pricing, email enquiries and guides. [Verification](docs/verification/website.md).
+- [x] Refresh website/README imagery with nine real app views in both themes, visible scheduling/recovery features and all 11 storage connection options (WEB01 / DP04). [Screenshot details](docs/verification/website.md#screenshot-and-connectivity-expansion).
+- [ ] Confirm hosting/deployment and connect `diskpond.com`.
+- [ ] Deliver live cloud purchases and storage (WEB02): checkout, provisioning/connection design, service readiness and seller/service terms. Owner pricing is €5/month VAT included for 500 GB, €45/year, enterprise by enquiry.
+
+### Desktop feedback
 
 Fix reported backup, scheduling, retention, restore and usability issues. Collect installation and everyday-use feedback on the stable release. Add encrypted setup export/import and improve diagnostics when needed.
 
@@ -37,5 +48,7 @@ Complete historical failure/cancellation accounting needs a separately approved 
 ## Working rule
 
 Small batches, focused local checks, one final GitHub run per release-ready batch. Reuse passing evidence; rerun only for relevant changes or failures. No tests for documentation-only edits. Never label a failed backup or restore as successful.
+
+Website builds and previews are separate from desktop release tasks. Publication still requires an owner request.
 
 The old milestones are preserved in [ROADMAP-HISTORY.md](ROADMAP-HISTORY.md); previous task/evidence history is in [TODO-HISTORY.md](TODO-HISTORY.md) and `docs/verification/`. [PLAN.md](PLAN.md) retains the technical contracts and feature inventory.
