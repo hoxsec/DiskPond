@@ -1,10 +1,10 @@
 # DiskPond — Roadmap
 
-Updated: 2026-11-04. **[v0.1.4](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.4)** is published as GitHub Latest with owner authorization. [Release CI, installed-updater checks and downloaded checksums passed](docs/verification/windows-v0.1.4.md).
+Updated: 2026-11-04. **[v0.1.5](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.5)** is published as GitHub Latest with owner authorization. [Release CI, installed-package/upgrade/updater/recovery checks and downloaded checksums passed](docs/verification/windows-v0.1.5.md).
 
 ## Now — Stable Windows releases
 
-- [ ] Publish owner-authorized **v0.1.5** with the website/screenshot batch and an installed-package check that excludes website files from the Windows installer. [Release record](docs/verification/windows-v0.1.5.md).
+- [x] Publish owner-authorized **v0.1.5** with the website/screenshot batch and an installed-package check that excludes website files from the Windows installer. Release CI, installed upgrade/updater/recovery and all 10 downloaded checksums passed. [Release record](docs/verification/windows-v0.1.5.md).
 
 - [x] Publish **v0.1.4** with the owner-authorized in-app updater batch. Compact Windows CI, installed upgrade/updater/recovery and all 10 downloaded checksums passed. [Release record](docs/verification/windows-v0.1.4.md).
 

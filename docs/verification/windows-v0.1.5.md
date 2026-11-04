@@ -1,6 +1,6 @@
 # Windows v0.1.5 — Website and installer isolation
 
-Date: 2026-11-04. The owner authorized a new branch, commit/push, merge and release for the website and screenshot batch, with an explicit requirement to exclude website files from the Windows installer. **Publication is in progress; v0.1.4 remains the latest published release.**
+Date: 2026-11-04. The owner authorized a new branch, commit/push, merge and release for the website and screenshot batch, with an explicit requirement to exclude website files from the Windows installer. **[v0.1.5](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.5) is published as GitHub Latest.** Release CI, installed-package/upgrade/updater/recovery checks and downloaded-asset verification passed.
 
 ## Scope and evidence
 
@@ -23,8 +23,18 @@ Date: 2026-11-04. The owner authorized a new branch, commit/push, merge and rele
 
 The first local Windows build could not find Go (`spawn go ENOENT`). Adding the existing Go installation to PATH and explicitly selecting `GOTOOLCHAIN=go1.25.5` resolved it; the complete rerun passed.
 
-Pending: final release CI, installed upgrade/updater/recovery, publication and downloaded-asset checksums. Installed execution uses the clean GitHub Windows runner; the developer's existing installation is preserved.
+Release CI passed on the first attempt: frozen install, lint, desktop types, **739 tests across 65 files**, five launcher tests, Windows packaging, installed checks, asset assembly and publication. Installed execution used the clean GitHub Windows runner; the developer's existing installation was preserved.
+
+The installed CI artifact contains **235 ASAR entries**, with only the expected desktop roots/resources and no website files. The local build's 236-entry inventory is separate evidence, not the published artifact's count. Checksum-pinned v0.1.2-to-v0.1.5 replacement retained preferences. Native updater download/checksum, NSIS handoff/relaunch, settings retention and post-update recovery hashes passed. The synthetic `99.0.0` update offer correctly remained unconfirmed after relaunching the actual `0.1.5` installer; exhaustive public-feed upgrade matrices remain deferred. Fixture uninstall/cleanup completed, including inherited startup/URI leftovers.
 
 ## Publication
 
-Branch: `release/v0.1.5-website`. Commit, merge, tag and release results will be recorded after completion. Website deployment/DNS, checkout and managed-storage provisioning remain separate pending work.
+Pushed branch `release/v0.1.5-website` at `f593f4d1054cfa5d05aed01708abb363bcb71636`, then merged and pushed `main` at `b2ea647b04c293bc0e503fa46a228dee9dcdf04f`. Annotated tag **v0.1.5** points to the merged branch's release commit; its tree is identical to the merge commit. The merge skips a duplicate CI run; [tag release CI 41749368604](https://github.com/hoxsec/DiskPond/actions/runs/41749368604) performs the final compact check and publication.
+
+GitHub's `/releases/latest` API confirms **v0.1.5**, `draft: false`, `prerelease: false`, published at `2026-11-04T00:53:29Z`, with **11 assets**.
+
+Downloaded all assets with `gh release download v0.1.5 --repo hoxsec/DiskPond` into `%LOCALAPPDATA%/Temp/opencode/diskpond-v0.1.5-downloads-f593f4d`. All **10 SHA-256 entries** match. Both downloaded updater SHA-512 entries and the **118,436,863-byte** installer size match; metadata version is `0.1.5`. Release-note application/core references match the tag and core pin. The application source ZIP contains the website source, locale and screenshots, and package version 0.1.5. Machine-readable evidence is retained as `verification.json` in the download directory.
+
+Installer SHA-256: `3c5c26c13a33488668c16636907870930d786fe203d561cde1a83782c033b3d2`.
+
+The release tag stays on `f593f4d`; a documentation-only follow-up records verified publication. Website deployment/DNS, checkout and managed-storage provisioning remain separate pending work. The installer remains unsigned; deferred provider/platform certification is unchanged.

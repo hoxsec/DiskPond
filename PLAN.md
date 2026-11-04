@@ -1,14 +1,14 @@
 # DiskPond — Product and Engineering Plan
 
 - **Updated:** 2026-11-04
-- **Status:** **v0.1.4** is published as GitHub Latest from `6c88777` with owner authorization, adding in-app updates and six updater refinements. [Release CI, installed-updater checks and downloaded checksums passed](docs/verification/windows-v0.1.4.md). v0.1.3 remains unpublished; live-provider and broad certification remain deferred.
+- **Status:** **v0.1.5** is published as GitHub Latest from `f593f4d` with owner authorization, adding the website/screenshot batch and desktop-only installer verification. [Release CI, installed-package/upgrade/updater/recovery checks and downloaded checksums passed](docs/verification/windows-v0.1.5.md). v0.1.3 remains unpublished; live-provider and broad certification remain deferred.
 - **Delivery:** One developer assisted by coding tools; quality-first, milestone-driven.
 
 DiskPond is an account-free, open-source desktop backup application derived from BlinkDisk. It preserves inherited desktop and bring-your-own-storage functionality, uses its Kopia-based engine, and provides an original, calm interface. Windows x64 is the current release platform; macOS/Linux and full parity are deferred.
 
 ### Active scope override — 2026-11-04
 
-The owner authorized committing/pushing the website and screenshot batch on a new branch, merging it into `main`, and publishing **v0.1.5**. Publication is in progress; **v0.1.4** remains Latest until the release workflow passes. The Windows installer must exclude website files. Existing desktop packaging is allowlisted; an installed-ASAR/resource check now enforces this separation. [Release record](docs/verification/windows-v0.1.5.md).
+The owner-authorized website and screenshot batch was pushed on `release/v0.1.5-website`, merged into `main`, and published as **v0.1.5**, now GitHub Latest. The Windows installer excludes website files. Existing desktop packaging is allowlisted; the passing installed-ASAR/resource check enforces this separation. [Release record](docs/verification/windows-v0.1.5.md).
 
 The owner also authorized a DiskPond website inspired by BlinkDisk and an optional **managed backup storage** offering (D16 / WEB01). Owner-supplied details: `diskpond.com`, `sales@diskpond.com`, `support@diskpond.com`, 500 GB at **€5/month including VAT**, **25% off annual billing (€45/year)**, and a custom enterprise tier by enquiry. The website is a prelaunch marketing/enquiry slice; checkout, provisioning, service readiness and commercial operating terms remain pending. D16 supersedes the blanket website/managed-service exclusions below for this work. The account-free BYO desktop product remains available.
 
