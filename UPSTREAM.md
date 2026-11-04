@@ -32,6 +32,16 @@ Do not replay the tree import over later work. A future clone recreates the core
 
 ## DiskPond modifications to upstream application files
 
+### Website expansion (2026-11-04)
+
+Under owner decision D16 / WEB01, `apps/marketing` now builds a DiskPond prelaunch website from `site/` and `static/`. The inherited `src/` and `public/` are retained as reference rather than relabeling upstream legal identities, testimonials, product claims or analytics. Its Astro/build/type/deployment configuration selects the new static site and removes inherited hosted CMS/monitoring runtime requirements. Root website commands, localized copy, shared branding/tokens/fonts, real screenshots, price-period and enquiry interactions, and a scoped browser smoke are added. Existing private dependency names and lockfile resolutions are retained.
+
+Owner domain/contact/pricing details and managed-storage authorization are recorded in PLAN.md D16. The cloud offer is prelaunch: checkout/provisioning/service operating terms are pending. [Verification](docs/verification/website.md). Website output includes application and third-party font/icon/framework notices; repository licenses and attribution remain in place.
+
+The owner's screenshot follow-up refreshes the inherited README and DiskPond capture driver with nine actual app views in both themes. The website adds scheduling/recovery showcases and local/cloud/remote provider-picker images with all 11 available connections. The paired images share responsive WebP generation and keyboard-accessible enlargement. Capture fixtures use disposable files and real snapshots; no desktop feature or core behavior is changed.
+
+The owner authorized v0.1.5 publication and required website files to remain outside the Windows installer. Existing Electron package and desktop-locale allowlists provide that boundary. The installed release smoke now inspects the actual ASAR and native resource inventory to enforce it; website files remain in the repository/source ZIP and their separate static build.
+
 These changes are dated **2026-11-02**, during M1. Review them independently of the source import. The core source was unchanged at M1; subsequent published core changes are recorded below.
 
 | Area | Changed inherited files / purpose |

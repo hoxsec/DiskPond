@@ -1,0 +1,33 @@
+---
+import ArrowRightIcon from "@lucide/astro/icons/arrow-right";
+import ArrowUpRightIcon from "@lucide/astro/icons/arrow-up-right";
+import CloudIcon from "@lucide/astro/icons/cloud";
+import EuroIcon from "@lucide/astro/icons/euro";
+import HardDriveIcon from "@lucide/astro/icons/hard-drive";
+import LayersIcon from "@lucide/astro/icons/layers";
+import LockKeyholeIcon from "@lucide/astro/icons/lock-keyhole";
+import MapPinIcon from "@lucide/astro/icons/map-pin";
+import MonitorIcon from "@lucide/astro/icons/monitor";
+import Faq from "../components/faq.astro";
+import Pricing from "../components/pricing.astro";
+import { site } from "../config";
+import { copy } from "../content";
+import SiteLayout from "../layouts/site-layout.astro";
+
+const icons = [MapPinIcon, LayersIcon, EuroIcon];
+---
+<SiteLayout title={copy.cloud.meta} description={copy.cloud.description}>
+  <section class="container cloud-hero">
+    <div class="cloud-hero-content"><span class="badge">{copy.common.comingSoon}</span><p class="eyebrow">{copy.cloud.eyebrow}</p><h1>{copy.cloud.title}<br /><span class="accent-text">{copy.cloud.titleAccent}</span></h1><p class="hero-description">{copy.cloud.intro}</p><div class="actions"><a class="button" href="#plans">{copy.common.viewPlans}<ArrowRightIcon aria-hidden="true" /></a><a class="text-link" href="/contact">{copy.common.contactSales}<ArrowUpRightIcon aria-hidden="true" /></a></div></div>
+    <div class="cloud-diagram" aria-label={copy.cloud.diagram.caption}>
+      <div class="device-node"><MonitorIcon aria-hidden="true" /><span>{copy.cloud.diagram.device}</span></div>
+      <div class="encrypted-connection"><span></span><LockKeyholeIcon aria-hidden="true" /><p>{copy.cloud.diagram.encryption}</p><span></span></div>
+      <div class="cloud-node"><CloudIcon aria-hidden="true" /><p>{copy.cloud.diagram.destination}</p><strong>{site.cloud.capacityGb}<span> GB</span></strong><span>{copy.cloud.diagram.capacity}</span></div>
+      <p class="small">{copy.cloud.diagram.caption}</p>
+    </div>
+  </section>
+  <section class="container three-columns reason-grid cloud-benefits">{copy.cloud.benefits.map((benefit, index) => { const Icon = icons[index] ?? CloudIcon; return <article><span class="icon-box"><Icon aria-hidden="true" /></span><h2>{benefit.title}</h2><p>{benefit.body}</p></article>; })}</section>
+  <Pricing />
+  <div class="container choice-callout"><HardDriveIcon aria-hidden="true" /><div><h2>{copy.cloud.choiceTitle}</h2><p>{copy.cloud.choiceBody}</p></div><a class="button button-secondary" href="/download">{copy.common.download}<ArrowUpRightIcon aria-hidden="true" /></a></div>
+  <Faq items={copy.faq.cloud} />
+</SiteLayout>

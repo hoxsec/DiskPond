@@ -1,0 +1,11 @@
+---
+import Faq from "../components/faq.astro";
+import Pricing from "../components/pricing.astro";
+import { copy } from "../content";
+import SiteLayout from "../layouts/site-layout.astro";
+---
+<SiteLayout title={copy.pricing.meta} description={copy.cloud.description}>
+  <div class="page-heading compact-heading container"><p class="eyebrow">{copy.common.comingSoon} / {copy.footer.cloud}</p><h1>{copy.pricing.meta}</h1></div>
+  <Pricing />
+  <Faq items={copy.faq.cloud} />
+</SiteLayout>

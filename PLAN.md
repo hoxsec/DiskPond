@@ -8,6 +8,10 @@ DiskPond is an account-free, open-source desktop backup application derived from
 
 ### Active scope override — 2026-11-04
 
+The owner authorized committing/pushing the website and screenshot batch on a new branch, merging it into `main`, and publishing **v0.1.5**. Publication is in progress; **v0.1.4** remains Latest until the release workflow passes. The Windows installer must exclude website files. Existing desktop packaging is allowlisted; an installed-ASAR/resource check now enforces this separation. [Release record](docs/verification/windows-v0.1.5.md).
+
+The owner also authorized a DiskPond website inspired by BlinkDisk and an optional **managed backup storage** offering (D16 / WEB01). Owner-supplied details: `diskpond.com`, `sales@diskpond.com`, `support@diskpond.com`, 500 GB at **€5/month including VAT**, **25% off annual billing (€45/year)**, and a custom enterprise tier by enquiry. The website is a prelaunch marketing/enquiry slice; checkout, provisioning, service readiness and commercial operating terms remain pending. D16 supersedes the blanket website/managed-service exclusions below for this work. The account-free BYO desktop product remains available.
+
 The owner-authorized in-app updater batch is published in **v0.1.4**. [Release verification](docs/verification/windows-v0.1.4.md) records the passing compact Windows check and downloaded checksums, preserving the unpublished v0.1.3 fixture failure and v0.1.4's successful unchanged retry. This authorization includes the new local update-history preference contract; backup-attempt persistence remains a separate deferred decision.
 
 Latest D14 / DP06 placement correction: the calendar is only in the separate Activity tab reached through Home-level navigation. Vault pages no longer embed it or expose Activity in their navigation. This supersedes earlier per-vault calendar placement references. The owner's subsequent density preference uses individually collapsed backup rows below the calendar, keeping folder, completion time, vault, size/file count and status visible; expand for full details.
@@ -30,7 +34,7 @@ These decisions were made with the project owner. Changes must be recorded here 
 | D02 | Fork BlinkDisk; retain provenance and reuse its working implementation. |
 | D03 | AGPL-3.0 application, preserving upstream license terms and notices. The separately licensed core retains its Apache-2.0 license and notices. |
 | D04 | Electron + React + TypeScript; retain the Kopia-based Go sidecar. |
-| D05 | Full desktop/BYO-storage scope; no DiskPond-operated cloud storage, subscriptions, billing, or account service. |
+| D05 | Full desktop/BYO-storage scope with account-free operation. D16 now authorizes a separate optional managed-storage offering and its prelaunch website; hosted checkout/accounts/provisioning remain pending. |
 | D06 | Windows 10/11 x64 first; macOS and Linux follow. |
 | D07 | Account-free operation, manual vault connection, and password-protected setup export/import for additional devices. |
 | D08 | Support connecting to compatible existing BlinkDisk BYO vaults and restoring their snapshots. Automatic import of BlinkDisk's application settings is not part of this decision. |
@@ -41,6 +45,7 @@ These decisions were made with the project owner. Changes must be recorded here 
 | D13 | Windows release first: replace M0–M7 delivery gates with Now / Next / Later; prioritize release CI/CD, use owner-confirmed behavior and existing CI as baseline, minimize repeated testing, and defer broad provider/platform/parity certification. |
 | D14 | Snapshot comparison with added/changed/deleted paths and before/after sizes and modification times, plus a backup activity calendar only in the separate Home-level Activity tab. Following implementation authorization, the owner removed calendar placements on Home content and inside vaults, and requested no explanatory UI prose. Use concise status/coverage labels. Durable attempt persistence remains a separate owner-reviewed contract. See [the feature plan](docs/plans/snapshot-comparison-and-activity.md). |
 | D15 | On 2026-11-03 the owner authorized fixing the comparison label, committing/pushing the current work and publishing the first stable public release, **v0.1.0**, for Windows x64. Present DiskPond as a released product, add real screenshots/features to the README and remove unnecessary repository clutter. Keep the existing unsigned distribution path and deferred certification scope. |
+| D16 | On 2026-11-04 the owner requested a DiskPond website with BlinkDisk’s feel and features, selected managed backup storage, and supplied the domain, contacts and pricing above. Build the marketing/download/guides/pricing/enquiry website under `apps/marketing`; present cloud storage as coming soon until purchase and service readiness are confirmed. Paid storage is optional; the free BYO desktop remains account-free. The follow-up authorizes branch/merge publication and v0.1.5, with website files excluded from the desktop installer. Website deployment and hosted backend delivery remain separate work. |
 
 ### Document responsibilities
 
@@ -94,10 +99,10 @@ The completion target is **desktop/BYO parity against the pinned baseline, with 
 
 | ID | Upstream capability | DiskPond treatment |
 | --- | --- | --- |
-| X01 | CloudBlink managed storage/proxy, quotas, trials, upgrade prompts | Excluded by D05. Existing CloudBlink repositories are outside BYO compatibility. |
+| X01 | CloudBlink managed storage/proxy, quotas, trials, upgrade prompts | Inherited CloudBlink remains excluded. D16 authorizes planning optional DiskPond managed storage; provisioning/integration is pending. Existing CloudBlink repositories remain outside BYO compatibility. |
 | X02 | Hosted accounts, magic-code login, account switching/transfers, server configuration sync | Replaced by a local workspace, manual connections, and encrypted setup export/import. Automatic configuration sync is intentionally absent. Repository device/user profiles remain supported. |
-| X03 | Subscriptions, payments, billing portal, affiliates, transactional account emails | Excluded by D05. Local backup status and diagnostics remain required. |
-| X04 | Commercial marketing site, hosted auth/checkout frontend, comparison tools/blog | Excluded as application deliverables. DiskPond still needs installation, storage, recovery, and release documentation. |
+| X03 | Subscriptions, payments, billing portal, affiliates, transactional account emails | Hosted payment/account implementation remains pending under D16. Current website plans lead to email enquiries; local backup status and diagnostics remain required. |
+| X04 | Commercial marketing site, hosted auth/checkout frontend, comparison tools/blog | D16 authorizes the DiskPond marketing/download/pricing/guides/enquiry site. Hosted auth/checkout and inherited competitor-comparison/blog services are not part of the current website slice. |
 | X05 | Analytics and automatic remote crash reporting | Removed by D09; replaced with local diagnostics and deliberate export. |
 
 Mobile clients, full-disk imaging/bare-metal recovery, live folder synchronization, a fleet-management server, and a new backup format are not claimed by this plan. Reassess scope if source review demonstrates an additional reference capability.
@@ -172,6 +177,13 @@ Compression parity includes `none`, `gzip` variants, `zstd` variants, `s2` varia
 
 ## 4. Fork and architecture strategy
 
+### Website scope (D16)
+
+| ID | Requirement | Delivery |
+| --- | --- | --- |
+| WEB01 | Responsive DiskPond marketing site, real app screenshots, storage features, Windows downloads, cloud plans, monthly/yearly price switching, enterprise/sales/support contact, FAQs and recovery guides. | Implemented in `apps/marketing/site`; nine real app views in both themes shared with README, all 11 storage connections, scheduling and recovery showcases. Locale copy in `locales/en/website.json`, static output in `apps/marketing/dist`. [Website verification](docs/verification/website.md). |
+| WEB02 | Live managed-storage purchases and customer delivery. | Pending: checkout provider/URLs, service provisioning/desktop connection design, hosting/operations and seller/service terms. Prices are owner-approved; no orders or payments are accepted by the website. |
+
 ### Import and upstream maintenance
 
 1. Import the pinned application on an integration branch, preserving this repository's history, `.gitattributes`, and planning documents. Preserve upstream history/provenance through an explicit merge/import record; do not reset the existing branch to upstream.
@@ -207,7 +219,7 @@ docs/           Development, provider, recovery, compatibility, release guides
 tests/          Cross-package/provider/recovery fixtures and acceptance records
 ```
 
-Cloud-only `apps/api`, `apps/cloud`, `apps/web`, `apps/marketing`, and associated service libraries remain as imported source. The [M1 dependency map](docs/verification/m1-dependencies.md) records the inherited coupling. The [M2 workspace slice](docs/verification/m2-branding-workspace.md) extracts the required contracts and removes desktop API/database/auth/sync/telemetry imports. Retained service packages are outside desktop runtime/build entry points; provenance remains in version history.
+Cloud-only `apps/api`, `apps/cloud`, `apps/web`, and associated service libraries remain as imported source. `apps/marketing/site` is now the D16 DiskPond website; its inherited `src/` and `public/` remain reference-only and are not emitted by the website build. The [M1 dependency map](docs/verification/m1-dependencies.md) records the inherited coupling. The [M2 workspace slice](docs/verification/m2-branding-workspace.md) extracts the required contracts and removes desktop API/database/auth/sync/telemetry imports. Hosted packages are outside desktop runtime/build entry points; provenance remains in version history.
 
 ### Runtime boundaries
 

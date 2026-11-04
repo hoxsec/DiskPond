@@ -1,0 +1,42 @@
+---
+import { getImage, Image } from "astro:assets";
+import ExpandIcon from "@lucide/astro/icons/expand";
+import { copy } from "../content";
+import { type ScreenshotName, screenshots } from "../screenshots";
+
+interface Props {
+  name: ScreenshotName;
+  alt: string;
+  eager?: boolean;
+  sizes?: string;
+}
+
+const {
+  name,
+  alt,
+  eager = false,
+  sizes = "(max-width: 760px) 92vw, 780px",
+} = Astro.props;
+const pair = screenshots[name];
+const full = await Promise.all(
+  [pair.light, pair.dark].map((src) =>
+    getImage({ src, format: "webp", quality: 90 }),
+  ),
+);
+---
+
+<a class="app-screenshot" href={full[0]?.src} data-screenshot-open data-screenshot={name} aria-label={`${copy.home.gallery.expand}: ${alt}`}>
+  {(["light", "dark"] as const).map((theme, index) => <Image
+    src={pair[theme]}
+    alt={alt}
+    data-screenshot-theme={theme}
+    data-full-src={full[index]?.src}
+    widths={[480, 960, 1440].filter(width => width < pair[theme].width).concat(pair[theme].width)}
+    sizes={sizes}
+    quality={90}
+    format="webp"
+    loading={eager ? "eager" : "lazy"}
+    fetchpriority={eager ? "high" : "auto"}
+  />)}
+  <span class="icon-button screenshot-enlarge" aria-hidden="true"><ExpandIcon /></span>
+</a>

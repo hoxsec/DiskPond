@@ -191,7 +191,7 @@ async function destination(contents, intent, name) {
   await text(contents, selected);
   await activate(contents, "Continue");
 }
-async function capture(contents, name) {
+async function capture(contents, name, rectangle) {
   if (!process.env.DISKPOND_SMOKE_CAPTURE_DIR) return;
   await contents.executeJavaScript(`(async () => {
     const frame = () => new Promise(resolve => requestAnimationFrame(resolve));
@@ -203,7 +203,7 @@ async function capture(contents, name) {
   await mkdir(process.env.DISKPOND_SMOKE_CAPTURE_DIR, { recursive: true });
   await writeFile(
     join(process.env.DISKPOND_SMOKE_CAPTURE_DIR, `${name}.png`),
-    (await contents.capturePage()).toPNG(),
+    (await contents.capturePage(rectangle)).toPNG(),
   );
 }
 async function savedVaults() {
@@ -251,7 +251,8 @@ app.on("browser-window-created", (_, window) => {
       contents.focus();
       contents.closeDevTools();
       if (process.env.DISKPOND_VAULT_PHASE === "screenshots") {
-        window.setContentSize(1600, 1050);
+        contents.setBackgroundThrottling(false);
+        window.setContentSize(1440, 960);
         await require("./capture-readme.cjs")({
           contents,
           directory,

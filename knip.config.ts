@@ -66,12 +66,20 @@ const config: KnipConfig = {
     },
     "apps/marketing": {
       entry: [
+        "site/pages/**/*.{astro,ts}",
         "src/pages/**/*.{astro,ts}",
         "src/content/**/*.mdx",
+        "src/content.config.ts",
         "src/components/Callout.astro",
       ],
-      project: ["src/**/*.{astro,mdx,ts,tsx}"],
+      project: ["site/**/*.{astro,ts}", "src/**/*.{astro,mdx,ts,tsx}"],
       ignoreDependencies: [
+        // Retain the inherited site's compiler integrations with its reference
+        // sources; the active static DiskPond site does not load these plugins.
+        "@astrojs/mdx",
+        "@astrojs/react",
+        "astro-mermaid",
+        "vite-plugin-static-copy",
         // Imported from an Astro client script that Knip does not resolve.
         "country-flag-emoji-polyfill",
         // Used in CSS url() imports which knip doesn't detect
@@ -106,6 +114,8 @@ const config: KnipConfig = {
     "libs/ui/src/{avatar,card,carousel,radio-group}.tsx": ["exports", "types"],
     // The OS application ID and URI scheme intentionally share a value.
     "libs/constants/src/app.ts": ["duplicates"],
+    // The inherited comparison sitemap API remains available to reference code.
+    "libs/constants/src/comparison.ts": ["exports"],
     "libs/db/src/schema.ts": ["exports", "types"],
     "apps/marketing/src/components/react/**": ["exports"],
   },

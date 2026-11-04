@@ -48,7 +48,7 @@ Core source: $core (hoxsec/diskpond-core)
 
 The two source ZIPs contain the exact tracked application and core source. Extract the application ZIP, then the core ZIP into apps/core. Licenses, notices, pinned dependency manifests and build instructions are included. For the Git-based build wrappers, clone tag $tag recursively as described in DEVELOPMENT.md instead; GitHub's automatic source archives alone omit the core submodule.
 
-Checks: lint, desktop types, existing unit tests, Windows packaging, installed upgrade, in-app updater handoff/relaunch and bundled-engine recovery hashes. Prior recovery evidence is retained in docs/verification. Updates download inside DiskPond and offer explicit restart/install when native work is idle. Versions through v0.1.2 need one manual installer update to receive this updater.
+Checks: lint, desktop types, existing unit tests, Windows packaging, installed desktop-only package contents, upgrade, in-app updater handoff/relaunch and bundled-engine recovery hashes. Prior recovery evidence is retained in docs/verification. Updates download inside DiskPond and offer explicit restart/install when native work is idle. Versions through v0.1.2 need one manual installer update to receive this updater.
 
 DiskPond derives from BlinkDisk (AGPL-3.0); the Kopia-derived core retains Apache-2.0. See LICENSE, core-LICENSE.txt and UPSTREAM.md.
 "@ | Set-Content "$output/RELEASE-NOTES.md" -Encoding utf8

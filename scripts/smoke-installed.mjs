@@ -226,6 +226,53 @@ try {
           ),
         ).version,
   );
+  // Inspect the actual installed ASAR through Electron's filesystem support.
+  // Website source, build output and screenshots belong only in source assets.
+  const packageInventory = await mainClient.call("Runtime.evaluate", {
+    expression: `(() => {
+      const fs = process.getBuiltinModule('fs');
+      const path = process.getBuiltinModule('path');
+      return {
+        archive: fs.readdirSync(path.join(process.resourcesPath, 'app.asar'), {recursive: true}).map(name => name.split(path.sep).join('/')),
+        resourceRoots: fs.readdirSync(process.resourcesPath).sort(),
+        resources: fs.readdirSync(process.resourcesPath, {recursive: true}).map(name => name.split(path.sep).join('/'))
+      };
+    })()`,
+    returnByValue: true,
+  });
+  assert.equal(packageInventory.exceptionDetails, undefined);
+  const inventory = packageInventory.result.value;
+  assert.deepEqual(
+    [...new Set(inventory.archive.map((name) => name.split("/")[0]))].sort(),
+    ["build", "frontend", "package.json"],
+  );
+  assert.deepEqual(inventory.resourceRoots, [
+    "app-update.yml",
+    "app.asar",
+    "assets",
+    "binaries",
+    "elevate.exe",
+    "licenses",
+  ]);
+  for (const required of [
+    "build/index.js",
+    "build/preload.js",
+    "frontend/index.html",
+  ])
+    assert.ok(
+      inventory.archive.includes(required),
+      `Missing desktop input: ${required}`,
+    );
+  assert.deepEqual(
+    [...inventory.archive, ...inventory.resources].filter((name) =>
+      /(^|\/)(marketing|site|_astro|docs|website\.json)(\/|$)/i.test(name),
+    ),
+    [],
+    "Website files must not be included in the desktop installer",
+  );
+  console.info(
+    `Installed package isolation passed: ${inventory.archive.length} ASAR entries; desktop-only roots and resources, no website files.`,
+  );
   assert.equal(
     await evaluate("window.electron.store.get('preferences.theme')"),
     "dark",
