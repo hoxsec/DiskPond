@@ -37,6 +37,40 @@ export const ZS3CompatibleConfig = ZS3Config.extend(
 
 export type ZS3CompatibleConfigType = z.infer<typeof ZS3CompatibleConfig>;
 
+export const ZDiskPondCloudConfig = ZS3CompatibleConfig.transform(
+  (config, ctx) => {
+    // The S3 engine takes a host, with TLS controlled separately. Accept
+    // copy/pasted URLs without silently discarding a path or changing TLS.
+    const match = /^(?:(https?):\/\/)?([^/?#\\\s]+)\/?$/i.exec(
+      config.endpoint.trim(),
+    );
+    const protocol = config.disableTls ? "http:" : "https:";
+    let endpoint: URL;
+    try {
+      if (!match) throw new Error();
+      endpoint = new URL(`${match[1] || protocol.slice(0, -1)}://${match[2]}`);
+      if (!endpoint.hostname || endpoint.username || endpoint.password)
+        throw new Error();
+    } catch {
+      ctx.addIssue({
+        code: "custom",
+        path: ["endpoint"],
+        message: "s3_endpoint",
+      });
+      return z.NEVER;
+    }
+    if (endpoint.protocol !== protocol) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["endpoint"],
+        message: "s3_endpoint_protocol",
+      });
+      return z.NEVER;
+    }
+    return { ...config, endpoint: endpoint.host };
+  },
+);
+
 export const ZGoogleCloudStorageConfig = z.object({
   bucket: z.string().min(1).max(512),
   prefix: z.string().max(128).optional(),
@@ -117,6 +151,7 @@ export const ZProviderType = z.enum([
   "NETWORK_ATTACHED_STORAGE",
   "AMAZON_S3",
   "S3_COMPATIBLE",
+  "DISKPOND_CLOUD",
   "GOOGLE_CLOUD_STORAGE",
   "BACKBLAZE",
   "AZURE_BLOB_STORAGE",

@@ -1,0 +1,56 @@
+# DiskPond Cloud provider
+
+2026-11-05 — **D16 / P12**, reusing **P05 / F02 / F24 / DP01**.
+
+Status: implemented and verified locally on Windows x64. The owner authorized
+publication in v0.1.6; see windows-v0.1.6.txt for release status. Live-service
+backup/restore acceptance remains pending.
+
+## Delivered
+
+- **DiskPond Cloud** appears immediately after **S3 compatible** in both create
+  and connect provider pickers, with the owner's DiskPond icon and searchable name.
+  Vault cards, previews and connection settings retain its distinct identity.
+- Reuses the full S3-compatible form: endpoint, bucket, access key ID, secret key,
+  region, session token, prefix and both explicit insecure connection settings.
+  HTTPS and certificate verification are enabled by default.
+- **Open DiskPond Cloud** opens `https://cloud.diskpond.com` in the browser.
+  A preview-mode URL-handler fix avoids parsing an absent development origin.
+- The new `DISKPOND_CLOUD` local provider identifier maps to engine type `s3`.
+  Native IPC validates its configuration; saved credentials use the existing
+  OS-protected/session-only connection path. No repository-format migration or
+  automatic relabeling of existing S3 connections is performed.
+- Hostnames and root HTTP(S) URLs normalize to the engine's hostname/port format.
+  Embedded credentials, paths, queries, fragments and conflicting URL/TLS settings
+  are rejected with localized field errors. Credentials, region, prefix and token
+  retain their exact values. HTTP requires the explicit insecure option.
+
+## Checks
+
+Application baseline: `c71fd2615e739396ce39b298169b9ed81d0253cf` plus this working tree. The core remains pinned at
+`0f31eefe409cb4f0571baf65abd7d063784598cd`. Node **24.14.0**, pnpm **11.7.0**.
+
+| Command | Result |
+| --- | --- |
+| `pnpm --filter @blinkdisk/schemas test -- src/providers.test.ts` | Passed; this script invocation ran all 5 schema files, **38 tests**. Includes URL normalization, ports, protocol mismatch and credential/path rejection. |
+| `pnpm --filter @blinkdisk/electron exec vitest run src/vault/mapping.test.ts src/vault/connection-ipc.test.ts src/vault/connection.test.ts` | Passed, **54 tests**. Cloud create/connect/discovery IPC, exact S3 mapping, protected-store restart fixture and redacted summaries/errors. |
+| `pnpm --filter @blinkdisk/electron exec vitest run src/window.test.ts src/shell.test.ts` | Passed, **8 tests**. External browser handoff with/without a development origin and allowed URL protocols. |
+| `pnpm types` | Passed for desktop/Electron/libraries. |
+| `pnpm --filter @blinkdisk/desktop build` | Passed. Existing chunk-size/tooling advisories only. |
+| `pnpm --filter @blinkdisk/electron compile:prod` | Passed. |
+| `pnpm exec biome ci . --error-on-warnings --colors=off` | Passed. |
+| `node scripts/smoke-cloud-provider-ui.mjs` | Passed with actual picker/form components and fixture IPC, as detailed below. |
+| `git diff --check` | Passed. |
+
+The UI smoke uses an isolated Electron profile with HTTP(S) network requests
+blocked. It verifies placement/search, keyboard selection and portal handoff,
+secure defaults, invalid endpoint errors, unavailable-storage retry with preserved
+credentials, create/connect provider identity, cross-provider duplicate-repository
+detection and normalized submission. Light/Dark at 100% and 200% have no horizontal
+overflow and keyboard-reachable submit controls; representative screenshots were
+reviewed. Captures: `%LOCALAPPDATA%/Temp/opencode/diskpond-cloud-provider-ui-2MK6jR/`.
+
+This is desktop integration evidence using synthetic connection data, not a
+successful connection to live managed storage. Real credentials, service access
+and disposable storage are needed for a live two-version backup/restart/restore
+hash check. Installer/publication checks are recorded separately in windows-v0.1.6.txt.

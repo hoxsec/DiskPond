@@ -2,7 +2,7 @@
 
 **[Download DiskPond for Windows](https://github.com/hoxsec/DiskPond/releases/latest/download/DiskPond-Windows.exe)** · [Release notes and checksums](https://github.com/hoxsec/DiskPond/releases/latest)
 
-**v0.1.5** targets **Windows 10/11 x64**, publishing the website/source and product-screenshot batch with an installed-package isolation check. The installer is unsigned. [Release verification](verification/windows-v0.1.5.md) records publication status and checks; broader OS/provider certification remains deferred.
+**v0.1.6** targets **Windows 10/11 x64**, adding the DiskPond Cloud connection beside the S3 providers and removing application-repository .md files. The installer is unsigned. Release verification at verification/windows-v0.1.6.txt records publication status and checks; broader OS/provider certification remains deferred.
 
 `DiskPond-Windows.exe` contains the desktop app, backup engine, app assets and licenses. Marketing pages, website build output, pricing copy and product screenshots are excluded. They are available in the repository/application source ZIP and deployed separately as a static website.
 
@@ -24,24 +24,24 @@ Connect the existing vault using the same destination/provider details and repos
 
 DiskPond checks GitHub releases at startup and hourly. Choose **Download update** in the banner or Settings, then **Restart and install** once native backups/restores are idle. Downloads show size/speed and can be canceled. **What's new**, a 24-hour **Remind me later** action and local update history are available in the app. **Settings → Check for updates** also works when automatic checks are disabled.
 
-Stable installations check stable releases; prerelease installations also consider prereleases. Downloads and restarts remain user-triggered. See [update behavior and verification](verification/in-app-updates.md). **v0.1.2 and earlier need one manual installer update** to receive this updater: finish active operations, quit DiskPond and run the new installer.
+Stable installations check stable releases; prerelease installations also consider prereleases. Downloads and restarts remain user-triggered. See verification/in-app-updates.txt for update behavior and verification. **v0.1.2 and earlier need one manual installer update** to receive this updater: finish active operations, quit DiskPond and run the new installer.
 
 ## Build this release
 
 ```powershell
-git clone --branch v0.1.5 --recurse-submodules https://github.com/hoxsec/DiskPond.git
+git clone --branch v0.1.6 --recurse-submodules https://github.com/hoxsec/DiskPond.git
 cd DiskPond
 pnpm install --frozen-lockfile
 $env:GITHUB_REF_TYPE = 'tag'
-$env:GITHUB_REF_NAME = 'v0.1.5'
+$env:GITHUB_REF_NAME = 'v0.1.6'
 pnpm build:windows
 ```
 
-Use the toolchain in [DEVELOPMENT.md](../DEVELOPMENT.md). GitHub's automatic source archives omit submodules; the separate core source asset includes the pinned core and its notices. Source ZIPs are a source record; the existing build wrappers require the Git checkout above.
+Use the toolchain in ../DEVELOPMENT.txt. GitHub's automatic source archives omit submodules; the separate core source asset includes the pinned core and its notices. Source ZIPs are a source record; the existing build wrappers require the Git checkout above.
 
 ## Publish a version
 
-Release publication requires owner authorization. Bump `apps/electron/package.json`, add `docs/releases/vVERSION.md` release notes, commit and push the reviewed batch, then push a new annotated version tag. Supported tags are `vMAJOR.MINOR.PATCH` or `vMAJOR.MINOR.PATCH-alpha.N`, `-beta.N`, `-rc.N`. The tag supplies the packaged application version. Never move a published tag. Remove an unpublished failed draft before rerunning the same unchanged tag; code fixes require a new version.
+Release publication requires owner authorization. Bump `apps/electron/package.json`, add `docs/releases/vVERSION.txt` release notes, commit and push the reviewed batch, then push a new annotated version tag. Supported tags are `vMAJOR.MINOR.PATCH` or `vMAJOR.MINOR.PATCH-alpha.N`, `-beta.N`, `-rc.N`. The tag supplies the packaged application version. Never move a published tag. Remove an unpublished failed draft before rerunning the same unchanged tag; code fixes require a new version.
 
 `.github/workflows/release.yml` calls the compact Windows check used for pull requests and main: lint, types, existing unit tests, pinned-core/NSIS build, installed upgrade and updater handoff/relaunch, plus bundled-engine recovery hashes. Only passing checks hand assets to the publishing job. It creates a draft, uploads all assets, then publishes it. Stable versions become GitHub's **Latest** release; prerelease tags do not. No signing secrets are required for the unsigned release path.
 

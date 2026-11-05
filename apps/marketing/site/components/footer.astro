@@ -17,7 +17,7 @@ const groups = [
     title: copy.footer.resources,
     links: [
       [copy.footer.guides, "/guides"],
-      [copy.footer.roadmap, `${site.repository}/blob/main/ROADMAP.md`],
+      [copy.footer.releases, site.releases],
       [copy.footer.source, site.repository],
     ],
   },
@@ -53,7 +53,7 @@ const groups = [
         </select>
       </label>
     </div>
-    <p class="footer-credit">{copy.footer.credit} <a href={`${site.repository}/blob/main/UPSTREAM.md`}>{copy.footer.source} ↗</a></p>
+    <p class="footer-credit">{copy.footer.credit} <a href={`${site.repository}/blob/main/UPSTREAM.txt`}>{copy.footer.source} ↗</a></p>
   </div>
 </footer>
 

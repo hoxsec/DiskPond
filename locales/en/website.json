@@ -344,8 +344,8 @@
     "mac": "macOS",
     "linux": "Linux",
     "planned": "Planned",
-    "plannedBody": "Follow the roadmap for platform updates.",
-    "roadmap": "View roadmap",
+    "plannedBody": "Follow the releases for platform updates.",
+    "releases": "View releases",
     "nextTitle": "Downloaded. Now what?",
     "steps": [
       {
@@ -518,7 +518,7 @@
     "cloud": "DiskPond Cloud",
     "pricing": "Pricing",
     "guides": "Backup guides",
-    "roadmap": "Roadmap",
+    "releases": "Releases",
     "source": "Source code",
     "contact": "Contact",
     "support": "Support",

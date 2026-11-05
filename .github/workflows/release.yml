@@ -37,6 +37,6 @@ jobs:
           if ($env:GH_REPO -cne 'hoxsec/DiskPond') { throw 'Unexpected release repository' }
           $prerelease = $env:RELEASE_TAG.Contains('-')
           $latest = -not $prerelease
-          gh release create $env:RELEASE_TAG --verify-tag --draft --title "DiskPond $env:RELEASE_TAG" --notes-file release-assets/RELEASE-NOTES.md
+          gh release create $env:RELEASE_TAG --verify-tag --draft --title "DiskPond $env:RELEASE_TAG" --notes-file release-assets/RELEASE-NOTES.txt
           gh release upload $env:RELEASE_TAG (Get-ChildItem release-assets -File).FullName
           gh release edit $env:RELEASE_TAG --draft=false "--prerelease=$($prerelease.ToString().ToLowerInvariant())" "--latest=$($latest.ToString().ToLowerInvariant())"

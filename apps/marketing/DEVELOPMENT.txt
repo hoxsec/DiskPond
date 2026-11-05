@@ -19,13 +19,13 @@ pnpm build:site
 pnpm preview:site
 ```
 
-Run type checking and building sequentially on Windows because Astro shares its generated caches. `pnpm smoke:site` checks the built site using the repository's Electron runtime in an isolated profile. [Verification](../../docs/verification/website.md).
+Run type checking and building sequentially on Windows because Astro shares its generated caches. `pnpm smoke:site` checks the built site using the repository's Electron runtime in an isolated profile. Verification: ../../docs/verification/website.txt.
 
 ## Active source
 
 - `site/`: pages, shared layouts/components, browser interactions and styles.
 - `site/config.ts`: canonical domain, GitHub releases/download, contact addresses and integer-cent prices.
-- `site/screenshots.ts`: nine real app views in Light/Dark, shared with the repository README through `docs/images/`.
+- `site/screenshots.ts`: nine real app views in Light/Dark from `docs/images/`.
 - `../../locales/en/website.json`: English website copy and guide content.
 - `static/`: robots.txt and optional static-host response headers.
 - `dist/`: generated static website, including optimized screenshots, self-hosted fonts, sitemap, social preview and licenses.
@@ -49,7 +49,7 @@ The existing `src/`, `public/` and Sentry files are **inactive upstream referenc
 
 The free desktop app and BYO storage remain available. Cloud storage is explicitly **coming soon**. Plan enquiries open the visitor's email app with the selected billing period and total. The contact composer validates required fields and prepares a draft; it does not send, store, or claim delivery of a message. Direct email links remain available without JavaScript. The annual toggle, screenshot tabs/lightbox, mobile navigation, native FAQ disclosures and persistent/system theme preference are functional.
 
-Actual paid sales need a confirmed checkout destination/payment provider, storage provisioning/connection workflow, hosting/operations, and the seller/service terms. None were supplied for this website slice. Do not replace enquiry actions with pretend checkout or relabel the service as available before it can be delivered. This D16 scope expansion is recorded in [PLAN.md](../../PLAN.md).
+Actual paid sales need a confirmed checkout destination/payment provider, storage provisioning/connection workflow, hosting/operations, and the seller/service terms. None were supplied for this website slice. Do not replace enquiry actions with pretend checkout or relabel the service as available before it can be delivered. This D16 scope expansion is recorded in ../../docs/verification/website.txt.
 
 ## Host the website
 
@@ -69,4 +69,4 @@ The site has no analytics, remote fonts or embedded third-party video. Appearanc
 
 ## Provenance
 
-The repository retains its AGPL-3.0 license and BlinkDisk/Kopia attribution. `licenses.txt` is generated into the website with application, Inter, Lucide/Feather, Astro and Tailwind notices. [Upstream record](../../UPSTREAM.md).
+The repository retains its AGPL-3.0 license and BlinkDisk/Kopia attribution. `licenses.txt` is generated into the website with application, Inter, Lucide/Feather, Astro and Tailwind notices. Upstream record: ../../UPSTREAM.txt.

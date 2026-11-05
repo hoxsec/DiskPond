@@ -1,6 +1,12 @@
 # DiskPond upstream provenance
 
-Updated 2026-11-03. DiskPond is derived from BlinkDisk and its Kopia-derived core.
+Updated 2026-11-05. DiskPond is derived from BlinkDisk and its Kopia-derived core.
+
+The owner requested removal of application-repository .md files for v0.1.6.
+Build instructions, provenance and verification records now use .txt. Historical
+file names below describe earlier changes; archived .md documents remain in Git
+history at c71fd2615e739396ce39b298169b9ed81d0253cf. Verification records retain
+their original basenames with the .txt extension. Licenses and notices are retained.
 
 | Component | Exact baseline | License |
 | --- | --- | --- |
@@ -31,6 +37,10 @@ The recorded procedure was:
 Do not replay the tree import over later work. A future clone recreates the core using the committed gitlink, not `--remote`. The upstream `branch = main` hint was removed from `.gitmodules`. The core build checks the checkout against the index gitlink before compiling.
 
 ## DiskPond modifications to upstream application files
+
+### DiskPond Cloud provider (2026-11-05)
+
+Under D16 / P12, the inherited provider registry, schemas, S3-compatible form/hook and icon map now expose **DiskPond Cloud** beside the S3 providers. A shared owner-artwork icon, localized labels and explicit browser portal link distinguish the connection. The new provider identifier maps to the existing S3 engine; hostname/URL normalization preserves explicit TLS settings at the native boundary. The window URL handler also supports external links in preview mode without a development origin. Native/schema regressions and an isolated actual-component keyboard/theme smoke cover the changes. Verification: docs/verification/diskpond-cloud-provider.txt. Core source, repository format and license notices are retained.
 
 ### Website expansion (2026-11-04)
 
@@ -163,6 +173,6 @@ M2 desktop recovery follow-up (2026-11-03): the inherited source-history page's 
 
 DiskPond's source/release namespace is `hoxsec/DiskPond`. Runtime identifiers are documented in [the M1 evidence](docs/verification/m1-windows-baseline.md). Existing BlinkDisk settings are not imported automatically.
 
-Before distributing binaries, publish matching application and core source, build instructions, license/copyright material, dependency notices and checksums. Current development packaging includes both project license texts, owner artwork and this provenance record; a complete third-party notice review and release signing remain M5 gates. Build instructions are in [DEVELOPMENT.md](DEVELOPMENT.md).
+Before distributing binaries, publish matching application and core source, build instructions, license/copyright material, dependency notices and checksums. Current development packaging includes both project license texts, owner artwork and this provenance record; a complete third-party notice review and release signing remain deferred. Build instructions are in DEVELOPMENT.txt.
 
 Review upstream fixes deliberately. Advance application/core pins with compatibility evidence, rather than replacing the fork with stock Kopia or following a moving engine branch.

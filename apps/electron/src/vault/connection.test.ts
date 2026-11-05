@@ -172,6 +172,45 @@ it("protects the whole connection, preserves optional/empty fields, and reopens 
   });
 });
 
+it("reopens DiskPond Cloud as protected S3 storage with a redacted summary", async () => {
+  const connection = await import("@electron/vault/connection");
+  const cloud = connection.connectionFromProvider("DISKPOND_CLOUD", {
+    endpoint: "https://storage.example.test/",
+    bucket: "bucket",
+    accessKeyId: "device-key",
+    accessKeySecret: "device-secret",
+    sessionToken: "session-secret",
+    region: "eu-west-1",
+    prefix: "",
+    disableTls: false,
+    disableTlsVerification: false,
+  });
+  expect(cloud.type).toBe("s3");
+  expect(cloud.config.endpoint).toBe("storage.example.test");
+  connection.saveConnection("vlt_cloud", cloud);
+  const saved = JSON.stringify([...mocks.saved.values()]);
+  for (const secret of ["device-key", "device-secret", "session-secret"])
+    expect(saved).not.toContain(secret);
+  vi.resetModules();
+  const restarted = await import("@electron/vault/connection");
+  expect(restarted.getConnection("vlt_cloud")).toEqual(cloud);
+  const summary = await restarted.getConnectionSummary({
+    vaultId: "vlt_cloud",
+  });
+  expect(summary?.fields).toContainEqual({
+    key: "endpoint",
+    value: "https://storage.example.test",
+  });
+  for (const secret of ["device-key", "device-secret", "session-secret"])
+    expect(JSON.stringify(summary)).not.toContain(secret);
+  expect(
+    restarted.redactConnectionError(
+      "vlt_cloud",
+      "device-key device-secret session-secret",
+    ),
+  ).toBe("[redacted] [redacted] [redacted]");
+});
+
 it.each([
   "unavailable",
   "encryption",

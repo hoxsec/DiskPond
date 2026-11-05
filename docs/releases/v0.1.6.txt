@@ -1,0 +1,10 @@
+## DiskPond Cloud connection
+
+- Added DiskPond Cloud alongside the S3 providers, with its own icon and the full S3-compatible connection settings.
+- Added an Open DiskPond Cloud link to cloud.diskpond.com.
+- Accepts endpoint hostnames and root HTTP(S) URLs while preserving explicit TLS settings. Invalid paths, embedded credentials and conflicting protocols are rejected.
+- Reuses protected or session-only credentials and the existing S3 backup engine.
+- Fixed external browser links in desktop preview mode.
+- Removed .md files from the application repository. Required build instructions, attribution and verification records now use .txt; release and website links were updated.
+
+The desktop remains account-free. This release adds the manual Cloud connection; live-service backup/restore validation remains pending. The Windows installer is desktop-only.

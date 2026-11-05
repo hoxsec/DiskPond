@@ -311,6 +311,13 @@ try {
     ),
     await readFile("apps/core/LICENSE", "utf8"),
   );
+  assert.equal(
+    await readFile(
+      join(destination, "resources/licenses/UPSTREAM.txt"),
+      "utf8",
+    ),
+    await readFile("UPSTREAM.txt", "utf8"),
+  );
   const update = await readFile(
     join(destination, "resources/app-update.yml"),
     "utf8",

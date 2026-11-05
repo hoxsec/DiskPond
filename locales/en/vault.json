@@ -260,6 +260,14 @@
         }
       }
     },
+    "DISKPOND_CLOUD": {
+      "name": "DiskPond Cloud",
+      "shortName": "DiskPond Cloud",
+      "description": "Store on DiskPond Cloud",
+      "openPortal": "Open DiskPond Cloud",
+      "endpointPlaceholder": "Enter your DiskPond Cloud endpoint",
+      "bucketPlaceholder": "Enter your DiskPond Cloud bucket name"
+    },
     "GOOGLE_CLOUD_STORAGE": {
       "name": "Google Cloud Storage",
       "shortName": "GCS",

@@ -44,7 +44,8 @@ export function createWindow() {
     if (
       url.protocol === INTERNAL_PROTOCOL ||
       (!app.isPackaged &&
-        url.origin === new URL(process.env.DESKTOP_URL || "").origin)
+        process.env.DESKTOP_URL &&
+        url.origin === new URL(process.env.DESKTOP_URL).origin)
     )
       window?.loadURL(rawUrl);
     else if (

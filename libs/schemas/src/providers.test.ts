@@ -1,5 +1,6 @@
 import {
   ZAmazonS3Config,
+  ZDiskPondCloudConfig,
   ZFilesystemConfig,
   ZProviderType,
   ZS3CompatibleConfig,
@@ -10,6 +11,7 @@ import {
 describe("provider schemas", () => {
   it("accepts supported provider types and rejects unknown values", () => {
     expect(ZProviderType.safeParse("CLOUDBLINK").success).toBe(true);
+    expect(ZProviderType.safeParse("DISKPOND_CLOUD").success).toBe(true);
     expect(ZProviderType.safeParse("DROPBOX").success).toBe(false);
   });
 
@@ -84,5 +86,75 @@ describe("provider schemas", () => {
       ZWebDavConfig.safeParse({ url: "https://example.com/dav" }).success,
     ).toBe(true);
     expect(ZWebDavConfig.safeParse({ url: "not-a-url" }).success).toBe(false);
+  });
+});
+
+describe("DiskPond Cloud endpoints", () => {
+  const config = {
+    endpoint: "storage.example.test",
+    bucket: "bucket",
+    accessKeyId: "key",
+    accessKeySecret: "secret",
+    sessionToken: "token",
+    prefix: "backups/",
+    region: "eu-west-1",
+    disableTls: false,
+    disableTlsVerification: false,
+  };
+
+  it.each([
+    ["storage.example.test", "storage.example.test"],
+    [" https://storage.example.test/ ", "storage.example.test"],
+    ["HTTPS://storage.example.test", "storage.example.test"],
+    ["https://storage.example.test:9443/", "storage.example.test:9443"],
+    ["storage.example.test:9443", "storage.example.test:9443"],
+    ["https://[::1]:9443/", "[::1]:9443"],
+  ])("normalizes %s without changing other settings", (endpoint, host) => {
+    expect(ZDiskPondCloudConfig.parse({ ...config, endpoint })).toEqual({
+      ...config,
+      endpoint: host,
+    });
+  });
+
+  it.each([
+    "http://storage.example.test",
+    "https://user:secret@storage.example.test",
+    "https://storage.example.test/bucket",
+    "https://storage.example.test/bucket/..",
+    "https://storage.example.test?token=secret",
+    "https://storage.example.test#fragment",
+    "https://storage.example.test\\bucket",
+    "https://",
+    "ftp://storage.example.test",
+    "storage.example.test:65536",
+    "storage.example.test extra",
+  ])("rejects unsafe or ambiguous endpoint %s", (endpoint) => {
+    const parsed = ZDiskPondCloudConfig.safeParse({ ...config, endpoint });
+    expect(parsed.success).toBe(false);
+    if (!parsed.success)
+      expect(parsed.error.issues[0]?.path).toEqual(["endpoint"]);
+  });
+
+  it("requires explicit HTTP and preserves explicit TLS options", () => {
+    expect(
+      ZDiskPondCloudConfig.parse({
+        ...config,
+        endpoint: "http://storage.example.test:9000/",
+        disableTls: true,
+        disableTlsVerification: true,
+      }),
+    ).toEqual({
+      ...config,
+      endpoint: "storage.example.test:9000",
+      disableTls: true,
+      disableTlsVerification: true,
+    });
+    expect(
+      ZDiskPondCloudConfig.safeParse({
+        ...config,
+        endpoint: "https://storage.example.test",
+        disableTls: true,
+      }).success,
+    ).toBe(false);
   });
 });

@@ -1,0 +1,36 @@
+Windows v0.1.6 — DiskPond Cloud and Markdown cleanup
+
+2026-11-05. Owner-authorized commit, push and stable Windows release.
+Requirements: D16 / P12, P05 / F02 / F24 / DP01, F25 / F26.
+
+Status: release preparation; tag, clean Windows CI and publication pending.
+Core pin: 0f31eefe409cb4f0571baf65abd7d063784598cd.
+
+Changes
+- Distinct DiskPond Cloud connection beside the S3 providers, full S3-compatible
+  form, owner icon, browser portal link, validated endpoint normalization and
+  existing protected/session-only native credentials.
+- Preview-mode external browser handoff works without DESKTOP_URL.
+- Application-repository .md files removed. Attribution, build/release guides
+  and verification evidence retained as .txt. Historical records preserve their
+  original text/path references; earlier source remains at c71fd2615e739396ce39b298169b9ed81d0253cf.
+- Packaging and release assembly use UPSTREAM.txt, DEVELOPMENT.txt and
+  RELEASE-NOTES.txt. Website links target retained guides and GitHub releases.
+
+Passing provider evidence is in diskpond-cloud-provider.txt: 100 focused
+schema/native/window tests, desktop/library types, renderer and main builds,
+lint, and actual-component keyboard/retry/create/connect/theme/zoom smoke.
+
+Local release preparation checks passed:
+- pnpm install --frozen-lockfile (unchanged dependency lockfile).
+- pnpm exec biome ci . --error-on-warnings --colors=off (787 files).
+- pnpm build:windows (core, renderer, main/preload and NSIS installer).
+- pnpm types:site (25 files; no diagnostics) and pnpm build:site.
+- pnpm smoke:site (12 routes, 69 links, keyboard/gallery/theme/pricing/contact,
+  mobile/200% layouts and no automatic external requests). Evidence directory:
+  %LOCALAPPDATA%/Temp/opencode/diskpond-site-hG44Xv/.
+- git diff --check.
+
+Installed release checks and downloaded asset verification will be recorded after CI.
+Live Cloud backup/restart/restore hashes remain pending disposable service
+credentials. Broader provider/platform certification remains deferred.
