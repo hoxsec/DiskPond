@@ -51,8 +51,8 @@ async function ensureElectron() {
   return appRequire("electron");
 }
 
-async function build() {
-  await command(["run", "build:core"]);
+async function build(packaging = false) {
+  await command(["run", "build:core", ...(packaging ? ["--package"] : [])]);
   await command(["--filter", "@blinkdisk/electron", "run", "prebuild"]);
 }
 
@@ -106,18 +106,24 @@ try {
     await develop();
   } else if (mode === "build") {
     await build();
-  } else if (mode === "windows") {
-    if (process.platform !== "win32" || process.arch !== "x64") {
+  } else if (["windows", "linux", "macos"].includes(mode)) {
+    const platform = { windows: "win32", linux: "linux", macos: "darwin" }[
+      mode
+    ];
+    if (
+      process.platform !== platform ||
+      (mode === "windows" && process.arch !== "x64")
+    ) {
       throw new Error(
-        "The initial Windows packaging target requires Windows x64.",
+        `Build ${mode} packages on ${platform}${mode === "windows" ? " x64" : ""}.`,
       );
     }
-    await build();
+    await build(true);
     await command([
       "--filter",
       "@blinkdisk/electron",
       "run",
-      "build:windows",
+      `build:${mode}`,
       "--publish",
       "never",
       ...process.argv.slice(3),

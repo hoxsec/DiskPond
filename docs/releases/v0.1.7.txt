@@ -1,0 +1,10 @@
+## Windows, Linux and macOS releases
+
+- Added Linux AppImage, DEB and RPM packages for x64, ARM64 and ARMv7.
+- Added a universal macOS app for Intel and Apple Silicon, available as DMG and ZIP.
+- Builds the matching pinned backup engines for every package architecture.
+- Checks all three operating systems before publishing one release with matching source archives, update metadata and SHA-256 checksums.
+- Update checks now select the correct operating system and CPU architecture. Linux AppImage supports explicit in-app download and restart/install; macOS and Linux DEB/RPM open the matching release for manual installation.
+- Added packaged-content checks and bundled-engine backup/restore verification.
+
+The Windows installer remains unsigned. macOS uses ad-hoc signing without Apple notarization and currently requires manual updates. See docs/desktop-release.txt for installation and build instructions. Vault formats, encryption and the pinned backup-engine source are unchanged.

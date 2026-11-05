@@ -8,6 +8,7 @@ const mocks = vi.hoisted(() => ({
   download: vi.fn(),
   install: vi.fn(),
   feed: vi.fn(),
+  openExternal: vi.fn(),
   activity: vi.fn(),
   data: new Map<string, unknown>(),
   listeners: new Map<
@@ -22,6 +23,7 @@ const mocks = vi.hoisted(() => ({
   fetch: vi.fn(),
 }));
 vi.mock("electron", () => ({
+  shell: { openExternal: mocks.openExternal },
   app: {
     get isPackaged() {
       return mocks.packaged;
@@ -75,7 +77,11 @@ function respond(versions: ReturnType<typeof release>[], yaml: string) {
     .mockResolvedValueOnce(new Response(JSON.stringify(versions)))
     .mockResolvedValueOnce(new Response(yaml));
 }
+const originalPlatform = process.platform;
+const originalArchitecture = process.arch;
 beforeEach(() => {
+  Object.defineProperty(process, "platform", { value: "win32" });
+  Object.defineProperty(process, "arch", { value: "x64" });
   vi.useFakeTimers();
   vi.resetModules();
   vi.clearAllMocks();
@@ -91,6 +97,9 @@ beforeEach(() => {
   vi.stubGlobal("fetch", mocks.fetch);
 });
 afterEach(() => {
+  Object.defineProperty(process, "platform", { value: originalPlatform });
+  Object.defineProperty(process, "arch", { value: originalArchitecture });
+  vi.unstubAllEnvs();
   vi.clearAllTimers();
   vi.unstubAllGlobals();
   vi.useRealTimers();
@@ -202,8 +211,50 @@ it("keeps development checks read-only", async () => {
   respond([release("0.1.0")], "version: 0.1.0");
   const updater = await import("@electron/updater");
   await updater.checkForUpdates();
-  await expect(updater.downloadUpdate()).rejects.toThrow("installed Windows");
+  await expect(updater.downloadUpdate()).rejects.toThrow("installed app");
   expect(mocks.nativeCheck).not.toHaveBeenCalled();
+});
+
+it.each([
+  ["darwin", "x64", "latest-mac.yml", false],
+  ["darwin", "arm64", "latest-mac.yml", false],
+  ["linux", "x64", "latest-linux.yml", true],
+  ["linux", "arm64", "latest-linux-arm64.yml", true],
+  ["linux", "arm", "latest-linux-arm.yml", true],
+  ["linux", "x64", "latest-linux.yml", false],
+])("uses the %s/%s feed and appropriate installation path", async (platform, architecture, metadata, appImage) => {
+  Object.defineProperty(process, "platform", { value: platform });
+  Object.defineProperty(process, "arch", { value: architecture });
+  vi.stubEnv("APPIMAGE", appImage ? "/tmp/DiskPond.AppImage" : undefined);
+  mocks.packaged = true;
+  mocks.enabled = false;
+  respond([release("0.2.0")], "version: 0.2.0");
+  const updater = await import("@electron/updater");
+  await updater.checkForUpdates();
+  expect(mocks.fetch.mock.calls[1]?.[0]).toBe(
+    `https://github.com/hoxsec/DiskPond/releases/download/v0.2.0/${metadata}`,
+  );
+  mocks.nativeCheck.mockResolvedValue({
+    updateInfo: { version: "0.2.0" },
+    cancellationToken: { cancel: vi.fn() },
+  });
+  mocks.download.mockResolvedValue([]);
+  await updater.downloadUpdate();
+  if (appImage) {
+    expect(mocks.download).toHaveBeenCalledOnce();
+    expect(mocks.openExternal).not.toHaveBeenCalled();
+    await updater.installUpdate();
+    expect(mocks.install).toHaveBeenCalledWith(false, true);
+  } else {
+    expect(updater.getUpdateStatus().manual).toBe(true);
+    expect(mocks.openExternal).toHaveBeenCalledWith(
+      "https://github.com/hoxsec/DiskPond/releases/tag/v0.2.0",
+    );
+    expect(mocks.nativeCheck).not.toHaveBeenCalled();
+    expect(mocks.download).not.toHaveBeenCalled();
+    expect(updater.getUpdateStatus().history).toEqual([]);
+    await expect(updater.installUpdate()).rejects.toThrow("not ready");
+  }
 });
 
 it.each([

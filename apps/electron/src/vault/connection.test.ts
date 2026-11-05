@@ -65,6 +65,7 @@ vi.mock("@electron/store", () => ({
 vi.mock("electron", () => ({
   safeStorage: {
     isEncryptionAvailable: () => mocks.available,
+    getSelectedStorageBackend: () => "gnome_libsecret",
     encryptString: (plain: string) => {
       if (mocks.failEncrypt) throw new Error("Injected protection failure");
       const cipher = crypto.randomUUID();

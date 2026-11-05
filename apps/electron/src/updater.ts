@@ -3,6 +3,7 @@ import {
   RELEASE_REPOSITORY,
   SOURCE_URL,
 } from "@blinkdisk/constants/app";
+import { updateMetadataName } from "@blinkdisk/constants/update";
 import { log } from "@electron/log";
 import { store } from "@electron/store";
 import {
@@ -18,7 +19,7 @@ import {
   type UpdateOutcome,
 } from "@electron/update-history";
 import { sendWindow } from "@electron/window";
-import { app } from "electron";
+import { app, shell } from "electron";
 import electronUpdater from "electron-updater";
 import { compare, gt, prerelease, valid } from "semver";
 import { parse } from "yaml";
@@ -56,6 +57,7 @@ export type UpdateStatus = {
   currentVersion: string;
   history: UpdateHistoryEntry[];
   historyUnavailable?: boolean;
+  manual?: boolean;
   notes?: string;
   remindUntil?: number;
   phase?:
@@ -78,6 +80,11 @@ let status: UpdateStatus = {
   currentVersion: app.getVersion(),
   history: local.history,
   historyUnavailable,
+  // Squirrel.Mac requires Developer ID signing. DEB/RPM updates use the user's
+  // package manager; only AppImage supports our Linux in-app replacement path.
+  manual:
+    process.platform === "darwin" ||
+    (process.platform === "linux" && !process.env.APPIMAGE),
 };
 let pending: Promise<UpdateStatus> | undefined;
 let download: Promise<void> | undefined;
@@ -269,7 +276,7 @@ async function discoverUpdate(): Promise<UpdateStatus> {
     .parse(
       parse(
         await readResponse(
-          `${SOURCE_URL}/releases/download/${encodeURIComponent(latest.tag)}/latest.yml`,
+          `${SOURCE_URL}/releases/download/${encodeURIComponent(latest.tag)}/${updateMetadataName(process.platform, process.arch)}`,
           signal,
           64_000,
         ),
@@ -332,15 +339,17 @@ export function downloadUpdate(): Promise<void> {
   if (status.phase === "ready") return Promise.resolve();
   if (status.phase === "installing")
     return Promise.reject(new Error("Update is installing"));
-  if (!app.isPackaged || process.platform !== "win32")
-    return Promise.reject(
-      new Error("Updates require an installed Windows app"),
-    );
+  if (!app.isPackaged)
+    return Promise.reject(new Error("Updates require an installed app"));
   if (!status.available || !releaseTag || pending)
     return Promise.reject(new Error("No update available"));
   const version = status.version;
   if (!version) return Promise.reject(new Error("No update available"));
   clearReminder();
+  if (status.manual)
+    return shell.openExternal(
+      `${SOURCE_URL}/releases/tag/${encodeURIComponent(releaseTag)}`,
+    );
   const attempt = newUpdateAttempt(version, app.getVersion());
   const next = { ...local, history: [attempt, ...local.history].slice(0, 50) };
   saveUpdateState(next);
@@ -384,7 +393,7 @@ export function downloadUpdate(): Promise<void> {
       cancellation.cancel();
       throw new Error("Download stopped");
     }
-    // electron-updater verifies the downloaded installer against latest.yml.
+    // electron-updater verifies the download against the platform metadata.
     await autoUpdater.downloadUpdate(cancellationToken);
     if (cancelRequested || timedOut) throw new Error("Download stopped");
     recordOutcome("DOWNLOADED");

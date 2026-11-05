@@ -40,8 +40,16 @@ const config: KnipConfig = {
         "@tanstack/react-query",
         "@tanstack/react-router",
       ],
-      // Windows process, registry, ACL and screenshot fixtures use OS tools.
-      ignoreBinaries: ["taskkill", "reg", "icacls", "powershell.exe", "subst"],
+      // Build and smoke runners use native Windows/macOS tools.
+      ignoreBinaries: [
+        "taskkill",
+        "reg",
+        "icacls",
+        "powershell.exe",
+        "subst",
+        "lipo",
+        "codesign",
+      ],
     },
     "apps/api": {
       project: commonProject,

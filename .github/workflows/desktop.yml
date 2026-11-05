@@ -1,4 +1,4 @@
-name: Windows release check
+name: Desktop release check
 
 on:
   pull_request:
@@ -20,16 +20,24 @@ env:
   CSC_IDENTITY_AUTO_DISCOVERY: "false"
 
 jobs:
-  windows:
-    runs-on: windows-latest
-    timeout-minutes: 30
+  build:
+    name: ${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows
+            os: windows-latest
+          - platform: linux
+            os: ubuntu-24.04
+          - platform: macos
+            os: macos-15
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           submodules: true
-      - name: Validate release tag
-        if: github.ref_type == 'tag'
-        run: ./scripts/release-assets.ps1 -ValidateOnly
       - uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v5.0.0
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
@@ -40,21 +48,49 @@ jobs:
           go-version: "1.25.5"
           cache-dependency-path: apps/core/go.sum
       - run: pnpm install --frozen-lockfile
+      - name: Validate release tag
+        if: github.ref_type == 'tag'
+        run: node scripts/release-assets.mjs validate
+      - name: Install Linux packaging and smoke dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y rpm libarchive-tools libfuse2t64 xvfb dbus-x11 libgtk-3-0 libnss3 libasound2t64 libgbm1
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
       - run: pnpm lint:ci
       - run: pnpm types:desktop
       - run: pnpm test:desktop
-      - run: node --test scripts/lib/process.test.mjs
-      - run: pnpm build:windows
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
+      - run: node --test scripts/lib/*.test.mjs
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
+      - run: pnpm build:${{ matrix.platform }}
+      - run: pnpm smoke:package
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
       - run: pnpm smoke:windows
+        if: runner.os == 'Windows'
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
+      - name: Linux desktop smoke
+        if: runner.os == 'Linux'
+        run: xvfb-run -a dbus-run-session -- pnpm smoke:desktop --session-passwords
+        env:
+          DISKPOND_TEST_TMP: ${{ runner.temp }}
+      - name: macOS desktop smoke
+        if: runner.os == 'macOS'
+        run: pnpm smoke:desktop --session-passwords
         env:
           DISKPOND_TEST_TMP: ${{ runner.temp }}
       - name: Assemble release assets
         if: github.ref_type == 'tag'
-        run: ./scripts/release-assets.ps1
+        run: node scripts/release-assets.mjs stage ${{ matrix.platform }}
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: github.ref_type == 'tag'
         with:
-          name: windows-release
+          name: desktop-release-${{ matrix.platform }}
           path: release-assets/*
+          compression-level: 0
           if-no-files-found: error
           retention-days: 7

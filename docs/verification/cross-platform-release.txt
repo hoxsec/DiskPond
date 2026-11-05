@@ -1,0 +1,73 @@
+# Cross-platform build/release verification
+
+2026-11-05. Local implementation of the owner's request for Linux and macOS
+delivery alongside Windows, following BlinkDisk's desktop release matrix.
+Local results are recorded below. The subsequent owner-authorized v0.1.7 source
+publication and clean release CI are tracked in desktop-v0.1.7.txt.
+
+## Implemented
+
+- Windows x64 NSIS; Linux x64/ARM64/ARMv7 AppImage, DEB and RPM; macOS universal
+  Intel/Apple Silicon DMG and ZIP.
+- Root build:linux/build:macos commands and all required pinned engine builds.
+  macOS combines the engine slices with lipo and re-signs the resulting binary.
+  The app uses ad-hoc signing and the library-validation entitlement required by
+  that signing mode; no Apple signing/notarization secrets are required.
+- Three native Actions build/check jobs, staged platform artifacts and one
+  publish job gated on all three. Publication revalidates metadata and adds exact
+  application/core source archives and a single SHA256SUMS.txt.
+- Expected filenames, versions, SHA-512 hashes and optional metadata sizes are
+  checked before staging and again before publication. Missing platforms and
+  unexpected assets are rejected. Builder debug files/unpacked apps are excluded.
+- Packaged ASAR/resource/architecture checks and a disposable bundled-core
+  snapshot/restore hash check. The existing Windows installed updater smoke is
+  retained; Linux/macOS also run the built desktop session-credential smoke.
+- Platform/architecture-specific update discovery. Linux AppImage supports the
+  existing explicit native download/install flow. macOS and DEB/RPM offer manual
+  downloads from the exact release page. No fake install history is recorded for
+  opening that page.
+- The connection test's protected-storage mock now supplies the Linux backend;
+  CI uses runner.temp for tests, avoiding macOS's symlinked default temp path.
+
+Reference inspected: blinkdisk/blinkdisk main .github/workflows/deploy-desktop.yml,
+apps/electron/electron.builder.ts, and the published v1.11.0 asset inventory.
+DiskPond's pinned engine remains 0f31eefe409cb4f0571baf65abd7d063784598cd.
+
+## Local results
+
+- pnpm install --frozen-lockfile: passed; lockfile unchanged.
+- pnpm lint:ci and pnpm types:desktop: passed.
+- pnpm test:desktop: 772 tests passed (including six new OS/architecture update
+  cases). Release/process Node tests: nine passed.
+- actionlint 1.7.12: both changed workflows passed (shellcheck disabled because
+  it is not installed on this Windows host).
+- pnpm build:windows: passed. Repackaged after the bundled provenance document
+  changed; the resource smoke correctly rejected the earlier stale copy.
+- pnpm smoke:package: passed on Windows, including package identity, desktop-only
+  contents, notices and actual bundled-engine snapshot/restore hashes.
+- pnpm smoke:desktop --session-passwords: passed in isolated Windows app data.
+- Release assembly integration: staged the actual Windows installer/blockmap/feed,
+  rejected an incomplete platform set, then combined synthetic Linux/macOS assets
+  to exercise finalization. Both source ZIPs were produced and all 27 checksum
+  entries matched. This tests assembly, not Linux/macOS installer execution.
+- Pinned core cross-compilation with CGO_ENABLED=0: Linux amd64, arm64 and arm
+  (GOARM=7), plus Darwin amd64 and arm64, all passed. The Linux amd64 binary ran
+  under Ubuntu 24.04 WSL and passed a disposable snapshot/delete/restore exercise
+  with Unicode and empty-file content checks and SHA-256 comparison.
+- git diff --check: passed.
+- pnpm unused still reports existing unused fixture entries
+  (cloud-provider-ui.tsx, update-activity-fixture.mjs, update-ui.tsx) and the
+  existing unlisted pwsh command in installed-update.mjs. The new macOS commands
+  are declared in Knip's native-tool list.
+
+## Remaining platform evidence
+
+The first native Linux/macOS packaging and desktop CI runs are pending. macOS
+universal merge/signature verification and app launch require the macOS runner;
+cross-compiling Mach-O engine slices on Windows does not establish those results.
+Linux ARM packages are built on x64 and receive architecture checks; ARM desktop
+execution needs native devices/runners. Linux AppImage updater replacement,
+DEB/RPM installation and Gatekeeper handling require platform integration evidence.
+The Windows installed upgrade/update smoke will run on the clean Actions runner.
+
+Instructions and complete asset names: ../desktop-release.txt.

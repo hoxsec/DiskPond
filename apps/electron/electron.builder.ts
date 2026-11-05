@@ -29,6 +29,8 @@ export default {
     repo: RELEASE_REPOSITORY,
     vPrefixedTagName: true,
     releaseType: "draft",
+    // Discovery selects a release tag first, including prerelease tags.
+    channel: "latest",
   },
   extraResources: [
     { from: "icon/icon.png", to: "assets/icon.png" },
@@ -82,7 +84,9 @@ export default {
   mac: {
     appId: APP_ID,
     hardenedRuntime: true,
-    notarize: true,
+    // Secret-free releases use ad-hoc signing, including on Apple Silicon.
+    identity: "-",
+    notarize: false,
     category: "public.app-category.utilities",
     entitlements: "assets/entitlements.mac.plist",
     entitlementsInherit: "assets/entitlements.mac.plist",
@@ -110,6 +114,7 @@ export default {
   },
   linux: {
     appId: APP_ID,
+    maintainer: "DiskPond contributors <hoxsec@users.noreply.github.com>",
     category: "Utility",
     executableName: APP_SLUG,
     target: [

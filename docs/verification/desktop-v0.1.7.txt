@@ -1,0 +1,18 @@
+# DiskPond v0.1.7 release verification
+
+2026-11-05. Owner-authorized commit, push and new stable desktop release.
+
+## Preparation
+
+Version: v0.1.7.
+Core: 0f31eefe409cb4f0571baf65abd7d063784598cd (unchanged).
+
+The release introduces Linux x64/ARM64/ARMv7 AppImage/DEB/RPM packages and a
+universal Intel/Apple Silicon macOS DMG/ZIP alongside Windows x64 NSIS.
+Build, assembly and local validation details are in cross-platform-release.txt.
+
+## Publication status
+
+Source push, clean three-platform CI, annotated tag, release publication and
+downloaded-asset verification are pending. This record will be updated with the
+actual commit, workflow results and checksum verification after publication.

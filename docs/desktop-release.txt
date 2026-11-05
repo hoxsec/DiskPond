@@ -1,0 +1,133 @@
+# Desktop builds and releases
+
+The desktop release workflow builds Windows, Linux and macOS on native GitHub
+Actions runners. New version tags publish one release after every platform passes.
+v0.1.7 introduces the additional Linux and macOS downloads; v0.1.6 was Windows-only.
+See verification/desktop-v0.1.7.txt for publication status and
+verification/cross-platform-release.txt for implementation verification.
+
+## Packages
+
+| Platform | Architectures | Release assets |
+| --- | --- | --- |
+| Windows | x64 | DiskPond-Windows.exe (NSIS), blockmap, latest.yml |
+| macOS | Intel x64 + Apple Silicon ARM64 in one universal app | DiskPond-macOS.dmg, DiskPond-macOS.zip, both blockmaps, latest-mac.yml |
+| Linux | x64 | DiskPond-Linux-x86_64.AppImage, DiskPond-Linux-amd64.deb, DiskPond-Linux-x86_64.rpm, latest-linux.yml |
+| Linux | ARM64 | DiskPond-Linux-arm64.AppImage, DiskPond-Linux-arm64.deb, DiskPond-Linux-aarch64.rpm, latest-linux-arm64.yml |
+| Linux | ARMv7 | DiskPond-Linux-armv7l.AppImage, .deb and .rpm, latest-linux-arm.yml |
+
+All packages contain the desktop app, matching pinned backup engine, app assets,
+licenses and provenance. Website files are excluded. A single SHA256SUMS.txt covers
+all platforms, update metadata, source archives, notes and accompanying documents.
+
+## Install
+
+Download from https://github.com/hoxsec/DiskPond/releases and compare the asset's
+SHA-256 with SHA256SUMS.txt (Windows: Get-FileHash; Linux: sha256sum; macOS:
+shasum -a 256).
+
+- Windows: run DiskPond-Windows.exe. See windows-release.txt for the backup and
+  recovery walkthrough and Windows-specific installation details.
+- macOS: open the DMG and drag DiskPond into Applications. The app is ad-hoc signed
+  and not Apple-notarized. macOS may require Privacy & Security > Open Anyway for
+  a verified download. Grant access to the folders you want to back up; protected
+  locations may require Full Disk Access in System Settings.
+- Linux AppImage: mark the matching file executable (chmod +x) and run it from a
+  writable directory. Some distributions require FUSE 2 (Ubuntu 24.04:
+  libfuse2t64); --appimage-extract-and-run is an alternative when FUSE is absent.
+- Linux DEB/RPM: install the matching architecture using your distribution's
+  package manager, for example sudo apt install ./DiskPond-Linux-amd64.deb or
+  sudo dnf install ./DiskPond-Linux-x86_64.rpm.
+
+Linux requires a graphical desktop. A working Secret Service/KWallet backend is
+needed to persist protected vault credentials; without one, DiskPond reports
+session-only credentials and they must be re-entered after restart.
+
+Create a new vault for new storage, or connect an existing vault to recover its
+snapshots. Keep its encryption password recoverable. Run a backup, inspect its
+terminal result, then restore a sample to a separate folder. Scheduled backups
+require DiskPond to remain running; Quit stops the desktop and its engines.
+
+## Updates
+
+DiskPond checks the metadata for the current OS and CPU architecture. Stable
+installations consider stable releases; prereleases also consider prereleases.
+
+Windows and Linux AppImage installations provide user-triggered in-app download
+and restart/install, with the existing activity checks and update history.
+macOS and Linux DEB/RPM installations show Download manually, opening the exact
+release page. Finish active operations, quit DiskPond, then replace the app or
+install the new package. Squirrel.Mac requires Developer ID signing; the current
+ad-hoc macOS build deliberately uses manual installation.
+
+## Build locally
+
+Use the pinned toolchain and recursive checkout in ../DEVELOPMENT.txt. Build on
+the corresponding OS:
+
+  pnpm install --frozen-lockfile
+  pnpm build:windows       # Windows x64
+  pnpm build:linux         # Linux; builds all three Linux architectures
+  pnpm build:macos         # macOS with Xcode Command Line Tools; universal app
+  pnpm smoke:package      # inspect package contents and restore with bundled core
+
+Only run the build command for your host OS. The Linux release runner is x64;
+install rpm, libarchive-tools and the Electron desktop libraries on a local Linux
+build host. macOS requires lipo and codesign from Xcode Command Line Tools.
+Build outputs are in apps/electron/dist. Build wrappers pass --publish never.
+
+pnpm build:core builds only the host engine for development. Packaging wrappers
+use pnpm build:core --package: pure-Go Linux engines for x64/ARM64/ARMv7, or both
+macOS engines merged with lipo and ad-hoc signed. Cross-built engines are not
+executed on an incompatible host. The core gitlink is checked before compilation.
+
+For tag reproduction, clone the desired version recursively and set GITHUB_REF_TYPE
+to tag and GITHUB_REF_NAME to that version before building. In bash:
+
+  GITHUB_REF_TYPE=tag GITHUB_REF_NAME=vVERSION pnpm build:linux
+
+In PowerShell:
+
+  $env:GITHUB_REF_TYPE = 'tag'
+  $env:GITHUB_REF_NAME = 'vVERSION'
+  pnpm build:windows
+
+## Publish
+
+Bump apps/electron/package.json, add docs/releases/vVERSION.txt, commit and push
+the reviewed source, then push a new annotated tag. Supported tags are
+vMAJOR.MINOR.PATCH, optionally followed by -alpha.N, -beta.N or -rc.N. Never move
+a published tag. Remove an unpublished failed draft before rerunning the same
+unchanged tag; source fixes require a new version.
+
+.github/workflows/desktop.yml runs on pull requests, main/integration pushes,
+manual dispatch and as the release workflow's reusable check. Its Windows,
+Ubuntu 24.04 and macOS 15 jobs run lint, desktop types/unit tests, script tests,
+packaging and packaged contents/native-engine restore checks. Windows also runs
+the installed upgrade/updater smoke; Linux and macOS run the built desktop smoke
+with session-only test credentials. Linux ARM executables receive architecture
+checks but do not run on the x64 Linux runner. The macOS runner executes the native
+slice and verifies both slices in the universal app and engine.
+
+On tags, each job stages only its expected installers/archives, blockmaps and
+metadata through scripts/release-assets.mjs. Every metadata version, file list,
+SHA-512 and reported size must match its build. The publishing job downloads all
+three artifacts, revalidates the complete set, adds the exact application/core
+source ZIPs, notices and notes, then generates one SHA-256 manifest. It creates a
+draft, uploads everything and publishes only after those steps succeed. Stable
+tags become Latest; prerelease tags do not. No signing secrets are required.
+
+To inspect assembly locally, set the tag environment above and run:
+
+  node scripts/release-assets.mjs validate
+  node scripts/release-assets.mjs stage linux --directory release-assets-linux
+
+Use windows or macos for the other build hosts. Copy the staged files from all
+three hosts into an empty release-assets directory in the matching recursive
+checkout, then run node scripts/release-assets.mjs finalize. Finalization requires
+the complete platform set and produces source archives/checksums once.
+
+The manual desktop-extended.yml workflow retains the additional Windows provider,
+compatibility, full-volume and offline-recovery certification suites. Native Linux
+ARM execution, Intel Mac execution, distro-specific installer/update integration
+and Apple Developer ID signing/notarization need their own platform evidence.

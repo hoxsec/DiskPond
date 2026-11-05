@@ -27,6 +27,7 @@ out/
 frontend/
 build/
 dist/
+release-assets/
 binaries/
 .vinxi
 .output

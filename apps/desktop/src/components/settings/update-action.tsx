@@ -45,7 +45,7 @@ export function UpdateAction() {
                 })
               : ready
                 ? t("install")
-                : t("download")}
+                : t(status.manual ? "manual" : "download")}
       </Button>
       {downloading ? (
         <>

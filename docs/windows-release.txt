@@ -2,7 +2,7 @@
 
 **[Download DiskPond for Windows](https://github.com/hoxsec/DiskPond/releases/latest/download/DiskPond-Windows.exe)** · [Release notes and checksums](https://github.com/hoxsec/DiskPond/releases/latest)
 
-**v0.1.6** targets **Windows 10/11 x64**, adding the DiskPond Cloud connection beside the S3 providers and removing application-repository .md files. The installer is unsigned. Release verification at verification/windows-v0.1.6.txt records publication status and checks; broader OS/provider certification remains deferred.
+**v0.1.7** targets **Windows 10/11 x64** and adds Linux and macOS packages to the same release. The Windows installer remains unsigned. Release verification at verification/desktop-v0.1.7.txt records publication status and checks; see desktop-release.txt for all platforms.
 
 `DiskPond-Windows.exe` contains the desktop app, backup engine, app assets and licenses. Marketing pages, website build output, pricing copy and product screenshots are excluded. They are available in the repository/application source ZIP and deployed separately as a static website.
 
@@ -29,11 +29,11 @@ Stable installations check stable releases; prerelease installations also consid
 ## Build this release
 
 ```powershell
-git clone --branch v0.1.6 --recurse-submodules https://github.com/hoxsec/DiskPond.git
+git clone --branch v0.1.7 --recurse-submodules https://github.com/hoxsec/DiskPond.git
 cd DiskPond
 pnpm install --frozen-lockfile
 $env:GITHUB_REF_TYPE = 'tag'
-$env:GITHUB_REF_NAME = 'v0.1.6'
+$env:GITHUB_REF_NAME = 'v0.1.7'
 pnpm build:windows
 ```
 
@@ -41,11 +41,14 @@ Use the toolchain in ../DEVELOPMENT.txt. GitHub's automatic source archives omit
 
 ## Publish a version
 
+The current build/release automation covers Windows, Linux and macOS. See
+desktop-release.txt for the complete package matrix and native build instructions.
+
 Release publication requires owner authorization. Bump `apps/electron/package.json`, add `docs/releases/vVERSION.txt` release notes, commit and push the reviewed batch, then push a new annotated version tag. Supported tags are `vMAJOR.MINOR.PATCH` or `vMAJOR.MINOR.PATCH-alpha.N`, `-beta.N`, `-rc.N`. The tag supplies the packaged application version. Never move a published tag. Remove an unpublished failed draft before rerunning the same unchanged tag; code fixes require a new version.
 
-`.github/workflows/release.yml` calls the compact Windows check used for pull requests and main: lint, types, existing unit tests, pinned-core/NSIS build, installed upgrade and updater handoff/relaunch, plus bundled-engine recovery hashes. Only passing checks hand assets to the publishing job. It creates a draft, uploads all assets, then publishes it. Stable versions become GitHub's **Latest** release; prerelease tags do not. No signing secrets are required for the unsigned release path.
+`.github/workflows/release.yml` calls the three-platform desktop check used for pull requests and main. Windows retains lint, types, unit tests, pinned-core/NSIS build, installed upgrade and updater handoff/relaunch, plus bundled-engine recovery hashes. Linux/macOS add their packaging and smoke checks. Only passing checks from all platforms hand assets to the publishing job. It creates a draft, uploads all assets, then publishes it. Stable versions become GitHub's **Latest** release; prerelease tags do not. No signing secrets are required.
 
-Assets include `DiskPond-Windows.exe`, its blockmap, `latest.yml` update metadata, SHA-256 checksums, matching application/core source ZIPs, licenses, provenance and build instructions. Download and verify the published assets before closing the release record.
+Windows assets include `DiskPond-Windows.exe`, its blockmap and `latest.yml`. The same release includes Linux/macOS packages and metadata, one SHA-256 manifest, matching application/core source ZIPs, licenses, provenance and build instructions. Download and verify the published assets before closing the release record.
 
 ## Verification scope
 

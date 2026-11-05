@@ -135,6 +135,26 @@ The owner requested commit/push publication and continuation with TODO item 2 in
 
 ## Distribution and later updates
 
+### Cross-platform build/release automation (2026-11-05)
+
+The owner requested Linux and macOS releases matching BlinkDisk's packaging model.
+The desktop workflow now builds Windows NSIS, Linux x64/ARM64/ARMv7 AppImage/DEB/RPM,
+and universal Intel/Apple Silicon macOS DMG/ZIP on native runners. Root packaging
+wrappers build the matching pinned engines; macOS merges and ad-hoc signs its
+engine with lipo/codesign. Electron packaging keeps the inherited formats, adds
+secret-free macOS ad-hoc signing and its required library-validation entitlement,
+and makes the release channel explicit.
+
+Cross-platform Node asset assembly replaces the Windows-only PowerShell script,
+validates every platform's metadata/version/hash and joins all assets with exact
+source archives and one checksum manifest before publication. New package smoke
+checks cover desktop-only contents, native executable architecture and bundled-core
+recovery. Update discovery selects the matching OS/architecture feed; Linux
+AppImage uses the existing explicit in-app updater, while ad-hoc macOS and Linux
+DEB/RPM offer the matching release for manual installation. Verification and
+limitations are recorded in docs/verification/cross-platform-release.txt. Core
+source/gitlink, persisted formats and license notices are retained.
+
 ### v0.1.1 stable release (2026-11-03)
 
 The owner-authorized available-space feature, compact Activity rows and Windows pnpm launcher fix are published as **v0.1.1**, GitHub Latest from `a3a4647`. Activity's inherited calendar now delegates backup/latest-issue rows to a shared expandable entry with keyboard support and preserved history/profile links; English labels and fixture coverage accompany it. The desktop process wrapper supports both JavaScript and standalone pnpm entry points, with a new subprocess regression in compact CI. Release CI, installed recovery and all downloaded asset checksums passed. [Release record](docs/verification/windows-v0.1.1.md).
