@@ -11,7 +11,7 @@ The release introduces Linux x64/ARM64/ARMv7 AppImage/DEB/RPM packages and a
 universal Intel/Apple Silicon macOS DMG/ZIP alongside Windows x64 NSIS.
 Build, assembly and local validation details are in cross-platform-release.txt.
 
-## Publication status
+## Preparation and CI history
 
 Source preparation 65430feed5739233f94456498a59033a0fbf9b66 was pushed to main.
 First native CI: https://github.com/hoxsec/DiskPond/actions/runs/42029229482
@@ -37,5 +37,44 @@ version, for both built and development smoke, and asserts the reported version.
 Both entry-package smoke modes passed locally on Windows with session-only
 credentials before the next CI push.
 
-Clean three-platform CI, annotated tag, release publication and downloaded-asset
-verification are pending. This record will be updated after publication.
+Final source: 89ef339ab7e47f2e6ad6b292e665e10b1c7c2ac7.
+Clean native CI: https://github.com/hoxsec/DiskPond/actions/runs/42032447248
+
+All three jobs passed: Linux in 10m29s, Windows in 5m54s and macOS in 7m23s.
+This includes all platform packages and update metadata, bundled-engine recovery,
+Linux/macOS desktop smoke and Windows installed replacement/updater behavior.
+
+## Publication status
+
+Annotated tag v0.1.7 was created at the final source commit and pushed to origin.
+Tagged release workflow: https://github.com/hoxsec/DiskPond/actions/runs/42034293849
+
+All tagged jobs passed: Linux in 8m16s, macOS in 7m25s, Windows in 4m47s and
+publication in 2m41s. Platform staging and combined release verification passed.
+Published 2026-11-05T13:27:21Z as stable/Latest, with no draft or prerelease flag:
+https://github.com/hoxsec/DiskPond/releases/tag/v0.1.7
+
+The release API confirms 28 uploaded assets:
+- Windows x64 NSIS installer, blockmap and latest.yml.
+- macOS universal DMG/ZIP, both blockmaps and latest-mac.yml.
+- Linux x64/ARM64/ARMv7 AppImage, DEB and RPM packages, plus three update feeds.
+- Application/core source ZIPs, both licenses, UPSTREAM.txt, DEVELOPMENT.txt,
+  RELEASE-NOTES.txt and SHA256SUMS.txt.
+
+## Downloaded-asset verification
+
+Downloaded all 28 assets with gh release download v0.1.7 and verified:
+- The API and downloaded directory match the complete expected asset inventory.
+- Every download matches its GitHub SHA-256 digest and byte size, including the
+  checksum manifest. All 27 entries in SHA256SUMS.txt match the downloaded files.
+- All five update feeds specify 0.1.7, the expected package filenames, matching
+  SHA-512 hashes, primary entries and package sizes, using validateAssets from
+  scripts/lib/release-assets.mjs.
+- Both source ZIP commit comments match the application/core commits above and
+  the release notes. Downloaded RELEASE-NOTES.txt matches the published body.
+
+SHA256SUMS.txt SHA-256:
+4bdafffb2fc686df85f99cf0e757e8aec7796cbe3d2c340b1c498a34802a914e
+
+The remote annotated tag resolves to the verified final source commit. The
+GitHub latest-release endpoint confirms v0.1.7 is the stable/Latest release.

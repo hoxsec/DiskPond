@@ -2,8 +2,8 @@
 
 2026-11-05. Local implementation of the owner's request for Linux and macOS
 delivery alongside Windows, following BlinkDisk's desktop release matrix.
-Local results are recorded below. The subsequent owner-authorized v0.1.7 source
-publication and clean release CI are tracked in desktop-v0.1.7.txt.
+Local results are recorded below. The owner-authorized v0.1.7 source publication,
+clean release CI and stable release are tracked in desktop-v0.1.7.txt.
 
 ## Implemented
 
@@ -60,14 +60,24 @@ DiskPond's pinned engine remains 0f31eefe409cb4f0571baf65abd7d063784598cd.
   existing unlisted pwsh command in installed-update.mjs. The new macOS commands
   are declared in Knip's native-tool list.
 
-## Remaining platform evidence
+## Native CI and platform evidence
 
-The first native Linux/macOS packaging and desktop CI runs are pending. macOS
-universal merge/signature verification and app launch require the macOS runner;
-cross-compiling Mach-O engine slices on Windows does not establish those results.
+Native Windows/Linux/macOS CI passed on source
+89ef339ab7e47f2e6ad6b292e665e10b1c7c2ac7:
+https://github.com/hoxsec/DiskPond/actions/runs/42032447248
+
+All package builds and metadata checks passed. macOS verified universal app/engine
+architectures, ad-hoc signatures and desktop launch. Linux verified all nine
+distributions and its desktop smoke. Each host exercised bundled-engine recovery;
+Windows also passed installed replacement and in-app updater handoff/relaunch.
+
+The tagged release repeated these checks and passed platform staging, combined
+asset validation and publication as stable/Latest:
+https://github.com/hoxsec/DiskPond/actions/runs/42034293849
+https://github.com/hoxsec/DiskPond/releases/tag/v0.1.7
+
 Linux ARM packages are built on x64 and receive architecture checks; ARM desktop
 execution needs native devices/runners. Linux AppImage updater replacement,
 DEB/RPM installation and Gatekeeper handling require platform integration evidence.
-The Windows installed upgrade/update smoke will run on the clean Actions runner.
 
 Instructions and complete asset names: ../desktop-release.txt.
