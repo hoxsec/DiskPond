@@ -1,0 +1,55 @@
+{
+  "title": "Dostępna jest nowa aktualizacja!",
+  "description": "Dostępna jest nowa wersja DiskPond.",
+  "restart": "Uruchom ponownie",
+  "downloading": "Pobieranie aktualizacji...",
+  "error": {
+    "title": "Automatyczna aktualizacja nie powiodła się",
+    "description": "Wystąpił błąd podczas aktualizacji. Pobierz aktualizację ręcznie przyciskiem poniżej."
+  },
+  "dismiss": {
+    "title": "Ukryć aktualizację?",
+    "warning": {
+      "title": "Mogą wystąpić problemy",
+      "description": "Możesz zainstalować aktualizację DiskPond później."
+    },
+    "cancel": "Anuluj",
+    "confirm": "Ukryj aktualizację"
+  },
+  "manual": "Pobierz ręcznie",
+  "install": "Uruchom ponownie i zainstaluj",
+  "download": "Pobierz aktualizację",
+  "downloadProgress": "Pobieranie: {{percent}}%",
+  "failed": "Aktualizacja nie powiodła się. Spróbuj ponownie.",
+  "installing": "Ponowne uruchamianie w celu instalacji…",
+  "cancel": "Anuluj pobieranie",
+  "canceling": "Anulowanie pobierania…",
+  "canceled": "Pobieranie anulowane",
+  "preparing": "Przygotowywanie pobierania…",
+  "transfer": "{{transferred}} z {{total}}",
+  "speed": "{{speed}}/s",
+  "waiting": "Oczekiwanie na zakończenie tworzenia kopii i przywracania",
+  "activityUnknown": "Informacje o aktywności są niedostępne. Ponawianie…",
+  "activityChecking": "Sprawdzanie aktywności tworzenia kopii i przywracania…",
+  "notes": "Co nowego",
+  "noNotes": "Brak informacji o wydaniu",
+  "remindLater": "Przypomnij później",
+  "reminderDelay": "Za 24 godziny",
+  "reminderSet": "Przypomnienie ustawione na jutro",
+  "history": "Historia aktualizacji",
+  "currentVersion": "Zainstalowana wersja: {{version}}",
+  "versionChange": "{{from}} → {{to}}",
+  "emptyHistory": "Nie było jeszcze prób aktualizacji",
+  "historyUnavailable": "Nie udało się zapisać historii aktualizacji",
+  "outcomes": {
+    "DOWNLOADING": "Pobieranie",
+    "DOWNLOADED": "Pobrano",
+    "CANCELED": "Anulowano",
+    "DOWNLOAD_FAILED": "Pobieranie nie powiodło się",
+    "INTERRUPTED": "Pobieranie przerwane",
+    "INSTALLING": "Zażądano instalacji",
+    "INSTALLED": "Zainstalowano",
+    "INSTALL_FAILED": "Instalacja nie powiodła się",
+    "NOT_INSTALLED": "Instalacja niepotwierdzona"
+  }
+}

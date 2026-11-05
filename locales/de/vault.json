@@ -1,0 +1,524 @@
+{
+  "noVaults": {
+    "title": "Dateien sichern und wiederherstellen",
+    "description": "Erstelle einen verschlüsselten Tresor in deinem eigenen Speicher oder verbinde einen Tresor, um vorhandene Sicherungen wiederherzustellen.",
+    "refresh": "Tresore neu laden",
+    "add": "Tresor hinzufügen"
+  },
+  "home": {
+    "title": "Tresore",
+    "createVault": "Neuen Tresor erstellen",
+    "connectVault": "Vorhandenen Tresor verbinden",
+    "count_one": "{{count}} Tresor gefunden",
+    "count_other": "{{count}} Tresore gefunden"
+  },
+  "createDialog": {
+    "back": "Zurück",
+    "title": {
+      "default": "Neuen Tresor erstellen",
+      "connect": "Vorhandenen Tresor verbinden"
+    },
+    "description": "Wähle ein leeres Ziel für einen neuen verschlüsselten Tresor.",
+    "connectDescription": "Wähle den Speicher, der deinen Tresor enthält. Du benötigst dessen vorhandenes Verschlüsselungspasswort.",
+    "providers": {
+      "search": {
+        "label": "Speicheranbieter suchen",
+        "placeholder": "Anbieter suchen..."
+      }
+    },
+    "config": {
+      "submit": "Weiter",
+      "checking": "Das Ziel wird geprüft. Bitte warten.",
+      "validationError": {
+        "title": "Speichereinstellungen konnten nicht geprüft werden",
+        "rcloneRemoteNotConfigured": "Das rclone-Remote „{{remote}}“ ist auf diesem Computer nicht eingerichtet. Prüfe den Remote-Namen in deiner rclone-Konfiguration und versuche es erneut."
+      },
+      "existsError": {
+        "title": "Tresor existiert bereits",
+        "description": "Dieser Tresor ist auf diesem Computer bereits unter dem Namen „{{name}}“ verbunden."
+      }
+    },
+    "details": {
+      "name": {
+        "label": "Tresorname",
+        "placeholder": "Tresornamen eingeben"
+      },
+      "password": {
+        "label": "Verschlüsselungspasswort",
+        "placeholder": "Verschlüsselungspasswort des Tresors eingeben"
+      },
+      "confirmPassword": {
+        "label": "Verschlüsselungspasswort bestätigen",
+        "placeholder": "Verschlüsselungspasswort des Tresors bestätigen"
+      },
+      "warning": {
+        "title": "Vergiss dieses Passwort niemals",
+        "description": "Bewahre dieses Verschlüsselungspasswort sicher auf. DiskPond kann es nicht zurücksetzen. Du benötigst es, um deine Sicherungen auf einem anderen Computer wiederherzustellen."
+      },
+      "submit": "Tresor erstellen",
+      "connect": "Tresor verbinden",
+      "connectHint": "Verwende das vorhandene Tresorpasswort. Beim Verbinden werden ältere Repository-Metadaten gegebenenfalls unter ihren aktuellen Namen kopiert; vorhandene Sicherungen bleiben erhalten.",
+      "creating": "Tresor wird erstellt. Bitte warten.",
+      "connecting": "Tresor wird verbunden. Bitte warten.",
+      "failed": "Tresor konnte nicht geöffnet werden"
+    }
+  },
+  "connectionErrors": {
+    "password": "Das Verschlüsselungspasswort ist falsch. Gib das vorhandene Tresorpasswort einschließlich aller Leerzeichen ein.",
+    "exists": "Dieses Ziel enthält bereits einen Tresor. Wähle Vorhandenen Tresor verbinden oder ein leeres Ziel.",
+    "notEmpty": "Dieses Ziel enthält Dateien oder Repository-Daten. Wähle ein leeres Ziel; entferne keine vorhandenen Sicherungen, um fortzufahren.",
+    "missing": "Hier wurde kein Tresor gefunden. Prüfe das Ziel oder verwende Neuen Tresor erstellen für ein leeres Ziel.",
+    "duplicate": "Dieser Tresor ist auf diesem Computer bereits verbunden. Öffne ihn aus der Tresorliste.",
+    "invalid": "Die Repository-Identität konnte nicht gelesen werden. Prüfe, ob dies ein vollständiger, kompatibler Tresor ist.",
+    "destinationMissing": "Der Zielordner fehlt oder ist kein Ordner. Verbinde das Laufwerk erneut oder wähle einen vorhandenen Ordner.",
+    "unavailable": "Der Tresor konnte nicht geöffnet werden. Prüfe das Ziel, die Zugriffsrechte, die Anbieter-Zugangsdaten und die Repository-Dateien und versuche es erneut."
+  },
+  "setup": {
+    "title": "Tresor einrichten",
+    "description": "Du musst diesen Tresor vor der Verwendung einrichten.",
+    "password": {
+      "label": "Verschlüsselungspasswort",
+      "placeholder": "Verschlüsselungspasswort des Tresors eingeben"
+    },
+    "submit": "Weiter"
+  },
+  "passwordStorage": {
+    "protected": {
+      "title": "Speicherung der Tresor-Zugangsdaten",
+      "description": "DiskPond nutzt den sicheren Speicher dieses Computers, um Tresorpasswörter und Anbieterverbindungen zu speichern. Bewahre deine Passwörter und Speicher-Zugangsdaten separat auf, um Daten auf einem anderen Computer wiederherstellen zu können."
+    },
+    "session": {
+      "title": "Tresor-Zugangsdaten gelten nur für diese Sitzung",
+      "description": "Einige Zugangsdaten können nicht sicher gespeichert werden und bleiben bis zum Beenden von DiskPond im Arbeitsspeicher. Gib nach einem Neustart das angeforderte Tresorpasswort und die Anbieter-Verbindungsdaten ein, damit geplante Sicherungen fortgesetzt werden können.",
+      "recovery": "Stelle den Zugriff auf den Schlüsselspeicher des Systems wieder her und starte DiskPond neu, um das Speichern erneut zu versuchen."
+    },
+    "locked": {
+      "title": "Tresor-Zugangsdaten erneut eingeben",
+      "description": "Gespeicherte Zugangsdaten konnten nicht entsperrt oder migriert werden. Öffne den betroffenen Tresor und gib sein Passwort sowie angeforderte Anbieter-Verbindungsdaten ein. Seine Sicherungen bleiben in deinem Speicher erhalten."
+    },
+    "cleanupFailed": {
+      "title": "Gespeicherte Zugangsdaten müssen bereinigt werden",
+      "description": "DiskPond konnte eine alte Kopie der Zugangsdaten nicht migrieren oder entfernen. Prüfe den Zugriff auf den App-Datenordner von DiskPond und starte die App erneut. Die alte Kopie liegt möglicherweise weiterhin ungeschützt auf dem Datenträger."
+    },
+    "unknown": {
+      "title": "Status des Zugangsdaten-Speichers nicht verfügbar",
+      "description": "Starte DiskPond neu, um den Zugangsdaten-Speicher zu prüfen. Halte deine Tresorpasswörter und Anbieter-Verbindungsdaten für die erneute Eingabe bereit."
+    },
+    "saveFailed": "Zugangsdaten konnten nicht gespeichert werden. Prüfe vor dem Neustart den Zugriff auf den App-Datenordner von DiskPond."
+  },
+  "starting": {
+    "title": "Tresor wird gestartet",
+    "description": "Dein Tresor wird initialisiert. Das dauert normalerweise einige Sekunden."
+  },
+  "failed": {
+    "retry": "Erneut versuchen"
+  },
+  "status": {
+    "RUNNING": "Aktiv",
+    "SETUP": "Einrichtung erforderlich",
+    "STARTING": "Wird gestartet",
+    "FAILED": "Start fehlgeschlagen"
+  },
+  "providers": {
+    "CLOUDBLINK": {
+      "name": "Nicht unterstützter verwalteter Speicher",
+      "shortName": "Nicht unterstützter Speicher"
+    },
+    "INTERNAL_DRIVE": {
+      "name": "Dieser Computer",
+      "shortName": "Dieser Computer",
+      "description": "In einem Ordner auf diesem Computer speichern",
+      "fields": {
+        "path": {
+          "label": "Zielordner für Sicherungen",
+          "placeholder": "Zielordner auswählen",
+          "dialogTitle": "Zielordner für Sicherungen auswählen"
+        }
+      }
+    },
+    "EXTERNAL_DRIVE": {
+      "name": "Externes Laufwerk",
+      "shortName": "Externes Laufwerk",
+      "description": "Auf einem externen Laufwerk speichern",
+      "fields": {
+        "path": {
+          "label": "Ordner auf externem Laufwerk",
+          "placeholder": "Ordner auf externem Laufwerk auswählen",
+          "dialogTitle": "Ordner auf externem Laufwerk auswählen"
+        }
+      }
+    },
+    "NETWORK_DRIVE": {
+      "name": "Netzlaufwerk",
+      "shortName": "Netzlaufwerk",
+      "description": "Auf einem Netzlaufwerk speichern",
+      "fields": {
+        "path": {
+          "label": "Ordner auf Netzlaufwerk",
+          "placeholder": "Ordner auf Netzlaufwerk auswählen",
+          "dialogTitle": "Ordner auf Netzlaufwerk auswählen"
+        }
+      }
+    },
+    "FILESYSTEM": {
+      "name": "Dieser Computer",
+      "shortName": "Dieser Computer",
+      "description": "In einem Ordner auf diesem Computer speichern",
+      "fields": {
+        "path": {
+          "label": "Zielordner für Sicherungen",
+          "placeholder": "Zielordner auswählen",
+          "dialogTitle": "Zielordner für Sicherungen auswählen"
+        }
+      }
+    },
+    "NETWORK_ATTACHED_STORAGE": {
+      "name": "Netzlaufwerk",
+      "shortName": "Netzlaufwerk",
+      "description": "Auf einem Netzlaufwerk speichern",
+      "fields": {
+        "path": {
+          "label": "Ordner auf Netzlaufwerk",
+          "placeholder": "Ordner auf Netzlaufwerk auswählen",
+          "dialogTitle": "Ordner auf Netzlaufwerk auswählen"
+        }
+      }
+    },
+    "AMAZON_S3": {
+      "name": "Amazon S3",
+      "shortName": "S3",
+      "description": "Auf Amazon S3 speichern",
+      "fields": {
+        "bucket": {
+          "label": "Bucket-Name",
+          "placeholder": "Namen deines S3-Buckets eingeben"
+        },
+        "endpoint": {
+          "label": "Endpunkt-URL",
+          "placeholder": "https://s3.amazonaws.com"
+        },
+        "region": {
+          "label": "Region",
+          "placeholder": "us-east-1"
+        },
+        "accessKeyId": {
+          "label": "Zugriffsschlüssel-ID",
+          "placeholder": "Deine AWS-Zugriffsschlüssel-ID eingeben"
+        },
+        "accessKeySecret": {
+          "label": "Geheimer Zugriffsschlüssel",
+          "placeholder": "Deinen geheimen AWS-Zugriffsschlüssel eingeben"
+        },
+        "sessionToken": {
+          "label": "Sitzungstoken",
+          "placeholder": "Sitzungstoken eingeben"
+        },
+        "prefix": {
+          "label": "Schlüsselpräfix",
+          "placeholder": "backup/"
+        }
+      }
+    },
+    "S3_COMPATIBLE": {
+      "name": "S3-kompatibel",
+      "shortName": "S3",
+      "description": "Beliebigen S3-kompatiblen Speicher verwenden",
+      "fields": {
+        "bucket": {
+          "label": "Bucket-Name",
+          "placeholder": "Namen deines S3-kompatiblen Buckets eingeben"
+        },
+        "endpoint": {
+          "label": "Endpunkt-URL",
+          "placeholder": "your-s3-compatible-endpoint.com"
+        },
+        "region": {
+          "label": "Region",
+          "placeholder": "us-east-1"
+        },
+        "accessKeyId": {
+          "label": "Zugriffsschlüssel-ID",
+          "placeholder": "Deine Zugriffsschlüssel-ID eingeben"
+        },
+        "accessKeySecret": {
+          "label": "Geheimer Zugriffsschlüssel",
+          "placeholder": "Deinen geheimen Zugriffsschlüssel eingeben"
+        },
+        "sessionToken": {
+          "label": "Sitzungstoken",
+          "placeholder": "Sitzungstoken eingeben"
+        },
+        "prefix": {
+          "label": "Schlüsselpräfix",
+          "placeholder": "backup/"
+        },
+        "disableTls": {
+          "label": "Unsichere HTTP-Verbindung verwenden"
+        },
+        "disableTlsVerification": {
+          "label": "TLS-Zertifikatsprüfung deaktivieren"
+        }
+      }
+    },
+    "DISKPOND_CLOUD": {
+      "name": "DiskPond Cloud",
+      "shortName": "DiskPond Cloud",
+      "description": "Auf DiskPond Cloud speichern",
+      "openPortal": "DiskPond Cloud öffnen",
+      "endpointPlaceholder": "Deinen DiskPond-Cloud-Endpunkt eingeben",
+      "bucketPlaceholder": "Namen deines DiskPond-Cloud-Buckets eingeben"
+    },
+    "GOOGLE_CLOUD_STORAGE": {
+      "name": "Google Cloud Storage",
+      "shortName": "GCS",
+      "description": "Auf Google Cloud speichern",
+      "fields": {
+        "bucket": {
+          "label": "Bucket-Name",
+          "placeholder": "Namen deines GCS-Buckets eingeben"
+        },
+        "prefix": {
+          "label": "Schlüsselpräfix",
+          "placeholder": "backup/"
+        },
+        "credentials": {
+          "label": "JSON-Zugangsdaten",
+          "placeholder": "JSON-Inhalt deines Dienstkontos einfügen"
+        }
+      }
+    },
+    "BACKBLAZE": {
+      "name": "Backblaze B2",
+      "shortName": "B2",
+      "description": "Auf Backblaze B2 speichern",
+      "fields": {
+        "bucket": {
+          "label": "Bucket-Name",
+          "placeholder": "Namen deines B2-Buckets eingeben"
+        },
+        "keyId": {
+          "label": "Anwendungsschlüssel-ID",
+          "placeholder": "Deine B2-Anwendungsschlüssel-ID eingeben"
+        },
+        "keySecret": {
+          "label": "Anwendungsschlüssel",
+          "placeholder": "Deinen B2-Anwendungsschlüssel eingeben"
+        },
+        "prefix": {
+          "label": "Schlüsselpräfix",
+          "placeholder": "backup/"
+        }
+      }
+    },
+    "AZURE_BLOB_STORAGE": {
+      "name": "Azure Blob Storage",
+      "shortName": "Azure",
+      "description": "Auf Azure Blob Storage speichern",
+      "fields": {
+        "container": {
+          "label": "Containername",
+          "placeholder": "Namen deines Azure-Blob-Containers eingeben"
+        },
+        "account": {
+          "label": "Speicherkonto",
+          "placeholder": "Namen deines Azure-Speicherkontos eingeben"
+        },
+        "key": {
+          "label": "Speicherschlüssel",
+          "placeholder": "Schlüssel deines Azure-Speicherkontos eingeben"
+        },
+        "domain": {
+          "label": "Speicherdomäne",
+          "placeholder": "blob.core.windows.net"
+        },
+        "prefix": {
+          "label": "Schlüsselpräfix",
+          "placeholder": "backup/"
+        },
+        "sasToken": {
+          "label": "SAS-Token",
+          "placeholder": "Dein SAS-Token eingeben"
+        }
+      }
+    },
+    "SFTP": {
+      "name": "SFTP",
+      "shortName": "SFTP",
+      "description": "Über SFTP verbinden",
+      "fields": {
+        "host": {
+          "label": "Host",
+          "placeholder": "Hostnamen oder IP-Adresse des SFTP-Servers eingeben"
+        },
+        "user": {
+          "label": "Benutzername",
+          "placeholder": "SFTP-Benutzernamen eingeben"
+        },
+        "port": {
+          "label": "Port",
+          "placeholder": "22"
+        },
+        "path": {
+          "label": "Remotepfad",
+          "placeholder": "Pfad des Remoteverzeichnisses eingeben"
+        },
+        "password": {
+          "label": "Passwort",
+          "placeholder": "SFTP-Passwort eingeben"
+        },
+        "privateKey": {
+          "label": "Daten des privaten Schlüssels",
+          "placeholder": "Inhalt des privaten Schlüssels einfügen"
+        },
+        "knownHosts": {
+          "label": "Eintrag bekannter Hosts",
+          "placeholder": "Inhalt von known_hosts einfügen",
+          "scan": {
+            "button": "Erkennen und ausfüllen",
+            "error": {
+              "KEYSCAN_NOT_INSTALLED": {
+                "title": "ssh-keyscan ist nicht installiert",
+                "description": "Fülle das Feld für bekannte Hosts manuell aus."
+              },
+              "SCAN_FAILED": {
+                "title": "Erkennung mit ssh-keyscan fehlgeschlagen",
+                "description": "Prüfe den angegebenen Host und Port."
+              }
+            }
+          }
+        }
+      }
+    },
+    "RCLONE": {
+      "name": "Rclone-Remote",
+      "shortName": "Rclone",
+      "description": "Beliebiges Rclone-Remote verbinden",
+      "fields": {
+        "remotePath": {
+          "label": "Remotepfad",
+          "placeholder": "myremote:backups",
+          "description": "Verwende einen Remote-Namen aus deiner rclone-Konfiguration, gefolgt von : und optional einem Ordner (zum Beispiel myremote:backups)."
+        },
+        "rclonePath": {
+          "label": "Pfad zur Rclone-Programmdatei",
+          "placeholder": "Pfad zur rclone-Programmdatei"
+        }
+      }
+    },
+    "WEBDAV": {
+      "name": "WebDAV",
+      "shortName": "WebDAV",
+      "description": "Über WebDAV verbinden",
+      "fields": {
+        "url": {
+          "label": "WebDAV-URL",
+          "placeholder": "https://your-webdav-server.com/path"
+        },
+        "user": {
+          "label": "Benutzername",
+          "placeholder": "Deinen WebDAV-Benutzernamen eingeben"
+        },
+        "password": {
+          "label": "Passwort",
+          "placeholder": "Dein WebDAV-Passwort eingeben"
+        }
+      }
+    }
+  },
+  "overview": {
+    "title": "Startseite",
+    "vault": "Tresor",
+    "settings": "Einstellungen",
+    "currentProfile": {
+      "title": "Aktuelles Profil"
+    },
+    "otherProfiles": {
+      "title": "Andere Profile",
+      "back": "Zurück zu allen Profilen",
+      "select": {
+        "all": "Alle Profile",
+        "clear": "Profilfilter leeren",
+        "device": {
+          "all": "Alle Geräte",
+          "clear": "Gerätefilter leeren",
+          "empty": "Gerät auswählen"
+        },
+        "user": {
+          "all": "Alle Benutzer",
+          "clear": "Benutzerfilter leeren",
+          "empty": "Benutzer auswählen"
+        }
+      },
+      "empty": {
+        "title": "Keine Dateien oder Ordner gefunden",
+        "description": "Dieses Profil enthält keine gesicherten Dateien oder Ordner."
+      }
+    },
+    "sources": {
+      "title": "Dateien/Ordner",
+      "count_one": "{{count}} Datei/Ordner geschützt",
+      "count_other": "{{count}} Dateien/Ordner geschützt",
+      "addSource": "Datei/Ordner hinzufügen",
+      "backupAll": "Alles sichern",
+      "empty": {
+        "title": "Keine Dateien oder Ordner hinzugefügt",
+        "description": "Du hast noch keine Dateien oder Ordner hinzugefügt. Füge über die Schaltfläche unten welche hinzu."
+      }
+    },
+    "stats": {
+      "totalSize": "Geschützte Daten",
+      "files": "Geschützte Dateien",
+      "directories": "Geschützte Verzeichnisse",
+      "storageAvailable": "Verfügbarer Speicher",
+      "notReported": "Nicht gemeldet",
+      "bucketQuotaRemaining": "Verbleibendes Bucket-Kontingent",
+      "noBucketQuota": "Kein Bucket-Kontingent",
+      "unavailable": "Nicht verfügbar"
+    },
+    "score": {
+      "empty": {
+        "category": "Noch keine Tresore",
+        "description": "Erstelle deinen ersten Tresor, um mit der Sicherung deiner Dateien zu beginnen."
+      },
+      "excellent": {
+        "category": "Ausgezeichnet",
+        "description": "Deine Sicherungseinrichtung ist korrekt konfiguriert."
+      },
+      "localOnly": {
+        "category": "Nur lokale Ziele",
+        "description": "Erwäge eine weitere Kopie auf einem separaten Gerät oder in einem von dir bereitgestellten externen Speicherort."
+      },
+      "unavailable": {
+        "category": "Status nicht verfügbar",
+        "description": "Einige Sicherungsstatus konnten nicht geprüft werden. Stelle sicher, dass deine Tresore verbunden sind, und versuche es erneut."
+      },
+      "backupErrors": {
+        "category": "Aufmerksamkeit erforderlich",
+        "description_one": "Bei {{count}} Sicherung sind Probleme aufgetreten. Öffne deine Tresorliste, um die Ursache zu sehen.",
+        "description_other": "Bei {{count}} Sicherungen sind Probleme aufgetreten. Öffne deine Tresorliste, um die Ursache zu sehen."
+      }
+    }
+  },
+  "remoteTooltip": {
+    "title": "Anderes Profil",
+    "description": "Du siehst ein anderes Profil. Du kannst diese Aktion nicht ausführen."
+  },
+  "deleteDialog": {
+    "title": "Tresor trennen",
+    "description": "Diese Tresorverbindung von diesem Computer entfernen? Die gespeicherten Sicherungen bleiben in deinem Speicher erhalten.",
+    "confirm": {
+      "label": "Gib zur Bestätigung unten „{{vaultName}}“ ein:",
+      "placeholder": "Tresornamen eingeben",
+      "error": {
+        "empty": "Gib „{{vaultName}}“ ein, um das Trennen zu bestätigen.",
+        "mismatch": "Der eingegebene Tresorname stimmt nicht überein."
+      }
+    },
+    "storageAlert": {
+      "title": "Sicherungsdateien werden nicht gelöscht",
+      "description": "DiskPond sichert nicht mehr in diesen Tresor. Du kannst ihn mit seinen Speichereinstellungen und seinem Verschlüsselungspasswort erneut verbinden."
+    },
+    "cancel": "Abbrechen",
+    "continue": "Tresor trennen"
+  }
+}

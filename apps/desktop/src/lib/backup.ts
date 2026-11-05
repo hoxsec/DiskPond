@@ -6,8 +6,11 @@ export function getBackupDisplayName(backup: {
   return formatBackupDate(backup);
 }
 
-export function formatBackupDate(backup: { startTime: string }): string {
-  return new Date(backup.startTime).toLocaleString(undefined, {
+export function formatBackupDate(
+  backup: { startTime: string },
+  language?: string,
+): string {
+  return new Date(backup.startTime).toLocaleString(language, {
     timeStyle: "short",
     dateStyle: "short",
   });

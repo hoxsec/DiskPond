@@ -1,0 +1,108 @@
+{
+  "account": {
+    "preferences": {
+      "checkForUpdates": "Rechercher automatiquement des mises à jour",
+      "title": "Préférences",
+      "theme": {
+        "label": "Thème",
+        "description": "Choisissez votre thème préféré.",
+        "items": {
+          "light": "Clair",
+          "dark": "Sombre",
+          "system": "Système"
+        }
+      },
+      "language": {
+        "label": "Langue",
+        "description": "Choisissez votre langue préférée."
+      }
+    }
+  },
+  "vault": {
+    "title": "Paramètres",
+    "home": "Accueil",
+    "general": {
+      "title": "Général",
+      "description": "Choisissez le nom affiché pour ce coffre.",
+      "name": {
+        "label": "Nom du coffre",
+        "placeholder": "Saisissez le nom du coffre"
+      },
+      "delete": {
+        "title": "Déconnecter ce coffre",
+        "description": "Supprimez cette connexion de DiskPond. Les sauvegardes restent dans votre stockage.",
+        "button": "Déconnecter le coffre"
+      }
+    },
+    "config": {
+      "title": "Configuration du stockage",
+      "description": "Consultez l’emplacement de stockage de ce coffre.",
+      "provider": "Fournisseur de stockage :",
+      "loading": "Chargement des détails de connexion…",
+      "unavailable": "Les détails de connexion sont indisponibles. Reconnectez le coffre pour les consulter.",
+      "credentialsHidden": "Les mots de passe, clés et autres identifiants sont conservés dans le stockage d’identifiants de DiskPond. Les URL n’affichent que l’adresse du serveur.",
+      "enabled": "Activé",
+      "disabled": "Désactivé",
+      "fields": {
+        "path": "Chemin",
+        "host": "Hôte",
+        "port": "Port",
+        "bucket": "Bucket",
+        "region": "Région",
+        "prefix": "Préfixe",
+        "container": "Conteneur",
+        "endpoint": "Adresse du serveur",
+        "remotePath": "Chemin distant Rclone",
+        "rclonePath": "Exécutable Rclone",
+        "disableTls": "HTTP sans TLS",
+        "disableTlsVerification": "Ignorer la vérification du certificat TLS"
+      }
+    },
+    "throttle": {
+      "title": "Limitation du réseau",
+      "description": "Limitez l’utilisation du réseau de ce coffre.",
+      "upload": {
+        "enabled": {
+          "label": "Limiter la bande passante d’envoi",
+          "description": "Limitez la vitesse d’envoi des données de sauvegarde de ce coffre."
+        },
+        "limit": {
+          "label": "Limite d’envoi",
+          "description": "Limitez la bande passante d’envoi de ce coffre."
+        }
+      },
+      "download": {
+        "enabled": {
+          "label": "Limiter la bande passante de téléchargement",
+          "description": "Limitez la vitesse de téléchargement des données de restauration de ce coffre."
+        },
+        "limit": {
+          "label": "Limite de téléchargement",
+          "description": "Limitez la bande passante de téléchargement de ce coffre."
+        }
+      },
+      "save": "Enregistrer"
+    }
+  },
+  "folder": {
+    "title": "Règles de sauvegarde",
+    "description": "Configurez les règles de sauvegarde.",
+    "general": {
+      "title": "Général",
+      "description": "Configurez les paramètres généraux.",
+      "name": {
+        "label": "Nom",
+        "placeholder": "Saisissez un nom"
+      },
+      "path": {
+        "label": "Chemin du dossier",
+        "fileLabel": "Chemin du fichier"
+      },
+      "emoji": {
+        "change": "Changer d’émoji",
+        "clear": "Retirer l’émoji"
+      }
+    },
+    "modified": "Modifié"
+  }
+}

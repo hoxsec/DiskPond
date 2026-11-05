@@ -1,0 +1,82 @@
+{
+  "pages": {
+    "default": {
+      "title": "Er is iets misgegaan",
+      "description": "Er is een onverwachte fout opgetreden. Probeer het opnieuw. Blijft het probleem bestaan, <0>meld het dan</0>.",
+      "button": "Terug naar start"
+    },
+    "not-found": {
+      "title": "404",
+      "description": "Deze pagina bestaat niet. Ga terug naar start of <0>meld het probleem</0>.",
+      "button": "Terug naar start"
+    }
+  },
+  "fallback": {
+    "title": "Er is iets misgegaan",
+    "description": "Probeer het opnieuw. Blijft het probleem bestaan, meld het via Instellingen."
+  },
+  "INTERNAL_SERVER_ERROR": {
+    "title": "Er is iets misgegaan",
+    "description": "Er is een onverwachte fout opgetreden. Blijft het probleem bestaan, meld het via Instellingen."
+  },
+  "UNAUTHORIZED": {
+    "title": "Je hebt hiervoor geen toestemming",
+    "description": "Controleer de inloggegevens en machtigingen van de opslag en verbind de kluis opnieuw."
+  },
+  "USER_ALREADY_EXISTS": {
+    "title": "Er bestaat al een gebruiker met dit e-mailadres",
+    "description": "Probeer in plaats daarvan in te loggen."
+  },
+  "INVALID_EMAIL_OR_PASSWORD": {
+    "title": "Ongeldig e-mailadres of wachtwoord",
+    "description": "Controleer je e-mailadres en wachtwoord."
+  },
+  "INVALID_TOKEN": {
+    "title": "Ongeldige of verlopen code",
+    "description": "Vraag een nieuwe code aan door opnieuw in te loggen."
+  },
+  "EMAIL_NOT_VERIFIED": {
+    "title": "Het e-mailadres is nog niet geverifieerd",
+    "description": "Voer hieronder de verificatiecode in die naar je e-mailadres is gestuurd."
+  },
+  "SUBSCRIPTION_EXISTS": {
+    "title": "Je hebt al een actief abonnement",
+    "description": "Probeer in plaats daarvan je abonnement te upgraden."
+  },
+  "VAULT_ALREADY_EXISTS": {
+    "title": "Kluis bestaat al",
+    "description": "Deze kluis is al verbonden op deze computer."
+  },
+  "VAULT_NOT_FOUND": "Kluis niet gevonden",
+  "FOLDER_NOT_FOUND": "Map niet gevonden",
+  "PROVIDER_NOT_FOUND": "Aanbieder niet gevonden",
+  "SPACE_NOT_FOUND": "Ruimte niet gevonden",
+  "PRICE_NOT_FOUND": "Prijs niet gevonden",
+  "SUBSCRIPTION_NOT_FOUND": "Abonnement niet gevonden",
+  "NO_STORAGE": "Geen opslag beschikbaar",
+  "NOT_ALLOWED": "Je hebt hiervoor geen toestemming",
+  "MISSING_REQUIRED_VALUE": {
+    "title": "Verplichte gegevens ontbreken",
+    "description": "Probeer het opnieuw of herstart de app."
+  },
+  "INVALID_PASSWORD": {
+    "title": "Ongeldig versleutelingswachtwoord",
+    "description": "Het ingevoerde versleutelingswachtwoord is onjuist."
+  },
+  "INCORRECT_VAULT": {
+    "title": "Andere kluis gevonden",
+    "description": "Je configuratie verwijst naar een andere kluis. Controleer je instellingen."
+  },
+  "STORAGE_UNREACHABLE": {
+    "title": "Je opslag is niet bereikbaar",
+    "description": "DiskPond kon de opslaglocatie niet bereiken. Controleer of het pad of de server beschikbaar is en je instellingen kloppen."
+  },
+  "VAULT_SERVER_UNAVAILABLE": {
+    "title": "Kluis niet beschikbaar",
+    "description": "DiskPond kon de back-upengine niet starten of deze kluis niet opnieuw verbinden. Controleer of de opslag beschikbaar is en probeer het opnieuw."
+  },
+  "ACCOUNT_SYNC_FAILED": {
+    "title": "Kon je account niet synchroniseren",
+    "description": "Probeer het opnieuw. Blijft het probleem bestaan, meld het via Instellingen."
+  }
+}

@@ -1,0 +1,527 @@
+{
+  "noVaults": {
+    "title": "Esegui backup e recupera i tuoi file",
+    "description": "Crea una cassaforte cifrata nel tuo spazio di archiviazione o collega una cassaforte per recuperare backup esistenti.",
+    "refresh": "Ricarica casseforti",
+    "add": "Aggiungi cassaforte"
+  },
+  "home": {
+    "title": "Casseforti",
+    "createVault": "Crea una nuova cassaforte",
+    "connectVault": "Collega una cassaforte esistente",
+    "count_one": "{{count}} cassaforte trovata",
+    "count_other": "{{count}} casseforti trovate",
+    "count_many": "{{count}} casseforti trovate"
+  },
+  "createDialog": {
+    "back": "Indietro",
+    "title": {
+      "default": "Crea una nuova cassaforte",
+      "connect": "Collega una cassaforte esistente"
+    },
+    "description": "Scegli una destinazione vuota per una nuova cassaforte cifrata.",
+    "connectDescription": "Scegli lo spazio di archiviazione che contiene la cassaforte. Ti servirà la sua password di cifratura esistente.",
+    "providers": {
+      "search": {
+        "label": "Cerca fornitori di archiviazione",
+        "placeholder": "Cerca fornitori..."
+      }
+    },
+    "config": {
+      "submit": "Continua",
+      "checking": "Verifica della destinazione. Attendi.",
+      "validationError": {
+        "title": "Impossibile verificare le impostazioni di archiviazione",
+        "rcloneRemoteNotConfigured": "Il remoto rclone “{{remote}}” non è configurato su questo computer. Controlla il nome nella configurazione di rclone e riprova."
+      },
+      "existsError": {
+        "title": "La cassaforte esiste già",
+        "description": "Questa cassaforte è già collegata su questo computer con il nome “{{name}}”."
+      }
+    },
+    "details": {
+      "name": {
+        "label": "Nome della cassaforte",
+        "placeholder": "Inserisci il nome della cassaforte"
+      },
+      "password": {
+        "label": "Password di cifratura",
+        "placeholder": "Inserisci la password di cifratura della cassaforte"
+      },
+      "confirmPassword": {
+        "label": "Conferma password di cifratura",
+        "placeholder": "Conferma la password di cifratura della cassaforte"
+      },
+      "warning": {
+        "title": "Non dimenticare questa password",
+        "description": "Conserva questa password di cifratura in un luogo sicuro. DiskPond non può reimpostarla. Ti servirà per ripristinare i backup su un altro computer."
+      },
+      "submit": "Crea cassaforte",
+      "connect": "Collega cassaforte",
+      "connectHint": "Usa la password esistente della cassaforte. Il collegamento potrebbe copiare i vecchi metadati del repository con i nomi attuali; i backup esistenti vengono conservati.",
+      "creating": "Creazione della cassaforte. Attendi.",
+      "connecting": "Collegamento della cassaforte. Attendi.",
+      "failed": "Impossibile aprire la cassaforte"
+    }
+  },
+  "connectionErrors": {
+    "password": "La password di cifratura è errata. Inserisci la password esistente della cassaforte, inclusi eventuali spazi.",
+    "exists": "Questa destinazione contiene già una cassaforte. Usa Collega una cassaforte esistente o scegli una destinazione vuota.",
+    "notEmpty": "Questa destinazione contiene file o dati di un repository. Scegli una destinazione vuota; non rimuovere i backup esistenti per continuare.",
+    "missing": "Nessuna cassaforte trovata qui. Controlla la destinazione o usa Crea una nuova cassaforte per una destinazione vuota.",
+    "duplicate": "Questa cassaforte è già collegata su questo computer. Aprila dall’elenco delle casseforti.",
+    "invalid": "Impossibile leggere l’identità del repository. Verifica che sia una cassaforte completa e compatibile.",
+    "destinationMissing": "La cartella di destinazione non esiste o non è una cartella. Ricollega l’unità o scegli una cartella esistente.",
+    "unavailable": "Impossibile aprire la cassaforte. Controlla la destinazione, i permessi di accesso, le credenziali del fornitore e i file del repository, quindi riprova."
+  },
+  "setup": {
+    "title": "Configura cassaforte",
+    "description": "Devi configurare questa cassaforte prima di usarla.",
+    "password": {
+      "label": "Password di cifratura",
+      "placeholder": "Inserisci la password di cifratura della cassaforte"
+    },
+    "submit": "Continua"
+  },
+  "passwordStorage": {
+    "protected": {
+      "title": "Archiviazione delle credenziali delle casseforti",
+      "description": "DiskPond usa l’archiviazione sicura di questo computer per salvare le password delle casseforti e le connessioni ai fornitori. Conserva separatamente password e credenziali di archiviazione per il recupero su un altro computer."
+    },
+    "session": {
+      "title": "Credenziali delle casseforti limitate alla sessione",
+      "description": "Alcune credenziali non possono essere salvate in modo sicuro e rimangono in memoria fino alla chiusura di DiskPond. Dopo il riavvio, inserisci la password della cassaforte e i dettagli di connessione richiesti per riprendere i backup pianificati.",
+      "recovery": "Ripristina l’accesso all’archivio chiavi di sistema, quindi riavvia DiskPond per tentare nuovamente di salvare le credenziali."
+    },
+    "locked": {
+      "title": "Inserisci di nuovo le credenziali delle casseforti",
+      "description": "Impossibile sbloccare o migrare le credenziali salvate. Apri la cassaforte interessata e inserisci la password e gli eventuali dettagli di connessione richiesti. I backup restano nel tuo spazio di archiviazione."
+    },
+    "cleanupFailed": {
+      "title": "Le credenziali salvate richiedono una pulizia",
+      "description": "DiskPond non ha potuto migrare o rimuovere una vecchia copia delle credenziali. Controlla l’accesso alla cartella dei dati di DiskPond e riavvia per riprovare. La vecchia copia potrebbe essere ancora priva di protezione sul disco."
+    },
+    "unknown": {
+      "title": "Stato dell’archivio credenziali non disponibile",
+      "description": "Riavvia DiskPond per verificare l’archivio credenziali. Tieni a portata di mano le password delle casseforti e i dettagli di connessione per inserirli nuovamente."
+    },
+    "saveFailed": "Impossibile salvare le credenziali. Controlla l’accesso alla cartella dei dati di DiskPond prima di riavviare."
+  },
+  "starting": {
+    "title": "Avvio della cassaforte",
+    "description": "La cassaforte viene inizializzata. Di solito bastano pochi secondi."
+  },
+  "failed": {
+    "retry": "Riprova"
+  },
+  "status": {
+    "RUNNING": "Attiva",
+    "SETUP": "Configurazione necessaria",
+    "STARTING": "Avvio",
+    "FAILED": "Avvio non riuscito"
+  },
+  "providers": {
+    "CLOUDBLINK": {
+      "name": "Archiviazione gestita non supportata",
+      "shortName": "Archiviazione non supportata"
+    },
+    "INTERNAL_DRIVE": {
+      "name": "Questo computer",
+      "shortName": "Questo computer",
+      "description": "Salva in una cartella su questo computer",
+      "fields": {
+        "path": {
+          "label": "Cartella di destinazione dei backup",
+          "placeholder": "Seleziona la cartella di destinazione",
+          "dialogTitle": "Seleziona la cartella di destinazione dei backup"
+        }
+      }
+    },
+    "EXTERNAL_DRIVE": {
+      "name": "Unità esterna",
+      "shortName": "Unità esterna",
+      "description": "Salva su un’unità esterna",
+      "fields": {
+        "path": {
+          "label": "Cartella dell’unità esterna",
+          "placeholder": "Seleziona una cartella dell’unità esterna",
+          "dialogTitle": "Seleziona una cartella dell’unità esterna"
+        }
+      }
+    },
+    "NETWORK_DRIVE": {
+      "name": "Unità di rete",
+      "shortName": "Unità di rete",
+      "description": "Salva su un’unità di rete",
+      "fields": {
+        "path": {
+          "label": "Cartella dell’unità di rete",
+          "placeholder": "Seleziona una cartella dell’unità di rete",
+          "dialogTitle": "Seleziona una cartella dell’unità di rete"
+        }
+      }
+    },
+    "FILESYSTEM": {
+      "name": "Questo computer",
+      "shortName": "Questo computer",
+      "description": "Salva in una cartella su questo computer",
+      "fields": {
+        "path": {
+          "label": "Cartella di destinazione dei backup",
+          "placeholder": "Seleziona la cartella di destinazione",
+          "dialogTitle": "Seleziona la cartella di destinazione dei backup"
+        }
+      }
+    },
+    "NETWORK_ATTACHED_STORAGE": {
+      "name": "Unità di rete",
+      "shortName": "Unità di rete",
+      "description": "Salva su un’unità di rete",
+      "fields": {
+        "path": {
+          "label": "Cartella dell’unità di rete",
+          "placeholder": "Seleziona una cartella dell’unità di rete",
+          "dialogTitle": "Seleziona una cartella dell’unità di rete"
+        }
+      }
+    },
+    "AMAZON_S3": {
+      "name": "Amazon S3",
+      "shortName": "S3",
+      "description": "Archivia su Amazon S3",
+      "fields": {
+        "bucket": {
+          "label": "Nome del bucket",
+          "placeholder": "Inserisci il nome del bucket S3"
+        },
+        "endpoint": {
+          "label": "URL dell’endpoint",
+          "placeholder": "https://s3.amazonaws.com"
+        },
+        "region": {
+          "label": "Regione",
+          "placeholder": "us-east-1"
+        },
+        "accessKeyId": {
+          "label": "ID della chiave di accesso",
+          "placeholder": "Inserisci l’ID della chiave di accesso AWS"
+        },
+        "accessKeySecret": {
+          "label": "Chiave di accesso segreta",
+          "placeholder": "Inserisci la chiave di accesso segreta AWS"
+        },
+        "sessionToken": {
+          "label": "Token di sessione",
+          "placeholder": "Inserisci il token di sessione"
+        },
+        "prefix": {
+          "label": "Prefisso delle chiavi",
+          "placeholder": "backup/"
+        }
+      }
+    },
+    "S3_COMPATIBLE": {
+      "name": "Compatibile con S3",
+      "shortName": "S3",
+      "description": "Usa qualsiasi archiviazione compatibile con S3",
+      "fields": {
+        "bucket": {
+          "label": "Nome del bucket",
+          "placeholder": "Inserisci il nome del bucket compatibile con S3"
+        },
+        "endpoint": {
+          "label": "URL dell’endpoint",
+          "placeholder": "your-s3-compatible-endpoint.com"
+        },
+        "region": {
+          "label": "Regione",
+          "placeholder": "us-east-1"
+        },
+        "accessKeyId": {
+          "label": "ID della chiave di accesso",
+          "placeholder": "Inserisci l’ID della chiave di accesso"
+        },
+        "accessKeySecret": {
+          "label": "Chiave di accesso segreta",
+          "placeholder": "Inserisci la chiave di accesso segreta"
+        },
+        "sessionToken": {
+          "label": "Token di sessione",
+          "placeholder": "Inserisci il token di sessione"
+        },
+        "prefix": {
+          "label": "Prefisso delle chiavi",
+          "placeholder": "backup/"
+        },
+        "disableTls": {
+          "label": "Usa una connessione HTTP non sicura"
+        },
+        "disableTlsVerification": {
+          "label": "Disattiva la verifica del certificato TLS"
+        }
+      }
+    },
+    "DISKPOND_CLOUD": {
+      "name": "DiskPond Cloud",
+      "shortName": "DiskPond Cloud",
+      "description": "Archivia su DiskPond Cloud",
+      "openPortal": "Apri DiskPond Cloud",
+      "endpointPlaceholder": "Inserisci l’endpoint di DiskPond Cloud",
+      "bucketPlaceholder": "Inserisci il nome del bucket di DiskPond Cloud"
+    },
+    "GOOGLE_CLOUD_STORAGE": {
+      "name": "Google Cloud Storage",
+      "shortName": "GCS",
+      "description": "Archivia su Google Cloud",
+      "fields": {
+        "bucket": {
+          "label": "Nome del bucket",
+          "placeholder": "Inserisci il nome del bucket GCS"
+        },
+        "prefix": {
+          "label": "Prefisso delle chiavi",
+          "placeholder": "backup/"
+        },
+        "credentials": {
+          "label": "Credenziali JSON",
+          "placeholder": "Incolla il contenuto JSON del tuo account di servizio"
+        }
+      }
+    },
+    "BACKBLAZE": {
+      "name": "Backblaze B2",
+      "shortName": "B2",
+      "description": "Archivia su Backblaze B2",
+      "fields": {
+        "bucket": {
+          "label": "Nome del bucket",
+          "placeholder": "Inserisci il nome del bucket B2"
+        },
+        "keyId": {
+          "label": "ID della chiave applicativa",
+          "placeholder": "Inserisci l’ID della chiave applicativa B2"
+        },
+        "keySecret": {
+          "label": "Chiave applicativa",
+          "placeholder": "Inserisci la chiave applicativa B2"
+        },
+        "prefix": {
+          "label": "Prefisso delle chiavi",
+          "placeholder": "backup/"
+        }
+      }
+    },
+    "AZURE_BLOB_STORAGE": {
+      "name": "Azure Blob Storage",
+      "shortName": "Azure",
+      "description": "Archivia su Azure Blob Storage",
+      "fields": {
+        "container": {
+          "label": "Nome del contenitore",
+          "placeholder": "Inserisci il nome del contenitore di blob Azure"
+        },
+        "account": {
+          "label": "Account di archiviazione",
+          "placeholder": "Inserisci il nome dell’account di archiviazione Azure"
+        },
+        "key": {
+          "label": "Chiave di archiviazione",
+          "placeholder": "Inserisci la chiave dell’account di archiviazione Azure"
+        },
+        "domain": {
+          "label": "Dominio di archiviazione",
+          "placeholder": "blob.core.windows.net"
+        },
+        "prefix": {
+          "label": "Prefisso delle chiavi",
+          "placeholder": "backup/"
+        },
+        "sasToken": {
+          "label": "Token SAS",
+          "placeholder": "Inserisci il token SAS"
+        }
+      }
+    },
+    "SFTP": {
+      "name": "SFTP",
+      "shortName": "SFTP",
+      "description": "Collegati tramite SFTP",
+      "fields": {
+        "host": {
+          "label": "Host",
+          "placeholder": "Inserisci il nome host o l’indirizzo IP del server SFTP"
+        },
+        "user": {
+          "label": "Nome utente",
+          "placeholder": "Inserisci il nome utente SFTP"
+        },
+        "port": {
+          "label": "Porta",
+          "placeholder": "22"
+        },
+        "path": {
+          "label": "Percorso remoto",
+          "placeholder": "Inserisci il percorso della cartella remota"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Inserisci la password SFTP"
+        },
+        "privateKey": {
+          "label": "Dati della chiave privata",
+          "placeholder": "Incolla il contenuto della chiave privata"
+        },
+        "knownHosts": {
+          "label": "Voce degli host noti",
+          "placeholder": "Incolla il contenuto di known_hosts",
+          "scan": {
+            "button": "Rileva e compila",
+            "error": {
+              "KEYSCAN_NOT_INSTALLED": {
+                "title": "ssh-keyscan non è installato",
+                "description": "Compila manualmente il campo degli host noti."
+              },
+              "SCAN_FAILED": {
+                "title": "Rilevamento con ssh-keyscan non riuscito",
+                "description": "Controlla l’host e la porta specificati."
+              }
+            }
+          }
+        }
+      }
+    },
+    "RCLONE": {
+      "name": "Remoto Rclone",
+      "shortName": "Rclone",
+      "description": "Collega qualsiasi remoto Rclone",
+      "fields": {
+        "remotePath": {
+          "label": "Percorso remoto",
+          "placeholder": "myremote:backups",
+          "description": "Usa un nome di remoto dalla configurazione di rclone, seguito da : e da una cartella facoltativa (ad esempio myremote:backups)."
+        },
+        "rclonePath": {
+          "label": "Percorso dell’eseguibile Rclone",
+          "placeholder": "Percorso dell’eseguibile rclone"
+        }
+      }
+    },
+    "WEBDAV": {
+      "name": "WebDAV",
+      "shortName": "WebDAV",
+      "description": "Collegati tramite WebDAV",
+      "fields": {
+        "url": {
+          "label": "URL WebDAV",
+          "placeholder": "https://your-webdav-server.com/path"
+        },
+        "user": {
+          "label": "Nome utente",
+          "placeholder": "Inserisci il nome utente WebDAV"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Inserisci la password WebDAV"
+        }
+      }
+    }
+  },
+  "overview": {
+    "title": "Home",
+    "vault": "Cassaforte",
+    "settings": "Impostazioni",
+    "currentProfile": {
+      "title": "Profilo attuale"
+    },
+    "otherProfiles": {
+      "title": "Altri profili",
+      "back": "Torna a tutti i profili",
+      "select": {
+        "all": "Tutti i profili",
+        "clear": "Cancella filtro dei profili",
+        "device": {
+          "all": "Tutti i dispositivi",
+          "clear": "Cancella filtro dei dispositivi",
+          "empty": "Seleziona dispositivo"
+        },
+        "user": {
+          "all": "Tutti gli utenti",
+          "clear": "Cancella filtro degli utenti",
+          "empty": "Seleziona utente"
+        }
+      },
+      "empty": {
+        "title": "Nessun file o cartella trovato",
+        "description": "Questo profilo non contiene file o cartelle di cui sia stato eseguito il backup."
+      }
+    },
+    "sources": {
+      "title": "File/cartelle",
+      "count_one": "{{count}} file/cartella protetto",
+      "count_other": "{{count}} file/cartelle protetti",
+      "count_many": "{{count}} file/cartelle protetti",
+      "addSource": "Aggiungi file/cartella",
+      "backupAll": "Esegui backup di tutto",
+      "empty": {
+        "title": "Nessun file o cartella aggiunto",
+        "description": "Non hai ancora aggiunto file o cartelle. Aggiungine uno con il pulsante qui sotto."
+      }
+    },
+    "stats": {
+      "totalSize": "Dati protetti",
+      "files": "File protetti",
+      "directories": "Cartelle protette",
+      "storageAvailable": "Spazio disponibile",
+      "notReported": "Non comunicato",
+      "bucketQuotaRemaining": "Quota residua del bucket",
+      "noBucketQuota": "Nessuna quota del bucket",
+      "unavailable": "Non disponibile"
+    },
+    "score": {
+      "empty": {
+        "category": "Ancora nessuna cassaforte",
+        "description": "Crea la prima cassaforte per iniziare a eseguire il backup dei tuoi file."
+      },
+      "excellent": {
+        "category": "Eccellente",
+        "description": "La configurazione dei backup è corretta."
+      },
+      "localOnly": {
+        "category": "Solo destinazioni locali",
+        "description": "Valuta un’altra copia su un dispositivo separato o su uno spazio di archiviazione di tua scelta in un’altra sede."
+      },
+      "unavailable": {
+        "category": "Stato non disponibile",
+        "description": "Impossibile verificare lo stato di alcuni backup. Assicurati che le casseforti siano collegate e riprova."
+      },
+      "backupErrors": {
+        "category": "Richiede attenzione",
+        "description_one": "{{count}} backup ha riscontrato problemi. Apri l’elenco delle casseforti per vedere cosa è successo.",
+        "description_other": "{{count}} backup hanno riscontrato problemi. Apri l’elenco delle casseforti per vedere cosa è successo.",
+        "description_many": "{{count}} backup hanno riscontrato problemi. Apri l’elenco delle casseforti per vedere cosa è successo."
+      }
+    }
+  },
+  "remoteTooltip": {
+    "title": "Profilo diverso",
+    "description": "Stai visualizzando un profilo diverso. Non puoi eseguire questa azione."
+  },
+  "deleteDialog": {
+    "title": "Scollega cassaforte",
+    "description": "Rimuovere il collegamento a questa cassaforte da questo computer? I backup resteranno nel tuo spazio di archiviazione.",
+    "confirm": {
+      "label": "Per confermare, digita “{{vaultName}}” qui sotto:",
+      "placeholder": "Inserisci il nome della cassaforte",
+      "error": {
+        "empty": "Digita “{{vaultName}}” per confermare lo scollegamento.",
+        "mismatch": "Il nome della cassaforte inserito non corrisponde."
+      }
+    },
+    "storageAlert": {
+      "title": "I file di backup non verranno eliminati",
+      "description": "DiskPond smetterà di eseguire backup in questa cassaforte. Potrai ricollegarla con le impostazioni di archiviazione e la password di cifratura."
+    },
+    "cancel": "Annulla",
+    "continue": "Scollega cassaforte"
+  }
+}

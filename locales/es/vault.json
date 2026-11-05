@@ -1,0 +1,527 @@
+{
+  "noVaults": {
+    "title": "Crea copias y recupera tus archivos",
+    "description": "Crea una bóveda cifrada en tu propio almacenamiento o conecta una bóveda para recuperar copias existentes.",
+    "refresh": "Recargar bóvedas",
+    "add": "Añadir bóveda"
+  },
+  "home": {
+    "title": "Bóvedas",
+    "createVault": "Crear una bóveda nueva",
+    "connectVault": "Conectar una bóveda existente",
+    "count_one": "{{count}} bóveda encontrada",
+    "count_other": "{{count}} bóvedas encontradas",
+    "count_many": "{{count}} bóvedas encontradas"
+  },
+  "createDialog": {
+    "back": "Volver",
+    "title": {
+      "default": "Crear una bóveda nueva",
+      "connect": "Conectar una bóveda existente"
+    },
+    "description": "Elige un destino vacío para una bóveda cifrada nueva.",
+    "connectDescription": "Elige el almacenamiento que contiene tu bóveda. Necesitarás su contraseña de cifrado actual.",
+    "providers": {
+      "search": {
+        "label": "Buscar proveedores de almacenamiento",
+        "placeholder": "Buscar proveedores..."
+      }
+    },
+    "config": {
+      "submit": "Continuar",
+      "checking": "Comprobando el destino. Espera.",
+      "validationError": {
+        "title": "No se pudo verificar la configuración del almacenamiento",
+        "rcloneRemoteNotConfigured": "El remoto de rclone «{{remote}}» no está configurado en este equipo. Comprueba el nombre en la configuración de rclone e inténtalo de nuevo."
+      },
+      "existsError": {
+        "title": "La bóveda ya existe",
+        "description": "Esta bóveda ya está conectada en este equipo con el nombre «{{name}}»."
+      }
+    },
+    "details": {
+      "name": {
+        "label": "Nombre de la bóveda",
+        "placeholder": "Introduce el nombre de la bóveda"
+      },
+      "password": {
+        "label": "Contraseña de cifrado",
+        "placeholder": "Introduce la contraseña de cifrado de la bóveda"
+      },
+      "confirmPassword": {
+        "label": "Confirmar contraseña de cifrado",
+        "placeholder": "Confirma la contraseña de cifrado de la bóveda"
+      },
+      "warning": {
+        "title": "No olvides esta contraseña",
+        "description": "Guarda esta contraseña de cifrado en un lugar seguro. DiskPond no puede restablecerla. La necesitarás para restaurar tus copias en otro equipo."
+      },
+      "submit": "Crear bóveda",
+      "connect": "Conectar bóveda",
+      "connectHint": "Usa la contraseña actual de la bóveda. Al conectar, es posible que los metadatos antiguos del repositorio se copien con sus nombres actuales; las copias existentes se conservan.",
+      "creating": "Creando bóveda. Espera.",
+      "connecting": "Conectando bóveda. Espera.",
+      "failed": "No se pudo abrir la bóveda"
+    }
+  },
+  "connectionErrors": {
+    "password": "La contraseña de cifrado es incorrecta. Introduce la contraseña actual de la bóveda, incluidos los espacios.",
+    "exists": "Este destino ya contiene una bóveda. Usa Conectar una bóveda existente o elige un destino vacío.",
+    "notEmpty": "Este destino contiene archivos o datos de un repositorio. Elige un destino vacío; no elimines las copias existentes para continuar.",
+    "missing": "No se encontró ninguna bóveda aquí. Comprueba el destino o usa Crear una bóveda nueva para un destino vacío.",
+    "duplicate": "Esta bóveda ya está conectada en este equipo. Ábrela desde la lista de bóvedas.",
+    "invalid": "No se pudo leer la identidad del repositorio. Comprueba que sea una bóveda completa y compatible.",
+    "destinationMissing": "La carpeta de destino no existe o no es una carpeta. Reconecta la unidad o elige una carpeta existente.",
+    "unavailable": "No se pudo abrir la bóveda. Comprueba el destino, los permisos de acceso, las credenciales del proveedor y los archivos del repositorio. Después, inténtalo de nuevo."
+  },
+  "setup": {
+    "title": "Configurar bóveda",
+    "description": "Debes configurar esta bóveda antes de usarla.",
+    "password": {
+      "label": "Contraseña de cifrado",
+      "placeholder": "Introduce la contraseña de cifrado de la bóveda"
+    },
+    "submit": "Continuar"
+  },
+  "passwordStorage": {
+    "protected": {
+      "title": "Almacenamiento de credenciales de las bóvedas",
+      "description": "DiskPond usa el almacenamiento seguro de este equipo para guardar las contraseñas de las bóvedas y las conexiones a proveedores. Conserva tus contraseñas y credenciales por separado para poder recuperar los datos en otro equipo."
+    },
+    "session": {
+      "title": "Credenciales de bóvedas solo para esta sesión",
+      "description": "Algunas credenciales no se pueden guardar de forma segura y permanecen en memoria hasta que se cierra DiskPond. Tras reiniciar, introduce la contraseña de la bóveda y los detalles de conexión solicitados para reanudar las copias programadas.",
+      "recovery": "Restablece el acceso al almacén de claves del sistema y reinicia DiskPond para intentar guardar las credenciales de nuevo."
+    },
+    "locked": {
+      "title": "Vuelve a introducir las credenciales de tus bóvedas",
+      "description": "No se pudieron desbloquear ni migrar las credenciales guardadas. Abre la bóveda afectada e introduce su contraseña y los detalles de conexión solicitados. Sus copias permanecen en tu almacenamiento."
+    },
+    "cleanupFailed": {
+      "title": "Es necesario limpiar las credenciales guardadas",
+      "description": "DiskPond no pudo migrar ni eliminar una copia antigua de las credenciales. Comprueba el acceso a la carpeta de datos de DiskPond y reinicia para reintentar. La copia antigua podría seguir sin protección en el disco."
+    },
+    "unknown": {
+      "title": "Estado del almacén de credenciales no disponible",
+      "description": "Reinicia DiskPond para comprobar el almacén de credenciales. Ten a mano las contraseñas de las bóvedas y los detalles de conexión para volver a introducirlos."
+    },
+    "saveFailed": "No se pudieron guardar las credenciales. Comprueba el acceso a la carpeta de datos de DiskPond antes de reiniciar."
+  },
+  "starting": {
+    "title": "Iniciando bóveda",
+    "description": "Tu bóveda se está inicializando. Normalmente tarda unos segundos."
+  },
+  "failed": {
+    "retry": "Reintentar"
+  },
+  "status": {
+    "RUNNING": "Activa",
+    "SETUP": "Requiere configuración",
+    "STARTING": "Iniciando",
+    "FAILED": "Error al iniciar"
+  },
+  "providers": {
+    "CLOUDBLINK": {
+      "name": "Almacenamiento gestionado no compatible",
+      "shortName": "Almacenamiento no compatible"
+    },
+    "INTERNAL_DRIVE": {
+      "name": "Este equipo",
+      "shortName": "Este equipo",
+      "description": "Guarda en una carpeta de este equipo",
+      "fields": {
+        "path": {
+          "label": "Carpeta de destino de las copias",
+          "placeholder": "Selecciona la carpeta de destino",
+          "dialogTitle": "Seleccionar carpeta de destino de las copias"
+        }
+      }
+    },
+    "EXTERNAL_DRIVE": {
+      "name": "Unidad externa",
+      "shortName": "Unidad externa",
+      "description": "Guarda en una unidad externa",
+      "fields": {
+        "path": {
+          "label": "Carpeta de la unidad externa",
+          "placeholder": "Selecciona una carpeta de la unidad externa",
+          "dialogTitle": "Seleccionar carpeta de la unidad externa"
+        }
+      }
+    },
+    "NETWORK_DRIVE": {
+      "name": "Unidad de red",
+      "shortName": "Unidad de red",
+      "description": "Guarda en una unidad de red",
+      "fields": {
+        "path": {
+          "label": "Carpeta de la unidad de red",
+          "placeholder": "Selecciona una carpeta de la unidad de red",
+          "dialogTitle": "Seleccionar carpeta de la unidad de red"
+        }
+      }
+    },
+    "FILESYSTEM": {
+      "name": "Este equipo",
+      "shortName": "Este equipo",
+      "description": "Guarda en una carpeta de este equipo",
+      "fields": {
+        "path": {
+          "label": "Carpeta de destino de las copias",
+          "placeholder": "Selecciona la carpeta de destino",
+          "dialogTitle": "Seleccionar carpeta de destino de las copias"
+        }
+      }
+    },
+    "NETWORK_ATTACHED_STORAGE": {
+      "name": "Unidad de red",
+      "shortName": "Unidad de red",
+      "description": "Guarda en una unidad de red",
+      "fields": {
+        "path": {
+          "label": "Carpeta de la unidad de red",
+          "placeholder": "Selecciona una carpeta de la unidad de red",
+          "dialogTitle": "Seleccionar carpeta de la unidad de red"
+        }
+      }
+    },
+    "AMAZON_S3": {
+      "name": "Amazon S3",
+      "shortName": "S3",
+      "description": "Guarda en Amazon S3",
+      "fields": {
+        "bucket": {
+          "label": "Nombre del bucket",
+          "placeholder": "Introduce el nombre de tu bucket de S3"
+        },
+        "endpoint": {
+          "label": "URL del punto de conexión",
+          "placeholder": "https://s3.amazonaws.com"
+        },
+        "region": {
+          "label": "Región",
+          "placeholder": "us-east-1"
+        },
+        "accessKeyId": {
+          "label": "ID de clave de acceso",
+          "placeholder": "Introduce el ID de tu clave de acceso de AWS"
+        },
+        "accessKeySecret": {
+          "label": "Clave de acceso secreta",
+          "placeholder": "Introduce tu clave de acceso secreta de AWS"
+        },
+        "sessionToken": {
+          "label": "Token de sesión",
+          "placeholder": "Introduce el token de sesión"
+        },
+        "prefix": {
+          "label": "Prefijo de clave",
+          "placeholder": "backup/"
+        }
+      }
+    },
+    "S3_COMPATIBLE": {
+      "name": "Compatible con S3",
+      "shortName": "S3",
+      "description": "Usa cualquier almacenamiento compatible con S3",
+      "fields": {
+        "bucket": {
+          "label": "Nombre del bucket",
+          "placeholder": "Introduce el nombre de tu bucket compatible con S3"
+        },
+        "endpoint": {
+          "label": "URL del punto de conexión",
+          "placeholder": "your-s3-compatible-endpoint.com"
+        },
+        "region": {
+          "label": "Región",
+          "placeholder": "us-east-1"
+        },
+        "accessKeyId": {
+          "label": "ID de clave de acceso",
+          "placeholder": "Introduce el ID de tu clave de acceso"
+        },
+        "accessKeySecret": {
+          "label": "Clave de acceso secreta",
+          "placeholder": "Introduce tu clave de acceso secreta"
+        },
+        "sessionToken": {
+          "label": "Token de sesión",
+          "placeholder": "Introduce el token de sesión"
+        },
+        "prefix": {
+          "label": "Prefijo de clave",
+          "placeholder": "backup/"
+        },
+        "disableTls": {
+          "label": "Usar una conexión HTTP no segura"
+        },
+        "disableTlsVerification": {
+          "label": "Desactivar la verificación del certificado TLS"
+        }
+      }
+    },
+    "DISKPOND_CLOUD": {
+      "name": "DiskPond Cloud",
+      "shortName": "DiskPond Cloud",
+      "description": "Guarda en DiskPond Cloud",
+      "openPortal": "Abrir DiskPond Cloud",
+      "endpointPlaceholder": "Introduce tu punto de conexión de DiskPond Cloud",
+      "bucketPlaceholder": "Introduce el nombre de tu bucket de DiskPond Cloud"
+    },
+    "GOOGLE_CLOUD_STORAGE": {
+      "name": "Google Cloud Storage",
+      "shortName": "GCS",
+      "description": "Guarda en Google Cloud",
+      "fields": {
+        "bucket": {
+          "label": "Nombre del bucket",
+          "placeholder": "Introduce el nombre de tu bucket de GCS"
+        },
+        "prefix": {
+          "label": "Prefijo de clave",
+          "placeholder": "backup/"
+        },
+        "credentials": {
+          "label": "Credenciales JSON",
+          "placeholder": "Pega el contenido JSON de tu cuenta de servicio"
+        }
+      }
+    },
+    "BACKBLAZE": {
+      "name": "Backblaze B2",
+      "shortName": "B2",
+      "description": "Guarda en Backblaze B2",
+      "fields": {
+        "bucket": {
+          "label": "Nombre del bucket",
+          "placeholder": "Introduce el nombre de tu bucket de B2"
+        },
+        "keyId": {
+          "label": "ID de clave de aplicación",
+          "placeholder": "Introduce el ID de tu clave de aplicación de B2"
+        },
+        "keySecret": {
+          "label": "Clave de aplicación",
+          "placeholder": "Introduce tu clave de aplicación de B2"
+        },
+        "prefix": {
+          "label": "Prefijo de clave",
+          "placeholder": "backup/"
+        }
+      }
+    },
+    "AZURE_BLOB_STORAGE": {
+      "name": "Azure Blob Storage",
+      "shortName": "Azure",
+      "description": "Guarda en Azure Blob Storage",
+      "fields": {
+        "container": {
+          "label": "Nombre del contenedor",
+          "placeholder": "Introduce el nombre de tu contenedor de blobs de Azure"
+        },
+        "account": {
+          "label": "Cuenta de almacenamiento",
+          "placeholder": "Introduce el nombre de tu cuenta de almacenamiento de Azure"
+        },
+        "key": {
+          "label": "Clave de almacenamiento",
+          "placeholder": "Introduce la clave de tu cuenta de almacenamiento de Azure"
+        },
+        "domain": {
+          "label": "Dominio de almacenamiento",
+          "placeholder": "blob.core.windows.net"
+        },
+        "prefix": {
+          "label": "Prefijo de clave",
+          "placeholder": "backup/"
+        },
+        "sasToken": {
+          "label": "Token SAS",
+          "placeholder": "Introduce tu token SAS"
+        }
+      }
+    },
+    "SFTP": {
+      "name": "SFTP",
+      "shortName": "SFTP",
+      "description": "Conecta mediante SFTP",
+      "fields": {
+        "host": {
+          "label": "Servidor",
+          "placeholder": "Introduce el nombre o la dirección IP del servidor SFTP"
+        },
+        "user": {
+          "label": "Usuario",
+          "placeholder": "Introduce el usuario de SFTP"
+        },
+        "port": {
+          "label": "Puerto",
+          "placeholder": "22"
+        },
+        "path": {
+          "label": "Ruta remota",
+          "placeholder": "Introduce la ruta del directorio remoto"
+        },
+        "password": {
+          "label": "Contraseña",
+          "placeholder": "Introduce la contraseña de SFTP"
+        },
+        "privateKey": {
+          "label": "Datos de la clave privada",
+          "placeholder": "Pega el contenido de la clave privada"
+        },
+        "knownHosts": {
+          "label": "Entrada de servidores conocidos",
+          "placeholder": "Pega el contenido de known_hosts",
+          "scan": {
+            "button": "Detectar y rellenar",
+            "error": {
+              "KEYSCAN_NOT_INSTALLED": {
+                "title": "ssh-keyscan no está instalado",
+                "description": "Rellena manualmente el campo de servidores conocidos."
+              },
+              "SCAN_FAILED": {
+                "title": "La detección con ssh-keyscan falló",
+                "description": "Comprueba el servidor y el puerto indicados."
+              }
+            }
+          }
+        }
+      }
+    },
+    "RCLONE": {
+      "name": "Remoto de Rclone",
+      "shortName": "Rclone",
+      "description": "Conecta cualquier remoto de Rclone",
+      "fields": {
+        "remotePath": {
+          "label": "Ruta remota",
+          "placeholder": "myremote:backups",
+          "description": "Usa un nombre de remoto de tu configuración de rclone, seguido de : y una carpeta opcional (por ejemplo, myremote:backups)."
+        },
+        "rclonePath": {
+          "label": "Ruta del ejecutable de Rclone",
+          "placeholder": "Ruta del ejecutable de rclone"
+        }
+      }
+    },
+    "WEBDAV": {
+      "name": "WebDAV",
+      "shortName": "WebDAV",
+      "description": "Conecta mediante WebDAV",
+      "fields": {
+        "url": {
+          "label": "URL de WebDAV",
+          "placeholder": "https://your-webdav-server.com/path"
+        },
+        "user": {
+          "label": "Usuario",
+          "placeholder": "Introduce tu usuario de WebDAV"
+        },
+        "password": {
+          "label": "Contraseña",
+          "placeholder": "Introduce tu contraseña de WebDAV"
+        }
+      }
+    }
+  },
+  "overview": {
+    "title": "Inicio",
+    "vault": "Bóveda",
+    "settings": "Configuración",
+    "currentProfile": {
+      "title": "Perfil actual"
+    },
+    "otherProfiles": {
+      "title": "Otros perfiles",
+      "back": "Volver a todos los perfiles",
+      "select": {
+        "all": "Todos los perfiles",
+        "clear": "Borrar filtro de perfiles",
+        "device": {
+          "all": "Todos los dispositivos",
+          "clear": "Borrar filtro de dispositivos",
+          "empty": "Seleccionar dispositivo"
+        },
+        "user": {
+          "all": "Todos los usuarios",
+          "clear": "Borrar filtro de usuarios",
+          "empty": "Seleccionar usuario"
+        }
+      },
+      "empty": {
+        "title": "No se encontraron archivos ni carpetas",
+        "description": "Este perfil no tiene archivos ni carpetas respaldados."
+      }
+    },
+    "sources": {
+      "title": "Archivos/carpetas",
+      "count_one": "{{count}} archivo/carpeta protegido",
+      "count_other": "{{count}} archivos/carpetas protegidos",
+      "count_many": "{{count}} archivos/carpetas protegidos",
+      "addSource": "Añadir archivo/carpeta",
+      "backupAll": "Crear copia de todo",
+      "empty": {
+        "title": "No hay archivos ni carpetas añadidos",
+        "description": "Aún no has añadido archivos ni carpetas. Añade uno con el botón de abajo."
+      }
+    },
+    "stats": {
+      "totalSize": "Datos protegidos",
+      "files": "Archivos protegidos",
+      "directories": "Directorios protegidos",
+      "storageAvailable": "Almacenamiento disponible",
+      "notReported": "Sin información",
+      "bucketQuotaRemaining": "Cuota restante del bucket",
+      "noBucketQuota": "Sin cuota de bucket",
+      "unavailable": "No disponible"
+    },
+    "score": {
+      "empty": {
+        "category": "Aún no hay bóvedas",
+        "description": "Crea tu primera bóveda para empezar a respaldar tus archivos."
+      },
+      "excellent": {
+        "category": "Excelente",
+        "description": "Tus copias de seguridad están configuradas correctamente."
+      },
+      "localOnly": {
+        "category": "Solo destinos locales",
+        "description": "Considera guardar otra copia en un dispositivo independiente o en almacenamiento externo a esta ubicación."
+      },
+      "unavailable": {
+        "category": "Estado no disponible",
+        "description": "No se pudo comprobar el estado de algunas copias. Asegúrate de que las bóvedas estén conectadas e inténtalo de nuevo."
+      },
+      "backupErrors": {
+        "category": "Requiere atención",
+        "description_one": "{{count}} copia tuvo problemas. Abre la lista de bóvedas para ver qué ocurrió.",
+        "description_other": "{{count}} copias tuvieron problemas. Abre la lista de bóvedas para ver qué ocurrió.",
+        "description_many": "{{count}} copias tuvieron problemas. Abre la lista de bóvedas para ver qué ocurrió."
+      }
+    }
+  },
+  "remoteTooltip": {
+    "title": "Perfil diferente",
+    "description": "Estás viendo otro perfil. No puedes realizar esta acción."
+  },
+  "deleteDialog": {
+    "title": "Desconectar bóveda",
+    "description": "¿Eliminar la conexión de esta bóveda de este equipo? Sus copias permanecerán en tu almacenamiento.",
+    "confirm": {
+      "label": "Para confirmar, escribe «{{vaultName}}» a continuación:",
+      "placeholder": "Introduce el nombre de la bóveda",
+      "error": {
+        "empty": "Escribe «{{vaultName}}» para confirmar la desconexión.",
+        "mismatch": "El nombre de la bóveda introducido no coincide."
+      }
+    },
+    "storageAlert": {
+      "title": "Los archivos de las copias no se eliminarán",
+      "description": "DiskPond dejará de crear copias en esta bóveda. Puedes reconectarla con su configuración de almacenamiento y contraseña de cifrado."
+    },
+    "cancel": "Cancelar",
+    "continue": "Desconectar bóveda"
+  }
+}

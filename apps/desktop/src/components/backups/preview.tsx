@@ -1,4 +1,5 @@
 import { SourceCard } from "@blinkdisk/components/source-card";
+import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
 import type { CoreBackupItem } from "@desktop/hooks/queries/core/use-backup-list";
 import type { CoreSourceItem } from "@desktop/hooks/queries/core/use-source-list";
 import { useTheme } from "@desktop/hooks/use-theme";
@@ -10,6 +11,7 @@ type BackupPreviewProps = {
 };
 
 export function BackupPreview({ backup, source }: BackupPreviewProps) {
+  const { language } = useAppTranslation();
   const { dark } = useTheme();
 
   return (
@@ -25,7 +27,7 @@ export function BackupPreview({ backup, source }: BackupPreviewProps) {
           {source.name || source.source.path}
         </span>
         <span className="ph-no-capture max-w-full truncate text-lg font-semibold">
-          {formatBackupDate(backup)}
+          {formatBackupDate(backup, language)}
         </span>
       </div>
     </div>

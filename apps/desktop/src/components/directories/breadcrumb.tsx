@@ -1,3 +1,4 @@
+import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -27,6 +28,7 @@ export function useDirectoryBreadcrumbPath() {
 }
 
 export function DirectoryBreadcrumb() {
+  const { t } = useAppTranslation("translation.common");
   const path = useDirectoryBreadcrumbPath();
   const { data: source } = useSource();
   const { data: backup } = useBackup();
@@ -44,7 +46,10 @@ export function DirectoryBreadcrumb() {
 
   return (
     <div className="mt-6 flex items-center justify-between gap-4">
-      <Breadcrumb className="min-w-0 overflow-x-auto">
+      <Breadcrumb
+        aria-label={t("breadcrumb")}
+        className="min-w-0 overflow-x-auto"
+      >
         <BreadcrumbList className="flex flex-nowrap whitespace-nowrap">
           {!source || !backup ? (
             <BreadcrumbItem>
@@ -115,7 +120,7 @@ export function DirectoryBreadcrumb() {
         <Button
           variant="secondary"
           size="sm"
-          aria-label="Go to parent folder"
+          aria-label={t("parentFolder")}
           className="shrink-0"
           nativeButton={false}
           render={
@@ -134,7 +139,7 @@ export function DirectoryBreadcrumb() {
           }
         >
           <ArrowLeftIcon />
-          Back
+          {t("back")}
         </Button>
       ) : null}
     </div>

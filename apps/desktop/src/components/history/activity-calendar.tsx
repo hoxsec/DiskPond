@@ -43,7 +43,7 @@ export function BackupActivityCalendar({
   initialHost?: string;
   initialUser?: string;
 }) {
-  const { t } = useAppTranslation("history");
+  const { t, language } = useAppTranslation("history");
   const [vaultFilter, setVaultFilter] = useState("");
   const [host, setHost] = useState(initialHost);
   const [user, setUser] = useState(initialUser);
@@ -92,12 +92,12 @@ export function BackupActivityCalendar({
   const titleId = useId();
   const dayTitleId = useId();
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const monthLabel = selected.toLocaleDateString(undefined, {
+  const monthLabel = selected.toLocaleDateString(language, {
     month: "long",
     year: "numeric",
   });
   const fullDate = (date: Date) =>
-    date.toLocaleDateString(undefined, {
+    date.toLocaleDateString(language, {
       weekday: "long",
       year: "numeric",
       month: "long",
@@ -300,7 +300,7 @@ export function BackupActivityCalendar({
                   ? t("loading")
                   : t("calendar.loaded", {
                       count: query.data?.records.length,
-                      time: formatHistoryTime(query.data?.fetchedAt),
+                      time: formatHistoryTime(query.data?.fetchedAt, language),
                     })}
               {query.isFetching && !query.isPending
                 ? ` · ${t("calendar.refreshing")}`
@@ -395,11 +395,11 @@ export function BackupActivityCalendar({
                   key={day.getDay()}
                   scope="col"
                   className="p-2 text-xs font-medium text-muted-foreground"
-                  aria-label={day.toLocaleDateString(undefined, {
+                  aria-label={day.toLocaleDateString(language, {
                     weekday: "long",
                   })}
                 >
-                  {day.toLocaleDateString(undefined, { weekday: "short" })}
+                  {day.toLocaleDateString(language, { weekday: "short" })}
                 </th>
               ))}
             </tr>

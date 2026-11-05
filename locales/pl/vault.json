@@ -1,0 +1,530 @@
+{
+  "noVaults": {
+    "title": "Twórz kopie zapasowe i odzyskuj pliki",
+    "description": "Utwórz zaszyfrowany sejf we własnym miejscu przechowywania lub podłącz sejf, aby odzyskać istniejące kopie.",
+    "refresh": "Wczytaj sejfy ponownie",
+    "add": "Dodaj sejf"
+  },
+  "home": {
+    "title": "Sejfy",
+    "createVault": "Utwórz nowy sejf",
+    "connectVault": "Podłącz istniejący sejf",
+    "count_one": "Znaleziono {{count}} sejf",
+    "count_few": "Znaleziono {{count}} sejfy",
+    "count_many": "Znaleziono {{count}} sejfów",
+    "count_other": "Znaleziono {{count}} sejfu"
+  },
+  "createDialog": {
+    "back": "Wstecz",
+    "title": {
+      "default": "Utwórz nowy sejf",
+      "connect": "Podłącz istniejący sejf"
+    },
+    "description": "Wybierz puste miejsce docelowe dla nowego zaszyfrowanego sejfu.",
+    "connectDescription": "Wybierz miejsce przechowywania sejfu. Potrzebne będzie jego dotychczasowe hasło szyfrowania.",
+    "providers": {
+      "search": {
+        "label": "Szukaj dostawców przestrzeni dyskowej",
+        "placeholder": "Szukaj dostawców..."
+      }
+    },
+    "config": {
+      "submit": "Dalej",
+      "checking": "Sprawdzanie miejsca docelowego. Proszę czekać.",
+      "validationError": {
+        "title": "Nie udało się zweryfikować ustawień przechowywania",
+        "rcloneRemoteNotConfigured": "Zdalne połączenie rclone „{{remote}}” nie jest skonfigurowane na tym komputerze. Sprawdź nazwę połączenia w konfiguracji rclone i spróbuj ponownie."
+      },
+      "existsError": {
+        "title": "Sejf już istnieje",
+        "description": "Ten sejf jest już podłączony na tym komputerze pod nazwą „{{name}}”."
+      }
+    },
+    "details": {
+      "name": {
+        "label": "Nazwa sejfu",
+        "placeholder": "Wpisz nazwę sejfu"
+      },
+      "password": {
+        "label": "Hasło szyfrowania",
+        "placeholder": "Wpisz hasło szyfrowania sejfu"
+      },
+      "confirmPassword": {
+        "label": "Potwierdź hasło szyfrowania",
+        "placeholder": "Potwierdź hasło szyfrowania sejfu"
+      },
+      "warning": {
+        "title": "Nie zapomnij tego hasła",
+        "description": "Przechowuj to hasło szyfrowania w bezpiecznym miejscu. DiskPond nie może go zresetować. Będzie potrzebne do przywrócenia kopii na innym komputerze."
+      },
+      "submit": "Utwórz sejf",
+      "connect": "Podłącz sejf",
+      "connectHint": "Użyj dotychczasowego hasła sejfu. Podczas podłączania starsze metadane repozytorium mogą zostać skopiowane pod aktualnymi nazwami. Istniejące kopie zostaną zachowane.",
+      "creating": "Tworzenie sejfu. Proszę czekać.",
+      "connecting": "Podłączanie sejfu. Proszę czekać.",
+      "failed": "Nie udało się otworzyć sejfu"
+    }
+  },
+  "connectionErrors": {
+    "password": "Hasło szyfrowania jest nieprawidłowe. Podaj dotychczasowe hasło sejfu, uwzględniając wszystkie spacje.",
+    "exists": "To miejsce docelowe zawiera już sejf. Użyj opcji Podłącz istniejący sejf lub wybierz puste miejsce docelowe.",
+    "notEmpty": "To miejsce docelowe zawiera pliki lub dane repozytorium. Wybierz puste miejsce docelowe; nie usuwaj istniejących kopii, aby kontynuować.",
+    "missing": "Nie znaleziono tutaj sejfu. Sprawdź miejsce docelowe lub użyj opcji Utwórz nowy sejf dla pustej lokalizacji.",
+    "duplicate": "Ten sejf jest już podłączony na tym komputerze. Otwórz go z listy sejfów.",
+    "invalid": "Nie udało się odczytać tożsamości repozytorium. Sprawdź, czy jest to kompletny, zgodny sejf.",
+    "destinationMissing": "Folder docelowy nie istnieje lub nie jest folderem. Podłącz dysk ponownie lub wybierz istniejący folder.",
+    "unavailable": "Nie udało się otworzyć sejfu. Sprawdź miejsce docelowe, uprawnienia dostępu, dane uwierzytelniające dostawcy i pliki repozytorium, a następnie spróbuj ponownie."
+  },
+  "setup": {
+    "title": "Skonfiguruj sejf",
+    "description": "Przed użyciem tego sejfu musisz go skonfigurować.",
+    "password": {
+      "label": "Hasło szyfrowania",
+      "placeholder": "Wpisz hasło szyfrowania sejfu"
+    },
+    "submit": "Dalej"
+  },
+  "passwordStorage": {
+    "protected": {
+      "title": "Przechowywanie danych uwierzytelniających sejfów",
+      "description": "DiskPond używa bezpiecznego magazynu tego komputera do zapisywania haseł sejfów i połączeń z dostawcami. Przechowuj hasła i dane uwierzytelniające osobno, aby móc odzyskać dane na innym komputerze."
+    },
+    "session": {
+      "title": "Dane uwierzytelniające sejfów są dostępne tylko w tej sesji",
+      "description": "Niektórych danych uwierzytelniających nie można bezpiecznie zapisać, więc pozostają w pamięci do zamknięcia DiskPond. Po ponownym uruchomieniu podaj wymagane hasło sejfu i dane połączenia z dostawcą, aby wznowić zaplanowane kopie.",
+      "recovery": "Przywróć dostęp do systemowego magazynu kluczy, a następnie uruchom DiskPond ponownie, aby ponowić zapis danych uwierzytelniających."
+    },
+    "locked": {
+      "title": "Podaj ponownie dane uwierzytelniające sejfów",
+      "description": "Nie udało się odblokować lub przenieść zapisanych danych uwierzytelniających. Otwórz odpowiedni sejf i podaj jego hasło oraz wymagane dane połączenia z dostawcą. Kopie pozostają w miejscu przechowywania."
+    },
+    "cleanupFailed": {
+      "title": "Zapisane dane uwierzytelniające wymagają uporządkowania",
+      "description": "DiskPond nie mógł przenieść lub usunąć starej kopii danych uwierzytelniających. Sprawdź dostęp do folderu danych aplikacji DiskPond i uruchom ją ponownie. Stara kopia może nadal znajdować się na dysku bez ochrony."
+    },
+    "unknown": {
+      "title": "Stan magazynu danych uwierzytelniających jest niedostępny",
+      "description": "Uruchom DiskPond ponownie, aby sprawdzić magazyn danych uwierzytelniających. Przygotuj hasła sejfów i dane połączeń z dostawcami do ponownego wprowadzenia."
+    },
+    "saveFailed": "Nie udało się zapisać danych uwierzytelniających. Sprawdź dostęp do folderu danych aplikacji DiskPond przed ponownym uruchomieniem."
+  },
+  "starting": {
+    "title": "Uruchamianie sejfu",
+    "description": "Trwa inicjowanie sejfu. Zwykle zajmuje to kilka sekund."
+  },
+  "failed": {
+    "retry": "Spróbuj ponownie"
+  },
+  "status": {
+    "RUNNING": "Aktywny",
+    "SETUP": "Wymaga konfiguracji",
+    "STARTING": "Uruchamianie",
+    "FAILED": "Uruchomienie nie powiodło się"
+  },
+  "providers": {
+    "CLOUDBLINK": {
+      "name": "Nieobsługiwana zarządzana przestrzeń dyskowa",
+      "shortName": "Nieobsługiwana przestrzeń"
+    },
+    "INTERNAL_DRIVE": {
+      "name": "Ten komputer",
+      "shortName": "Ten komputer",
+      "description": "Zapisuj w folderze na tym komputerze",
+      "fields": {
+        "path": {
+          "label": "Folder docelowy kopii",
+          "placeholder": "Wybierz folder docelowy",
+          "dialogTitle": "Wybierz folder docelowy kopii"
+        }
+      }
+    },
+    "EXTERNAL_DRIVE": {
+      "name": "Dysk zewnętrzny",
+      "shortName": "Dysk zewnętrzny",
+      "description": "Zapisuj na dysku zewnętrznym",
+      "fields": {
+        "path": {
+          "label": "Folder na dysku zewnętrznym",
+          "placeholder": "Wybierz folder na dysku zewnętrznym",
+          "dialogTitle": "Wybierz folder na dysku zewnętrznym"
+        }
+      }
+    },
+    "NETWORK_DRIVE": {
+      "name": "Dysk sieciowy",
+      "shortName": "Dysk sieciowy",
+      "description": "Zapisuj na dysku sieciowym",
+      "fields": {
+        "path": {
+          "label": "Folder na dysku sieciowym",
+          "placeholder": "Wybierz folder na dysku sieciowym",
+          "dialogTitle": "Wybierz folder na dysku sieciowym"
+        }
+      }
+    },
+    "FILESYSTEM": {
+      "name": "Ten komputer",
+      "shortName": "Ten komputer",
+      "description": "Zapisuj w folderze na tym komputerze",
+      "fields": {
+        "path": {
+          "label": "Folder docelowy kopii",
+          "placeholder": "Wybierz folder docelowy",
+          "dialogTitle": "Wybierz folder docelowy kopii"
+        }
+      }
+    },
+    "NETWORK_ATTACHED_STORAGE": {
+      "name": "Dysk sieciowy",
+      "shortName": "Dysk sieciowy",
+      "description": "Zapisuj na dysku sieciowym",
+      "fields": {
+        "path": {
+          "label": "Folder na dysku sieciowym",
+          "placeholder": "Wybierz folder na dysku sieciowym",
+          "dialogTitle": "Wybierz folder na dysku sieciowym"
+        }
+      }
+    },
+    "AMAZON_S3": {
+      "name": "Amazon S3",
+      "shortName": "S3",
+      "description": "Przechowuj w Amazon S3",
+      "fields": {
+        "bucket": {
+          "label": "Nazwa zasobnika",
+          "placeholder": "Podaj nazwę zasobnika S3"
+        },
+        "endpoint": {
+          "label": "Adres URL punktu końcowego",
+          "placeholder": "https://s3.amazonaws.com"
+        },
+        "region": {
+          "label": "Region",
+          "placeholder": "us-east-1"
+        },
+        "accessKeyId": {
+          "label": "Identyfikator klucza dostępu",
+          "placeholder": "Podaj identyfikator klucza dostępu AWS"
+        },
+        "accessKeySecret": {
+          "label": "Tajny klucz dostępu",
+          "placeholder": "Podaj tajny klucz dostępu AWS"
+        },
+        "sessionToken": {
+          "label": "Token sesji",
+          "placeholder": "Podaj token sesji"
+        },
+        "prefix": {
+          "label": "Prefiks klucza",
+          "placeholder": "backup/"
+        }
+      }
+    },
+    "S3_COMPATIBLE": {
+      "name": "Zgodne z S3",
+      "shortName": "S3",
+      "description": "Użyj dowolnej przestrzeni zgodnej z S3",
+      "fields": {
+        "bucket": {
+          "label": "Nazwa zasobnika",
+          "placeholder": "Podaj nazwę zasobnika zgodnego z S3"
+        },
+        "endpoint": {
+          "label": "Adres URL punktu końcowego",
+          "placeholder": "your-s3-compatible-endpoint.com"
+        },
+        "region": {
+          "label": "Region",
+          "placeholder": "us-east-1"
+        },
+        "accessKeyId": {
+          "label": "Identyfikator klucza dostępu",
+          "placeholder": "Podaj identyfikator klucza dostępu"
+        },
+        "accessKeySecret": {
+          "label": "Tajny klucz dostępu",
+          "placeholder": "Podaj tajny klucz dostępu"
+        },
+        "sessionToken": {
+          "label": "Token sesji",
+          "placeholder": "Podaj token sesji"
+        },
+        "prefix": {
+          "label": "Prefiks klucza",
+          "placeholder": "backup/"
+        },
+        "disableTls": {
+          "label": "Używaj niezabezpieczonego połączenia HTTP"
+        },
+        "disableTlsVerification": {
+          "label": "Wyłącz weryfikację certyfikatu TLS"
+        }
+      }
+    },
+    "DISKPOND_CLOUD": {
+      "name": "DiskPond Cloud",
+      "shortName": "DiskPond Cloud",
+      "description": "Przechowuj w DiskPond Cloud",
+      "openPortal": "Otwórz DiskPond Cloud",
+      "endpointPlaceholder": "Podaj punkt końcowy DiskPond Cloud",
+      "bucketPlaceholder": "Podaj nazwę zasobnika DiskPond Cloud"
+    },
+    "GOOGLE_CLOUD_STORAGE": {
+      "name": "Google Cloud Storage",
+      "shortName": "GCS",
+      "description": "Przechowuj w Google Cloud",
+      "fields": {
+        "bucket": {
+          "label": "Nazwa zasobnika",
+          "placeholder": "Podaj nazwę zasobnika GCS"
+        },
+        "prefix": {
+          "label": "Prefiks klucza",
+          "placeholder": "backup/"
+        },
+        "credentials": {
+          "label": "Dane uwierzytelniające JSON",
+          "placeholder": "Wklej zawartość JSON konta usługi"
+        }
+      }
+    },
+    "BACKBLAZE": {
+      "name": "Backblaze B2",
+      "shortName": "B2",
+      "description": "Przechowuj w Backblaze B2",
+      "fields": {
+        "bucket": {
+          "label": "Nazwa zasobnika",
+          "placeholder": "Podaj nazwę zasobnika B2"
+        },
+        "keyId": {
+          "label": "Identyfikator klucza aplikacji",
+          "placeholder": "Podaj identyfikator klucza aplikacji B2"
+        },
+        "keySecret": {
+          "label": "Klucz aplikacji",
+          "placeholder": "Podaj klucz aplikacji B2"
+        },
+        "prefix": {
+          "label": "Prefiks klucza",
+          "placeholder": "backup/"
+        }
+      }
+    },
+    "AZURE_BLOB_STORAGE": {
+      "name": "Azure Blob Storage",
+      "shortName": "Azure",
+      "description": "Przechowuj w Azure Blob Storage",
+      "fields": {
+        "container": {
+          "label": "Nazwa kontenera",
+          "placeholder": "Podaj nazwę kontenera obiektów blob Azure"
+        },
+        "account": {
+          "label": "Konto magazynu",
+          "placeholder": "Podaj nazwę konta magazynu Azure"
+        },
+        "key": {
+          "label": "Klucz magazynu",
+          "placeholder": "Podaj klucz konta magazynu Azure"
+        },
+        "domain": {
+          "label": "Domena magazynu",
+          "placeholder": "blob.core.windows.net"
+        },
+        "prefix": {
+          "label": "Prefiks klucza",
+          "placeholder": "backup/"
+        },
+        "sasToken": {
+          "label": "Token SAS",
+          "placeholder": "Podaj token SAS"
+        }
+      }
+    },
+    "SFTP": {
+      "name": "SFTP",
+      "shortName": "SFTP",
+      "description": "Połącz przez SFTP",
+      "fields": {
+        "host": {
+          "label": "Host",
+          "placeholder": "Podaj nazwę hosta lub adres IP serwera SFTP"
+        },
+        "user": {
+          "label": "Nazwa użytkownika",
+          "placeholder": "Podaj nazwę użytkownika SFTP"
+        },
+        "port": {
+          "label": "Port",
+          "placeholder": "22"
+        },
+        "path": {
+          "label": "Ścieżka zdalna",
+          "placeholder": "Podaj ścieżkę katalogu zdalnego"
+        },
+        "password": {
+          "label": "Hasło",
+          "placeholder": "Podaj hasło SFTP"
+        },
+        "privateKey": {
+          "label": "Dane klucza prywatnego",
+          "placeholder": "Wklej zawartość klucza prywatnego"
+        },
+        "knownHosts": {
+          "label": "Wpis znanych hostów",
+          "placeholder": "Wklej zawartość known_hosts",
+          "scan": {
+            "button": "Skanuj i wypełnij",
+            "error": {
+              "KEYSCAN_NOT_INSTALLED": {
+                "title": "ssh-keyscan nie jest zainstalowany",
+                "description": "Wypełnij ręcznie pole znanych hostów."
+              },
+              "SCAN_FAILED": {
+                "title": "Skanowanie przez ssh-keyscan nie powiodło się",
+                "description": "Sprawdź podany host i port."
+              }
+            }
+          }
+        }
+      }
+    },
+    "RCLONE": {
+      "name": "Zdalne połączenie Rclone",
+      "shortName": "Rclone",
+      "description": "Podłącz dowolne zdalne połączenie Rclone",
+      "fields": {
+        "remotePath": {
+          "label": "Ścieżka zdalna",
+          "placeholder": "myremote:backups",
+          "description": "Użyj nazwy zdalnego połączenia z konfiguracji rclone, po której następuje : i opcjonalny folder (np. myremote:backups)."
+        },
+        "rclonePath": {
+          "label": "Ścieżka pliku wykonywalnego Rclone",
+          "placeholder": "Ścieżka do pliku wykonywalnego rclone"
+        }
+      }
+    },
+    "WEBDAV": {
+      "name": "WebDAV",
+      "shortName": "WebDAV",
+      "description": "Połącz przez WebDAV",
+      "fields": {
+        "url": {
+          "label": "Adres URL WebDAV",
+          "placeholder": "https://your-webdav-server.com/path"
+        },
+        "user": {
+          "label": "Nazwa użytkownika",
+          "placeholder": "Podaj nazwę użytkownika WebDAV"
+        },
+        "password": {
+          "label": "Hasło",
+          "placeholder": "Podaj hasło WebDAV"
+        }
+      }
+    }
+  },
+  "overview": {
+    "title": "Strona główna",
+    "vault": "Sejf",
+    "settings": "Ustawienia",
+    "currentProfile": {
+      "title": "Bieżący profil"
+    },
+    "otherProfiles": {
+      "title": "Inne profile",
+      "back": "Wróć do wszystkich profili",
+      "select": {
+        "all": "Wszystkie profile",
+        "clear": "Wyczyść filtr profili",
+        "device": {
+          "all": "Wszystkie urządzenia",
+          "clear": "Wyczyść filtr urządzeń",
+          "empty": "Wybierz urządzenie"
+        },
+        "user": {
+          "all": "Wszyscy użytkownicy",
+          "clear": "Wyczyść filtr użytkowników",
+          "empty": "Wybierz użytkownika"
+        }
+      },
+      "empty": {
+        "title": "Nie znaleziono plików ani folderów",
+        "description": "Ten profil nie ma plików ani folderów objętych kopiami."
+      }
+    },
+    "sources": {
+      "title": "Pliki/foldery",
+      "count_one": "Chronione pliki/foldery: {{count}}",
+      "count_few": "Chronione pliki/foldery: {{count}}",
+      "count_many": "Chronione pliki/foldery: {{count}}",
+      "count_other": "Chronione pliki/foldery: {{count}}",
+      "addSource": "Dodaj plik/folder",
+      "backupAll": "Utwórz kopie wszystkich",
+      "empty": {
+        "title": "Nie dodano plików ani folderów",
+        "description": "Nie dodano jeszcze plików ani folderów. Dodaj je przyciskiem poniżej."
+      }
+    },
+    "stats": {
+      "totalSize": "Chronione dane",
+      "files": "Chronione pliki",
+      "directories": "Chronione katalogi",
+      "storageAvailable": "Dostępne miejsce",
+      "notReported": "Nie podano",
+      "bucketQuotaRemaining": "Pozostały limit zasobnika",
+      "noBucketQuota": "Brak limitu zasobnika",
+      "unavailable": "Niedostępne"
+    },
+    "score": {
+      "empty": {
+        "category": "Nie ma jeszcze sejfów",
+        "description": "Utwórz pierwszy sejf, aby zacząć tworzyć kopie zapasowe plików."
+      },
+      "excellent": {
+        "category": "Doskonale",
+        "description": "Konfiguracja kopii zapasowych jest prawidłowa."
+      },
+      "localOnly": {
+        "category": "Tylko lokalne miejsca docelowe",
+        "description": "Rozważ dodatkową kopię na osobnym urządzeniu lub we własnym miejscu przechowywania poza obecną lokalizacją."
+      },
+      "unavailable": {
+        "category": "Stan jest niedostępny",
+        "description": "Nie udało się sprawdzić stanu niektórych kopii. Upewnij się, że sejfy są podłączone, i spróbuj ponownie."
+      },
+      "backupErrors": {
+        "category": "Wymaga uwagi",
+        "description_one": "Tworzenie {{count}} kopii zakończyło się problemami. Otwórz listę sejfów, aby sprawdzić, co się stało.",
+        "description_few": "Tworzenie {{count}} kopii zakończyło się problemami. Otwórz listę sejfów, aby sprawdzić, co się stało.",
+        "description_many": "Tworzenie {{count}} kopii zakończyło się problemami. Otwórz listę sejfów, aby sprawdzić, co się stało.",
+        "description_other": "Tworzenie {{count}} kopii zakończyło się problemami. Otwórz listę sejfów, aby sprawdzić, co się stało."
+      }
+    }
+  },
+  "remoteTooltip": {
+    "title": "Inny profil",
+    "description": "Przeglądasz inny profil. Nie możesz wykonać tej czynności."
+  },
+  "deleteDialog": {
+    "title": "Odłącz sejf",
+    "description": "Usunąć połączenie z tym sejfem z tego komputera? Zapisane kopie pozostaną w miejscu przechowywania.",
+    "confirm": {
+      "label": "Aby potwierdzić, wpisz poniżej „{{vaultName}}”:",
+      "placeholder": "Wpisz nazwę sejfu",
+      "error": {
+        "empty": "Wpisz „{{vaultName}}”, aby potwierdzić odłączenie.",
+        "mismatch": "Podana nazwa sejfu nie jest zgodna."
+      }
+    },
+    "storageAlert": {
+      "title": "Pliki kopii nie zostaną usunięte",
+      "description": "DiskPond przestanie tworzyć kopie w tym sejfie. Możesz podłączyć go ponownie, korzystając z ustawień przechowywania i hasła szyfrowania."
+    },
+    "cancel": "Anuluj",
+    "continue": "Odłącz sejf"
+  }
+}

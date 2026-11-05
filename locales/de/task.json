@@ -1,0 +1,25 @@
+{
+  "dialog": {
+    "title": {
+      "loading": "Wird geladen...",
+      "fallback": "Aufgabe"
+    },
+    "description": {
+      "loading": "Aufgabendetails werden geladen..."
+    },
+    "logs": {
+      "waiting": "Warten auf Protokolle...",
+      "empty": "Keine Protokolle verfügbar",
+      "unavailable": "Die Aufgabenprotokolle konnten nicht geladen werden. Ältere Aufgaben verfallen, und der Aufgabenverlauf wird beim Neustart von DiskPond gelöscht."
+    },
+    "close": "Schließen",
+    "cancel": "Aufgabe abbrechen",
+    "status": {
+      "RUNNING": "Wird ausgeführt",
+      "CANCELING": "Wird abgebrochen",
+      "CANCELED": "Abgebrochen",
+      "SUCCESS": "Erfolgreich",
+      "FAILED": "Fehlgeschlagen"
+    }
+  }
+}

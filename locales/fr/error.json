@@ -1,0 +1,82 @@
+{
+  "pages": {
+    "default": {
+      "title": "Un problème est survenu",
+      "description": "Une erreur inattendue s’est produite. Réessayez. Si elle persiste, <0>signalez le problème</0>.",
+      "button": "Retour à l’accueil"
+    },
+    "not-found": {
+      "title": "404",
+      "description": "Cette page n’existe pas. Retournez à l’accueil ou <0>signalez le problème</0>.",
+      "button": "Retour à l’accueil"
+    }
+  },
+  "fallback": {
+    "title": "Un problème est survenu",
+    "description": "Réessayez. Si le problème persiste, signalez-le depuis les paramètres."
+  },
+  "INTERNAL_SERVER_ERROR": {
+    "title": "Un problème est survenu",
+    "description": "Une erreur inattendue s’est produite. Si elle persiste, signalez le problème depuis les paramètres."
+  },
+  "UNAUTHORIZED": {
+    "title": "Vous n’êtes pas autorisé à effectuer cette action",
+    "description": "Vérifiez les identifiants et les autorisations du stockage, puis reconnectez le coffre."
+  },
+  "USER_ALREADY_EXISTS": {
+    "title": "Un utilisateur possède déjà cette adresse e-mail",
+    "description": "Essayez plutôt de vous connecter."
+  },
+  "INVALID_EMAIL_OR_PASSWORD": {
+    "title": "Adresse e-mail ou mot de passe incorrect",
+    "description": "Vérifiez votre adresse e-mail et votre mot de passe."
+  },
+  "INVALID_TOKEN": {
+    "title": "Code invalide ou expiré",
+    "description": "Demandez un nouveau code en vous reconnectant."
+  },
+  "EMAIL_NOT_VERIFIED": {
+    "title": "L’adresse e-mail n’est pas encore vérifiée",
+    "description": "Saisissez ci-dessous le code de vérification envoyé à votre adresse e-mail."
+  },
+  "SUBSCRIPTION_EXISTS": {
+    "title": "Vous avez déjà un abonnement actif",
+    "description": "Essayez plutôt de passer à un abonnement supérieur."
+  },
+  "VAULT_ALREADY_EXISTS": {
+    "title": "Le coffre existe déjà",
+    "description": "Ce coffre est déjà connecté sur cet ordinateur."
+  },
+  "VAULT_NOT_FOUND": "Coffre introuvable",
+  "FOLDER_NOT_FOUND": "Dossier introuvable",
+  "PROVIDER_NOT_FOUND": "Fournisseur introuvable",
+  "SPACE_NOT_FOUND": "Espace introuvable",
+  "PRICE_NOT_FOUND": "Tarif introuvable",
+  "SUBSCRIPTION_NOT_FOUND": "Abonnement introuvable",
+  "NO_STORAGE": "Aucun stockage disponible",
+  "NOT_ALLOWED": "Vous n’êtes pas autorisé à effectuer cette action",
+  "MISSING_REQUIRED_VALUE": {
+    "title": "Des informations obligatoires sont manquantes",
+    "description": "Réessayez ou redémarrez l’application."
+  },
+  "INVALID_PASSWORD": {
+    "title": "Mot de passe de chiffrement incorrect",
+    "description": "Le mot de passe de chiffrement saisi est incorrect."
+  },
+  "INCORRECT_VAULT": {
+    "title": "Un autre coffre a été trouvé",
+    "description": "Votre configuration mène à un autre coffre. Vérifiez vos paramètres."
+  },
+  "STORAGE_UNREACHABLE": {
+    "title": "Impossible d’accéder à votre stockage",
+    "description": "DiskPond n’a pas pu accéder au stockage. Vérifiez que le chemin ou le serveur est disponible et que vos paramètres sont corrects."
+  },
+  "VAULT_SERVER_UNAVAILABLE": {
+    "title": "Coffre indisponible",
+    "description": "DiskPond n’a pas pu démarrer le moteur de sauvegarde ou reconnecter ce coffre. Vérifiez que son stockage est disponible, puis réessayez."
+  },
+  "ACCOUNT_SYNC_FAILED": {
+    "title": "Impossible de synchroniser votre compte",
+    "description": "Réessayez. Si le problème persiste, signalez-le depuis les paramètres."
+  }
+}

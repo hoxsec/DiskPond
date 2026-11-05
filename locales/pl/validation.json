@@ -1,0 +1,17 @@
+{
+  "optional": "Opcjonalne",
+  "string_too_small": "Pole {{field}} musi zawierać co najmniej {{minimum}} znaków",
+  "string_too_big": "Pole {{field}} może zawierać najwyżej {{maximum}} znaków",
+  "number_too_small": "Wartość pola {{field}} musi wynosić co najmniej {{minimum}}",
+  "number_too_big": "Wartość pola {{field}} może wynosić najwyżej {{maximum}}",
+  "email_invalid_format": "Pole {{field}} musi zawierać prawidłowy adres e-mail",
+  "url_invalid_format": "Pole {{field}} musi zawierać prawidłowy adres URL",
+  "emoji_invalid_format": "Pole {{field}} musi zawierać emoji",
+  "custom_password_mismatch": "Hasła nie są zgodne",
+  "custom_s3_endpoint": "Podaj nazwę hosta punktu końcowego lub adres URL HTTP(S) bez ścieżki, danych uwierzytelniających, zapytania ani fragmentu",
+  "custom_s3_endpoint_protocol": "Protokół punktu końcowego musi być zgodny z ustawieniem niezabezpieczonego HTTP",
+  "custom_terms_required": "Musisz zaakceptować warunki korzystania z usługi i politykę prywatności",
+  "custom_plan_change": "Musisz to potwierdzić",
+  "custom_invalid_zip_extension": "Pole {{field}} musi kończyć się na .zip",
+  "custom_restore_confirmation": "Potwierdź, że rozumiesz ryzyko"
+}

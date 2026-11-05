@@ -72,7 +72,7 @@ export function DirectoryTable({
 }: DirectoryTableProps) {
   "use no memo";
 
-  const { t } = useAppTranslation("directory.table");
+  const { t, language } = useAppTranslation("directory.table");
   const { dark } = useTheme();
   const breadcrumbPath = useDirectoryBreadcrumbPath();
   const hasBreadcrumb = !!breadcrumbPath?.length;
@@ -101,7 +101,7 @@ export function DirectoryTable({
             onCheckedChange={(value) =>
               table.toggleAllPageRowsSelected(!!value)
             }
-            aria-label="Select all"
+            aria-label={t("translation:common.selectAll")}
             className="size-4.5 mb-1"
           />
         ),
@@ -110,7 +110,7 @@ export function DirectoryTable({
             checked={row.getIsSelected()}
             onCheckedChange={(value) => row.toggleSelected(!!value)}
             disabled={!row.getCanSelect()}
-            aria-label="Select row"
+            aria-label={t("translation:common.selectRow")}
             className="size-4.5 mb-1 ml-1"
             preventPropagation
           />
@@ -132,7 +132,7 @@ export function DirectoryTable({
           info.row.original?.skeleton ? (
             <Skeleton width={80} />
           ) : (
-            formatSize(info.getValue() || 0)
+            formatSize(info.getValue() || 0, { locale: language })
           ),
         size: 120,
       }),
@@ -143,7 +143,7 @@ export function DirectoryTable({
           info.row.original?.skeleton ? (
             <Skeleton width={100} />
           ) : (
-            new Date(info.getValue() || 0).toLocaleString(undefined, {
+            new Date(info.getValue() || 0).toLocaleString(language, {
               timeStyle: "short",
               dateStyle: "short",
             })
@@ -184,7 +184,7 @@ export function DirectoryTable({
         size: 80,
       }),
     ];
-  }, [t, dark]);
+  }, [t, dark, language]);
 
   const table = useReactTable({
     data: items || [],

@@ -1,0 +1,95 @@
+{
+  "list": {
+    "back": "Geri dön",
+    "backToVault": "Kasaya dön",
+    "settings": {
+      "folder": "Klasör ilkesi",
+      "file": "Dosya ilkesi"
+    },
+    "item": {
+      "browseFiles": "{{date}} tarihli yedekteki dosyalara göz at",
+      "files_one": "{{formatted}} dosya",
+      "files_other": "{{formatted}} dosya",
+      "dropdown": {
+        "browse": "Dosyalara göz at",
+        "restoreFile": "Dosyayı geri yükle",
+        "rename": "Yedeği yeniden adlandır",
+        "pin": "Yedeği sabitle",
+        "delete": "Yedeği sil"
+      }
+    },
+    "pending": {
+      "title": "Yeni yedekleme bekliyor",
+      "description": "Şu anda başka bir yedekleme çalışıyor."
+    },
+    "paused": {
+      "title": "Duraklatılan yedeklemeyi sürdür",
+      "description": "Henüz tamamlanmamış bir yedeklemeyi duraklattınız.",
+      "button": "Yedeklemeyi sürdür"
+    },
+    "empty": {
+      "default": {
+        "title": "Henüz yedek yok",
+        "description": "Henüz yedek oluşturmadınız. Aşağıdaki düğmeyle bir yedek oluşturun.",
+        "button": "Şimdi yedekle"
+      },
+      "pending": {
+        "title": "Yedekleme bekliyor",
+        "description": "Şu anda başka bir yedekleme çalışıyor. Bu yedekleme sırada bekliyor."
+      },
+      "initial": {
+        "title": "İlk yedekleme çalışıyor",
+        "description": "Bu ilk yedekleme olduğu için biraz zaman alabilir. DiskPond sonraki yedeklemelerde değişen dosyaları yükler."
+      },
+      "canceling": {
+        "title": "Yedekleme iptal ediliyor",
+        "description": "Bu yedekleme şu anda iptal ediliyor. İptal işlemi biraz zaman alabilir."
+      }
+    },
+    "cancel": "Yedeklemeyi iptal et",
+    "backup": {
+      "folder": "Klasörü yedekle",
+      "file": "Dosyayı yedekle"
+    }
+  },
+  "progress": {
+    "title": {
+      "default": "{{percentage}} tamamlandı",
+      "fallback": "Yedekleniyor..."
+    },
+    "description": {
+      "total": "{{completed}} / {{total}}",
+      "fallback": "{{completed}} işlendi"
+    }
+  },
+  "renameDialog": {
+    "title": "Yedeği yeniden adlandır",
+    "description": "Daha kolay bulmak için bu yedeğe özel bir ad verin.",
+    "label": "Ad",
+    "placeholder": "Yedeğim",
+    "continue": "Yedeği yeniden adlandır"
+  },
+  "deleteDialog": {
+    "title": "Yedeği sil",
+    "description": "Bu yedeği silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+    "alert": {
+      "title": "Temizleme zaman içinde gerçekleşir",
+      "description": "Depolama alanı hemen boşalmaz. DiskPond, güvenilirliği sağlamak için kullanılmayan verileri daha sonra temizler."
+    },
+    "cancel": "İptal",
+    "continue": "Yedeği sil"
+  },
+  "pinDialog": {
+    "title": "Yedeği sabitle",
+    "description": "Bu yedeğin sabitlemelerini yönetin.",
+    "alert": {
+      "title": "Sabitlemeler nedir?",
+      "description": "Sabitlenmiş bir yedek, saklama ilkenizin dışında kalsa bile kaldırılmaz."
+    },
+    "label": "Yeni sabitleme",
+    "placeholder": "ör. “sakla”",
+    "add": "Ekle",
+    "duplicate": "Bu sabitleme zaten eklenmiş.",
+    "save": "Kaydet"
+  }
+}

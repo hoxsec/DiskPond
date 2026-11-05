@@ -1,0 +1,25 @@
+{
+  "addFolder": "Dosya/klasör ekle",
+  "selectVault": {
+    "empty": "Kasa seç",
+    "createVault": "Kasa oluştur"
+  },
+  "vaultMenu": {
+    "createVault": "Yeni kasa oluştur",
+    "connectVault": "Mevcut kasaya bağlan"
+  },
+  "links": {
+    "navigation": "Menü",
+    "vaultSettings": "Kasa ayarları",
+    "home": "Ana sayfa",
+    "activity": "Etkinlik",
+    "overview": "Genel bakış",
+    "settings": "Ayarlar",
+    "policies": "İlkeler"
+  },
+  "updateAlert": {
+    "title": "DiskPond {{version}} kullanılabilir",
+    "error": "Tarayıcı açılamadı. Yeniden deneyin.",
+    "button": "GitHub sürümlerini görüntüle"
+  }
+}

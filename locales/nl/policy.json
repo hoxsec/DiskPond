@@ -1,0 +1,267 @@
+{
+  "page": {
+    "tree": {
+      "title": "Bereik",
+      "description": "Kies welk beleid je wilt bewerken."
+    },
+    "editor": {
+      "title": "Beleid",
+      "save": "Opslaan",
+      "mode": {
+        "basic": "Eenvoudig",
+        "advanced": "Geavanceerd"
+      },
+      "advancedBanner": {
+        "title": "Op zoek naar meer opties?",
+        "description": "De geavanceerde modus biedt aangepaste schema’s, regelbestanden, compressie, bewaarbeleid en limieten voor bestandsgrootte.",
+        "button": "Naar geavanceerd"
+      }
+    },
+    "override": {
+      "inherited": "Overgenomen",
+      "custom": "Aangepast"
+    },
+    "draft": {
+      "badge": "Concept",
+      "activate": {
+        "button": "Bestand/map toevoegen"
+      },
+      "discard": {
+        "button": "Verwerpen"
+      }
+    }
+  },
+  "schedule": {
+    "title": "Back-upschema",
+    "description": "Plan automatische back-ups van je bestanden.",
+    "trigger": {
+      "label": "Back-up starten",
+      "items": {
+        "SCHEDULE": "Gepland",
+        "MANUAL": "Alleen handmatig"
+      }
+    },
+    "interval": {
+      "label": "Back-upinterval",
+      "placeholder": "Selecteer een back-upinterval",
+      "items": {
+        "NONE": "Geen",
+        "10_MINUTES": "Elke 10 minuten",
+        "15_MINUTES": "Elke 15 minuten",
+        "20_MINUTES": "Elke 20 minuten",
+        "30_MINUTES": "Elke 30 minuten",
+        "1_HOUR": "Elk uur",
+        "3_HOURS": "Elke 3 uur",
+        "6_HOURS": "Elke 6 uur",
+        "12_HOURS": "Elke 12 uur",
+        "24_HOURS": "Elke 24 uur"
+      }
+    },
+    "catchup": {
+      "label": "Gemiste back-ups inhalen"
+    },
+    "cron": {
+      "label": "Aangepast schema",
+      "add": "Aangepast schema toevoegen"
+    }
+  },
+  "retention": {
+    "title": "Back-ups bewaren",
+    "description": "Configureer hoe lang back-ups worden bewaard.",
+    "latest": {
+      "label": "Nieuwste back-ups",
+      "description": "Het aantal nieuwste back-ups om te bewaren."
+    },
+    "hourly": {
+      "label": "Uurlijkse back-ups",
+      "description": "Het aantal uurlijkse back-ups om te bewaren."
+    },
+    "daily": {
+      "label": "Dagelijkse back-ups",
+      "description": "Het aantal dagelijkse back-ups om te bewaren."
+    },
+    "weekly": {
+      "label": "Wekelijkse back-ups",
+      "description": "Het aantal wekelijkse back-ups om te bewaren."
+    },
+    "monthly": {
+      "label": "Maandelijkse back-ups",
+      "description": "Het aantal maandelijkse back-ups om te bewaren."
+    },
+    "annual": {
+      "label": "Jaarlijkse back-ups",
+      "description": "Het aantal jaarlijkse back-ups om te bewaren."
+    },
+    "info": {
+      "title": "Hoe het bewaarbeleid werkt",
+      "description": "DiskPond bewaart voor elke periode het ingestelde aantal nieuwste back-ups. Een back-up blijft bewaard als deze aan minstens één regel voldoet; de rest wordt verwijderd om ruimte te besparen."
+    }
+  },
+  "files": {
+    "title": "Uitgesloten bestanden",
+    "description": "Sluit bestanden en mappen uit van back-ups.",
+    "exclusions": {
+      "label": "Uitgesloten bestanden en mappen",
+      "description": "Bestanden, mappen en extensies om uit te sluiten van back-ups.",
+      "descriptionWithRoot": "Bestanden, mappen en extensies om uit te sluiten van de back-ups van deze map.",
+      "add": "Uitsluiting toevoegen",
+      "example": "genegeerd-bestand.txt",
+      "broken": {
+        "title_one": "{{count}} uitsluitingsregel werkt niet",
+        "title_other": "{{count}} uitsluitingsregels werken niet",
+        "description": "Regels die als volledige paden zijn ingevoerd, vinden nooit overeenkomsten. Regels moeten relatief zijn aan de geback-upte map.",
+        "descriptionOutside": "Paden buiten {{root}} kunnen niet worden uitgesloten van de back-ups van deze map. Bewerk of verwijder deze regels.",
+        "descriptionWithoutRoot": "Regels die als volledige paden zijn ingevoerd, vinden nooit overeenkomsten. Voeg de regel toe aan het eigen beleid van een map om die specifieke map uit te sluiten.",
+        "fix_one": "{{count}} regel corrigeren",
+        "fix_other": "{{count}} regels corrigeren"
+      },
+      "dialog": {
+        "title": "Uitsluitingsregel bewerken",
+        "description": "Configureer het patroon van de uitsluitingsregel.",
+        "type": {
+          "label": "Uitsluiten op",
+          "path": "Pad",
+          "name": "Naam",
+          "extension": "Extensie"
+        },
+        "matchType": {
+          "exact": "is exact",
+          "startsWith": "begint met",
+          "endsWith": "eindigt op",
+          "contains": "bevat"
+        },
+        "path": {
+          "label": "Map of bestand",
+          "description": "Moet binnen {{root}} liggen.",
+          "descriptionWithoutRoot": "Relatief aan elke geback-upte map, bijv. /AppData/Local/Temp.",
+          "placeholderWithoutRoot": "/pad/naar/map",
+          "chooseFolder": "Map kiezen",
+          "chooseFile": "Bestand kiezen",
+          "preview": "Sluit {{path}} uit in deze map.",
+          "errors": {
+            "EMPTY": "Voer een pad in.",
+            "INVALID": "Dit pad kan niet worden gebruikt. Paden met ‘..’ of schijfrelatieve paden zoals C:map worden niet ondersteund.",
+            "IS_ROOT": "Dit is de geback-upte map zelf. Kies iets daarbinnen.",
+            "OUTSIDE_ROOT": "Dit pad ligt niet binnen {{root}}.",
+            "NEEDS_ROOT": "Volledige paden werken alleen in het eigen beleid van een map. Voer in plaats daarvan een pad relatief aan de geback-upte map in."
+          }
+        },
+        "pattern": {
+          "label": "waarvan de naam",
+          "description": "Komt overeen met bestanden en mappen met deze naam overal in de back-up.",
+          "placeholder": "Naampatroon",
+          "errors": {
+            "path": "Namen mogen geen \\ of schijfletters bevatten."
+          },
+          "pathHint": {
+            "withRoot": "Dit lijkt op een pad. Gebruik een padregel om één specifieke map of bestand uit te sluiten.",
+            "withoutRoot": "Dit lijkt op een pad. Voeg de regel toe aan het eigen beleid van die map om één specifieke map of bestand uit te sluiten.",
+            "action": "In plaats daarvan dit pad uitsluiten"
+          }
+        },
+        "extension": {
+          "label": "waarvan de bestandsextensie is",
+          "placeholder": "Voer een bestandsextensie in (bijv. pdf, jpg of docx)"
+        },
+        "foldersOnly": "Alleen mappen uitsluiten",
+        "save": "Opslaan"
+      },
+      "preview": {
+        "path": "Map of bestand",
+        "broken": {
+          "fullPath": "Werkt niet: ingevoerd als volledig pad",
+          "outside": "Werkt niet: pad ligt buiten deze map",
+          "isRoot": "Werkt niet: verwijst naar de geback-upte map zelf",
+          "invalid": "Werkt niet: bewerk deze regel om hem te corrigeren"
+        },
+        "extension": "Bestandsextensie",
+        "name": {
+          "both": "Naam",
+          "foldersOnly": "Mapnaam"
+        },
+        "matchType": {
+          "EXACT": "is exact",
+          "STARTS_WITH": "begint met",
+          "ENDS_WITH": "eindigt op",
+          "CONTAINS": "bevat"
+        }
+      }
+    },
+    "exclusionRuleFiles": {
+      "label": "Bestanden met uitsluitingsregels",
+      "description": "Alle bestandsnamen die uitsluitingsregels bevatten.",
+      "example": "ignore.txt",
+      "docs": "Documentatie openen",
+      "add": "Regelbestand toevoegen"
+    },
+    "maxFileSize": {
+      "label": "Maximale bestandsgrootte",
+      "description": "Maximale bestandsgrootte om op te nemen in back-ups."
+    },
+    "excludeCacheDirs": {
+      "label": "Cachemappen uitsluiten",
+      "description": "Sluit gangbare cachemappen uit van back-ups."
+    }
+  },
+  "compression": {
+    "title": "Compressie",
+    "description": "Configureer hoe back-upgegevens worden gecomprimeerd.",
+    "algorithm": {
+      "label": "Compressiealgoritme",
+      "description": "Het algoritme voor het comprimeren van back-upgegevens.",
+      "placeholder": "Selecteer een algoritme",
+      "tabs": {
+        "off": "Geen",
+        "recommended": "Aanbevolen",
+        "other": "Overige"
+      },
+      "presets": {
+        "faster": "Sneller",
+        "balanced": "Gebalanceerd",
+        "smaller": "Kleiner"
+      },
+      "items": {
+        "": "Standaard",
+        "none": "Geen",
+        "gzip": "Gzip",
+        "gzip-best-compression": "Gzip (beste compressie)",
+        "gzip-best-speed": "Gzip (hoogste snelheid)",
+        "zstd": "Zstandard",
+        "zstd-best-compression": "Zstandard (beste compressie)",
+        "zstd-better-compression": "Zstandard (betere compressie)",
+        "zstd-fastest": "Zstandard (snelst)",
+        "s2-default": "S2",
+        "s2-better": "S2 (beter)",
+        "s2-parallel-4": "S2 (parallel, 4 threads)",
+        "s2-parallel-8": "S2 (parallel, 8 threads)",
+        "pgzip": "Parallelle Gzip",
+        "pgzip-best-compression": "Parallelle Gzip (beste compressie)",
+        "pgzip-best-speed": "Parallelle Gzip (hoogste snelheid)",
+        "deflate-default": "Deflate",
+        "deflate-best-compression": "Deflate (beste compressie)",
+        "deflate-best-speed": "Deflate (hoogste snelheid)",
+        "lz4": "LZ4 (niet aanbevolen)"
+      }
+    },
+    "minFileSize": {
+      "label": "Minimale bestandsgrootte",
+      "description": "Comprimeer alleen bestanden die groter zijn dan dit formaat."
+    },
+    "maxFileSize": {
+      "label": "Maximale bestandsgrootte",
+      "description": "Comprimeer alleen bestanden die kleiner zijn dan dit formaat."
+    },
+    "extensionAllowlist": {
+      "label": "Toegestane extensies",
+      "description": "Comprimeer alleen bestanden met deze extensies.",
+      "add": "Extensie toevoegen",
+      "placeholder": "bijv. .txt"
+    },
+    "extensionDenylist": {
+      "label": "Uitgesloten extensies",
+      "description": "Comprimeer nooit bestanden met deze extensies.",
+      "add": "Extensie toevoegen",
+      "placeholder": "bijv. .zip"
+    }
+  }
+}

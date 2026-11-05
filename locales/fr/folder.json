@@ -1,0 +1,159 @@
+{
+  "createDialog": {
+    "title": "Ajouter un fichier/dossier",
+    "description": "Choisissez un fichier ou un dossier à sauvegarder.",
+    "type": {
+      "folder": "Dossier",
+      "file": "Fichier"
+    },
+    "name": {
+      "directory": {
+        "label": "Nom du dossier",
+        "placeholder": "Saisissez le nom du dossier"
+      },
+      "file": {
+        "label": "Nom du fichier",
+        "placeholder": "Saisissez le nom du fichier"
+      }
+    },
+    "emoji": {
+      "change": "Changer d’émoji",
+      "clear": "Retirer l’émoji"
+    },
+    "path": {
+      "directory": {
+        "label": "Chemin du dossier",
+        "placeholder": "Choisissez le chemin du dossier",
+        "title": "Choisir le chemin du dossier"
+      },
+      "file": {
+        "label": "Chemin du fichier",
+        "placeholder": "Choisissez le chemin du fichier",
+        "title": "Choisir le chemin du fichier"
+      }
+    },
+    "submit": {
+      "directory": "Ajouter le dossier",
+      "file": "Ajouter le fichier"
+    },
+    "changePolicy": "Modifier les règles",
+    "size": {
+      "title": "Calculer la taille",
+      "description": "Estimez la taille de ce fichier ou dossier.",
+      "button": "Calculer",
+      "error": "Impossible d’estimer la taille",
+      "included": "Fichiers inclus :",
+      "excluded": "Fichiers exclus :"
+    }
+  },
+  "emojiPicker": {
+    "search": "Rechercher un émoji...",
+    "empty": "Aucun émoji trouvé."
+  },
+  "dropzone": {
+    "title": "Déposez un fichier/dossier pour l’ajouter",
+    "description": "Déposez un fichier ou un dossier pour l’ajouter à votre coffre et commencer à le sauvegarder."
+  },
+  "list": {
+    "item": {
+      "browseBackups": "Parcourir les sauvegardes de {{name}}",
+      "stats": "{{fileCount}} fichiers ⸱ {{size}}",
+      "dropdown": {
+        "browse": "Parcourir les sauvegardes",
+        "backup": {
+          "folder": "Sauvegarder le dossier",
+          "file": "Sauvegarder le fichier"
+        },
+        "cancel": "Annuler la sauvegarde",
+        "settings": {
+          "folder": "Règles du dossier",
+          "file": "Règles du fichier"
+        },
+        "delete": {
+          "folder": "Supprimer le dossier",
+          "file": "Supprimer le fichier"
+        }
+      }
+    }
+  },
+  "deleteDialog": {
+    "title": {
+      "folder": "Supprimer le dossier",
+      "file": "Supprimer le fichier"
+    },
+    "description": {
+      "folder": "Voulez-vous vraiment supprimer ce dossier ? Cette action est irréversible.",
+      "file": "Voulez-vous vraiment supprimer ce fichier ? Cette action est irréversible."
+    },
+    "alert": {
+      "title": "Le nettoyage est progressif",
+      "description": "L’espace ne sera pas libéré immédiatement. DiskPond nettoie les données inutilisées plus tard pour garantir la fiabilité."
+    },
+    "cancel": "Annuler",
+    "continue": {
+      "folder": "Supprimer le dossier",
+      "file": "Supprimer le fichier"
+    }
+  },
+  "backupError": {
+    "label": {
+      "missing": {
+        "folder": "Dossier introuvable",
+        "file": "Fichier introuvable"
+      },
+      "permission": {
+        "folder": "Accès refusé",
+        "file": "Accès refusé"
+      },
+      "failed": {
+        "folder": "Échec de la sauvegarde",
+        "file": "Échec de la sauvegarde"
+      },
+      "partial": {
+        "folder": "Certains fichiers ont été ignorés",
+        "file": "Sauvegarde incomplète"
+      }
+    },
+    "description": {
+      "missing": {
+        "folder": "Ce dossier est introuvable. Il a peut-être été déplacé, renommé ou se trouve sur un disque déconnecté.",
+        "file": "Ce fichier est introuvable. Il a peut-être été déplacé, renommé ou se trouve sur un disque déconnecté."
+      },
+      "permission": {
+        "folder": "DiskPond n’est pas autorisé à lire ce dossier. Vérifiez ses autorisations et réessayez.",
+        "file": "DiskPond n’est pas autorisé à lire ce fichier. Vérifiez ses autorisations et réessayez."
+      },
+      "failed": {
+        "folder": "La dernière sauvegarde n’a pas pu être terminée. Réessayez et consultez les détails si le problème persiste.",
+        "file": "La dernière sauvegarde n’a pas pu être terminée. Réessayez et consultez les détails si le problème persiste."
+      },
+      "partial": {
+        "folder": "La dernière sauvegarde est terminée, mais certains fichiers n’ont pas pu être lus et ont été ignorés.",
+        "file": "La dernière sauvegarde est terminée, mais le fichier n’a pas pu être lu entièrement."
+      }
+    },
+    "details": "Détails",
+    "toast": {
+      "failed": "Échec de la sauvegarde de « {{name}} »",
+      "partial": "La sauvegarde de « {{name}} » s’est terminée avec des erreurs"
+    },
+    "viewDetails": "Voir les détails",
+    "dialog": {
+      "error": "Détails de l’erreur",
+      "errors": "Fichiers avec des erreurs",
+      "count_one": "{{count}} erreur",
+      "count_other": "{{count}} erreurs",
+      "count_many": "{{count}} erreurs",
+      "limited": "{{shown}} sur {{total}} affichés. Les autres détails n’ont pas été enregistrés avec cette sauvegarde.",
+      "unavailable": "Les détails des erreurs par fichier n’ont pas été enregistrés avec cette sauvegarde.",
+      "ignored_one": "{{count}} erreur a été ignorée conformément à vos règles de sauvegarde.",
+      "ignored_other": "{{count}} erreurs ont été ignorées conformément à vos règles de sauvegarde.",
+      "ignored_many": "{{count}} erreurs ont été ignorées conformément à vos règles de sauvegarde.",
+      "logs": "Journaux techniques",
+      "copy": "Copier les détails",
+      "copied": "Copié",
+      "copyFailed": "Impossible de copier les détails. Vous pouvez sélectionner et copier le texte ci-dessus.",
+      "close": "Terminé"
+    }
+  }
+}

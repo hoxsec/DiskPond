@@ -1,0 +1,269 @@
+{
+  "page": {
+    "tree": {
+      "title": "Ambito",
+      "description": "Scegli il criterio da modificare."
+    },
+    "editor": {
+      "title": "Criterio",
+      "save": "Salva",
+      "mode": {
+        "basic": "Base",
+        "advanced": "Avanzata"
+      },
+      "advancedBanner": {
+        "title": "Cerchi altre opzioni?",
+        "description": "La modalità avanzata include pianificazioni personalizzate, file di regole, compressione, conservazione e limiti di dimensione dei file.",
+        "button": "Passa alla modalità avanzata"
+      }
+    },
+    "override": {
+      "inherited": "Ereditato",
+      "custom": "Personalizzato"
+    },
+    "draft": {
+      "badge": "Bozza",
+      "activate": {
+        "button": "Aggiungi file/cartella"
+      },
+      "discard": {
+        "button": "Scarta"
+      }
+    }
+  },
+  "schedule": {
+    "title": "Pianificazione dei backup",
+    "description": "Pianifica backup automatici dei tuoi file.",
+    "trigger": {
+      "label": "Avvio del backup",
+      "items": {
+        "SCHEDULE": "Pianificato",
+        "MANUAL": "Solo manuale"
+      }
+    },
+    "interval": {
+      "label": "Intervallo di backup",
+      "placeholder": "Seleziona l’intervallo di backup",
+      "items": {
+        "NONE": "Nessuno",
+        "10_MINUTES": "Ogni 10 minuti",
+        "15_MINUTES": "Ogni 15 minuti",
+        "20_MINUTES": "Ogni 20 minuti",
+        "30_MINUTES": "Ogni 30 minuti",
+        "1_HOUR": "Ogni ora",
+        "3_HOURS": "Ogni 3 ore",
+        "6_HOURS": "Ogni 6 ore",
+        "12_HOURS": "Ogni 12 ore",
+        "24_HOURS": "Ogni 24 ore"
+      }
+    },
+    "catchup": {
+      "label": "Recupera i backup saltati"
+    },
+    "cron": {
+      "label": "Pianificazione personalizzata",
+      "add": "Aggiungi pianificazione personalizzata"
+    }
+  },
+  "retention": {
+    "title": "Conservazione dei backup",
+    "description": "Configura per quanto tempo conservare i backup.",
+    "latest": {
+      "label": "Backup più recenti",
+      "description": "Numero di backup più recenti da conservare."
+    },
+    "hourly": {
+      "label": "Backup orari",
+      "description": "Numero di backup orari da conservare."
+    },
+    "daily": {
+      "label": "Backup giornalieri",
+      "description": "Numero di backup giornalieri da conservare."
+    },
+    "weekly": {
+      "label": "Backup settimanali",
+      "description": "Numero di backup settimanali da conservare."
+    },
+    "monthly": {
+      "label": "Backup mensili",
+      "description": "Numero di backup mensili da conservare."
+    },
+    "annual": {
+      "label": "Backup annuali",
+      "description": "Numero di backup annuali da conservare."
+    },
+    "info": {
+      "title": "Come funziona la conservazione dei backup",
+      "description": "DiskPond conserva il numero di backup più recenti impostato per ciascun periodo. Un backup viene conservato se soddisfa almeno una regola; gli altri vengono rimossi per risparmiare spazio."
+    }
+  },
+  "files": {
+    "title": "File esclusi",
+    "description": "Escludi file e cartelle dai backup.",
+    "exclusions": {
+      "label": "File e cartelle esclusi",
+      "description": "File, cartelle ed estensioni da escludere dai backup.",
+      "descriptionWithRoot": "File, cartelle ed estensioni da escludere dai backup di questa cartella.",
+      "add": "Aggiungi esclusione",
+      "example": "file-ignorato.txt",
+      "broken": {
+        "title_one": "{{count}} regola di esclusione non funziona",
+        "title_other": "{{count}} regole di esclusione non funzionano",
+        "title_many": "{{count}} regole di esclusione non funzionano",
+        "description": "Le regole inserite come percorsi completi non trovano mai corrispondenze. Le regole devono essere relative alla cartella sottoposta a backup.",
+        "descriptionOutside": "I percorsi esterni a {{root}} non possono essere esclusi dai backup di questa cartella. Modifica o rimuovi queste regole.",
+        "descriptionWithoutRoot": "Le regole inserite come percorsi completi non trovano mai corrispondenze. Per escludere una cartella specifica, aggiungi la regola al criterio di quella cartella.",
+        "fix_one": "Correggi {{count}} regola",
+        "fix_other": "Correggi {{count}} regole",
+        "fix_many": "Correggi {{count}} regole"
+      },
+      "dialog": {
+        "title": "Modifica regola di esclusione",
+        "description": "Configura il modello della regola di esclusione.",
+        "type": {
+          "label": "Escludi per",
+          "path": "Percorso",
+          "name": "Nome",
+          "extension": "Estensione"
+        },
+        "matchType": {
+          "exact": "è esattamente",
+          "startsWith": "inizia con",
+          "endsWith": "termina con",
+          "contains": "contiene"
+        },
+        "path": {
+          "label": "Cartella o file",
+          "description": "Deve trovarsi in {{root}}.",
+          "descriptionWithoutRoot": "Relativo a ogni cartella sottoposta a backup, es. /AppData/Local/Temp.",
+          "placeholderWithoutRoot": "/percorso/della/cartella",
+          "chooseFolder": "Scegli cartella",
+          "chooseFile": "Scegli file",
+          "preview": "Esclude {{path}} in questa cartella.",
+          "errors": {
+            "EMPTY": "Inserisci un percorso.",
+            "INVALID": "Questo percorso non è utilizzabile. I percorsi con “..” o relativi all’unità, come C:cartella, non sono supportati.",
+            "IS_ROOT": "Questa è la cartella sottoposta a backup. Scegli un elemento al suo interno.",
+            "OUTSIDE_ROOT": "Questo percorso non si trova in {{root}}.",
+            "NEEDS_ROOT": "I percorsi completi funzionano solo nel criterio della cartella stessa. Inserisci invece un percorso relativo alla cartella sottoposta a backup."
+          }
+        },
+        "pattern": {
+          "label": "il cui nome",
+          "description": "Corrisponde a file e cartelle con questo nome in qualsiasi punto del backup.",
+          "placeholder": "Modello del nome",
+          "errors": {
+            "path": "I nomi non possono contenere \\ o lettere di unità."
+          },
+          "pathHint": {
+            "withRoot": "Sembra un percorso. Per escludere una cartella o un file specifico, usa una regola di percorso.",
+            "withoutRoot": "Sembra un percorso. Per escludere una cartella o un file specifico, aggiungi la regola al criterio di quella cartella.",
+            "action": "Escludi invece questo percorso"
+          }
+        },
+        "extension": {
+          "label": "la cui estensione è",
+          "placeholder": "Inserisci l’estensione (es. pdf, jpg o docx)"
+        },
+        "foldersOnly": "Escludi solo cartelle",
+        "save": "Salva"
+      },
+      "preview": {
+        "path": "Cartella o file",
+        "broken": {
+          "fullPath": "Non funziona: inserito come percorso completo",
+          "outside": "Non funziona: il percorso è esterno a questa cartella",
+          "isRoot": "Non funziona: indica la cartella sottoposta a backup",
+          "invalid": "Non funziona: modifica questa regola per correggerla"
+        },
+        "extension": "Estensione del file",
+        "name": {
+          "both": "Nome",
+          "foldersOnly": "Nome della cartella"
+        },
+        "matchType": {
+          "EXACT": "è esattamente",
+          "STARTS_WITH": "inizia con",
+          "ENDS_WITH": "termina con",
+          "CONTAINS": "contiene"
+        }
+      }
+    },
+    "exclusionRuleFiles": {
+      "label": "File di regole di esclusione",
+      "description": "Nomi dei file contenenti regole di esclusione.",
+      "example": "ignore.txt",
+      "docs": "Apri documentazione",
+      "add": "Aggiungi file di regole"
+    },
+    "maxFileSize": {
+      "label": "Dimensione massima dei file",
+      "description": "Dimensione massima dei file da includere nei backup."
+    },
+    "excludeCacheDirs": {
+      "label": "Escludi cartelle di cache",
+      "description": "Escludi dai backup le cartelle di cache comuni."
+    }
+  },
+  "compression": {
+    "title": "Compressione",
+    "description": "Configura come vengono compressi i dati di backup.",
+    "algorithm": {
+      "label": "Algoritmo di compressione",
+      "description": "L’algoritmo utilizzato per comprimere i dati di backup.",
+      "placeholder": "Seleziona algoritmo",
+      "tabs": {
+        "off": "Nessuno",
+        "recommended": "Consigliati",
+        "other": "Altri"
+      },
+      "presets": {
+        "faster": "Più veloce",
+        "balanced": "Bilanciato",
+        "smaller": "Più compatto"
+      },
+      "items": {
+        "": "Predefinito",
+        "none": "Nessuno",
+        "gzip": "Gzip",
+        "gzip-best-compression": "Gzip (massima compressione)",
+        "gzip-best-speed": "Gzip (massima velocità)",
+        "zstd": "Zstandard",
+        "zstd-best-compression": "Zstandard (massima compressione)",
+        "zstd-better-compression": "Zstandard (compressione migliore)",
+        "zstd-fastest": "Zstandard (il più veloce)",
+        "s2-default": "S2",
+        "s2-better": "S2 (migliore)",
+        "s2-parallel-4": "S2 (parallelo, 4 thread)",
+        "s2-parallel-8": "S2 (parallelo, 8 thread)",
+        "pgzip": "Gzip parallelo",
+        "pgzip-best-compression": "Gzip parallelo (massima compressione)",
+        "pgzip-best-speed": "Gzip parallelo (massima velocità)",
+        "deflate-default": "Deflate",
+        "deflate-best-compression": "Deflate (massima compressione)",
+        "deflate-best-speed": "Deflate (massima velocità)",
+        "lz4": "LZ4 (sconsigliato)"
+      }
+    },
+    "minFileSize": {
+      "label": "Dimensione minima dei file",
+      "description": "Comprimi solo i file più grandi di questa dimensione."
+    },
+    "maxFileSize": {
+      "label": "Dimensione massima dei file",
+      "description": "Comprimi solo i file più piccoli di questa dimensione."
+    },
+    "extensionAllowlist": {
+      "label": "Estensioni consentite",
+      "description": "Comprimi solo i file con queste estensioni.",
+      "add": "Aggiungi estensione",
+      "placeholder": "es. .txt"
+    },
+    "extensionDenylist": {
+      "label": "Estensioni escluse",
+      "description": "Non comprimere mai i file con queste estensioni.",
+      "add": "Aggiungi estensione",
+      "placeholder": "es. .zip"
+    }
+  }
+}

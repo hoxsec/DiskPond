@@ -1,0 +1,80 @@
+{
+  "placeholders": {
+    "period": "Zeitraum auswählen"
+  },
+  "component": {
+    "everyText": "jede(n)",
+    "emptyMonths": "jeden Monat",
+    "emptyMonthDays": "jeden Tag des Monats",
+    "emptyMonthDaysShort": "Tag des Monats",
+    "emptyWeekDays": "jeden Wochentag",
+    "emptyWeekDaysShort": "Wochentag",
+    "emptyHours": "jede Stunde",
+    "emptyMinutes": "jede Minute",
+    "emptyMinutesForHourPeriod": "jede",
+    "yearOption": "Jahr",
+    "monthOption": "Monat",
+    "weekOption": "Woche",
+    "dayOption": "Tag",
+    "hourOption": "Stunde",
+    "minuteOption": "Minute",
+    "rebootOption": "Neustart",
+    "prefixPeriod": "Jede(n/s)",
+    "prefixMonths": "im",
+    "prefixMonthDays": "am",
+    "prefixWeekDays": "am",
+    "prefixWeekDaysForMonthAndYearPeriod": "und",
+    "prefixHours": "um",
+    "prefixMinutes": ":",
+    "prefixMinutesForHourPeriod": "bei Minute",
+    "suffixMinutesForHourPeriod": "",
+    "errorInvalidCron": "Ungültiger Cron-Ausdruck",
+    "clearButtonText": "Leeren",
+    "weekDays": [
+      "Sonntag",
+      "Montag",
+      "Dienstag",
+      "Mittwoch",
+      "Donnerstag",
+      "Freitag",
+      "Samstag"
+    ],
+    "months": [
+      "Januar",
+      "Februar",
+      "März",
+      "April",
+      "Mai",
+      "Juni",
+      "Juli",
+      "August",
+      "September",
+      "Oktober",
+      "November",
+      "Dezember"
+    ],
+    "altWeekDays": [
+      "SO",
+      "MO",
+      "DI",
+      "MI",
+      "DO",
+      "FR",
+      "SA"
+    ],
+    "altMonths": [
+      "JAN",
+      "FEB",
+      "MÄR",
+      "APR",
+      "MAI",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OKT",
+      "NOV",
+      "DEZ"
+    ]
+  }
+}

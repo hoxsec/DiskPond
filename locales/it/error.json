@@ -1,0 +1,82 @@
+{
+  "pages": {
+    "default": {
+      "title": "Qualcosa è andato storto",
+      "description": "Si è verificato un errore imprevisto. Riprova. Se persiste, <0>segnala il problema</0>.",
+      "button": "Torna alla home"
+    },
+    "not-found": {
+      "title": "404",
+      "description": "Questa pagina non esiste. Torna alla home o <0>segnala il problema</0>.",
+      "button": "Torna alla home"
+    }
+  },
+  "fallback": {
+    "title": "Qualcosa è andato storto",
+    "description": "Riprova. Se il problema persiste, segnalalo dalle Impostazioni."
+  },
+  "INTERNAL_SERVER_ERROR": {
+    "title": "Qualcosa è andato storto",
+    "description": "Si è verificato un errore imprevisto. Se persiste, segnala il problema dalle Impostazioni."
+  },
+  "UNAUTHORIZED": {
+    "title": "Non hai il permesso di eseguire questa azione",
+    "description": "Verifica le credenziali e i permessi dell’archiviazione, quindi ricollega la cassaforte."
+  },
+  "USER_ALREADY_EXISTS": {
+    "title": "Esiste già un utente con questa email",
+    "description": "Prova invece ad accedere."
+  },
+  "INVALID_EMAIL_OR_PASSWORD": {
+    "title": "Email o password non valida",
+    "description": "Controlla l’email e la password."
+  },
+  "INVALID_TOKEN": {
+    "title": "Codice non valido o scaduto",
+    "description": "Richiedi un nuovo codice accedendo di nuovo."
+  },
+  "EMAIL_NOT_VERIFIED": {
+    "title": "L’email non è ancora verificata",
+    "description": "Inserisci qui sotto il codice di verifica inviato al tuo indirizzo email."
+  },
+  "SUBSCRIPTION_EXISTS": {
+    "title": "Hai già un abbonamento attivo",
+    "description": "Prova invece a passare a un piano superiore."
+  },
+  "VAULT_ALREADY_EXISTS": {
+    "title": "La cassaforte esiste già",
+    "description": "Questa cassaforte è già collegata su questo computer."
+  },
+  "VAULT_NOT_FOUND": "Cassaforte non trovata",
+  "FOLDER_NOT_FOUND": "Cartella non trovata",
+  "PROVIDER_NOT_FOUND": "Fornitore non trovato",
+  "SPACE_NOT_FOUND": "Spazio non trovato",
+  "PRICE_NOT_FOUND": "Prezzo non trovato",
+  "SUBSCRIPTION_NOT_FOUND": "Abbonamento non trovato",
+  "NO_STORAGE": "Nessuno spazio di archiviazione disponibile",
+  "NOT_ALLOWED": "Non hai il permesso di eseguire questa azione",
+  "MISSING_REQUIRED_VALUE": {
+    "title": "Mancano informazioni obbligatorie",
+    "description": "Riprova o riavvia l’app."
+  },
+  "INVALID_PASSWORD": {
+    "title": "Password di cifratura non valida",
+    "description": "La password di cifratura inserita è errata."
+  },
+  "INCORRECT_VAULT": {
+    "title": "Trovata una cassaforte diversa",
+    "description": "La configurazione rimanda a una cassaforte diversa. Controlla le impostazioni."
+  },
+  "STORAGE_UNREACHABLE": {
+    "title": "Impossibile raggiungere l’archiviazione",
+    "description": "DiskPond non ha potuto raggiungere la posizione di archiviazione. Verifica che il percorso o il server sia disponibile e che le impostazioni siano corrette."
+  },
+  "VAULT_SERVER_UNAVAILABLE": {
+    "title": "Cassaforte non disponibile",
+    "description": "DiskPond non ha potuto avviare il motore di backup o ricollegare questa cassaforte. Verifica che l’archiviazione sia disponibile, quindi riprova."
+  },
+  "ACCOUNT_SYNC_FAILED": {
+    "title": "Impossibile sincronizzare il tuo account",
+    "description": "Riprova. Se il problema persiste, segnalalo dalle Impostazioni."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "addFolder": "Aggiungi file/cartella",
+  "selectVault": {
+    "empty": "Seleziona cassaforte",
+    "createVault": "Crea cassaforte"
+  },
+  "vaultMenu": {
+    "createVault": "Crea una nuova cassaforte",
+    "connectVault": "Collega una cassaforte esistente"
+  },
+  "links": {
+    "navigation": "Menu",
+    "vaultSettings": "Impostazioni della cassaforte",
+    "home": "Home",
+    "activity": "Attività",
+    "overview": "Panoramica",
+    "settings": "Impostazioni",
+    "policies": "Criteri"
+  },
+  "updateAlert": {
+    "title": "DiskPond {{version}} disponibile",
+    "error": "Impossibile aprire il browser. Riprova.",
+    "button": "Visualizza le versioni su GitHub"
+  }
+}

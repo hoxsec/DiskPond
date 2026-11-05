@@ -1,4 +1,7 @@
-import type { LanguageCode } from "@blinkdisk/constants/language";
+import {
+  DEFAULT_LANGUAGE_CODE,
+  type LanguageCode,
+} from "@blinkdisk/constants/language";
 import { useAppForm } from "@blinkdisk/forms/use-app-form";
 import { ZUpdatePreferences } from "@blinkdisk/schemas/settings";
 import { useUpdatePreferences } from "@desktop/hooks/mutations/use-update-preferences";
@@ -12,7 +15,8 @@ export function useUpdatePreferencesForm() {
   const form = useAppForm({
     defaultValues: {
       theme: theme,
-      language: i18n.language as LanguageCode,
+      language: (i18n.resolvedLanguage ??
+        DEFAULT_LANGUAGE_CODE) as LanguageCode,
       checkForUpdates:
         window.electron.store.get("preferences.checkForUpdates") !== false,
     },

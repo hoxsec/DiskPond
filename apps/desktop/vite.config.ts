@@ -17,6 +17,8 @@ import paths from "vite-tsconfig-paths";
 
 // Path alias seems to break build in CI
 import { INTERNAL_PROTOCOL } from "../../libs/constants/src/app";
+import { LANGUAGE_CODES } from "../../libs/constants/src/language";
+import { DESKTOP_NAMESPACES } from "../../libs/constants/src/localization";
 
 function injectAppConfig(): Plugin {
   return {
@@ -49,13 +51,13 @@ export default defineConfig({
     tailwindcss(),
     copy({
       targets: [
-        {
+        ...LANGUAGE_CODES.map((language) => ({
           src: [
-            "../../locales/en/{translation,error,workspace,settings,validation,sidebar,vault,folder,cron,policy,directory,backup,history,update,task}.json",
+            `../../locales/${language}/{${DESKTOP_NAMESPACES.join(",")}}.json`,
           ],
-          dest: "locales/en",
+          dest: `locales/${language}`,
           rename: { stripBase: true },
-        },
+        })),
         {
           src: ["../../libs/assets/favicon"],
           dest: "favicon",

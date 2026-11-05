@@ -1,0 +1,267 @@
+{
+  "page": {
+    "tree": {
+      "title": "Kapsam",
+      "description": "Düzenlenecek ilkeyi seçin."
+    },
+    "editor": {
+      "title": "İlke",
+      "save": "Kaydet",
+      "mode": {
+        "basic": "Temel",
+        "advanced": "Gelişmiş"
+      },
+      "advancedBanner": {
+        "title": "Daha fazla seçenek mi arıyorsunuz?",
+        "description": "Gelişmiş kip; özel zamanlamalar, kural dosyaları, sıkıştırma, saklama ve dosya boyutu sınırları içerir.",
+        "button": "Gelişmiş kipe geç"
+      }
+    },
+    "override": {
+      "inherited": "Devralınan",
+      "custom": "Özel"
+    },
+    "draft": {
+      "badge": "Taslak",
+      "activate": {
+        "button": "Dosya/klasör ekle"
+      },
+      "discard": {
+        "button": "Vazgeç"
+      }
+    }
+  },
+  "schedule": {
+    "title": "Yedekleme zamanlaması",
+    "description": "Dosyalarınızın otomatik yedeklenmesini zamanlayın.",
+    "trigger": {
+      "label": "Yedekleme tetikleyicisi",
+      "items": {
+        "SCHEDULE": "Zamanlanmış",
+        "MANUAL": "Yalnızca elle"
+      }
+    },
+    "interval": {
+      "label": "Yedekleme aralığı",
+      "placeholder": "Yedekleme aralığını seçin",
+      "items": {
+        "NONE": "Yok",
+        "10_MINUTES": "10 dakikada bir",
+        "15_MINUTES": "15 dakikada bir",
+        "20_MINUTES": "20 dakikada bir",
+        "30_MINUTES": "30 dakikada bir",
+        "1_HOUR": "Saatte bir",
+        "3_HOURS": "3 saatte bir",
+        "6_HOURS": "6 saatte bir",
+        "12_HOURS": "12 saatte bir",
+        "24_HOURS": "24 saatte bir"
+      }
+    },
+    "catchup": {
+      "label": "Kaçırılan yedeklemeleri tamamla"
+    },
+    "cron": {
+      "label": "Özel zamanlama",
+      "add": "Özel zamanlama ekle"
+    }
+  },
+  "retention": {
+    "title": "Yedek saklama",
+    "description": "Yedeklerin ne kadar süre saklanacağını yapılandırın.",
+    "latest": {
+      "label": "En son yedekler",
+      "description": "Saklanacak en son yedeklerin sayısı."
+    },
+    "hourly": {
+      "label": "Saatlik yedekler",
+      "description": "Saklanacak saatlik yedeklerin sayısı."
+    },
+    "daily": {
+      "label": "Günlük yedekler",
+      "description": "Saklanacak günlük yedeklerin sayısı."
+    },
+    "weekly": {
+      "label": "Haftalık yedekler",
+      "description": "Saklanacak haftalık yedeklerin sayısı."
+    },
+    "monthly": {
+      "label": "Aylık yedekler",
+      "description": "Saklanacak aylık yedeklerin sayısı."
+    },
+    "annual": {
+      "label": "Yıllık yedekler",
+      "description": "Saklanacak yıllık yedeklerin sayısı."
+    },
+    "info": {
+      "title": "Yedek saklama nasıl çalışır?",
+      "description": "DiskPond, her dönem için belirlediğiniz sayıda en son yedeği saklar. Herhangi bir kurala uyan yedek korunur; diğerleri alan kazanmak için kaldırılır."
+    }
+  },
+  "files": {
+    "title": "Hariç tutulan dosyalar",
+    "description": "Dosya ve dizinleri yedeklemelerden hariç tutun.",
+    "exclusions": {
+      "label": "Hariç tutulan dosya ve dizinler",
+      "description": "Yedeklemelerden hariç tutulacak dosyalar, dizinler ve uzantılar.",
+      "descriptionWithRoot": "Bu klasörün yedeklerinden hariç tutulacak dosyalar, klasörler ve uzantılar.",
+      "add": "Hariç tutma ekle",
+      "example": "yok-sayilan-dosya.txt",
+      "broken": {
+        "title_one": "{{count}} hariç tutma kuralı çalışmıyor",
+        "title_other": "{{count}} hariç tutma kuralı çalışmıyor",
+        "description": "Tam yol olarak girilen kurallar hiçbir şeyle eşleşmez. Kurallar yedeklenen klasöre göreli olmalıdır.",
+        "descriptionOutside": "{{root}} dışındaki yollar bu klasörün yedeklerinden hariç tutulamaz. Bu kuralları düzenleyin veya kaldırın.",
+        "descriptionWithoutRoot": "Tam yol olarak girilen kurallar hiçbir şeyle eşleşmez. Belirli bir klasörü hariç tutmak için kuralı o klasörün kendi ilkesine ekleyin.",
+        "fix_one": "{{count}} kuralı düzelt",
+        "fix_other": "{{count}} kuralı düzelt"
+      },
+      "dialog": {
+        "title": "Hariç tutma kuralını düzenle",
+        "description": "Hariç tutma kuralının desenini yapılandırın.",
+        "type": {
+          "label": "Hariç tutma ölçütü",
+          "path": "Yol",
+          "name": "Ad",
+          "extension": "Uzantı"
+        },
+        "matchType": {
+          "exact": "tam olarak eşittir",
+          "startsWith": "şununla başlar",
+          "endsWith": "şununla biter",
+          "contains": "şunu içerir"
+        },
+        "path": {
+          "label": "Klasör veya dosya",
+          "description": "{{root}} içinde olmalıdır.",
+          "descriptionWithoutRoot": "Yedeklenen her klasöre göreli, ör. /AppData/Local/Temp.",
+          "placeholderWithoutRoot": "/klasor/yolu",
+          "chooseFolder": "Klasör seç",
+          "chooseFile": "Dosya seç",
+          "preview": "Bu klasörde {{path}} hariç tutulur.",
+          "errors": {
+            "EMPTY": "Bir yol girin.",
+            "INVALID": "Bu yol kullanılamaz. “..” içeren yollar veya C:klasor gibi sürücüye göreli yollar desteklenmez.",
+            "IS_ROOT": "Bu, yedeklenen klasörün kendisi. İçindeki bir öğeyi seçin.",
+            "OUTSIDE_ROOT": "Bu yol {{root}} içinde değil.",
+            "NEEDS_ROOT": "Tam yollar yalnızca bir klasörün kendi ilkesinde çalışır. Bunun yerine yedeklenen klasöre göreli bir yol girin."
+          }
+        },
+        "pattern": {
+          "label": "adı",
+          "description": "Yedeğin herhangi bir yerinde bu ada sahip dosya ve klasörlerle eşleşir.",
+          "placeholder": "Ad eşleştirme deseni",
+          "errors": {
+            "path": "Adlar \\ veya sürücü harfi içeremez."
+          },
+          "pathHint": {
+            "withRoot": "Bu bir yola benziyor. Belirli bir klasörü veya dosyayı hariç tutmak için yol kuralı kullanın.",
+            "withoutRoot": "Bu bir yola benziyor. Belirli bir klasörü veya dosyayı hariç tutmak için kuralı o klasörün kendi ilkesine ekleyin.",
+            "action": "Bunun yerine bu yolu hariç tut"
+          }
+        },
+        "extension": {
+          "label": "dosya uzantısı",
+          "placeholder": "Dosya uzantısını girin (ör. pdf, jpg veya docx)"
+        },
+        "foldersOnly": "Yalnızca klasörleri hariç tut",
+        "save": "Kaydet"
+      },
+      "preview": {
+        "path": "Klasör veya dosya",
+        "broken": {
+          "fullPath": "Çalışmıyor: tam yol olarak girilmiş",
+          "outside": "Çalışmıyor: yol bu klasörün dışında",
+          "isRoot": "Çalışmıyor: yedeklenen klasörün kendisine işaret ediyor",
+          "invalid": "Çalışmıyor: düzeltmek için bu kuralı düzenleyin"
+        },
+        "extension": "Dosya uzantısı",
+        "name": {
+          "both": "Ad",
+          "foldersOnly": "Klasör adı"
+        },
+        "matchType": {
+          "EXACT": "tam olarak eşittir",
+          "STARTS_WITH": "şununla başlar",
+          "ENDS_WITH": "şununla biter",
+          "CONTAINS": "şunu içerir"
+        }
+      }
+    },
+    "exclusionRuleFiles": {
+      "label": "Hariç tutma kuralı dosyaları",
+      "description": "Hariç tutma kurallarını içeren tüm dosya adları.",
+      "example": "ignore.txt",
+      "docs": "Belgeleri aç",
+      "add": "Kural dosyası ekle"
+    },
+    "maxFileSize": {
+      "label": "En büyük dosya boyutu",
+      "description": "Yedeklemelere dahil edilecek en büyük dosya boyutu."
+    },
+    "excludeCacheDirs": {
+      "label": "Önbellek dizinlerini hariç tut",
+      "description": "Yaygın önbellek dizinlerini yedeklemelerden hariç tutun."
+    }
+  },
+  "compression": {
+    "title": "Sıkıştırma",
+    "description": "Yedek verilerinin nasıl sıkıştırılacağını yapılandırın.",
+    "algorithm": {
+      "label": "Sıkıştırma algoritması",
+      "description": "Yedek verilerini sıkıştırmak için kullanılan algoritma.",
+      "placeholder": "Algoritma seçin",
+      "tabs": {
+        "off": "Yok",
+        "recommended": "Önerilen",
+        "other": "Diğer"
+      },
+      "presets": {
+        "faster": "Daha hızlı",
+        "balanced": "Dengeli",
+        "smaller": "Daha küçük"
+      },
+      "items": {
+        "": "Varsayılan",
+        "none": "Yok",
+        "gzip": "Gzip",
+        "gzip-best-compression": "Gzip (en iyi sıkıştırma)",
+        "gzip-best-speed": "Gzip (en iyi hız)",
+        "zstd": "Zstandard",
+        "zstd-best-compression": "Zstandard (en iyi sıkıştırma)",
+        "zstd-better-compression": "Zstandard (daha iyi sıkıştırma)",
+        "zstd-fastest": "Zstandard (en hızlı)",
+        "s2-default": "S2",
+        "s2-better": "S2 (daha iyi)",
+        "s2-parallel-4": "S2 (paralel, 4 iş parçacığı)",
+        "s2-parallel-8": "S2 (paralel, 8 iş parçacığı)",
+        "pgzip": "Paralel Gzip",
+        "pgzip-best-compression": "Paralel Gzip (en iyi sıkıştırma)",
+        "pgzip-best-speed": "Paralel Gzip (en iyi hız)",
+        "deflate-default": "Deflate",
+        "deflate-best-compression": "Deflate (en iyi sıkıştırma)",
+        "deflate-best-speed": "Deflate (en iyi hız)",
+        "lz4": "LZ4 (önerilmez)"
+      }
+    },
+    "minFileSize": {
+      "label": "En küçük dosya boyutu",
+      "description": "Yalnızca bu boyuttan büyük dosyaları sıkıştır."
+    },
+    "maxFileSize": {
+      "label": "En büyük dosya boyutu",
+      "description": "Yalnızca bu boyuttan küçük dosyaları sıkıştır."
+    },
+    "extensionAllowlist": {
+      "label": "İzin verilen uzantılar",
+      "description": "Yalnızca bu uzantılara sahip dosyaları sıkıştır.",
+      "add": "Uzantı ekle",
+      "placeholder": "ör. .txt"
+    },
+    "extensionDenylist": {
+      "label": "Hariç tutulan uzantılar",
+      "description": "Bu uzantılara sahip dosyaları asla sıkıştırma.",
+      "add": "Uzantı ekle",
+      "placeholder": "ör. .zip"
+    }
+  }
+}

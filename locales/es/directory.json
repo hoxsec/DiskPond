@@ -1,0 +1,133 @@
+{
+  "backToHistory": "Volver al historial de copias",
+  "table": {
+    "name": "Nombre",
+    "size": "Tamaño",
+    "modified": "Última modificación",
+    "mode": "Modo",
+    "uid": "UID",
+    "gid": "GID",
+    "symlink": {
+      "tooltip": "Enlace simbólico"
+    },
+    "search": {
+      "placeholder": "Buscar archivos o carpetas..."
+    },
+    "columns": {
+      "button": "Columnas"
+    },
+    "empty": {
+      "title": "Carpeta vacía",
+      "description": "Esta carpeta estaba vacía cuando se creó la copia. Añade los archivos que faltan y crea una copia nueva."
+    },
+    "emptySearch": {
+      "title": "No se encontraron archivos",
+      "description": "Ningún archivo o carpeta coincide con tu búsqueda. Prueba otra búsqueda o añade los archivos que faltan a la carpeta."
+    },
+    "mount": {
+      "active": {
+        "title": "Copia montada",
+        "description": "Montada en {{path}}"
+      },
+      "open": {
+        "windows": "Abrir en el Explorador",
+        "macos": "Abrir en Finder",
+        "other": "Abrir en el gestor de archivos"
+      },
+      "stop": {
+        "button": "Desmontar",
+        "error": {
+          "title": "No se pudo desmontar",
+          "description": "Es posible que el montaje siga en uso. Cierra las aplicaciones que lo estén utilizando."
+        }
+      }
+    },
+    "restore": {
+      "folder": "Restaurar carpeta",
+      "selected_one": "Restaurar {{count}} elemento",
+      "selected_other": "Restaurar {{count}} elementos",
+      "selected_many": "Restaurar {{count}} elementos",
+      "single": {
+        "dialog": {
+          "title": "Seleccionar carpeta de destino de la restauración"
+        }
+      },
+      "multiple": {
+        "dialog": {
+          "title": "Seleccionar carpeta de destino de la restauración"
+        }
+      }
+    }
+  },
+  "restoreDialog": {
+    "title": "Restaurar carpeta",
+    "description": "Restaura una carpeta desde una copia de seguridad.",
+    "type": {
+      "label": "Tipo de restauración",
+      "items": {
+        "ZIP": "Archivo ZIP",
+        "UNPACKED": "Archivos sin comprimir"
+      }
+    },
+    "filePath": {
+      "label": "Ruta del archivo ZIP",
+      "placeholder": "Selecciona la ruta del archivo de destino",
+      "defaultFileName": "{{directory}}-{{date}}-Restaurado.zip"
+    },
+    "directoryPath": {
+      "label": "Ruta de la carpeta de destino",
+      "placeholder": "Selecciona la ruta de la carpeta de destino"
+    },
+    "compress": {
+      "label": "Comprimir archivo ZIP",
+      "description": "Reduce el tamaño, pero ralentiza la restauración"
+    },
+    "warning": {
+      "title": "Los archivos podrían sobrescribirse",
+      "description": "La carpeta seleccionada no está vacía. Los archivos y carpetas existentes podrían sobrescribirse con los restaurados. Considera crear una carpeta vacía."
+    },
+    "confirmed": {
+      "label": "Entiendo que los archivos podrían sobrescribirse"
+    },
+    "submit": "Restaurar"
+  },
+  "restore": {
+    "actionError": "No se pudo completar la acción ni actualizar el estado de la restauración. Inténtalo de nuevo.",
+    "status": {
+      "RUNNING": "Restauración en curso",
+      "CANCELING": "Cancelando restauración…",
+      "COMPLETE": "Restauración completada",
+      "PARTIAL": "Restauración completada con problemas",
+      "FAILED": "Restauración fallida",
+      "CANCELED": "Restauración cancelada",
+      "UNAVAILABLE": "Resultado de la restauración no disponible"
+    },
+    "issue": {
+      "SPACE": "El destino está lleno. Libera espacio o elige otro destino y vuelve a intentarlo en una carpeta nueva.",
+      "PERMISSION": "Se denegó la escritura de los datos o metadatos restaurados. Comprueba los permisos del destino o elige otra carpeta e inténtalo de nuevo.",
+      "ZIP": "El generador ZIP de este motor omite las carpetas vacías y los enlaces simbólicos. Usa la restauración sin comprimir para recuperar esos elementos.",
+      "DESTINATION": "Comprueba que el destino exista, tenga espacio libre, permita la escritura y no esté en uso por otra restauración. Después, inténtalo de nuevo.",
+      "ENGINE": "El motor de copias de seguridad o el resultado de la tarea no están disponibles. Reconecta la bóveda y comprueba el destino antes de reintentar.",
+      "TASK": "El motor no pudo restaurar todos los datos solicitados. Comprueba el espacio y los permisos del destino y que la copia sea legible. Después, inténtalo en una carpeta nueva.",
+      "TIMEOUT": "La restauración no terminó dentro del límite de supervisión. Se solicitó su cancelación; comprueba el motor y el destino antes de reintentar.",
+      "LINK": "El destino contiene un enlace simbólico o una unión. Elige una carpeta sin enlaces para evitar escribir fuera del destino.",
+      "CONFIRMATION": "El destino no está vacío. Confirma la sobrescritura en el diálogo de restauración o elige una carpeta vacía."
+    },
+    "objects": "Objetos de la copia: {{objects}}",
+    "counts": "Último recuento de elementos restaurados: {{restored}} · Omitidos: {{skipped}} · Errores ignorados: {{errors}}",
+    "incomplete": "El resultado podría estar incompleto. Conserva la copia de seguridad y revisa el destino antes de usar los archivos restaurados.",
+    "cancel": "Cancelar restauración",
+    "dismiss": "Descartar resultado",
+    "title": "Restauración en curso",
+    "description": {
+      "files_one": "Restaurando {{files}} archivo",
+      "files_other": "Restaurando {{files}} archivos",
+      "files_many": "Restaurando {{files}} archivos",
+      "directories_one": "Restaurando {{directories}} carpeta",
+      "directories_other": "Restaurando {{directories}} carpetas",
+      "directories_many": "Restaurando {{directories}} carpetas",
+      "both": "Restaurando {{files}} archivo(s) y {{directories}} carpeta(s)"
+    },
+    "openFolder": "Abrir carpeta"
+  }
+}

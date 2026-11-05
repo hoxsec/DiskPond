@@ -1,0 +1,108 @@
+{
+  "account": {
+    "preferences": {
+      "checkForUpdates": "Buscar actualizaciones automáticamente",
+      "title": "Preferencias",
+      "theme": {
+        "label": "Tema",
+        "description": "Selecciona el tema que prefieras.",
+        "items": {
+          "light": "Claro",
+          "dark": "Oscuro",
+          "system": "Sistema"
+        }
+      },
+      "language": {
+        "label": "Idioma",
+        "description": "Selecciona el idioma que prefieras."
+      }
+    }
+  },
+  "vault": {
+    "title": "Configuración",
+    "home": "Inicio",
+    "general": {
+      "title": "General",
+      "description": "Elige el nombre que se mostrará para esta bóveda.",
+      "name": {
+        "label": "Nombre de la bóveda",
+        "placeholder": "Introduce el nombre de la bóveda"
+      },
+      "delete": {
+        "title": "Desconectar esta bóveda",
+        "description": "Elimina esta conexión de DiskPond. Las copias de seguridad permanecerán en tu almacenamiento.",
+        "button": "Desconectar bóveda"
+      }
+    },
+    "config": {
+      "title": "Configuración del almacenamiento",
+      "description": "Consulta la ubicación de almacenamiento de esta bóveda.",
+      "provider": "Proveedor de almacenamiento:",
+      "loading": "Cargando detalles de conexión…",
+      "unavailable": "Los detalles de conexión no están disponibles. Vuelve a conectar la bóveda para verlos.",
+      "credentialsHidden": "Las contraseñas, claves y demás credenciales se guardan en el almacén de credenciales de DiskPond. Las URL solo muestran la dirección del servidor.",
+      "enabled": "Activado",
+      "disabled": "Desactivado",
+      "fields": {
+        "path": "Ruta",
+        "host": "Servidor",
+        "port": "Puerto",
+        "bucket": "Bucket",
+        "region": "Región",
+        "prefix": "Prefijo",
+        "container": "Contenedor",
+        "endpoint": "Dirección del servidor",
+        "remotePath": "Ruta remota de Rclone",
+        "rclonePath": "Ejecutable de Rclone",
+        "disableTls": "HTTP sin TLS",
+        "disableTlsVerification": "Omitir la verificación del certificado TLS"
+      }
+    },
+    "throttle": {
+      "title": "Límite de red",
+      "description": "Limita el uso de la red de esta bóveda.",
+      "upload": {
+        "enabled": {
+          "label": "Limitar el ancho de banda de subida",
+          "description": "Limita la velocidad de envío de los datos de copia de seguridad de esta bóveda."
+        },
+        "limit": {
+          "label": "Límite de subida",
+          "description": "Limita el ancho de banda de subida de esta bóveda."
+        }
+      },
+      "download": {
+        "enabled": {
+          "label": "Limitar el ancho de banda de descarga",
+          "description": "Limita la velocidad de descarga de los datos de restauración de esta bóveda."
+        },
+        "limit": {
+          "label": "Límite de descarga",
+          "description": "Limita el ancho de banda de descarga de esta bóveda."
+        }
+      },
+      "save": "Guardar"
+    }
+  },
+  "folder": {
+    "title": "Política de copias de seguridad",
+    "description": "Configura la política de copias de seguridad.",
+    "general": {
+      "title": "General",
+      "description": "Configura los ajustes generales.",
+      "name": {
+        "label": "Nombre",
+        "placeholder": "Introduce un nombre"
+      },
+      "path": {
+        "label": "Ruta de la carpeta",
+        "fileLabel": "Ruta del archivo"
+      },
+      "emoji": {
+        "change": "Cambiar emoji",
+        "clear": "Quitar emoji"
+      }
+    },
+    "modified": "Modificado"
+  }
+}

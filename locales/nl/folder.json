@@ -1,0 +1,157 @@
+{
+  "createDialog": {
+    "title": "Bestand/map toevoegen",
+    "description": "Kies een bestand of map om te back-uppen.",
+    "type": {
+      "folder": "Map",
+      "file": "Bestand"
+    },
+    "name": {
+      "directory": {
+        "label": "Mapnaam",
+        "placeholder": "Voer een mapnaam in"
+      },
+      "file": {
+        "label": "Bestandsnaam",
+        "placeholder": "Voer een bestandsnaam in"
+      }
+    },
+    "emoji": {
+      "change": "Emoji wijzigen",
+      "clear": "Emoji verwijderen"
+    },
+    "path": {
+      "directory": {
+        "label": "Mappad",
+        "placeholder": "Selecteer een mappad",
+        "title": "Mappad selecteren"
+      },
+      "file": {
+        "label": "Bestandspad",
+        "placeholder": "Selecteer een bestandspad",
+        "title": "Bestandspad selecteren"
+      }
+    },
+    "submit": {
+      "directory": "Map toevoegen",
+      "file": "Bestand toevoegen"
+    },
+    "changePolicy": "Beleid wijzigen",
+    "size": {
+      "title": "Grootte berekenen",
+      "description": "Schat de grootte van dit bestand of deze map.",
+      "button": "Berekenen",
+      "error": "Kon de grootte niet schatten",
+      "included": "Inbegrepen bestanden:",
+      "excluded": "Uitgesloten bestanden:"
+    }
+  },
+  "emojiPicker": {
+    "search": "Emoji zoeken...",
+    "empty": "Geen emoji gevonden."
+  },
+  "dropzone": {
+    "title": "Sleep een bestand/map hierheen",
+    "description": "Sleep een bestand of map hierheen om deze aan je kluis toe te voegen en te beginnen met back-uppen."
+  },
+  "list": {
+    "item": {
+      "browseBackups": "Back-ups van {{name}} bekijken",
+      "stats": "{{fileCount}} bestanden ⸱ {{size}}",
+      "dropdown": {
+        "browse": "Back-ups bekijken",
+        "backup": {
+          "folder": "Map back-uppen",
+          "file": "Bestand back-uppen"
+        },
+        "cancel": "Back-up annuleren",
+        "settings": {
+          "folder": "Mapbeleid",
+          "file": "Bestandsbeleid"
+        },
+        "delete": {
+          "folder": "Map verwijderen",
+          "file": "Bestand verwijderen"
+        }
+      }
+    }
+  },
+  "deleteDialog": {
+    "title": {
+      "folder": "Map verwijderen",
+      "file": "Bestand verwijderen"
+    },
+    "description": {
+      "folder": "Weet je zeker dat je deze map wilt verwijderen? Dit kan niet ongedaan worden gemaakt.",
+      "file": "Weet je zeker dat je dit bestand wilt verwijderen? Dit kan niet ongedaan worden gemaakt."
+    },
+    "alert": {
+      "title": "Opruimen gebeurt geleidelijk",
+      "description": "Opslagruimte komt niet direct vrij. DiskPond ruimt ongebruikte gegevens later op om de betrouwbaarheid te waarborgen."
+    },
+    "cancel": "Annuleren",
+    "continue": {
+      "folder": "Map verwijderen",
+      "file": "Bestand verwijderen"
+    }
+  },
+  "backupError": {
+    "label": {
+      "missing": {
+        "folder": "Map niet gevonden",
+        "file": "Bestand niet gevonden"
+      },
+      "permission": {
+        "folder": "Geen toegang",
+        "file": "Geen toegang"
+      },
+      "failed": {
+        "folder": "Back-up mislukt",
+        "file": "Back-up mislukt"
+      },
+      "partial": {
+        "folder": "Sommige bestanden overgeslagen",
+        "file": "Back-up onvolledig"
+      }
+    },
+    "description": {
+      "missing": {
+        "folder": "Deze map is niet gevonden. Mogelijk is deze verplaatst, hernoemd of staat deze op een niet-aangesloten schijf.",
+        "file": "Dit bestand is niet gevonden. Mogelijk is het verplaatst, hernoemd of staat het op een niet-aangesloten schijf."
+      },
+      "permission": {
+        "folder": "DiskPond mag deze map niet lezen. Controleer de machtigingen en probeer het opnieuw.",
+        "file": "DiskPond mag dit bestand niet lezen. Controleer de machtigingen en probeer het opnieuw."
+      },
+      "failed": {
+        "folder": "De laatste back-up kon niet worden voltooid. Probeer het opnieuw en bekijk de details als het blijft mislukken.",
+        "file": "De laatste back-up kon niet worden voltooid. Probeer het opnieuw en bekijk de details als het blijft mislukken."
+      },
+      "partial": {
+        "folder": "De laatste back-up is voltooid, maar sommige bestanden konden niet worden gelezen en zijn overgeslagen.",
+        "file": "De laatste back-up is voltooid, maar het bestand kon niet volledig worden gelezen."
+      }
+    },
+    "details": "Details",
+    "toast": {
+      "failed": "Back-up van ‘{{name}}’ mislukt",
+      "partial": "Back-up van ‘{{name}}’ voltooid met fouten"
+    },
+    "viewDetails": "Details bekijken",
+    "dialog": {
+      "error": "Foutdetails",
+      "errors": "Bestanden met fouten",
+      "count_one": "{{count}} fout",
+      "count_other": "{{count}} fouten",
+      "limited": "{{shown}} van {{total}} worden getoond. De overige details zijn niet bij deze back-up opgeslagen.",
+      "unavailable": "Foutdetails per bestand zijn niet bij deze back-up opgeslagen.",
+      "ignored_one": "{{count}} fout is genegeerd volgens je back-upbeleid.",
+      "ignored_other": "{{count}} fouten zijn genegeerd volgens je back-upbeleid.",
+      "logs": "Technische logboeken",
+      "copy": "Details kopiëren",
+      "copied": "Gekopieerd",
+      "copyFailed": "Kon de details niet kopiëren. Je kunt de tekst hierboven selecteren en kopiëren.",
+      "close": "Klaar"
+    }
+  }
+}

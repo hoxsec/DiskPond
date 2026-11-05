@@ -1,0 +1,55 @@
+{
+  "title": "¡Hay una actualización nueva!",
+  "description": "Hay una nueva versión de DiskPond disponible.",
+  "restart": "Reiniciar",
+  "downloading": "Descargando actualización...",
+  "error": {
+    "title": "No se pudo actualizar automáticamente",
+    "description": "Se produjo un error al actualizar. Descarga la actualización manualmente con el botón de abajo."
+  },
+  "dismiss": {
+    "title": "¿Descartar la actualización?",
+    "warning": {
+      "title": "Podrían producirse fallos",
+      "description": "Puedes instalar la actualización de DiskPond más tarde."
+    },
+    "cancel": "Cancelar",
+    "confirm": "Descartar actualización"
+  },
+  "manual": "Descargar manualmente",
+  "install": "Reiniciar e instalar",
+  "download": "Descargar actualización",
+  "downloadProgress": "Descargando {{percent}}%",
+  "failed": "La actualización falló. Inténtalo de nuevo.",
+  "installing": "Reiniciando para instalar…",
+  "cancel": "Cancelar descarga",
+  "canceling": "Cancelando descarga…",
+  "canceled": "Descarga cancelada",
+  "preparing": "Preparando descarga…",
+  "transfer": "{{transferred}} de {{total}}",
+  "speed": "{{speed}}/s",
+  "waiting": "Esperando a que terminen las copias de seguridad y restauraciones",
+  "activityUnknown": "Actividad no disponible. Reintentando…",
+  "activityChecking": "Comprobando la actividad de copias de seguridad y restauraciones…",
+  "notes": "Novedades",
+  "noNotes": "No hay notas de la versión disponibles",
+  "remindLater": "Recordármelo más tarde",
+  "reminderDelay": "En 24 horas",
+  "reminderSet": "Recordatorio programado para mañana",
+  "history": "Historial de actualizaciones",
+  "currentVersion": "Versión instalada: {{version}}",
+  "versionChange": "{{from}} → {{to}}",
+  "emptyHistory": "Aún no hay intentos de actualización",
+  "historyUnavailable": "No se pudo guardar el historial de actualizaciones",
+  "outcomes": {
+    "DOWNLOADING": "Descargando",
+    "DOWNLOADED": "Descargada",
+    "CANCELED": "Cancelada",
+    "DOWNLOAD_FAILED": "Descarga fallida",
+    "INTERRUPTED": "Descarga interrumpida",
+    "INSTALLING": "Instalación solicitada",
+    "INSTALLED": "Instalada",
+    "INSTALL_FAILED": "Instalación fallida",
+    "NOT_INSTALLED": "Instalación no confirmada"
+  }
+}

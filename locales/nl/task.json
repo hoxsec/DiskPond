@@ -1,0 +1,25 @@
+{
+  "dialog": {
+    "title": {
+      "loading": "Laden...",
+      "fallback": "Taak"
+    },
+    "description": {
+      "loading": "Taakdetails laden..."
+    },
+    "logs": {
+      "waiting": "Wachten op logboeken...",
+      "empty": "Geen logboeken beschikbaar",
+      "unavailable": "De taaklogboeken konden niet worden geladen. Oudere taken verlopen en de taakgeschiedenis wordt gewist wanneer DiskPond herstart."
+    },
+    "close": "Sluiten",
+    "cancel": "Taak annuleren",
+    "status": {
+      "RUNNING": "Bezig",
+      "CANCELING": "Annuleren",
+      "CANCELED": "Geannuleerd",
+      "SUCCESS": "Geslaagd",
+      "FAILED": "Mislukt"
+    }
+  }
+}

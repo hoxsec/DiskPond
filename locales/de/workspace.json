@@ -1,0 +1,23 @@
+{
+  "welcome": {
+    "title": "Deine Sicherungen. Dein Speicher.",
+    "description": "Bewahre verschlüsselte, versionierte Sicherungen auf einem Laufwerk, an einem Netzwerkort oder in deinem eigenen Speicher auf.",
+    "open": "DiskPond öffnen",
+    "local": "Die Einstellungen bleiben auf diesem Computer. Kein Konto erforderlich."
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "about": {
+      "title": "Über",
+      "version": "Version {{version}}",
+      "attribution": "DiskPond ist freie Software auf Basis von BlinkDisk (AGPL-3.0) und nutzt dessen Kopia-basierte Sicherungs-Engine (Apache-2.0). Quellcode, Lizenzhinweise und Build-Anleitungen sind im Projekt-Repository verfügbar.",
+      "source": "Quellcode und Lizenzen",
+      "releases": "Versionen auf GitHub ansehen",
+      "checkUpdates": "Nach Updates suchen",
+      "upToDate": "Du bist auf dem neuesten Stand",
+      "updateAvailable": "DiskPond {{version}} verfügbar",
+      "updateError": "Updates konnten nicht geprüft werden. Versuche es erneut.",
+      "issues": "Problem melden"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "addFolder": "Datei/Ordner hinzufügen",
+  "selectVault": {
+    "empty": "Tresor auswählen",
+    "createVault": "Tresor erstellen"
+  },
+  "vaultMenu": {
+    "createVault": "Neuen Tresor erstellen",
+    "connectVault": "Vorhandenen Tresor verbinden"
+  },
+  "links": {
+    "navigation": "Menü",
+    "vaultSettings": "Tresoreinstellungen",
+    "home": "Startseite",
+    "activity": "Aktivität",
+    "overview": "Übersicht",
+    "settings": "Einstellungen",
+    "policies": "Richtlinien"
+  },
+  "updateAlert": {
+    "title": "DiskPond {{version}} verfügbar",
+    "error": "Der Browser konnte nicht geöffnet werden. Versuche es erneut.",
+    "button": "Versionen auf GitHub ansehen"
+  }
+}

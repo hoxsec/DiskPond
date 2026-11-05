@@ -1,0 +1,15 @@
+{
+  "comment": "Questo file è necessario per caricare la lingua predefinita dell’app Electron.",
+  "tray": {
+    "open": "Apri",
+    "quit": "Esci"
+  },
+  "common": {
+    "close": "Chiudi",
+    "back": "Indietro",
+    "breadcrumb": "Percorso della cartella",
+    "parentFolder": "Vai alla cartella superiore",
+    "selectAll": "Seleziona tutto",
+    "selectRow": "Seleziona riga"
+  }
+}

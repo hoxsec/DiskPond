@@ -1,0 +1,80 @@
+{
+  "placeholders": {
+    "period": "Bir dönem seçin"
+  },
+  "component": {
+    "everyText": "her",
+    "emptyMonths": "her ay",
+    "emptyMonthDays": "ayın her günü",
+    "emptyMonthDaysShort": "ayın günü",
+    "emptyWeekDays": "haftanın her günü",
+    "emptyWeekDaysShort": "haftanın günü",
+    "emptyHours": "her saat",
+    "emptyMinutes": "her dakika",
+    "emptyMinutesForHourPeriod": "her",
+    "yearOption": "yıl",
+    "monthOption": "ay",
+    "weekOption": "hafta",
+    "dayOption": "gün",
+    "hourOption": "saat",
+    "minuteOption": "dakika",
+    "rebootOption": "yeniden başlatma",
+    "prefixPeriod": "Her",
+    "prefixMonths": "ay:",
+    "prefixMonthDays": "ayın günü:",
+    "prefixWeekDays": "haftanın günü:",
+    "prefixWeekDaysForMonthAndYearPeriod": "ve",
+    "prefixHours": "saat:",
+    "prefixMinutes": ":",
+    "prefixMinutesForHourPeriod": "dakika:",
+    "suffixMinutesForHourPeriod": "",
+    "errorInvalidCron": "Geçersiz cron ifadesi",
+    "clearButtonText": "Temizle",
+    "weekDays": [
+      "Pazar",
+      "Pazartesi",
+      "Salı",
+      "Çarşamba",
+      "Perşembe",
+      "Cuma",
+      "Cumartesi"
+    ],
+    "months": [
+      "Ocak",
+      "Şubat",
+      "Mart",
+      "Nisan",
+      "Mayıs",
+      "Haziran",
+      "Temmuz",
+      "Ağustos",
+      "Eylül",
+      "Ekim",
+      "Kasım",
+      "Aralık"
+    ],
+    "altWeekDays": [
+      "PAZ",
+      "PZT",
+      "SAL",
+      "ÇAR",
+      "PER",
+      "CUM",
+      "CMT"
+    ],
+    "altMonths": [
+      "OCA",
+      "ŞUB",
+      "MAR",
+      "NİS",
+      "MAY",
+      "HAZ",
+      "TEM",
+      "AĞU",
+      "EYL",
+      "EKİ",
+      "KAS",
+      "ARA"
+    ]
+  }
+}

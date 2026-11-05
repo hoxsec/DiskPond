@@ -1,0 +1,25 @@
+{
+  "dialog": {
+    "title": {
+      "loading": "Wczytywanie...",
+      "fallback": "Zadanie"
+    },
+    "description": {
+      "loading": "Wczytywanie szczegółów zadania..."
+    },
+    "logs": {
+      "waiting": "Oczekiwanie na dzienniki...",
+      "empty": "Brak dostępnych dzienników",
+      "unavailable": "Nie udało się wczytać dzienników zadania. Starsze zadania wygasają, a historia zadań jest czyszczona po ponownym uruchomieniu DiskPond."
+    },
+    "close": "Zamknij",
+    "cancel": "Anuluj zadanie",
+    "status": {
+      "RUNNING": "W toku",
+      "CANCELING": "Anulowanie",
+      "CANCELED": "Anulowano",
+      "SUCCESS": "Powodzenie",
+      "FAILED": "Niepowodzenie"
+    }
+  }
+}

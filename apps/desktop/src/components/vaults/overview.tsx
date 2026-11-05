@@ -57,7 +57,7 @@ type VaultOverviewProps = {
 };
 
 export function VaultOverview({ vault }: VaultOverviewProps) {
-  const { t } = useAppTranslation("vault.overview");
+  const { t, language } = useAppTranslation("vault.overview");
   const profileSelectRef = useRef<HTMLButtonElement>(null);
 
   const navigate = useNavigate({ from: "/$accountId/$vaultId" });
@@ -197,19 +197,27 @@ export function VaultOverview({ vault }: VaultOverviewProps) {
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
         <VaultStatCard
           title={t("stats.totalSize")}
-          value={stats ? formatSize(stats.totalSize) : undefined}
+          value={
+            stats
+              ? formatSize(stats.totalSize, { locale: language })
+              : undefined
+          }
           history={statHistory?.totalSize}
           isLoading={isStatsLoading}
         />
         <VaultStatCard
           title={t("stats.files")}
-          value={stats ? formatCompactInt(stats.fileCount) : undefined}
+          value={
+            stats ? formatCompactInt(stats.fileCount, language) : undefined
+          }
           history={statHistory?.fileCount}
           isLoading={isStatsLoading}
         />
         <VaultStatCard
           title={t("stats.directories")}
-          value={stats ? formatCompactInt(stats.directoryCount) : undefined}
+          value={
+            stats ? formatCompactInt(stats.directoryCount, language) : undefined
+          }
           history={statHistory?.directoryCount}
           isLoading={isStatsLoading}
         />
@@ -225,7 +233,9 @@ export function VaultOverview({ vault }: VaultOverviewProps) {
               ? t("stats.unavailable")
               : storageSpace.data?.status === "AVAILABLE" ||
                   storageSpace.data?.status === "QUOTA"
-                ? formatSize(storageSpace.data.availableBytes)
+                ? formatSize(storageSpace.data.availableBytes, {
+                    locale: language,
+                  })
                 : storageSpace.data?.status === "NO_QUOTA"
                   ? t("stats.noBucketQuota")
                   : storageSpace.data?.status === "UNSUPPORTED"

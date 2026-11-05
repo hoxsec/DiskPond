@@ -23,7 +23,7 @@ import { usePrevious } from "@desktop/components/cron/utils";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 export function Cron(props: CronProps) {
-  const { t } = useAppTranslation("cron");
+  const { t, language } = useAppTranslation("cron");
 
   const locale = t("component", {
     returnObjects: true,
@@ -165,14 +165,14 @@ export function Cron(props: CronProps) {
 
   const clockFormat = useMemo(() => {
     const date = new Date(Date.UTC(2020, 0, 1, 13, 0, 0)); // 1:00 PM UTC
-    const formatted = new Intl.DateTimeFormat(undefined, {
+    const formatted = new Intl.DateTimeFormat(language, {
       hour: "numeric",
       hour12: undefined, // Let the system decide
     }).format(date);
 
     const hasAMPM = /AM|PM/i.test(formatted);
     return hasAMPM ? "12-hour-clock" : "24-hour-clock";
-  }, []);
+  }, [language]);
 
   const periodForRender = period || defaultPeriodRef.current;
 

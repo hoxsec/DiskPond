@@ -1,0 +1,271 @@
+{
+  "page": {
+    "tree": {
+      "title": "Zakres",
+      "description": "Wybierz zasady do edycji."
+    },
+    "editor": {
+      "title": "Zasady",
+      "save": "Zapisz",
+      "mode": {
+        "basic": "Podstawowy",
+        "advanced": "Zaawansowany"
+      },
+      "advancedBanner": {
+        "title": "Szukasz więcej opcji?",
+        "description": "Tryb zaawansowany obejmuje własne harmonogramy, pliki reguł, kompresję, zasady przechowywania i limity rozmiaru plików.",
+        "button": "Przełącz na tryb zaawansowany"
+      }
+    },
+    "override": {
+      "inherited": "Odziedziczone",
+      "custom": "Własne"
+    },
+    "draft": {
+      "badge": "Wersja robocza",
+      "activate": {
+        "button": "Dodaj plik/folder"
+      },
+      "discard": {
+        "button": "Odrzuć"
+      }
+    }
+  },
+  "schedule": {
+    "title": "Harmonogram kopii zapasowych",
+    "description": "Zaplanuj automatyczne tworzenie kopii zapasowych plików.",
+    "trigger": {
+      "label": "Uruchamianie kopii",
+      "items": {
+        "SCHEDULE": "Według harmonogramu",
+        "MANUAL": "Tylko ręcznie"
+      }
+    },
+    "interval": {
+      "label": "Częstotliwość tworzenia kopii",
+      "placeholder": "Wybierz częstotliwość tworzenia kopii",
+      "items": {
+        "NONE": "Brak",
+        "10_MINUTES": "Co 10 minut",
+        "15_MINUTES": "Co 15 minut",
+        "20_MINUTES": "Co 20 minut",
+        "30_MINUTES": "Co 30 minut",
+        "1_HOUR": "Co godzinę",
+        "3_HOURS": "Co 3 godziny",
+        "6_HOURS": "Co 6 godzin",
+        "12_HOURS": "Co 12 godzin",
+        "24_HOURS": "Co 24 godziny"
+      }
+    },
+    "catchup": {
+      "label": "Nadrabiaj pominięte kopie"
+    },
+    "cron": {
+      "label": "Własny harmonogram",
+      "add": "Dodaj własny harmonogram"
+    }
+  },
+  "retention": {
+    "title": "Przechowywanie kopii",
+    "description": "Określ, jak długo przechowywać kopie zapasowe.",
+    "latest": {
+      "label": "Najnowsze kopie",
+      "description": "Liczba najnowszych kopii do zachowania."
+    },
+    "hourly": {
+      "label": "Kopie godzinowe",
+      "description": "Liczba kopii godzinowych do zachowania."
+    },
+    "daily": {
+      "label": "Kopie dzienne",
+      "description": "Liczba kopii dziennych do zachowania."
+    },
+    "weekly": {
+      "label": "Kopie tygodniowe",
+      "description": "Liczba kopii tygodniowych do zachowania."
+    },
+    "monthly": {
+      "label": "Kopie miesięczne",
+      "description": "Liczba kopii miesięcznych do zachowania."
+    },
+    "annual": {
+      "label": "Kopie roczne",
+      "description": "Liczba kopii rocznych do zachowania."
+    },
+    "info": {
+      "title": "Jak działa przechowywanie kopii",
+      "description": "DiskPond zachowuje ustawioną liczbę najnowszych kopii dla każdego okresu. Kopia zostaje zachowana, jeśli spełnia dowolną regułę. Pozostałe są usuwane, aby oszczędzić miejsce."
+    }
+  },
+  "files": {
+    "title": "Wykluczone pliki",
+    "description": "Wyklucz pliki i katalogi z kopii zapasowych.",
+    "exclusions": {
+      "label": "Wykluczone pliki i katalogi",
+      "description": "Pliki, katalogi i rozszerzenia wykluczone z kopii zapasowych.",
+      "descriptionWithRoot": "Pliki, foldery i rozszerzenia wykluczone z kopii tego folderu.",
+      "add": "Dodaj wykluczenie",
+      "example": "pomijany-plik.txt",
+      "broken": {
+        "title_one": "{{count}} reguła wykluczenia nie działa",
+        "title_few": "{{count}} reguły wykluczenia nie działają",
+        "title_many": "{{count}} reguł wykluczenia nie działa",
+        "title_other": "{{count}} reguły wykluczenia nie działa",
+        "description": "Reguły podane jako pełne ścieżki nigdy nie znajdują dopasowań. Reguły muszą być względne wobec folderu objętego kopią.",
+        "descriptionOutside": "Ścieżek poza {{root}} nie można wykluczyć z kopii tego folderu. Edytuj lub usuń te reguły.",
+        "descriptionWithoutRoot": "Reguły podane jako pełne ścieżki nigdy nie znajdują dopasowań. Aby wykluczyć konkretny folder, dodaj regułę do zasad tego folderu.",
+        "fix_one": "Popraw {{count}} regułę",
+        "fix_few": "Popraw {{count}} reguły",
+        "fix_many": "Popraw {{count}} reguł",
+        "fix_other": "Popraw {{count}} reguły"
+      },
+      "dialog": {
+        "title": "Edytuj regułę wykluczenia",
+        "description": "Skonfiguruj wzorzec reguły wykluczenia.",
+        "type": {
+          "label": "Wyklucz według",
+          "path": "Ścieżka",
+          "name": "Nazwa",
+          "extension": "Rozszerzenie"
+        },
+        "matchType": {
+          "exact": "jest równa",
+          "startsWith": "zaczyna się od",
+          "endsWith": "kończy się na",
+          "contains": "zawiera"
+        },
+        "path": {
+          "label": "Folder lub plik",
+          "description": "Musi znajdować się wewnątrz {{root}}.",
+          "descriptionWithoutRoot": "Względem każdego folderu objętego kopią, np. /AppData/Local/Temp.",
+          "placeholderWithoutRoot": "/sciezka/do/folderu",
+          "chooseFolder": "Wybierz folder",
+          "chooseFile": "Wybierz plik",
+          "preview": "Wyklucza {{path}} w tym folderze.",
+          "errors": {
+            "EMPTY": "Podaj ścieżkę.",
+            "INVALID": "Nie można użyć tej ścieżki. Ścieżki zawierające „..” lub względne wobec dysku, np. C:folder, nie są obsługiwane.",
+            "IS_ROOT": "To sam folder objęty kopią. Wybierz coś wewnątrz niego.",
+            "OUTSIDE_ROOT": "Ta ścieżka nie znajduje się wewnątrz {{root}}.",
+            "NEEDS_ROOT": "Pełne ścieżki działają tylko w zasadach konkretnego folderu. Podaj ścieżkę względną wobec folderu objętego kopią."
+          }
+        },
+        "pattern": {
+          "label": "których nazwa",
+          "description": "Dopasowuje pliki i foldery o tej nazwie w dowolnym miejscu kopii.",
+          "placeholder": "Wzorzec dopasowania nazwy",
+          "errors": {
+            "path": "Nazwy nie mogą zawierać \\ ani liter dysków."
+          },
+          "pathHint": {
+            "withRoot": "To wygląda jak ścieżka. Aby wykluczyć konkretny folder lub plik, użyj reguły ścieżki.",
+            "withoutRoot": "To wygląda jak ścieżka. Aby wykluczyć konkretny folder lub plik, dodaj regułę do zasad tego folderu.",
+            "action": "Wyklucz tę ścieżkę"
+          }
+        },
+        "extension": {
+          "label": "których rozszerzenie to",
+          "placeholder": "Podaj rozszerzenie pliku (np. pdf, jpg lub docx)"
+        },
+        "foldersOnly": "Wykluczaj tylko foldery",
+        "save": "Zapisz"
+      },
+      "preview": {
+        "path": "Folder lub plik",
+        "broken": {
+          "fullPath": "Nie działa: podano pełną ścieżkę",
+          "outside": "Nie działa: ścieżka jest poza tym folderem",
+          "isRoot": "Nie działa: wskazuje sam folder objęty kopią",
+          "invalid": "Nie działa: edytuj regułę, aby ją poprawić"
+        },
+        "extension": "Rozszerzenie pliku",
+        "name": {
+          "both": "Nazwa",
+          "foldersOnly": "Nazwa folderu"
+        },
+        "matchType": {
+          "EXACT": "jest równe",
+          "STARTS_WITH": "zaczyna się od",
+          "ENDS_WITH": "kończy się na",
+          "CONTAINS": "zawiera"
+        }
+      }
+    },
+    "exclusionRuleFiles": {
+      "label": "Pliki reguł wykluczeń",
+      "description": "Nazwy plików zawierających reguły wykluczeń.",
+      "example": "ignore.txt",
+      "docs": "Otwórz dokumentację",
+      "add": "Dodaj plik reguł"
+    },
+    "maxFileSize": {
+      "label": "Maksymalny rozmiar pliku",
+      "description": "Maksymalny rozmiar pliku uwzględnianego w kopiach."
+    },
+    "excludeCacheDirs": {
+      "label": "Wyklucz katalogi pamięci podręcznej",
+      "description": "Wyklucz z kopii typowe katalogi pamięci podręcznej."
+    }
+  },
+  "compression": {
+    "title": "Kompresja",
+    "description": "Skonfiguruj sposób kompresji danych kopii zapasowych.",
+    "algorithm": {
+      "label": "Algorytm kompresji",
+      "description": "Algorytm używany do kompresji danych kopii zapasowych.",
+      "placeholder": "Wybierz algorytm",
+      "tabs": {
+        "off": "Brak",
+        "recommended": "Zalecane",
+        "other": "Inne"
+      },
+      "presets": {
+        "faster": "Szybciej",
+        "balanced": "Zrównoważona",
+        "smaller": "Mniejszy rozmiar"
+      },
+      "items": {
+        "": "Domyślny",
+        "none": "Brak",
+        "gzip": "Gzip",
+        "gzip-best-compression": "Gzip (najlepsza kompresja)",
+        "gzip-best-speed": "Gzip (największa szybkość)",
+        "zstd": "Zstandard",
+        "zstd-best-compression": "Zstandard (najlepsza kompresja)",
+        "zstd-better-compression": "Zstandard (lepsza kompresja)",
+        "zstd-fastest": "Zstandard (najszybszy)",
+        "s2-default": "S2",
+        "s2-better": "S2 (lepszy)",
+        "s2-parallel-4": "S2 (równolegle, 4 wątki)",
+        "s2-parallel-8": "S2 (równolegle, 8 wątków)",
+        "pgzip": "Równoległy Gzip",
+        "pgzip-best-compression": "Równoległy Gzip (najlepsza kompresja)",
+        "pgzip-best-speed": "Równoległy Gzip (największa szybkość)",
+        "deflate-default": "Deflate",
+        "deflate-best-compression": "Deflate (najlepsza kompresja)",
+        "deflate-best-speed": "Deflate (największa szybkość)",
+        "lz4": "LZ4 (niezalecany)"
+      }
+    },
+    "minFileSize": {
+      "label": "Minimalny rozmiar pliku",
+      "description": "Kompresuj tylko pliki większe od tego rozmiaru."
+    },
+    "maxFileSize": {
+      "label": "Maksymalny rozmiar pliku",
+      "description": "Kompresuj tylko pliki mniejsze od tego rozmiaru."
+    },
+    "extensionAllowlist": {
+      "label": "Dozwolone rozszerzenia",
+      "description": "Kompresuj tylko pliki z tymi rozszerzeniami.",
+      "add": "Dodaj rozszerzenie",
+      "placeholder": "np. .txt"
+    },
+    "extensionDenylist": {
+      "label": "Wykluczone rozszerzenia",
+      "description": "Nigdy nie kompresuj plików z tymi rozszerzeniami.",
+      "add": "Dodaj rozszerzenie",
+      "placeholder": "np. .zip"
+    }
+  }
+}

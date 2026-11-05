@@ -1,0 +1,82 @@
+{
+  "pages": {
+    "default": {
+      "title": "Coś poszło nie tak",
+      "description": "Wystąpił nieoczekiwany błąd. Spróbuj ponownie. Jeśli problem nadal występuje, <0>zgłoś go</0>.",
+      "button": "Wróć do strony głównej"
+    },
+    "not-found": {
+      "title": "404",
+      "description": "Ta strona nie istnieje. Wróć do strony głównej lub <0>zgłoś problem</0>.",
+      "button": "Wróć do strony głównej"
+    }
+  },
+  "fallback": {
+    "title": "Coś poszło nie tak",
+    "description": "Spróbuj ponownie. Jeśli problem nadal występuje, zgłoś go w Ustawieniach."
+  },
+  "INTERNAL_SERVER_ERROR": {
+    "title": "Coś poszło nie tak",
+    "description": "Wystąpił nieoczekiwany błąd. Jeśli problem nadal występuje, zgłoś go w Ustawieniach."
+  },
+  "UNAUTHORIZED": {
+    "title": "Nie masz uprawnień do tej czynności",
+    "description": "Sprawdź dane uwierzytelniające i uprawnienia do miejsca przechowywania, a następnie podłącz sejf ponownie."
+  },
+  "USER_ALREADY_EXISTS": {
+    "title": "Użytkownik o tym adresie e-mail już istnieje",
+    "description": "Spróbuj się zalogować."
+  },
+  "INVALID_EMAIL_OR_PASSWORD": {
+    "title": "Nieprawidłowy adres e-mail lub hasło",
+    "description": "Sprawdź adres e-mail i hasło."
+  },
+  "INVALID_TOKEN": {
+    "title": "Kod jest nieprawidłowy lub wygasł",
+    "description": "Zaloguj się ponownie, aby otrzymać nowy kod."
+  },
+  "EMAIL_NOT_VERIFIED": {
+    "title": "Adres e-mail nie został jeszcze zweryfikowany",
+    "description": "Wpisz poniżej kod weryfikacyjny wysłany na Twój adres e-mail."
+  },
+  "SUBSCRIPTION_EXISTS": {
+    "title": "Masz już aktywną subskrypcję",
+    "description": "Spróbuj zmienić plan na wyższy."
+  },
+  "VAULT_ALREADY_EXISTS": {
+    "title": "Sejf już istnieje",
+    "description": "Ten sejf jest już podłączony na tym komputerze."
+  },
+  "VAULT_NOT_FOUND": "Nie znaleziono sejfu",
+  "FOLDER_NOT_FOUND": "Nie znaleziono folderu",
+  "PROVIDER_NOT_FOUND": "Nie znaleziono dostawcy",
+  "SPACE_NOT_FOUND": "Nie znaleziono przestrzeni",
+  "PRICE_NOT_FOUND": "Nie znaleziono ceny",
+  "SUBSCRIPTION_NOT_FOUND": "Nie znaleziono subskrypcji",
+  "NO_STORAGE": "Brak dostępnej przestrzeni dyskowej",
+  "NOT_ALLOWED": "Nie masz uprawnień do tej czynności",
+  "MISSING_REQUIRED_VALUE": {
+    "title": "Brakuje wymaganych informacji",
+    "description": "Spróbuj ponownie lub uruchom aplikację ponownie."
+  },
+  "INVALID_PASSWORD": {
+    "title": "Nieprawidłowe hasło szyfrowania",
+    "description": "Podane hasło szyfrowania jest nieprawidłowe."
+  },
+  "INCORRECT_VAULT": {
+    "title": "Znaleziono inny sejf",
+    "description": "Konfiguracja wskazuje inny sejf. Sprawdź ustawienia."
+  },
+  "STORAGE_UNREACHABLE": {
+    "title": "Miejsce przechowywania jest nieosiągalne",
+    "description": "DiskPond nie mógł uzyskać dostępu do miejsca przechowywania. Sprawdź, czy ścieżka lub serwer są dostępne, a ustawienia prawidłowe."
+  },
+  "VAULT_SERVER_UNAVAILABLE": {
+    "title": "Sejf jest niedostępny",
+    "description": "DiskPond nie mógł uruchomić silnika kopii zapasowych lub ponownie połączyć się z tym sejfem. Sprawdź dostępność miejsca przechowywania i spróbuj ponownie."
+  },
+  "ACCOUNT_SYNC_FAILED": {
+    "title": "Nie udało się zsynchronizować konta",
+    "description": "Spróbuj ponownie. Jeśli problem nadal występuje, zgłoś go w Ustawieniach."
+  }
+}

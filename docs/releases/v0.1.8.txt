@@ -1,0 +1,12 @@
+## More languages
+
+- Added Spanish, French, German, Turkish, Dutch, Italian, and Polish alongside English.
+- Translated desktop screens, dialogs, validation messages, and tray actions.
+- Localized dates, numbers, and plural forms, with support for regional language preferences.
+- Language choices are saved on this computer, and translations are bundled for offline use.
+
+## Cleaner update experience
+
+- Simplified the sidebar update box to focus on the update button.
+- Kept the changelog and reminder option in Settings.
+- Changelogs now render Markdown with styled headings, lists, links, tables, quotes, and code blocks.

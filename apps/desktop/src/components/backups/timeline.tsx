@@ -61,13 +61,14 @@ type FakeBackupType = {
   startTime: string;
 };
 
-function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString(undefined, {
+function formatDate(dateString: string, language: string): string {
+  return new Date(dateString).toLocaleDateString(language, {
     dateStyle: "medium",
   });
 }
 
 export function BackupTimeline({ backups }: BackupTimelineProps) {
+  const { language } = useAppTranslation();
   const { data: folder } = useSource();
 
   const groupedBackups = useMemo(() => {
@@ -134,7 +135,7 @@ export function BackupTimeline({ backups }: BackupTimelineProps) {
               <div className="border-input h-0 w-6 border-b-2"></div>
               <p className="text-muted-foreground text-lg">
                 {dayBackups[0] ? (
-                  formatDate(dayBackups[0]?.startTime || "")
+                  formatDate(dayBackups[0]?.startTime || "", language)
                 ) : (
                   <Skeleton width={150} />
                 )}
@@ -254,7 +255,7 @@ type BackupProps = {
 };
 
 function Backup({ backup }: BackupProps) {
-  const { t } = useAppTranslation("backup.list.item");
+  const { t, language } = useAppTranslation("backup.list.item");
   const { t: tComparison } = useAppTranslation("history.comparison");
   const { data: source } = useSource();
   const { openDeleteBackupDialog } = useDeleteBackupDialog();
@@ -297,7 +298,9 @@ function Backup({ backup }: BackupProps) {
             directoryId: backup.rootID,
           })}
           search={(search) => ({ ...search, path: undefined })}
-          aria-label={t("browseFiles", { date: formatBackupDate(backup) })}
+          aria-label={t("browseFiles", {
+            date: formatBackupDate(backup, language),
+          })}
           className="absolute inset-0 outline-none focus-visible:ring-2 focus-visible:ring-ring"
         />
       ) : backup?.id && backup.rootID ? (
@@ -325,7 +328,11 @@ function Backup({ backup }: BackupProps) {
         </div>
         <p className="text-muted-foreground text-sm">
           <CalendarIcon className="mr-2 inline-block size-4" />
-          {backup ? formatBackupDate(backup) : <Skeleton width={150} />}
+          {backup ? (
+            formatBackupDate(backup, language)
+          ) : (
+            <Skeleton width={150} />
+          )}
         </p>
       </div>
       <div className="flex items-center gap-3">
@@ -344,7 +351,7 @@ function Backup({ backup }: BackupProps) {
                 {backup ? (
                   t("files", {
                     count: fileCount,
-                    formatted: fileCount.toLocaleString(),
+                    formatted: fileCount.toLocaleString(language),
                   })
                 ) : (
                   <Skeleton width={70} />
@@ -355,7 +362,7 @@ function Backup({ backup }: BackupProps) {
               {backup ? <HardDriveIcon className="size-4" /> : null}
               <span>
                 {backup ? (
-                  formatSize(backup.summary.size)
+                  formatSize(backup.summary.size, { locale: language })
                 ) : (
                   <Skeleton width={70} />
                 )}

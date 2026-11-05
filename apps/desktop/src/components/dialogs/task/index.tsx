@@ -19,9 +19,9 @@ import { useTaskDialog } from "@desktop/hooks/state/use-task-dialog";
 import { LoaderCircleIcon } from "lucide-react";
 import { memo } from "react";
 
-function formatTimestamp(ts: number) {
+function formatTimestamp(ts: number, language: string) {
   const date = new Date(ts * 1000);
-  return date.toLocaleTimeString(undefined, {
+  return date.toLocaleTimeString(language, {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
@@ -58,12 +58,13 @@ function formatValue(value: unknown): string {
 }
 
 const LogEntry = memo(function LogEntry({ log }: { log: CoreTaskLogEntry }) {
+  const { language } = useAppTranslation();
   const extras = getExtraFields(log);
 
   return (
     <p className="text-sm">
       <span className="text-muted-foreground shrink-0">
-        {formatTimestamp(log.ts)}{" "}
+        {formatTimestamp(log.ts, language)}{" "}
       </span>
       <span className="text-primary/70 shrink-0"> [{log.mod}] </span>
       <span className="text-foreground wrap-break-word mt-0.5 min-w-0">

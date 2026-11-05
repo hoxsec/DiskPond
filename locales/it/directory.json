@@ -1,0 +1,133 @@
+{
+  "backToHistory": "Torna alla cronologia dei backup",
+  "table": {
+    "name": "Nome",
+    "size": "Dimensione",
+    "modified": "Ultima modifica",
+    "mode": "Modalità",
+    "uid": "UID",
+    "gid": "GID",
+    "symlink": {
+      "tooltip": "Collegamento simbolico"
+    },
+    "search": {
+      "placeholder": "Cerca file o cartelle..."
+    },
+    "columns": {
+      "button": "Colonne"
+    },
+    "empty": {
+      "title": "Cartella vuota",
+      "description": "Questa cartella era vuota al momento della creazione del backup. Aggiungi i file mancanti e crea un nuovo backup."
+    },
+    "emptySearch": {
+      "title": "Nessun file trovato",
+      "description": "Nessun file o cartella corrisponde alla ricerca. Prova una ricerca diversa o aggiungi i file mancanti alla cartella."
+    },
+    "mount": {
+      "active": {
+        "title": "Backup attualmente montato",
+        "description": "Montato in {{path}}"
+      },
+      "open": {
+        "windows": "Apri in Esplora file",
+        "macos": "Apri nel Finder",
+        "other": "Apri nel gestore file"
+      },
+      "stop": {
+        "button": "Smonta",
+        "error": {
+          "title": "Impossibile smontare",
+          "description": "Il punto di montaggio potrebbe essere ancora in uso. Prova a chiudere le applicazioni che lo utilizzano."
+        }
+      }
+    },
+    "restore": {
+      "folder": "Ripristina cartella",
+      "selected_one": "Ripristina {{count}} elemento",
+      "selected_other": "Ripristina {{count}} elementi",
+      "selected_many": "Ripristina {{count}} elementi",
+      "single": {
+        "dialog": {
+          "title": "Seleziona la cartella di destinazione del ripristino"
+        }
+      },
+      "multiple": {
+        "dialog": {
+          "title": "Seleziona la cartella di destinazione del ripristino"
+        }
+      }
+    }
+  },
+  "restoreDialog": {
+    "title": "Ripristina cartella",
+    "description": "Ripristina una cartella da un backup.",
+    "type": {
+      "label": "Tipo di ripristino",
+      "items": {
+        "ZIP": "Archivio ZIP",
+        "UNPACKED": "File estratti"
+      }
+    },
+    "filePath": {
+      "label": "Percorso del file ZIP",
+      "placeholder": "Seleziona il percorso del file di destinazione",
+      "defaultFileName": "{{directory}}-{{date}}-Ripristino.zip"
+    },
+    "directoryPath": {
+      "label": "Percorso della cartella di destinazione",
+      "placeholder": "Seleziona il percorso della cartella di destinazione"
+    },
+    "compress": {
+      "label": "Comprimi il file ZIP",
+      "description": "Riduce la dimensione, ma rallenta il ripristino"
+    },
+    "warning": {
+      "title": "I file potrebbero essere sovrascritti",
+      "description": "La cartella selezionata non è vuota. I file e le cartelle esistenti potrebbero essere sovrascritti dai file ripristinati. Valuta di creare una nuova cartella vuota."
+    },
+    "confirmed": {
+      "label": "Comprendo che i file potrebbero essere sovrascritti"
+    },
+    "submit": "Ripristina"
+  },
+  "restore": {
+    "actionError": "Impossibile completare l’azione o aggiornare lo stato del ripristino. Riprova.",
+    "status": {
+      "RUNNING": "Ripristino in corso",
+      "CANCELING": "Annullamento del ripristino…",
+      "COMPLETE": "Ripristino completato",
+      "PARTIAL": "Ripristino completato con problemi",
+      "FAILED": "Ripristino non riuscito",
+      "CANCELED": "Ripristino annullato",
+      "UNAVAILABLE": "Esito del ripristino non disponibile"
+    },
+    "issue": {
+      "SPACE": "La destinazione è piena. Libera spazio o scegli un’altra destinazione, quindi riprova in una nuova cartella.",
+      "PERMISSION": "La scrittura dei dati o metadati ripristinati è stata negata. Controlla i permessi della destinazione o scegli un’altra cartella, quindi riprova.",
+      "ZIP": "Il generatore ZIP di questo motore omette le cartelle vuote e i collegamenti simbolici. Usa il ripristino con file estratti per recuperare questi elementi.",
+      "DESTINATION": "Verifica che la destinazione esista, abbia spazio libero, consenta la scrittura e non sia utilizzata da un altro ripristino, quindi riprova.",
+      "ENGINE": "Il motore di backup o il risultato dell’operazione non è disponibile. Ricollega la cassaforte e controlla la destinazione prima di riprovare.",
+      "TASK": "Il motore non ha potuto ripristinare tutti i dati richiesti. Controlla lo spazio e i permessi della destinazione e che il backup sia leggibile, quindi riprova in una nuova cartella.",
+      "TIMEOUT": "Il ripristino non è terminato entro il limite di monitoraggio. È stato richiesto l’annullamento; controlla il motore e la destinazione prima di riprovare.",
+      "LINK": "La destinazione contiene un collegamento simbolico o una giunzione. Scegli una cartella senza collegamenti per evitare di scrivere fuori dalla destinazione.",
+      "CONFIRMATION": "La destinazione non è vuota. Conferma la sovrascrittura nella finestra di ripristino o scegli una cartella vuota."
+    },
+    "objects": "Oggetti del backup: {{objects}}",
+    "counts": "Ultimo conteggio degli elementi ripristinati: {{restored}} · Saltati: {{skipped}} · Errori ignorati: {{errors}}",
+    "incomplete": "Il risultato potrebbe essere incompleto. Conserva il backup e controlla la destinazione prima di usare i file ripristinati.",
+    "cancel": "Annulla ripristino",
+    "dismiss": "Chiudi risultato",
+    "title": "Ripristino in corso",
+    "description": {
+      "files_one": "Ripristino di {{files}} file",
+      "files_other": "Ripristino di {{files}} file",
+      "files_many": "Ripristino di {{files}} file",
+      "directories_one": "Ripristino di {{directories}} cartella",
+      "directories_other": "Ripristino di {{directories}} cartelle",
+      "directories_many": "Ripristino di {{directories}} cartelle",
+      "both": "Ripristino di {{files}} file e {{directories}} cartelle"
+    },
+    "openFolder": "Apri cartella"
+  }
+}

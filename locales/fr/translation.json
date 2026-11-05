@@ -1,0 +1,15 @@
+{
+  "comment": "Ce fichier est nécessaire au chargement de la langue par défaut de l’application Electron.",
+  "tray": {
+    "open": "Ouvrir",
+    "quit": "Quitter"
+  },
+  "common": {
+    "close": "Fermer",
+    "back": "Retour",
+    "breadcrumb": "Chemin du dossier",
+    "parentFolder": "Aller au dossier parent",
+    "selectAll": "Tout sélectionner",
+    "selectRow": "Sélectionner la ligne"
+  }
+}

@@ -66,7 +66,7 @@ type SourceProps = {
 };
 
 function Source({ source, profile, allowBackupActions }: SourceProps) {
-  const { t } = useAppTranslation("folder.list.item");
+  const { t, language } = useAppTranslation("folder.list.item");
   const formattedTime = useRelativeTime(source?.lastSnapshot?.startTime);
   const sourceTypeKey = isFileLikeSource(source?.type) ? "file" : "folder";
 
@@ -138,9 +138,11 @@ function Source({ source, profile, allowBackupActions }: SourceProps) {
                       fileCount: formatInt(
                         (source.lastSnapshot.stats?.cachedFiles || 0) +
                           (source.lastSnapshot.stats?.nonCachedFiles || 0),
+                        language,
                       ),
                       size: formatSize(
                         source.lastSnapshot.stats?.totalSize || 0,
+                        { locale: language },
                       ),
                     })}
                   </p>

@@ -15,7 +15,7 @@ export function BackupProgress({
   upload,
   size = "default",
 }: BackupProgressProps) {
-  const { t } = useAppTranslation("backup.progress");
+  const { t, language } = useAppTranslation("backup.progress");
 
   const fallback = !upload?.estimatedBytes;
 
@@ -23,17 +23,23 @@ export function BackupProgress({
     return {
       completed: formatSize(
         (upload?.cachedBytes || 0) + (upload?.hashedBytes || 0),
-        { round: 1 },
+        { round: 1, locale: language },
       ),
       total: upload?.estimatedBytes
-        ? formatSize(upload?.estimatedBytes || 0, { round: 1 })
+        ? formatSize(upload?.estimatedBytes || 0, {
+            round: 1,
+            locale: language,
+          })
         : "",
-      percentage: (upload?.progress || 0).toLocaleString(undefined, {
+      percentage: (upload?.progress || 0).toLocaleString(language, {
         style: "percent",
       }),
-      files: formatInt((upload?.hashedFiles || 0) + (upload?.cachedFiles || 0)),
+      files: formatInt(
+        (upload?.hashedFiles || 0) + (upload?.cachedFiles || 0),
+        language,
+      ),
     };
-  }, [upload]);
+  }, [upload, language]);
 
   return (
     <div className="flex items-center gap-3">

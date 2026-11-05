@@ -1,0 +1,524 @@
+{
+  "noVaults": {
+    "title": "Dosyalarınızı yedekleyin ve kurtarın",
+    "description": "Kendi depolama alanınızda şifreli bir kasa oluşturun veya mevcut yedekleri kurtarmak için bir kasaya bağlanın.",
+    "refresh": "Kasaları yeniden yükle",
+    "add": "Kasa ekle"
+  },
+  "home": {
+    "title": "Kasalar",
+    "createVault": "Yeni kasa oluştur",
+    "connectVault": "Mevcut kasaya bağlan",
+    "count_one": "{{count}} kasa bulundu",
+    "count_other": "{{count}} kasa bulundu"
+  },
+  "createDialog": {
+    "back": "Geri",
+    "title": {
+      "default": "Yeni kasa oluştur",
+      "connect": "Mevcut kasaya bağlan"
+    },
+    "description": "Yeni bir şifreli kasa için boş bir hedef seçin.",
+    "connectDescription": "Kasanızı içeren depolama alanını seçin. Mevcut şifreleme parolasına ihtiyacınız olacak.",
+    "providers": {
+      "search": {
+        "label": "Depolama sağlayıcısı ara",
+        "placeholder": "Sağlayıcı ara..."
+      }
+    },
+    "config": {
+      "submit": "Devam",
+      "checking": "Hedef denetleniyor. Lütfen bekleyin.",
+      "validationError": {
+        "title": "Depolama ayarları doğrulanamadı",
+        "rcloneRemoteNotConfigured": "“{{remote}}” adlı rclone uzak bağlantısı bu bilgisayarda yapılandırılmamış. rclone yapılandırmanızdaki uzak bağlantı adını denetleyip yeniden deneyin."
+      },
+      "existsError": {
+        "title": "Kasa zaten mevcut",
+        "description": "Bu kasa bu bilgisayarda zaten “{{name}}” adıyla bağlı."
+      }
+    },
+    "details": {
+      "name": {
+        "label": "Kasa adı",
+        "placeholder": "Kasa adını girin"
+      },
+      "password": {
+        "label": "Şifreleme parolası",
+        "placeholder": "Kasanın şifreleme parolasını girin"
+      },
+      "confirmPassword": {
+        "label": "Şifreleme parolasını onaylayın",
+        "placeholder": "Kasanın şifreleme parolasını onaylayın"
+      },
+      "warning": {
+        "title": "Bu parolayı asla unutmayın",
+        "description": "Bu şifreleme parolasını güvenli bir yerde saklayın. DiskPond parolayı sıfırlayamaz. Yedeklerinizi başka bir bilgisayarda geri yüklemek için bu parolaya ihtiyacınız olacak."
+      },
+      "submit": "Kasa oluştur",
+      "connect": "Kasaya bağlan",
+      "connectHint": "Mevcut kasa parolasını kullanın. Bağlanırken eski depo üst verileri güncel adlarıyla kopyalanabilir; mevcut yedekler korunur.",
+      "creating": "Kasa oluşturuluyor. Lütfen bekleyin.",
+      "connecting": "Kasaya bağlanılıyor. Lütfen bekleyin.",
+      "failed": "Kasa açılamadı"
+    }
+  },
+  "connectionErrors": {
+    "password": "Şifreleme parolası yanlış. Mevcut kasa parolasını tüm boşluklar dahil girin.",
+    "exists": "Bu hedef zaten bir kasa içeriyor. Mevcut kasaya bağlan seçeneğini kullanın veya boş bir hedef seçin.",
+    "notEmpty": "Bu hedef dosya veya depo verisi içeriyor. Boş bir hedef seçin; devam etmek için mevcut yedekleri kaldırmayın.",
+    "missing": "Burada kasa bulunamadı. Hedefi denetleyin veya boş bir hedef için Yeni kasa oluştur seçeneğini kullanın.",
+    "duplicate": "Bu kasa bu bilgisayarda zaten bağlı. Kasa listesinden açın.",
+    "invalid": "Depo kimliği okunamadı. Bunun eksiksiz ve uyumlu bir kasa olduğunu denetleyin.",
+    "destinationMissing": "Hedef klasör yok veya bir klasör değil. Sürücüyü yeniden bağlayın ya da mevcut bir klasör seçin.",
+    "unavailable": "Kasa açılamadı. Hedefi, erişim izinlerini, sağlayıcı kimlik bilgilerini ve depo dosyalarını denetleyip yeniden deneyin."
+  },
+  "setup": {
+    "title": "Kasayı ayarla",
+    "description": "Bu kasayı kullanmadan önce yapılandırmanız gerekir.",
+    "password": {
+      "label": "Şifreleme parolası",
+      "placeholder": "Kasanın şifreleme parolasını girin"
+    },
+    "submit": "Devam"
+  },
+  "passwordStorage": {
+    "protected": {
+      "title": "Kasa kimlik bilgisi depolaması",
+      "description": "DiskPond, kasa parolalarını ve sağlayıcı bağlantılarını kaydetmek için bu bilgisayarın güvenli depolamasını kullanır. Başka bir bilgisayarda kurtarma yapabilmek için parolalarınızı ve depolama kimlik bilgilerinizi ayrıca saklayın."
+    },
+    "session": {
+      "title": "Kasa kimlik bilgileri yalnızca bu oturum için geçerli",
+      "description": "Bazı kimlik bilgileri güvenli biçimde kaydedilemez ve DiskPond kapanana kadar bellekte kalır. Yeniden başlattıktan sonra zamanlanmış yedeklemelerin sürmesi için istenen kasa parolasını ve sağlayıcı bağlantı ayrıntılarını girin.",
+      "recovery": "Sistem anahtar deposuna erişimi geri sağlayın, ardından kimlik bilgilerini tekrar kaydetmeyi denemek için DiskPond’u yeniden başlatın."
+    },
+    "locked": {
+      "title": "Kasa kimlik bilgilerinizi yeniden girin",
+      "description": "Kaydedilmiş kimlik bilgilerinin kilidi açılamadı veya bilgiler taşınamadı. Etkilenen kasayı açın; parolasını ve istenen sağlayıcı bağlantı ayrıntılarını girin. Yedekleri depolama alanınızda kalır."
+    },
+    "cleanupFailed": {
+      "title": "Kaydedilmiş kimlik bilgilerinin temizlenmesi gerekiyor",
+      "description": "DiskPond eski bir kimlik bilgisi kopyasını taşıyamadı veya kaldıramadı. DiskPond uygulama veri klasörüne erişimi denetleyip yeniden başlatın. Eski kopya diskte hâlâ korumasız olabilir."
+    },
+    "unknown": {
+      "title": "Kimlik bilgisi depolama durumu kullanılamıyor",
+      "description": "Kimlik bilgisi depolamasını denetlemek için DiskPond’u yeniden başlatın. Kasa parolalarınızı ve sağlayıcı bağlantı ayrıntılarını yeniden girmek üzere hazır bulundurun."
+    },
+    "saveFailed": "Kimlik bilgileri kaydedilemedi. Yeniden başlatmadan önce DiskPond uygulama veri klasörüne erişimi denetleyin."
+  },
+  "starting": {
+    "title": "Kasa başlatılıyor",
+    "description": "Kasanız hazırlanıyor. Bu genellikle birkaç saniye sürer."
+  },
+  "failed": {
+    "retry": "Yeniden dene"
+  },
+  "status": {
+    "RUNNING": "Etkin",
+    "SETUP": "Kurulum gerekli",
+    "STARTING": "Başlatılıyor",
+    "FAILED": "Başlatılamadı"
+  },
+  "providers": {
+    "CLOUDBLINK": {
+      "name": "Desteklenmeyen yönetilen depolama",
+      "shortName": "Desteklenmeyen depolama"
+    },
+    "INTERNAL_DRIVE": {
+      "name": "Bu bilgisayar",
+      "shortName": "Bu bilgisayar",
+      "description": "Bu bilgisayardaki bir klasöre kaydet",
+      "fields": {
+        "path": {
+          "label": "Yedekleme hedef klasörü",
+          "placeholder": "Hedef klasörü seçin",
+          "dialogTitle": "Yedekleme hedef klasörünü seç"
+        }
+      }
+    },
+    "EXTERNAL_DRIVE": {
+      "name": "Harici sürücü",
+      "shortName": "Harici sürücü",
+      "description": "Harici bir sürücüye kaydet",
+      "fields": {
+        "path": {
+          "label": "Harici sürücü klasörü",
+          "placeholder": "Harici sürücü klasörünü seçin",
+          "dialogTitle": "Harici sürücü klasörünü seç"
+        }
+      }
+    },
+    "NETWORK_DRIVE": {
+      "name": "Ağ sürücüsü",
+      "shortName": "Ağ sürücüsü",
+      "description": "Bir ağ sürücüsüne kaydet",
+      "fields": {
+        "path": {
+          "label": "Ağ sürücüsü klasörü",
+          "placeholder": "Ağ sürücüsü klasörünü seçin",
+          "dialogTitle": "Ağ sürücüsü klasörünü seç"
+        }
+      }
+    },
+    "FILESYSTEM": {
+      "name": "Bu bilgisayar",
+      "shortName": "Bu bilgisayar",
+      "description": "Bu bilgisayardaki bir klasöre kaydet",
+      "fields": {
+        "path": {
+          "label": "Yedekleme hedef klasörü",
+          "placeholder": "Hedef klasörü seçin",
+          "dialogTitle": "Yedekleme hedef klasörünü seç"
+        }
+      }
+    },
+    "NETWORK_ATTACHED_STORAGE": {
+      "name": "Ağ sürücüsü",
+      "shortName": "Ağ sürücüsü",
+      "description": "Bir ağ sürücüsüne kaydet",
+      "fields": {
+        "path": {
+          "label": "Ağ sürücüsü klasörü",
+          "placeholder": "Ağ sürücüsü klasörünü seçin",
+          "dialogTitle": "Ağ sürücüsü klasörünü seç"
+        }
+      }
+    },
+    "AMAZON_S3": {
+      "name": "Amazon S3",
+      "shortName": "S3",
+      "description": "Amazon S3 üzerinde depola",
+      "fields": {
+        "bucket": {
+          "label": "Bucket adı",
+          "placeholder": "S3 bucket adınızı girin"
+        },
+        "endpoint": {
+          "label": "Uç nokta URL’si",
+          "placeholder": "https://s3.amazonaws.com"
+        },
+        "region": {
+          "label": "Bölge",
+          "placeholder": "us-east-1"
+        },
+        "accessKeyId": {
+          "label": "Erişim anahtarı kimliği",
+          "placeholder": "AWS erişim anahtarı kimliğinizi girin"
+        },
+        "accessKeySecret": {
+          "label": "Gizli erişim anahtarı",
+          "placeholder": "AWS gizli erişim anahtarınızı girin"
+        },
+        "sessionToken": {
+          "label": "Oturum belirteci",
+          "placeholder": "Oturum belirtecini girin"
+        },
+        "prefix": {
+          "label": "Anahtar öneki",
+          "placeholder": "backup/"
+        }
+      }
+    },
+    "S3_COMPATIBLE": {
+      "name": "S3 uyumlu",
+      "shortName": "S3",
+      "description": "S3 uyumlu herhangi bir depolama kullan",
+      "fields": {
+        "bucket": {
+          "label": "Bucket adı",
+          "placeholder": "S3 uyumlu bucket adınızı girin"
+        },
+        "endpoint": {
+          "label": "Uç nokta URL’si",
+          "placeholder": "your-s3-compatible-endpoint.com"
+        },
+        "region": {
+          "label": "Bölge",
+          "placeholder": "us-east-1"
+        },
+        "accessKeyId": {
+          "label": "Erişim anahtarı kimliği",
+          "placeholder": "Erişim anahtarı kimliğinizi girin"
+        },
+        "accessKeySecret": {
+          "label": "Gizli erişim anahtarı",
+          "placeholder": "Gizli erişim anahtarınızı girin"
+        },
+        "sessionToken": {
+          "label": "Oturum belirteci",
+          "placeholder": "Oturum belirtecini girin"
+        },
+        "prefix": {
+          "label": "Anahtar öneki",
+          "placeholder": "backup/"
+        },
+        "disableTls": {
+          "label": "Güvenli olmayan HTTP bağlantısı kullan"
+        },
+        "disableTlsVerification": {
+          "label": "TLS sertifikası doğrulamasını devre dışı bırak"
+        }
+      }
+    },
+    "DISKPOND_CLOUD": {
+      "name": "DiskPond Cloud",
+      "shortName": "DiskPond Cloud",
+      "description": "DiskPond Cloud üzerinde depola",
+      "openPortal": "DiskPond Cloud’u aç",
+      "endpointPlaceholder": "DiskPond Cloud uç noktanızı girin",
+      "bucketPlaceholder": "DiskPond Cloud bucket adınızı girin"
+    },
+    "GOOGLE_CLOUD_STORAGE": {
+      "name": "Google Cloud Storage",
+      "shortName": "GCS",
+      "description": "Google Cloud üzerinde depola",
+      "fields": {
+        "bucket": {
+          "label": "Bucket adı",
+          "placeholder": "GCS bucket adınızı girin"
+        },
+        "prefix": {
+          "label": "Anahtar öneki",
+          "placeholder": "backup/"
+        },
+        "credentials": {
+          "label": "JSON kimlik bilgileri",
+          "placeholder": "Hizmet hesabınızın JSON içeriğini yapıştırın"
+        }
+      }
+    },
+    "BACKBLAZE": {
+      "name": "Backblaze B2",
+      "shortName": "B2",
+      "description": "Backblaze B2 üzerinde depola",
+      "fields": {
+        "bucket": {
+          "label": "Bucket adı",
+          "placeholder": "B2 bucket adınızı girin"
+        },
+        "keyId": {
+          "label": "Uygulama anahtarı kimliği",
+          "placeholder": "B2 uygulama anahtarı kimliğinizi girin"
+        },
+        "keySecret": {
+          "label": "Uygulama anahtarı",
+          "placeholder": "B2 uygulama anahtarınızı girin"
+        },
+        "prefix": {
+          "label": "Anahtar öneki",
+          "placeholder": "backup/"
+        }
+      }
+    },
+    "AZURE_BLOB_STORAGE": {
+      "name": "Azure Blob Storage",
+      "shortName": "Azure",
+      "description": "Azure Blob Storage üzerinde depola",
+      "fields": {
+        "container": {
+          "label": "Kapsayıcı adı",
+          "placeholder": "Azure blob kapsayıcınızın adını girin"
+        },
+        "account": {
+          "label": "Depolama hesabı",
+          "placeholder": "Azure depolama hesabınızın adını girin"
+        },
+        "key": {
+          "label": "Depolama anahtarı",
+          "placeholder": "Azure depolama hesabınızın anahtarını girin"
+        },
+        "domain": {
+          "label": "Depolama alan adı",
+          "placeholder": "blob.core.windows.net"
+        },
+        "prefix": {
+          "label": "Anahtar öneki",
+          "placeholder": "backup/"
+        },
+        "sasToken": {
+          "label": "SAS belirteci",
+          "placeholder": "SAS belirtecinizi girin"
+        }
+      }
+    },
+    "SFTP": {
+      "name": "SFTP",
+      "shortName": "SFTP",
+      "description": "SFTP üzerinden bağlan",
+      "fields": {
+        "host": {
+          "label": "Sunucu",
+          "placeholder": "SFTP sunucusunun adını veya IP adresini girin"
+        },
+        "user": {
+          "label": "Kullanıcı adı",
+          "placeholder": "SFTP kullanıcı adını girin"
+        },
+        "port": {
+          "label": "Bağlantı noktası",
+          "placeholder": "22"
+        },
+        "path": {
+          "label": "Uzak yol",
+          "placeholder": "Uzak dizin yolunu girin"
+        },
+        "password": {
+          "label": "Parola",
+          "placeholder": "SFTP parolasını girin"
+        },
+        "privateKey": {
+          "label": "Özel anahtar verileri",
+          "placeholder": "Özel anahtar içeriğini yapıştırın"
+        },
+        "knownHosts": {
+          "label": "Bilinen sunucular girdisi",
+          "placeholder": "known_hosts içeriğini yapıştırın",
+          "scan": {
+            "button": "Tara ve doldur",
+            "error": {
+              "KEYSCAN_NOT_INSTALLED": {
+                "title": "ssh-keyscan yüklü değil",
+                "description": "Bilinen sunucular alanını elle doldurun."
+              },
+              "SCAN_FAILED": {
+                "title": "ssh-keyscan ile tarama başarısız",
+                "description": "Belirttiğiniz sunucuyu ve bağlantı noktasını denetleyin."
+              }
+            }
+          }
+        }
+      }
+    },
+    "RCLONE": {
+      "name": "Rclone uzak bağlantısı",
+      "shortName": "Rclone",
+      "description": "Herhangi bir Rclone uzak bağlantısını bağla",
+      "fields": {
+        "remotePath": {
+          "label": "Uzak yol",
+          "placeholder": "myremote:backups",
+          "description": "rclone yapılandırmanızdaki bir uzak bağlantı adını, ardından : ve isteğe bağlı bir klasör kullanın (örneğin myremote:backups)."
+        },
+        "rclonePath": {
+          "label": "Rclone çalıştırılabilir dosyasının yolu",
+          "placeholder": "rclone çalıştırılabilir dosyasının yolu"
+        }
+      }
+    },
+    "WEBDAV": {
+      "name": "WebDAV",
+      "shortName": "WebDAV",
+      "description": "WebDAV üzerinden bağlan",
+      "fields": {
+        "url": {
+          "label": "WebDAV URL’si",
+          "placeholder": "https://your-webdav-server.com/path"
+        },
+        "user": {
+          "label": "Kullanıcı adı",
+          "placeholder": "WebDAV kullanıcı adınızı girin"
+        },
+        "password": {
+          "label": "Parola",
+          "placeholder": "WebDAV parolanızı girin"
+        }
+      }
+    }
+  },
+  "overview": {
+    "title": "Ana sayfa",
+    "vault": "Kasa",
+    "settings": "Ayarlar",
+    "currentProfile": {
+      "title": "Geçerli profil"
+    },
+    "otherProfiles": {
+      "title": "Diğer profiller",
+      "back": "Tüm profillere dön",
+      "select": {
+        "all": "Tüm profiller",
+        "clear": "Profil filtresini temizle",
+        "device": {
+          "all": "Tüm cihazlar",
+          "clear": "Cihaz filtresini temizle",
+          "empty": "Cihaz seç"
+        },
+        "user": {
+          "all": "Tüm kullanıcılar",
+          "clear": "Kullanıcı filtresini temizle",
+          "empty": "Kullanıcı seç"
+        }
+      },
+      "empty": {
+        "title": "Dosya veya klasör bulunamadı",
+        "description": "Bu profilde yedeklenmiş dosya veya klasör yok."
+      }
+    },
+    "sources": {
+      "title": "Dosyalar/klasörler",
+      "count_one": "{{count}} dosya/klasör korunuyor",
+      "count_other": "{{count}} dosya/klasör korunuyor",
+      "addSource": "Dosya/klasör ekle",
+      "backupAll": "Tümünü yedekle",
+      "empty": {
+        "title": "Dosya veya klasör eklenmedi",
+        "description": "Henüz dosya veya klasör eklemediniz. Aşağıdaki düğmeyle bir tane ekleyin."
+      }
+    },
+    "stats": {
+      "totalSize": "Korunan veriler",
+      "files": "Korunan dosyalar",
+      "directories": "Korunan dizinler",
+      "storageAvailable": "Kullanılabilir depolama",
+      "notReported": "Bildirilmedi",
+      "bucketQuotaRemaining": "Kalan bucket kotası",
+      "noBucketQuota": "Bucket kotası yok",
+      "unavailable": "Kullanılamıyor"
+    },
+    "score": {
+      "empty": {
+        "category": "Henüz kasa yok",
+        "description": "Dosyalarınızı yedeklemeye başlamak için ilk kasanızı oluşturun."
+      },
+      "excellent": {
+        "category": "Mükemmel",
+        "description": "Yedekleme kurulumunuz doğru yapılandırılmış."
+      },
+      "localOnly": {
+        "category": "Yalnızca yerel hedefler",
+        "description": "Ayrı bir cihazda veya başka bir fiziksel konumdaki kendi depolama alanınızda başka bir kopya tutmayı düşünün."
+      },
+      "unavailable": {
+        "category": "Durum kullanılamıyor",
+        "description": "Bazı yedekleme durumları denetlenemedi. Kasalarınızın bağlı olduğundan emin olup yeniden deneyin."
+      },
+      "backupErrors": {
+        "category": "İlgilenmeniz gerekiyor",
+        "description_one": "{{count}} yedeklemede sorun oluştu. Ne olduğunu görmek için kasa listenizi açın.",
+        "description_other": "{{count}} yedeklemede sorun oluştu. Ne olduğunu görmek için kasa listenizi açın."
+      }
+    }
+  },
+  "remoteTooltip": {
+    "title": "Farklı profil",
+    "description": "Farklı bir profili görüntülüyorsunuz. Bu işlemi yapamazsınız."
+  },
+  "deleteDialog": {
+    "title": "Kasa bağlantısını kes",
+    "description": "Bu kasa bağlantısı bu bilgisayardan kaldırılsın mı? Yedekler depolama alanınızda kalacak.",
+    "confirm": {
+      "label": "Onaylamak için aşağıya “{{vaultName}}” yazın:",
+      "placeholder": "Kasa adını girin",
+      "error": {
+        "empty": "Bağlantıyı kesmeyi onaylamak için “{{vaultName}}” yazın.",
+        "mismatch": "Girdiğiniz kasa adı eşleşmiyor."
+      }
+    },
+    "storageAlert": {
+      "title": "Yedek dosyaları silinmeyecek",
+      "description": "DiskPond bu kasaya yedeklemeyi durduracak. Depolama ayarları ve şifreleme parolasıyla yeniden bağlanabilirsiniz."
+    },
+    "cancel": "İptal",
+    "continue": "Kasa bağlantısını kes"
+  }
+}

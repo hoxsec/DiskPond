@@ -1,0 +1,108 @@
+{
+  "account": {
+    "preferences": {
+      "checkForUpdates": "Güncellemeleri otomatik denetle",
+      "title": "Tercihler",
+      "theme": {
+        "label": "Tema",
+        "description": "Tercih ettiğiniz temayı seçin.",
+        "items": {
+          "light": "Açık",
+          "dark": "Koyu",
+          "system": "Sistem"
+        }
+      },
+      "language": {
+        "label": "Dil",
+        "description": "Tercih ettiğiniz dili seçin."
+      }
+    }
+  },
+  "vault": {
+    "title": "Ayarlar",
+    "home": "Ana sayfa",
+    "general": {
+      "title": "Genel",
+      "description": "Bu kasa için görüntülenecek adı seçin.",
+      "name": {
+        "label": "Kasa adı",
+        "placeholder": "Kasa adını girin"
+      },
+      "delete": {
+        "title": "Bu kasanın bağlantısını kes",
+        "description": "Bu bağlantıyı DiskPond’dan kaldırın. Yedekler depolama alanınızda kalır.",
+        "button": "Kasa bağlantısını kes"
+      }
+    },
+    "config": {
+      "title": "Depolama yapılandırması",
+      "description": "Bu kasanın depolama konumunu görüntüleyin.",
+      "provider": "Depolama sağlayıcısı:",
+      "loading": "Bağlantı ayrıntıları yükleniyor…",
+      "unavailable": "Bağlantı ayrıntıları kullanılamıyor. Görüntülemek için kasaya yeniden bağlanın.",
+      "credentialsHidden": "Parolalar, anahtarlar ve diğer kimlik bilgileri DiskPond’un kimlik bilgisi deposunda saklanır. URL’lerde yalnızca sunucu adresi gösterilir.",
+      "enabled": "Etkin",
+      "disabled": "Devre dışı",
+      "fields": {
+        "path": "Yol",
+        "host": "Sunucu",
+        "port": "Bağlantı noktası",
+        "bucket": "Bucket",
+        "region": "Bölge",
+        "prefix": "Önek",
+        "container": "Kapsayıcı",
+        "endpoint": "Sunucu adresi",
+        "remotePath": "Rclone uzak yolu",
+        "rclonePath": "Rclone çalıştırılabilir dosyası",
+        "disableTls": "TLS olmadan HTTP",
+        "disableTlsVerification": "TLS sertifikası doğrulamasını atla"
+      }
+    },
+    "throttle": {
+      "title": "Ağ sınırlandırması",
+      "description": "Bu kasanın ağ kullanımını sınırlandırın.",
+      "upload": {
+        "enabled": {
+          "label": "Yükleme bant genişliğini sınırla",
+          "description": "Bu kasanın yedek verilerini gönderme hızını sınırlandırın."
+        },
+        "limit": {
+          "label": "Yükleme sınırı",
+          "description": "Bu kasanın yükleme bant genişliğini sınırlandırın."
+        }
+      },
+      "download": {
+        "enabled": {
+          "label": "İndirme bant genişliğini sınırla",
+          "description": "Bu kasanın geri yükleme verilerini indirme hızını sınırlandırın."
+        },
+        "limit": {
+          "label": "İndirme sınırı",
+          "description": "Bu kasanın indirme bant genişliğini sınırlandırın."
+        }
+      },
+      "save": "Kaydet"
+    }
+  },
+  "folder": {
+    "title": "Yedekleme ilkesi",
+    "description": "Yedekleme ilkesini yapılandırın.",
+    "general": {
+      "title": "Genel",
+      "description": "Genel ayarları yapılandırın.",
+      "name": {
+        "label": "Ad",
+        "placeholder": "Ad girin"
+      },
+      "path": {
+        "label": "Klasör yolu",
+        "fileLabel": "Dosya yolu"
+      },
+      "emoji": {
+        "change": "Emojiyi değiştir",
+        "clear": "Emojiyi kaldır"
+      }
+    },
+    "modified": "Değiştirildi"
+  }
+}

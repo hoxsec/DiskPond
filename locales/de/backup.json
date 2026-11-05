@@ -1,0 +1,95 @@
+{
+  "list": {
+    "back": "Zurück",
+    "backToVault": "Zurück zum Tresor",
+    "settings": {
+      "folder": "Ordnerrichtlinie",
+      "file": "Dateirichtlinie"
+    },
+    "item": {
+      "browseFiles": "Dateien der Sicherung vom {{date}} durchsuchen",
+      "files_one": "{{formatted}} Datei",
+      "files_other": "{{formatted}} Dateien",
+      "dropdown": {
+        "browse": "Dateien durchsuchen",
+        "restoreFile": "Datei wiederherstellen",
+        "rename": "Sicherung umbenennen",
+        "pin": "Sicherung anheften",
+        "delete": "Sicherung löschen"
+      }
+    },
+    "pending": {
+      "title": "Neue Sicherung steht aus",
+      "description": "Eine andere Sicherung wird gerade ausgeführt."
+    },
+    "paused": {
+      "title": "Pausierte Sicherung fortsetzen",
+      "description": "Du hast eine noch nicht abgeschlossene Sicherung pausiert.",
+      "button": "Sicherung fortsetzen"
+    },
+    "empty": {
+      "default": {
+        "title": "Noch keine Sicherungen",
+        "description": "Du hast noch keine Sicherungen erstellt. Erstelle eine über die Schaltfläche unten.",
+        "button": "Jetzt sichern"
+      },
+      "pending": {
+        "title": "Sicherung ausstehend",
+        "description": "Eine andere Sicherung wird gerade ausgeführt. Diese Sicherung wartet in der Warteschlange."
+      },
+      "initial": {
+        "title": "Erste Sicherung wird erstellt",
+        "description": "Dies ist die erste Sicherung und kann daher eine Weile dauern. Bei späteren Sicherungen lädt DiskPond geänderte Dateien hoch."
+      },
+      "canceling": {
+        "title": "Sicherung wird abgebrochen",
+        "description": "Diese Sicherung wird gerade abgebrochen. Das kann eine Weile dauern."
+      }
+    },
+    "cancel": "Sicherung abbrechen",
+    "backup": {
+      "folder": "Ordner sichern",
+      "file": "Datei sichern"
+    }
+  },
+  "progress": {
+    "title": {
+      "default": "{{percentage}} abgeschlossen",
+      "fallback": "Sicherung läuft..."
+    },
+    "description": {
+      "total": "{{completed}} / {{total}}",
+      "fallback": "{{completed}} verarbeitet"
+    }
+  },
+  "renameDialog": {
+    "title": "Sicherung umbenennen",
+    "description": "Gib dieser Sicherung einen eigenen Namen, um sie leichter wiederzufinden.",
+    "label": "Name",
+    "placeholder": "Meine Sicherung",
+    "continue": "Sicherung umbenennen"
+  },
+  "deleteDialog": {
+    "title": "Sicherung löschen",
+    "description": "Möchtest du diese Sicherung wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "alert": {
+      "title": "Die Bereinigung erfolgt nach und nach",
+      "description": "Speicherplatz wird nicht sofort freigegeben. DiskPond bereinigt ungenutzte Daten später, um die Zuverlässigkeit zu gewährleisten."
+    },
+    "cancel": "Abbrechen",
+    "continue": "Sicherung löschen"
+  },
+  "pinDialog": {
+    "title": "Sicherung anheften",
+    "description": "Verwalte die Anheftungen dieser Sicherung.",
+    "alert": {
+      "title": "Was sind Anheftungen?",
+      "description": "Eine angeheftete Sicherung wird auch dann nicht entfernt, wenn sie außerhalb deiner Aufbewahrungsrichtlinie liegt."
+    },
+    "label": "Neue Anheftung",
+    "placeholder": "z. B. „behalten“",
+    "add": "Hinzufügen",
+    "duplicate": "Diese Anheftung ist bereits vorhanden.",
+    "save": "Speichern"
+  }
+}

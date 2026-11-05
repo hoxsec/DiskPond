@@ -1,10 +1,11 @@
+import { LANGUAGE_CODES } from "@blinkdisk/constants/language";
 import { store } from "@electron/store";
 import { z } from "zod";
 
 const writable = {
   "preferences.checkForUpdates": z.boolean(),
   "preferences.theme": z.enum(["system", "light", "dark"]),
-  "preferences.language": z.literal("en"),
+  "preferences.language": z.enum(LANGUAGE_CODES),
   "preferences.mode": z.enum(["basic", "advanced"]),
   dismissedUpdateVersion: z.string().nullable(),
   "accounts.local.lastUsedVaultId": z.string().nullable(),

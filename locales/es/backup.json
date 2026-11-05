@@ -1,0 +1,96 @@
+{
+  "list": {
+    "back": "Volver",
+    "backToVault": "Volver a la bóveda",
+    "settings": {
+      "folder": "Política de la carpeta",
+      "file": "Política del archivo"
+    },
+    "item": {
+      "browseFiles": "Explorar archivos de la copia del {{date}}",
+      "files_one": "{{formatted}} archivo",
+      "files_other": "{{formatted}} archivos",
+      "files_many": "{{formatted}} archivos",
+      "dropdown": {
+        "browse": "Explorar archivos",
+        "restoreFile": "Restaurar archivo",
+        "rename": "Renombrar copia",
+        "pin": "Fijar copia",
+        "delete": "Eliminar copia"
+      }
+    },
+    "pending": {
+      "title": "Hay una copia pendiente",
+      "description": "Hay otra copia de seguridad en curso."
+    },
+    "paused": {
+      "title": "Reanudar copia pausada",
+      "description": "Has pausado una copia de seguridad que aún no ha terminado.",
+      "button": "Reanudar copia"
+    },
+    "empty": {
+      "default": {
+        "title": "Aún no hay copias de seguridad",
+        "description": "Todavía no has creado ninguna copia. Crea una con el botón de abajo.",
+        "button": "Crear copia ahora"
+      },
+      "pending": {
+        "title": "Copia pendiente",
+        "description": "Hay otra copia de seguridad en curso. Esta copia está en la cola."
+      },
+      "initial": {
+        "title": "Creando la primera copia",
+        "description": "Esta es la primera copia, por lo que puede tardar. En las siguientes copias, DiskPond sube los archivos modificados."
+      },
+      "canceling": {
+        "title": "Cancelando copia",
+        "description": "Se está cancelando esta copia de seguridad. La cancelación puede tardar."
+      }
+    },
+    "cancel": "Cancelar copia",
+    "backup": {
+      "folder": "Crear copia de la carpeta",
+      "file": "Crear copia del archivo"
+    }
+  },
+  "progress": {
+    "title": {
+      "default": "{{percentage}} completado",
+      "fallback": "Creando copia..."
+    },
+    "description": {
+      "total": "{{completed}} / {{total}}",
+      "fallback": "{{completed}} procesados"
+    }
+  },
+  "renameDialog": {
+    "title": "Renombrar copia",
+    "description": "Asigna un nombre a esta copia para encontrarla más fácilmente.",
+    "label": "Nombre",
+    "placeholder": "Mi copia de seguridad",
+    "continue": "Renombrar copia"
+  },
+  "deleteDialog": {
+    "title": "Eliminar copia",
+    "description": "¿Seguro que quieres eliminar esta copia de seguridad? Esta acción no se puede deshacer.",
+    "alert": {
+      "title": "La limpieza es gradual",
+      "description": "El espacio no se liberará de inmediato. DiskPond elimina los datos sin usar más adelante para garantizar la fiabilidad."
+    },
+    "cancel": "Cancelar",
+    "continue": "Eliminar copia"
+  },
+  "pinDialog": {
+    "title": "Fijar copia",
+    "description": "Gestiona las marcas de conservación de esta copia.",
+    "alert": {
+      "title": "¿Qué son las marcas?",
+      "description": "Una copia con una marca no se elimina, aunque quede fuera de tu política de conservación."
+    },
+    "label": "Nueva marca",
+    "placeholder": "p. ej., «conservar»",
+    "add": "Añadir",
+    "duplicate": "Esta marca ya está añadida.",
+    "save": "Guardar"
+  }
+}

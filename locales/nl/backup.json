@@ -1,0 +1,95 @@
+{
+  "list": {
+    "back": "Terug",
+    "backToVault": "Terug naar kluis",
+    "settings": {
+      "folder": "Mapbeleid",
+      "file": "Bestandsbeleid"
+    },
+    "item": {
+      "browseFiles": "Bestanden in de back-up van {{date}} bekijken",
+      "files_one": "{{formatted}} bestand",
+      "files_other": "{{formatted}} bestanden",
+      "dropdown": {
+        "browse": "Bestanden bekijken",
+        "restoreFile": "Bestand herstellen",
+        "rename": "Back-up hernoemen",
+        "pin": "Back-up vastzetten",
+        "delete": "Back-up verwijderen"
+      }
+    },
+    "pending": {
+      "title": "Nieuwe back-up staat klaar",
+      "description": "Er wordt momenteel een andere back-up gemaakt."
+    },
+    "paused": {
+      "title": "Gepauzeerde back-up hervatten",
+      "description": "Je hebt een back-up gepauzeerd die nog niet klaar is.",
+      "button": "Back-up hervatten"
+    },
+    "empty": {
+      "default": {
+        "title": "Nog geen back-ups",
+        "description": "Je hebt nog geen back-ups gemaakt. Maak er een met de knop hieronder.",
+        "button": "Nu een back-up maken"
+      },
+      "pending": {
+        "title": "Back-up in de wachtrij",
+        "description": "Er wordt momenteel een andere back-up gemaakt. Deze back-up staat in de wachtrij."
+      },
+      "initial": {
+        "title": "Eerste back-up wordt gemaakt",
+        "description": "Dit is de eerste back-up, dus het kan even duren. Bij volgende back-ups uploadt DiskPond gewijzigde bestanden."
+      },
+      "canceling": {
+        "title": "Back-up annuleren",
+        "description": "Deze back-up wordt geannuleerd. Het annuleren kan even duren."
+      }
+    },
+    "cancel": "Back-up annuleren",
+    "backup": {
+      "folder": "Map back-uppen",
+      "file": "Bestand back-uppen"
+    }
+  },
+  "progress": {
+    "title": {
+      "default": "{{percentage}} voltooid",
+      "fallback": "Back-up maken..."
+    },
+    "description": {
+      "total": "{{completed}} / {{total}}",
+      "fallback": "{{completed}} verwerkt"
+    }
+  },
+  "renameDialog": {
+    "title": "Back-up hernoemen",
+    "description": "Geef deze back-up een eigen naam om hem makkelijker te vinden.",
+    "label": "Naam",
+    "placeholder": "Mijn back-up",
+    "continue": "Back-up hernoemen"
+  },
+  "deleteDialog": {
+    "title": "Back-up verwijderen",
+    "description": "Weet je zeker dat je deze back-up wilt verwijderen? Dit kan niet ongedaan worden gemaakt.",
+    "alert": {
+      "title": "Opruimen gebeurt geleidelijk",
+      "description": "Opslagruimte komt niet direct vrij. DiskPond ruimt ongebruikte gegevens later op om de betrouwbaarheid te waarborgen."
+    },
+    "cancel": "Annuleren",
+    "continue": "Back-up verwijderen"
+  },
+  "pinDialog": {
+    "title": "Back-up vastzetten",
+    "description": "Beheer de vastzetlabels van deze back-up.",
+    "alert": {
+      "title": "Wat zijn vastzetlabels?",
+      "description": "Een back-up met een vastzetlabel wordt niet verwijderd, zelfs niet als deze buiten je bewaarbeleid valt."
+    },
+    "label": "Nieuw vastzetlabel",
+    "placeholder": "bijv. ‘bewaren’",
+    "add": "Toevoegen",
+    "duplicate": "Dit vastzetlabel is al toegevoegd.",
+    "save": "Opslaan"
+  }
+}

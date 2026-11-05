@@ -4,8 +4,8 @@ import { useUpdateStatus } from "@desktop/hooks/state/use-update-status";
 import { formatSize } from "@desktop/lib/number";
 import { useState } from "react";
 
-export function UpdateAction() {
-  const { t } = useAppTranslation("update");
+export function UpdateAction({ compact = false }: { compact?: boolean }) {
+  const { t, language } = useAppTranslation("update");
   const { status } = useUpdateStatus();
   const [busy, setBusy] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -52,12 +52,14 @@ export function UpdateAction() {
           <p className="text-xs tabular-nums text-muted-foreground">
             {status.transferred !== undefined && status.total !== undefined
               ? t("transfer", {
-                  transferred: formatSize(status.transferred),
-                  total: formatSize(status.total),
+                  transferred: formatSize(status.transferred, {
+                    locale: language,
+                  }),
+                  total: formatSize(status.total, { locale: language }),
                 })
               : t("preparing")}
             {status.bytesPerSecond !== undefined
-              ? ` · ${t("speed", { speed: formatSize(status.bytesPerSecond) })}`
+              ? ` · ${t("speed", { speed: formatSize(status.bytesPerSecond, { locale: language }) })}`
               : null}
           </p>
           <Button
@@ -80,38 +82,27 @@ export function UpdateAction() {
           </Button>
         </>
       ) : null}
-      <span role="status" className="text-sm text-muted-foreground">
-        {waiting
-          ? t(
-              status.activity === "busy"
-                ? "waiting"
-                : status.activity === "unknown"
-                  ? "activityUnknown"
-                  : "activityChecking",
-            )
-          : status.phase === "canceled"
-            ? t("canceled")
-            : null}
-      </span>
+      {waiting || status.phase === "canceled" ? (
+        <span role="status" className="text-sm text-muted-foreground">
+          {waiting
+            ? t(
+                status.activity === "busy"
+                  ? "waiting"
+                  : status.activity === "unknown"
+                    ? "activityUnknown"
+                    : "activityChecking",
+              )
+            : status.phase === "canceled"
+              ? t("canceled")
+              : null}
+        </span>
+      ) : null}
       {failed || status.phase === "error" || status.installFailed ? (
         <span role="alert" className="text-sm text-destructive">
           {t("failed")}
         </span>
       ) : null}
-      <details className="min-w-0 text-sm">
-        <summary className="cursor-pointer py-1 focus-visible:outline-2 focus-visible:outline-ring">
-          {t("notes")}
-        </summary>
-        <section
-          // biome-ignore lint/a11y/noNoninteractiveTabindex: Release notes need keyboard scrolling.
-          tabIndex={0}
-          aria-label={t("notes")}
-          className="mt-2 max-h-64 overflow-y-auto whitespace-pre-wrap break-words border border-border p-3 text-foreground focus-visible:outline-2 focus-visible:outline-ring"
-        >
-          {status.notes?.trim() || t("noNotes")}
-        </section>
-      </details>
-      {!downloading && !installing ? (
+      {!compact && !downloading && !installing ? (
         <Button
           size="sm"
           variant="ghost"

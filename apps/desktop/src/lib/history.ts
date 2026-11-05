@@ -92,9 +92,12 @@ export function snapshotOutcome(
   return "completed";
 }
 
-export function formatHistoryTime(value: string | undefined) {
+export function formatHistoryTime(
+  value: string | undefined,
+  language?: string,
+) {
   return value
-    ? new Date(value).toLocaleString(undefined, {
+    ? new Date(value).toLocaleString(language, {
         year: "numeric",
         month: "short",
         day: "numeric",

@@ -1,0 +1,161 @@
+{
+  "createDialog": {
+    "title": "Dodaj plik/folder",
+    "description": "Wybierz plik lub folder do utworzenia kopii zapasowej.",
+    "type": {
+      "folder": "Folder",
+      "file": "Plik"
+    },
+    "name": {
+      "directory": {
+        "label": "Nazwa folderu",
+        "placeholder": "Wpisz nazwę folderu"
+      },
+      "file": {
+        "label": "Nazwa pliku",
+        "placeholder": "Wpisz nazwę pliku"
+      }
+    },
+    "emoji": {
+      "change": "Zmień emoji",
+      "clear": "Usuń emoji"
+    },
+    "path": {
+      "directory": {
+        "label": "Ścieżka folderu",
+        "placeholder": "Wybierz ścieżkę folderu",
+        "title": "Wybierz ścieżkę folderu"
+      },
+      "file": {
+        "label": "Ścieżka pliku",
+        "placeholder": "Wybierz ścieżkę pliku",
+        "title": "Wybierz ścieżkę pliku"
+      }
+    },
+    "submit": {
+      "directory": "Dodaj folder",
+      "file": "Dodaj plik"
+    },
+    "changePolicy": "Zmień zasady",
+    "size": {
+      "title": "Oblicz rozmiar",
+      "description": "Oszacuj rozmiar tego pliku lub folderu.",
+      "button": "Oblicz",
+      "error": "Nie udało się oszacować rozmiaru",
+      "included": "Uwzględnione pliki:",
+      "excluded": "Wykluczone pliki:"
+    }
+  },
+  "emojiPicker": {
+    "search": "Szukaj emoji...",
+    "empty": "Nie znaleziono emoji."
+  },
+  "dropzone": {
+    "title": "Upuść plik/folder, aby go dodać",
+    "description": "Upuść plik lub folder, aby dodać go do sejfu i rozpocząć tworzenie kopii."
+  },
+  "list": {
+    "item": {
+      "browseBackups": "Przeglądaj kopie: {{name}}",
+      "stats": "Pliki: {{fileCount}} ⸱ {{size}}",
+      "dropdown": {
+        "browse": "Przeglądaj kopie",
+        "backup": {
+          "folder": "Utwórz kopię folderu",
+          "file": "Utwórz kopię pliku"
+        },
+        "cancel": "Anuluj tworzenie kopii",
+        "settings": {
+          "folder": "Zasady folderu",
+          "file": "Zasady pliku"
+        },
+        "delete": {
+          "folder": "Usuń folder",
+          "file": "Usuń plik"
+        }
+      }
+    }
+  },
+  "deleteDialog": {
+    "title": {
+      "folder": "Usuń folder",
+      "file": "Usuń plik"
+    },
+    "description": {
+      "folder": "Czy na pewno chcesz usunąć ten folder? Tej czynności nie można cofnąć.",
+      "file": "Czy na pewno chcesz usunąć ten plik? Tej czynności nie można cofnąć."
+    },
+    "alert": {
+      "title": "Czyszczenie odbywa się stopniowo",
+      "description": "Miejsce nie zostanie zwolnione od razu. DiskPond usuwa nieużywane dane później, aby zapewnić niezawodność."
+    },
+    "cancel": "Anuluj",
+    "continue": {
+      "folder": "Usuń folder",
+      "file": "Usuń plik"
+    }
+  },
+  "backupError": {
+    "label": {
+      "missing": {
+        "folder": "Nie znaleziono folderu",
+        "file": "Nie znaleziono pliku"
+      },
+      "permission": {
+        "folder": "Brak dostępu",
+        "file": "Brak dostępu"
+      },
+      "failed": {
+        "folder": "Tworzenie kopii nie powiodło się",
+        "file": "Tworzenie kopii nie powiodło się"
+      },
+      "partial": {
+        "folder": "Pominięto niektóre pliki",
+        "file": "Kopia jest niekompletna"
+      }
+    },
+    "description": {
+      "missing": {
+        "folder": "Nie znaleziono tego folderu. Być może został przeniesiony, zmieniono jego nazwę lub znajduje się na odłączonym dysku.",
+        "file": "Nie znaleziono tego pliku. Być może został przeniesiony, zmieniono jego nazwę lub znajduje się na odłączonym dysku."
+      },
+      "permission": {
+        "folder": "DiskPond nie ma uprawnień do odczytu tego folderu. Sprawdź uprawnienia i spróbuj ponownie.",
+        "file": "DiskPond nie ma uprawnień do odczytu tego pliku. Sprawdź uprawnienia i spróbuj ponownie."
+      },
+      "failed": {
+        "folder": "Nie udało się ukończyć ostatniej kopii. Spróbuj ponownie i sprawdź szczegóły, jeśli błąd się powtórzy.",
+        "file": "Nie udało się ukończyć ostatniej kopii. Spróbuj ponownie i sprawdź szczegóły, jeśli błąd się powtórzy."
+      },
+      "partial": {
+        "folder": "Ostatnia kopia została ukończona, ale niektórych plików nie można było odczytać i zostały pominięte.",
+        "file": "Ostatnia kopia została ukończona, ale nie udało się w pełni odczytać pliku."
+      }
+    },
+    "details": "Szczegóły",
+    "toast": {
+      "failed": "Tworzenie kopii „{{name}}” nie powiodło się",
+      "partial": "Kopia „{{name}}” ukończona z błędami"
+    },
+    "viewDetails": "Pokaż szczegóły",
+    "dialog": {
+      "error": "Szczegóły błędu",
+      "errors": "Pliki z błędami",
+      "count_one": "{{count}} błąd",
+      "count_few": "{{count}} błędy",
+      "count_many": "{{count}} błędów",
+      "count_other": "{{count}} błędu",
+      "limited": "Wyświetlono {{shown}} z {{total}}. Pozostałe szczegóły nie zostały zapisane z tą kopią.",
+      "unavailable": "Szczegóły błędów poszczególnych plików nie zostały zapisane z tą kopią.",
+      "ignored_one": "Zignorowano {{count}} błąd zgodnie z zasadami kopii zapasowych.",
+      "ignored_few": "Zignorowano {{count}} błędy zgodnie z zasadami kopii zapasowych.",
+      "ignored_many": "Zignorowano {{count}} błędów zgodnie z zasadami kopii zapasowych.",
+      "ignored_other": "Zignorowano {{count}} błędu zgodnie z zasadami kopii zapasowych.",
+      "logs": "Dzienniki techniczne",
+      "copy": "Kopiuj szczegóły",
+      "copied": "Skopiowano",
+      "copyFailed": "Nie udało się skopiować szczegółów. Możesz zaznaczyć i skopiować tekst powyżej.",
+      "close": "Gotowe"
+    }
+  }
+}

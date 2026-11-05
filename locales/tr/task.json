@@ -1,0 +1,25 @@
+{
+  "dialog": {
+    "title": {
+      "loading": "Yükleniyor...",
+      "fallback": "Görev"
+    },
+    "description": {
+      "loading": "Görev ayrıntıları yükleniyor..."
+    },
+    "logs": {
+      "waiting": "Günlükler bekleniyor...",
+      "empty": "Kullanılabilir günlük yok",
+      "unavailable": "Görev günlükleri yüklenemedi. Eski görevlerin süresi dolar ve DiskPond yeniden başlatıldığında görev geçmişi temizlenir."
+    },
+    "close": "Kapat",
+    "cancel": "Görevi iptal et",
+    "status": {
+      "RUNNING": "Çalışıyor",
+      "CANCELING": "İptal ediliyor",
+      "CANCELED": "İptal edildi",
+      "SUCCESS": "Başarılı",
+      "FAILED": "Başarısız"
+    }
+  }
+}

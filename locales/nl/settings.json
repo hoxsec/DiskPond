@@ -1,0 +1,108 @@
+{
+  "account": {
+    "preferences": {
+      "checkForUpdates": "Automatisch op updates controleren",
+      "title": "Voorkeuren",
+      "theme": {
+        "label": "Thema",
+        "description": "Kies je voorkeursthema.",
+        "items": {
+          "light": "Licht",
+          "dark": "Donker",
+          "system": "Systeem"
+        }
+      },
+      "language": {
+        "label": "Taal",
+        "description": "Kies je voorkeurstaal."
+      }
+    }
+  },
+  "vault": {
+    "title": "Instellingen",
+    "home": "Start",
+    "general": {
+      "title": "Algemeen",
+      "description": "Kies de weergegeven naam voor deze kluis.",
+      "name": {
+        "label": "Kluisnaam",
+        "placeholder": "Voer een kluisnaam in"
+      },
+      "delete": {
+        "title": "Deze kluis loskoppelen",
+        "description": "Verwijder deze verbinding uit DiskPond. Opgeslagen back-ups blijven in je opslag staan.",
+        "button": "Kluis loskoppelen"
+      }
+    },
+    "config": {
+      "title": "Opslagconfiguratie",
+      "description": "Bekijk de opslaglocatie van deze kluis.",
+      "provider": "Opslagaanbieder:",
+      "loading": "Verbindingsgegevens laden…",
+      "unavailable": "Verbindingsgegevens zijn niet beschikbaar. Verbind de kluis opnieuw om ze te bekijken.",
+      "credentialsHidden": "Wachtwoorden, sleutels en andere inloggegevens worden bewaard in de beveiligde opslag van DiskPond. URL’s tonen alleen het serveradres.",
+      "enabled": "Ingeschakeld",
+      "disabled": "Uitgeschakeld",
+      "fields": {
+        "path": "Pad",
+        "host": "Host",
+        "port": "Poort",
+        "bucket": "Bucket",
+        "region": "Regio",
+        "prefix": "Voorvoegsel",
+        "container": "Container",
+        "endpoint": "Serveradres",
+        "remotePath": "Rclone-remotepad",
+        "rclonePath": "Uitvoerbaar Rclone-bestand",
+        "disableTls": "HTTP zonder TLS",
+        "disableTlsVerification": "TLS-certificaatcontrole overslaan"
+      }
+    },
+    "throttle": {
+      "title": "Netwerkbeperking",
+      "description": "Beperk het netwerkgebruik van deze kluis.",
+      "upload": {
+        "enabled": {
+          "label": "Uploadbandbreedte beperken",
+          "description": "Beperk hoe snel deze kluis back-upgegevens kan verzenden."
+        },
+        "limit": {
+          "label": "Uploadlimiet",
+          "description": "Beperk de uploadbandbreedte van deze kluis."
+        }
+      },
+      "download": {
+        "enabled": {
+          "label": "Downloadbandbreedte beperken",
+          "description": "Beperk hoe snel deze kluis herstelgegevens kan downloaden."
+        },
+        "limit": {
+          "label": "Downloadlimiet",
+          "description": "Beperk de downloadbandbreedte van deze kluis."
+        }
+      },
+      "save": "Opslaan"
+    }
+  },
+  "folder": {
+    "title": "Back-upbeleid",
+    "description": "Configureer het back-upbeleid.",
+    "general": {
+      "title": "Algemeen",
+      "description": "Configureer algemene instellingen.",
+      "name": {
+        "label": "Naam",
+        "placeholder": "Voer een naam in"
+      },
+      "path": {
+        "label": "Mappad",
+        "fileLabel": "Bestandspad"
+      },
+      "emoji": {
+        "change": "Emoji wijzigen",
+        "clear": "Emoji verwijderen"
+      }
+    },
+    "modified": "Gewijzigd"
+  }
+}

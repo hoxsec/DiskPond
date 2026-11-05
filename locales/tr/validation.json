@@ -1,0 +1,17 @@
+{
+  "optional": "İsteğe bağlı",
+  "string_too_small": "{{field}} en az {{minimum}} karakter olmalıdır",
+  "string_too_big": "{{field}} en fazla {{maximum}} karakter olmalıdır",
+  "number_too_small": "{{field}} en az {{minimum}} olmalıdır",
+  "number_too_big": "{{field}} en fazla {{maximum}} olmalıdır",
+  "email_invalid_format": "{{field}} geçerli bir e-posta adresi olmalıdır",
+  "url_invalid_format": "{{field}} geçerli bir URL olmalıdır",
+  "emoji_invalid_format": "{{field}} bir emoji olmalıdır",
+  "custom_password_mismatch": "Parolalar eşleşmiyor",
+  "custom_s3_endpoint": "Yol, kimlik bilgisi, sorgu veya parça içermeyen bir uç nokta sunucu adı ya da HTTP(S) URL’si girin",
+  "custom_s3_endpoint_protocol": "Uç nokta protokolü, güvenli olmayan HTTP ayarıyla eşleşmelidir",
+  "custom_terms_required": "Hizmet koşullarını ve gizlilik politikasını kabul etmelisiniz",
+  "custom_plan_change": "Bunu onaylamalısınız",
+  "custom_invalid_zip_extension": "{{field}} .zip ile bitmelidir",
+  "custom_restore_confirmation": "Lütfen riskleri anladığınızı onaylayın"
+}

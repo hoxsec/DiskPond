@@ -1,4 +1,5 @@
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
+import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
 import { cn } from "@blinkdisk/utils/class";
 import { Button } from "@ui/button";
 import { XIcon } from "lucide-react";
@@ -47,6 +48,7 @@ function DialogContent({
 }: DialogPrimitive.Popup.Props & {
   showCloseButton?: boolean;
 }) {
+  const { t } = useAppTranslation("translation.common");
   return (
     <DialogPortal>
       <DialogOverlay />
@@ -69,7 +71,7 @@ function DialogContent({
                 size="icon-sm"
               >
                 <XIcon />
-                <span className="sr-only">Close</span>
+                <span className="sr-only">{t("close")}</span>
               </Button>
             }
           />
@@ -97,6 +99,7 @@ function DialogFooter({
 }: React.ComponentProps<"div"> & {
   showCloseButton?: boolean;
 }) {
+  const { t } = useAppTranslation("translation.common");
   return (
     <div
       data-slot="dialog-footer"
@@ -109,7 +112,7 @@ function DialogFooter({
       {children}
       {showCloseButton && (
         <DialogPrimitive.Close
-          render={<Button variant="secondary">Close</Button>}
+          render={<Button variant="secondary">{t("close")}</Button>}
         />
       )}
     </div>

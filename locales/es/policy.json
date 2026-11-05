@@ -1,0 +1,269 @@
+{
+  "page": {
+    "tree": {
+      "title": "Ámbito",
+      "description": "Elige la política que quieres editar."
+    },
+    "editor": {
+      "title": "Política",
+      "save": "Guardar",
+      "mode": {
+        "basic": "Básico",
+        "advanced": "Avanzado"
+      },
+      "advancedBanner": {
+        "title": "¿Buscas más opciones?",
+        "description": "El modo avanzado incluye horarios personalizados, archivos de reglas, compresión, conservación y límites de tamaño de archivo.",
+        "button": "Cambiar a avanzado"
+      }
+    },
+    "override": {
+      "inherited": "Heredado",
+      "custom": "Personalizado"
+    },
+    "draft": {
+      "badge": "Borrador",
+      "activate": {
+        "button": "Añadir archivo/carpeta"
+      },
+      "discard": {
+        "button": "Descartar"
+      }
+    }
+  },
+  "schedule": {
+    "title": "Programación de copias",
+    "description": "Programa copias automáticas de tus archivos.",
+    "trigger": {
+      "label": "Inicio de la copia",
+      "items": {
+        "SCHEDULE": "Programado",
+        "MANUAL": "Solo manual"
+      }
+    },
+    "interval": {
+      "label": "Intervalo de copias",
+      "placeholder": "Selecciona el intervalo",
+      "items": {
+        "NONE": "Ninguno",
+        "10_MINUTES": "Cada 10 minutos",
+        "15_MINUTES": "Cada 15 minutos",
+        "20_MINUTES": "Cada 20 minutos",
+        "30_MINUTES": "Cada 30 minutos",
+        "1_HOUR": "Cada hora",
+        "3_HOURS": "Cada 3 horas",
+        "6_HOURS": "Cada 6 horas",
+        "12_HOURS": "Cada 12 horas",
+        "24_HOURS": "Cada 24 horas"
+      }
+    },
+    "catchup": {
+      "label": "Realizar las copias pendientes"
+    },
+    "cron": {
+      "label": "Horario personalizado",
+      "add": "Añadir horario personalizado"
+    }
+  },
+  "retention": {
+    "title": "Conservación de copias",
+    "description": "Configura cuánto tiempo se conservan las copias.",
+    "latest": {
+      "label": "Copias más recientes",
+      "description": "Número de copias más recientes que se conservarán."
+    },
+    "hourly": {
+      "label": "Copias horarias",
+      "description": "Número de copias horarias que se conservarán."
+    },
+    "daily": {
+      "label": "Copias diarias",
+      "description": "Número de copias diarias que se conservarán."
+    },
+    "weekly": {
+      "label": "Copias semanales",
+      "description": "Número de copias semanales que se conservarán."
+    },
+    "monthly": {
+      "label": "Copias mensuales",
+      "description": "Número de copias mensuales que se conservarán."
+    },
+    "annual": {
+      "label": "Copias anuales",
+      "description": "Número de copias anuales que se conservarán."
+    },
+    "info": {
+      "title": "Cómo funciona la conservación de copias",
+      "description": "DiskPond conserva el número de copias más recientes que indiques para cada período. Una copia se conserva si cumple alguna regla; las demás se eliminan para ahorrar espacio."
+    }
+  },
+  "files": {
+    "title": "Archivos excluidos",
+    "description": "Excluye archivos y directorios de las copias.",
+    "exclusions": {
+      "label": "Archivos y directorios excluidos",
+      "description": "Archivos, directorios y extensiones que se excluirán de las copias.",
+      "descriptionWithRoot": "Archivos, carpetas y extensiones que se excluirán de las copias de esta carpeta.",
+      "add": "Añadir exclusión",
+      "example": "archivo-ignorado.txt",
+      "broken": {
+        "title_one": "{{count}} regla de exclusión no funciona",
+        "title_other": "{{count}} reglas de exclusión no funcionan",
+        "title_many": "{{count}} reglas de exclusión no funcionan",
+        "description": "Las reglas introducidas como rutas completas nunca coinciden. Las reglas deben ser relativas a la carpeta respaldada.",
+        "descriptionOutside": "Las rutas fuera de {{root}} no se pueden excluir de las copias de esta carpeta. Edita o elimina estas reglas.",
+        "descriptionWithoutRoot": "Las reglas introducidas como rutas completas nunca coinciden. Para excluir una carpeta concreta, añade la regla a la política de esa carpeta.",
+        "fix_one": "Corregir {{count}} regla",
+        "fix_other": "Corregir {{count}} reglas",
+        "fix_many": "Corregir {{count}} reglas"
+      },
+      "dialog": {
+        "title": "Editar regla de exclusión",
+        "description": "Configura el patrón de la regla de exclusión.",
+        "type": {
+          "label": "Excluir por",
+          "path": "Ruta",
+          "name": "Nombre",
+          "extension": "Extensión"
+        },
+        "matchType": {
+          "exact": "es exactamente",
+          "startsWith": "empieza por",
+          "endsWith": "termina en",
+          "contains": "contiene"
+        },
+        "path": {
+          "label": "Carpeta o archivo",
+          "description": "Debe estar dentro de {{root}}.",
+          "descriptionWithoutRoot": "Relativa a cada carpeta respaldada, p. ej., /AppData/Local/Temp.",
+          "placeholderWithoutRoot": "/ruta/a/carpeta",
+          "chooseFolder": "Elegir carpeta",
+          "chooseFile": "Elegir archivo",
+          "preview": "Excluye {{path}} en esta carpeta.",
+          "errors": {
+            "EMPTY": "Introduce una ruta.",
+            "INVALID": "No se puede usar esta ruta. No se admiten rutas con «..» ni rutas relativas a una unidad como C:carpeta.",
+            "IS_ROOT": "Esta es la propia carpeta respaldada. Elige algo dentro de ella.",
+            "OUTSIDE_ROOT": "Esta ruta no está dentro de {{root}}.",
+            "NEEDS_ROOT": "Las rutas completas solo funcionan en la política de la propia carpeta. Introduce una ruta relativa a la carpeta respaldada."
+          }
+        },
+        "pattern": {
+          "label": "cuyo nombre",
+          "description": "Coincide con archivos y carpetas con este nombre en cualquier parte de la copia.",
+          "placeholder": "Patrón de nombre",
+          "errors": {
+            "path": "Los nombres no pueden contener \\ ni letras de unidad."
+          },
+          "pathHint": {
+            "withRoot": "Esto parece una ruta. Para excluir una carpeta o archivo concreto, usa una regla de ruta.",
+            "withoutRoot": "Esto parece una ruta. Para excluir una carpeta o archivo concreto, añade la regla a la política de esa carpeta.",
+            "action": "Excluir esta ruta en su lugar"
+          }
+        },
+        "extension": {
+          "label": "cuya extensión es",
+          "placeholder": "Introduce la extensión (p. ej., pdf, jpg o docx)"
+        },
+        "foldersOnly": "Excluir solo carpetas",
+        "save": "Guardar"
+      },
+      "preview": {
+        "path": "Carpeta o archivo",
+        "broken": {
+          "fullPath": "No funciona: se introdujo una ruta completa",
+          "outside": "No funciona: la ruta está fuera de esta carpeta",
+          "isRoot": "No funciona: apunta a la propia carpeta respaldada",
+          "invalid": "No funciona: edita esta regla para corregirla"
+        },
+        "extension": "Extensión de archivo",
+        "name": {
+          "both": "Nombre",
+          "foldersOnly": "Nombre de carpeta"
+        },
+        "matchType": {
+          "EXACT": "es exactamente",
+          "STARTS_WITH": "empieza por",
+          "ENDS_WITH": "termina en",
+          "CONTAINS": "contiene"
+        }
+      }
+    },
+    "exclusionRuleFiles": {
+      "label": "Archivos de reglas de exclusión",
+      "description": "Nombres de los archivos que contienen reglas de exclusión.",
+      "example": "ignore.txt",
+      "docs": "Abrir documentación",
+      "add": "Añadir archivo de reglas"
+    },
+    "maxFileSize": {
+      "label": "Tamaño máximo de archivo",
+      "description": "Tamaño máximo de los archivos incluidos en las copias."
+    },
+    "excludeCacheDirs": {
+      "label": "Excluir directorios de caché",
+      "description": "Excluye de las copias los directorios de caché habituales."
+    }
+  },
+  "compression": {
+    "title": "Compresión",
+    "description": "Configura cómo se comprimen los datos de las copias.",
+    "algorithm": {
+      "label": "Algoritmo de compresión",
+      "description": "Algoritmo utilizado para comprimir los datos de las copias.",
+      "placeholder": "Selecciona un algoritmo",
+      "tabs": {
+        "off": "Ninguno",
+        "recommended": "Recomendados",
+        "other": "Otros"
+      },
+      "presets": {
+        "faster": "Más rápido",
+        "balanced": "Equilibrado",
+        "smaller": "Menor tamaño"
+      },
+      "items": {
+        "": "Predeterminado",
+        "none": "Ninguno",
+        "gzip": "Gzip",
+        "gzip-best-compression": "Gzip (máxima compresión)",
+        "gzip-best-speed": "Gzip (máxima velocidad)",
+        "zstd": "Zstandard",
+        "zstd-best-compression": "Zstandard (máxima compresión)",
+        "zstd-better-compression": "Zstandard (mejor compresión)",
+        "zstd-fastest": "Zstandard (máxima velocidad)",
+        "s2-default": "S2",
+        "s2-better": "S2 (mejor compresión)",
+        "s2-parallel-4": "S2 (paralelo, 4 hilos)",
+        "s2-parallel-8": "S2 (paralelo, 8 hilos)",
+        "pgzip": "Gzip paralelo",
+        "pgzip-best-compression": "Gzip paralelo (máxima compresión)",
+        "pgzip-best-speed": "Gzip paralelo (máxima velocidad)",
+        "deflate-default": "Deflate",
+        "deflate-best-compression": "Deflate (máxima compresión)",
+        "deflate-best-speed": "Deflate (máxima velocidad)",
+        "lz4": "LZ4 (no recomendado)"
+      }
+    },
+    "minFileSize": {
+      "label": "Tamaño mínimo de archivo",
+      "description": "Comprime solo archivos mayores que este tamaño."
+    },
+    "maxFileSize": {
+      "label": "Tamaño máximo de archivo",
+      "description": "Comprime solo archivos menores que este tamaño."
+    },
+    "extensionAllowlist": {
+      "label": "Extensiones permitidas",
+      "description": "Comprime solo archivos con estas extensiones.",
+      "add": "Añadir extensión",
+      "placeholder": "p. ej., .txt"
+    },
+    "extensionDenylist": {
+      "label": "Extensiones excluidas",
+      "description": "Nunca comprime archivos con estas extensiones.",
+      "add": "Añadir extensión",
+      "placeholder": "p. ej., .zip"
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "account": {
+    "preferences": {
+      "checkForUpdates": "Automatycznie sprawdzaj aktualizacje",
+      "title": "Preferencje",
+      "theme": {
+        "label": "Motyw",
+        "description": "Wybierz preferowany motyw.",
+        "items": {
+          "light": "Jasny",
+          "dark": "Ciemny",
+          "system": "Systemowy"
+        }
+      },
+      "language": {
+        "label": "Język",
+        "description": "Wybierz preferowany język."
+      }
+    }
+  },
+  "vault": {
+    "title": "Ustawienia",
+    "home": "Strona główna",
+    "general": {
+      "title": "Ogólne",
+      "description": "Wybierz wyświetlaną nazwę tego sejfu.",
+      "name": {
+        "label": "Nazwa sejfu",
+        "placeholder": "Wpisz nazwę sejfu"
+      },
+      "delete": {
+        "title": "Odłącz ten sejf",
+        "description": "Usuń to połączenie z DiskPond. Kopie zapasowe pozostaną w miejscu przechowywania.",
+        "button": "Odłącz sejf"
+      }
+    },
+    "config": {
+      "title": "Konfiguracja przechowywania",
+      "description": "Wyświetl miejsce przechowywania tego sejfu.",
+      "provider": "Dostawca przestrzeni dyskowej:",
+      "loading": "Wczytywanie danych połączenia…",
+      "unavailable": "Dane połączenia są niedostępne. Podłącz sejf ponownie, aby je wyświetlić.",
+      "credentialsHidden": "Hasła, klucze i inne dane uwierzytelniające są przechowywane w magazynie poświadczeń DiskPond. Adresy URL pokazują tylko adres serwera.",
+      "enabled": "Włączone",
+      "disabled": "Wyłączone",
+      "fields": {
+        "path": "Ścieżka",
+        "host": "Host",
+        "port": "Port",
+        "bucket": "Zasobnik",
+        "region": "Region",
+        "prefix": "Prefiks",
+        "container": "Kontener",
+        "endpoint": "Adres serwera",
+        "remotePath": "Zdalna ścieżka Rclone",
+        "rclonePath": "Plik wykonywalny Rclone",
+        "disableTls": "HTTP bez TLS",
+        "disableTlsVerification": "Pomiń weryfikację certyfikatu TLS"
+      }
+    },
+    "throttle": {
+      "title": "Ograniczenia sieci",
+      "description": "Ogranicz wykorzystanie sieci przez ten sejf.",
+      "upload": {
+        "enabled": {
+          "label": "Ogranicz prędkość wysyłania",
+          "description": "Ogranicz prędkość wysyłania danych kopii zapasowych do tego sejfu."
+        },
+        "limit": {
+          "label": "Limit wysyłania",
+          "description": "Ogranicz przepustowość wysyłania dla tego sejfu."
+        }
+      },
+      "download": {
+        "enabled": {
+          "label": "Ogranicz prędkość pobierania",
+          "description": "Ogranicz prędkość pobierania danych do przywrócenia z tego sejfu."
+        },
+        "limit": {
+          "label": "Limit pobierania",
+          "description": "Ogranicz przepustowość pobierania dla tego sejfu."
+        }
+      },
+      "save": "Zapisz"
+    }
+  },
+  "folder": {
+    "title": "Zasady kopii zapasowych",
+    "description": "Skonfiguruj zasady kopii zapasowych.",
+    "general": {
+      "title": "Ogólne",
+      "description": "Skonfiguruj ustawienia ogólne.",
+      "name": {
+        "label": "Nazwa",
+        "placeholder": "Wpisz nazwę"
+      },
+      "path": {
+        "label": "Ścieżka folderu",
+        "fileLabel": "Ścieżka pliku"
+      },
+      "emoji": {
+        "change": "Zmień emoji",
+        "clear": "Usuń emoji"
+      }
+    },
+    "modified": "Zmieniono"
+  }
+}

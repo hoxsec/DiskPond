@@ -1,0 +1,17 @@
+{
+  "optional": "Optioneel",
+  "string_too_small": "{{field}} moet minstens {{minimum}} tekens bevatten",
+  "string_too_big": "{{field}} mag hoogstens {{maximum}} tekens bevatten",
+  "number_too_small": "{{field}} moet minstens {{minimum}} zijn",
+  "number_too_big": "{{field}} mag hoogstens {{maximum}} zijn",
+  "email_invalid_format": "{{field}} moet een geldig e-mailadres zijn",
+  "url_invalid_format": "{{field}} moet een geldige URL zijn",
+  "emoji_invalid_format": "{{field}} moet een emoji zijn",
+  "custom_password_mismatch": "De wachtwoorden komen niet overeen",
+  "custom_s3_endpoint": "Voer een eindpunthostnaam of HTTP(S)-URL in zonder pad, inloggegevens, query of fragment",
+  "custom_s3_endpoint_protocol": "Het eindpuntprotocol moet overeenkomen met de instelling voor onbeveiligde HTTP",
+  "custom_terms_required": "Je moet akkoord gaan met de gebruiksvoorwaarden en het privacybeleid",
+  "custom_plan_change": "Je moet dit bevestigen",
+  "custom_invalid_zip_extension": "{{field}} moet eindigen op .zip",
+  "custom_restore_confirmation": "Bevestig dat je de risico’s begrijpt"
+}

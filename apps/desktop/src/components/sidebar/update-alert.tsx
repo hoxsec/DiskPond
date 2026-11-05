@@ -13,7 +13,7 @@ export function SidebarUpdateAlert() {
       <Alert variant="info" className="rounded-xl p-4">
         <AlertTitle>{t("title", { version: status?.version })}</AlertTitle>
         <AlertDescription className="mt-0.5 text-sm">
-          <UpdateAction />
+          <UpdateAction compact />
         </AlertDescription>
       </Alert>
     </SidebarMenuItem>

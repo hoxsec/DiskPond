@@ -1,0 +1,15 @@
+{
+  "comment": "Bu dosya, Electron uygulamasının varsayılan dilini yüklemek için gereklidir.",
+  "tray": {
+    "open": "Aç",
+    "quit": "Çıkış"
+  },
+  "common": {
+    "close": "Kapat",
+    "back": "Geri",
+    "breadcrumb": "Klasör yolu",
+    "parentFolder": "Üst klasöre git",
+    "selectAll": "Tümünü seç",
+    "selectRow": "Satırı seç"
+  }
+}

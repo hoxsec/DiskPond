@@ -1,0 +1,55 @@
+{
+  "title": "Une nouvelle mise à jour est disponible !",
+  "description": "Une nouvelle version de DiskPond est disponible.",
+  "restart": "Redémarrer",
+  "downloading": "Téléchargement de la mise à jour...",
+  "error": {
+    "title": "Échec de la mise à jour automatique",
+    "description": "Une erreur s’est produite lors de la mise à jour. Téléchargez-la manuellement à l’aide du bouton ci-dessous."
+  },
+  "dismiss": {
+    "title": "Ignorer la mise à jour ?",
+    "warning": {
+      "title": "Des dysfonctionnements sont possibles",
+      "description": "Vous pouvez installer la mise à jour de DiskPond plus tard."
+    },
+    "cancel": "Annuler",
+    "confirm": "Ignorer la mise à jour"
+  },
+  "manual": "Télécharger manuellement",
+  "install": "Redémarrer et installer",
+  "download": "Télécharger la mise à jour",
+  "downloadProgress": "Téléchargement : {{percent}} %",
+  "failed": "Échec de la mise à jour. Réessayez.",
+  "installing": "Redémarrage pour l’installation…",
+  "cancel": "Annuler le téléchargement",
+  "canceling": "Annulation du téléchargement…",
+  "canceled": "Téléchargement annulé",
+  "preparing": "Préparation du téléchargement…",
+  "transfer": "{{transferred}} sur {{total}}",
+  "speed": "{{speed}}/s",
+  "waiting": "En attente de la fin des sauvegardes et restaurations",
+  "activityUnknown": "Activité indisponible. Nouvelle tentative…",
+  "activityChecking": "Vérification des sauvegardes et restaurations en cours…",
+  "notes": "Nouveautés",
+  "noNotes": "Aucune note de version disponible",
+  "remindLater": "Me le rappeler plus tard",
+  "reminderDelay": "Dans 24 heures",
+  "reminderSet": "Rappel programmé pour demain",
+  "history": "Historique des mises à jour",
+  "currentVersion": "Version installée : {{version}}",
+  "versionChange": "{{from}} → {{to}}",
+  "emptyHistory": "Aucune tentative de mise à jour",
+  "historyUnavailable": "Impossible d’enregistrer l’historique des mises à jour",
+  "outcomes": {
+    "DOWNLOADING": "Téléchargement en cours",
+    "DOWNLOADED": "Téléchargée",
+    "CANCELED": "Annulée",
+    "DOWNLOAD_FAILED": "Échec du téléchargement",
+    "INTERRUPTED": "Téléchargement interrompu",
+    "INSTALLING": "Installation demandée",
+    "INSTALLED": "Installée",
+    "INSTALL_FAILED": "Échec de l’installation",
+    "NOT_INSTALLED": "Installation non confirmée"
+  }
+}

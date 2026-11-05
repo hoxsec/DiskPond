@@ -1,0 +1,130 @@
+{
+  "backToHistory": "Zurück zum Sicherungsverlauf",
+  "table": {
+    "name": "Name",
+    "size": "Größe",
+    "modified": "Zuletzt geändert",
+    "mode": "Modus",
+    "uid": "UID",
+    "gid": "GID",
+    "symlink": {
+      "tooltip": "Symbolischer Link"
+    },
+    "search": {
+      "placeholder": "Dateien oder Ordner suchen..."
+    },
+    "columns": {
+      "button": "Spalten"
+    },
+    "empty": {
+      "title": "Leerer Ordner",
+      "description": "Dieser Ordner war beim Erstellen der Sicherung leer. Füge die fehlenden Dateien hinzu und erstelle eine neue Sicherung."
+    },
+    "emptySearch": {
+      "title": "Keine Dateien gefunden",
+      "description": "Keine Dateien oder Ordner entsprechen deiner Suche. Versuche eine andere Suche oder füge die fehlenden Dateien zum Ordner hinzu."
+    },
+    "mount": {
+      "active": {
+        "title": "Sicherung ist eingebunden",
+        "description": "Eingebunden unter {{path}}"
+      },
+      "open": {
+        "windows": "Im Explorer öffnen",
+        "macos": "Im Finder öffnen",
+        "other": "Im Dateimanager öffnen"
+      },
+      "stop": {
+        "button": "Einbindung aufheben",
+        "error": {
+          "title": "Einbindung konnte nicht aufgehoben werden",
+          "description": "Die Einbindung wird möglicherweise noch verwendet. Schließe Anwendungen, die darauf zugreifen."
+        }
+      }
+    },
+    "restore": {
+      "folder": "Ordner wiederherstellen",
+      "selected_one": "{{count}} Element wiederherstellen",
+      "selected_other": "{{count}} Elemente wiederherstellen",
+      "single": {
+        "dialog": {
+          "title": "Zielordner für die Wiederherstellung auswählen"
+        }
+      },
+      "multiple": {
+        "dialog": {
+          "title": "Zielordner für die Wiederherstellung auswählen"
+        }
+      }
+    }
+  },
+  "restoreDialog": {
+    "title": "Ordner wiederherstellen",
+    "description": "Stelle einen Ordner aus einer Sicherung wieder her.",
+    "type": {
+      "label": "Wiederherstellungsart",
+      "items": {
+        "ZIP": "ZIP-Archiv",
+        "UNPACKED": "Entpackte Dateien"
+      }
+    },
+    "filePath": {
+      "label": "ZIP-Dateipfad",
+      "placeholder": "Zieldateipfad auswählen",
+      "defaultFileName": "{{directory}}-{{date}}-Wiederherstellung.zip"
+    },
+    "directoryPath": {
+      "label": "Zielordnerpfad",
+      "placeholder": "Zielordnerpfad auswählen"
+    },
+    "compress": {
+      "label": "ZIP-Datei komprimieren",
+      "description": "Verringert die Größe, verlangsamt aber die Wiederherstellung"
+    },
+    "warning": {
+      "title": "Dateien könnten überschrieben werden",
+      "description": "Der ausgewählte Ordner ist nicht leer. Vorhandene Dateien und Ordner könnten durch die wiederhergestellten Dateien überschrieben werden. Erwäge stattdessen, einen neuen leeren Ordner anzulegen."
+    },
+    "confirmed": {
+      "label": "Ich verstehe, dass Dateien überschrieben werden könnten"
+    },
+    "submit": "Wiederherstellen"
+  },
+  "restore": {
+    "actionError": "Die Aktion konnte nicht abgeschlossen oder der Wiederherstellungsstatus nicht aktualisiert werden. Versuche es erneut.",
+    "status": {
+      "RUNNING": "Wiederherstellung läuft",
+      "CANCELING": "Wiederherstellung wird abgebrochen…",
+      "COMPLETE": "Wiederherstellung abgeschlossen",
+      "PARTIAL": "Wiederherstellung mit Problemen abgeschlossen",
+      "FAILED": "Wiederherstellung fehlgeschlagen",
+      "CANCELED": "Wiederherstellung abgebrochen",
+      "UNAVAILABLE": "Wiederherstellungsergebnis nicht verfügbar"
+    },
+    "issue": {
+      "SPACE": "Das Ziel ist voll. Gib Speicherplatz frei oder wähle ein anderes Ziel und versuche es in einem neuen Ordner erneut.",
+      "PERMISSION": "Das Schreiben wiederhergestellter Daten oder Metadaten wurde verweigert. Prüfe die Zielberechtigungen oder wähle einen anderen Ordner und versuche es erneut.",
+      "ZIP": "Der ZIP-Writer dieser Engine lässt leere Ordner und symbolische Links aus. Verwende die entpackte Wiederherstellung, um diese Elemente wiederherzustellen.",
+      "DESTINATION": "Prüfe, ob das Ziel existiert, freien Speicher hat, Schreibzugriff erlaubt und nicht von einer anderen Wiederherstellung verwendet wird. Versuche es dann erneut.",
+      "ENGINE": "Die Sicherungs-Engine oder ihr Aufgabenergebnis ist nicht verfügbar. Verbinde den Tresor erneut und prüfe das Ziel, bevor du es erneut versuchst.",
+      "TASK": "Die Engine konnte nicht alle angeforderten Daten wiederherstellen. Prüfe Speicherplatz und Berechtigungen des Ziels sowie die Lesbarkeit der Sicherung und versuche es in einem neuen Ordner erneut.",
+      "TIMEOUT": "Die Wiederherstellung wurde nicht innerhalb des Überwachungszeitraums abgeschlossen. Ein Abbruch wurde angefordert; prüfe die Engine und das Ziel vor einem erneuten Versuch.",
+      "LINK": "Das Ziel enthält einen symbolischen Link oder einen Verbindungspunkt. Wähle einen Ordner ohne Links, um Schreibzugriffe außerhalb des Ziels zu vermeiden.",
+      "CONFIRMATION": "Das Ziel ist nicht leer. Bestätige das Überschreiben im Wiederherstellungsdialog oder wähle einen leeren Ordner."
+    },
+    "objects": "Sicherungsobjekte: {{objects}}",
+    "counts": "Zuletzt gemeldete wiederhergestellte Elemente: {{restored}} · Übersprungen: {{skipped}} · Ignorierte Fehler: {{errors}}",
+    "incomplete": "Das Ergebnis ist möglicherweise unvollständig. Behalte die Sicherung und prüfe das Ziel, bevor du wiederhergestellte Dateien verwendest.",
+    "cancel": "Wiederherstellung abbrechen",
+    "dismiss": "Ergebnis schließen",
+    "title": "Wiederherstellung läuft",
+    "description": {
+      "files_one": "{{files}} Datei wird wiederhergestellt",
+      "files_other": "{{files}} Dateien werden wiederhergestellt",
+      "directories_one": "{{directories}} Ordner wird wiederhergestellt",
+      "directories_other": "{{directories}} Ordner werden wiederhergestellt",
+      "both": "{{files}} Datei(en) und {{directories}} Ordner werden wiederhergestellt"
+    },
+    "openFolder": "Ordner öffnen"
+  }
+}

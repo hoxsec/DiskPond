@@ -1,0 +1,25 @@
+{
+  "dialog": {
+    "title": {
+      "loading": "Caricamento...",
+      "fallback": "Operazione"
+    },
+    "description": {
+      "loading": "Caricamento dei dettagli dell’operazione..."
+    },
+    "logs": {
+      "waiting": "In attesa dei log...",
+      "empty": "Nessun log disponibile",
+      "unavailable": "Impossibile caricare i log dell’operazione. Le operazioni più vecchie scadono e la cronologia viene cancellata al riavvio di DiskPond."
+    },
+    "close": "Chiudi",
+    "cancel": "Annulla operazione",
+    "status": {
+      "RUNNING": "In corso",
+      "CANCELING": "Annullamento",
+      "CANCELED": "Annullata",
+      "SUCCESS": "Riuscita",
+      "FAILED": "Non riuscita"
+    }
+  }
+}

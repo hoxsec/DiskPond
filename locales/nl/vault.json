@@ -1,0 +1,524 @@
+{
+  "noVaults": {
+    "title": "Maak back-ups en herstel je bestanden",
+    "description": "Maak een versleutelde kluis in je eigen opslag of verbind een kluis om bestaande back-ups te herstellen.",
+    "refresh": "Kluizen opnieuw laden",
+    "add": "Kluis toevoegen"
+  },
+  "home": {
+    "title": "Kluizen",
+    "createVault": "Nieuwe kluis maken",
+    "connectVault": "Bestaande kluis verbinden",
+    "count_one": "{{count}} kluis gevonden",
+    "count_other": "{{count}} kluizen gevonden"
+  },
+  "createDialog": {
+    "back": "Terug",
+    "title": {
+      "default": "Nieuwe kluis maken",
+      "connect": "Bestaande kluis verbinden"
+    },
+    "description": "Kies een lege bestemming voor een nieuwe versleutelde kluis.",
+    "connectDescription": "Kies de opslag die je kluis bevat. Je hebt het bestaande versleutelingswachtwoord nodig.",
+    "providers": {
+      "search": {
+        "label": "Opslagaanbieders zoeken",
+        "placeholder": "Aanbieders zoeken..."
+      }
+    },
+    "config": {
+      "submit": "Doorgaan",
+      "checking": "De bestemming controleren. Even geduld.",
+      "validationError": {
+        "title": "Kon de opslaginstellingen niet controleren",
+        "rcloneRemoteNotConfigured": "De rclone-remote ‘{{remote}}’ is niet ingesteld op deze computer. Controleer de remotenaam in je rclone-configuratie en probeer het opnieuw."
+      },
+      "existsError": {
+        "title": "Kluis bestaat al",
+        "description": "Deze kluis is al verbonden op deze computer onder de naam ‘{{name}}’."
+      }
+    },
+    "details": {
+      "name": {
+        "label": "Kluisnaam",
+        "placeholder": "Voer een kluisnaam in"
+      },
+      "password": {
+        "label": "Versleutelingswachtwoord",
+        "placeholder": "Voer het versleutelingswachtwoord van de kluis in"
+      },
+      "confirmPassword": {
+        "label": "Versleutelingswachtwoord bevestigen",
+        "placeholder": "Bevestig het versleutelingswachtwoord van de kluis"
+      },
+      "warning": {
+        "title": "Vergeet dit wachtwoord nooit",
+        "description": "Bewaar dit versleutelingswachtwoord op een veilige plek. DiskPond kan het niet opnieuw instellen. Je hebt het nodig om je back-ups op een andere computer te herstellen."
+      },
+      "submit": "Kluis maken",
+      "connect": "Kluis verbinden",
+      "connectHint": "Gebruik het bestaande kluiswachtwoord. Bij het verbinden kunnen oude repositorymetadata naar hun huidige namen worden gekopieerd; bestaande back-ups blijven behouden.",
+      "creating": "Kluis maken. Even geduld.",
+      "connecting": "Kluis verbinden. Even geduld.",
+      "failed": "Kon de kluis niet openen"
+    }
+  },
+  "connectionErrors": {
+    "password": "Het versleutelingswachtwoord is onjuist. Voer het bestaande kluiswachtwoord in, inclusief eventuele spaties.",
+    "exists": "Deze bestemming bevat al een kluis. Gebruik Bestaande kluis verbinden of kies een lege bestemming.",
+    "notEmpty": "Deze bestemming bevat bestanden of repositorygegevens. Kies een lege bestemming; verwijder geen bestaande back-ups om door te gaan.",
+    "missing": "Hier is geen kluis gevonden. Controleer de bestemming of gebruik Nieuwe kluis maken voor een lege bestemming.",
+    "duplicate": "Deze kluis is al verbonden op deze computer. Open hem vanuit de kluizenlijst.",
+    "invalid": "De repository-identiteit kon niet worden gelezen. Controleer of dit een volledige, compatibele kluis is.",
+    "destinationMissing": "De doelmap ontbreekt of is geen map. Sluit de schijf opnieuw aan of kies een bestaande map.",
+    "unavailable": "De kluis kon niet worden geopend. Controleer de bestemming, toegangsrechten, inloggegevens van de aanbieder en repositorybestanden en probeer het opnieuw."
+  },
+  "setup": {
+    "title": "Kluis instellen",
+    "description": "Je moet deze kluis configureren voordat je hem kunt gebruiken.",
+    "password": {
+      "label": "Versleutelingswachtwoord",
+      "placeholder": "Voer het versleutelingswachtwoord van de kluis in"
+    },
+    "submit": "Doorgaan"
+  },
+  "passwordStorage": {
+    "protected": {
+      "title": "Opslag van kluisinloggegevens",
+      "description": "DiskPond gebruikt de beveiligde opslag van deze computer om kluiswachtwoorden en aanbiederverbindingen op te slaan. Bewaar je wachtwoorden en opslaginloggegevens apart voor herstel op een andere computer."
+    },
+    "session": {
+      "title": "Kluisinloggegevens gelden alleen voor deze sessie",
+      "description": "Sommige inloggegevens kunnen niet veilig worden opgeslagen en blijven in het geheugen tot DiskPond wordt afgesloten. Voer na een herstart het gevraagde kluiswachtwoord en de verbindingsgegevens in voordat geplande back-ups kunnen worden hervat.",
+      "recovery": "Herstel de toegang tot de sleutelkast van je systeem en herstart DiskPond om opnieuw te proberen de inloggegevens op te slaan."
+    },
+    "locked": {
+      "title": "Voer je kluisinloggegevens opnieuw in",
+      "description": "Opgeslagen inloggegevens konden niet worden ontgrendeld of gemigreerd. Open de betreffende kluis en voer het wachtwoord en de gevraagde verbindingsgegevens in. De back-ups blijven in je opslag staan."
+    },
+    "cleanupFailed": {
+      "title": "Opgeslagen inloggegevens moeten worden opgeruimd",
+      "description": "DiskPond kon een oude kopie van de inloggegevens niet migreren of verwijderen. Controleer de toegang tot de gegevensmap van DiskPond en herstart om het opnieuw te proberen. De oude kopie kan nog onbeveiligd op schijf staan."
+    },
+    "unknown": {
+      "title": "Status van inloggegevensopslag niet beschikbaar",
+      "description": "Herstart DiskPond om de opslag van inloggegevens te controleren. Houd je kluiswachtwoorden en verbindingsgegevens bij de hand om ze opnieuw in te voeren."
+    },
+    "saveFailed": "Inloggegevens konden niet worden opgeslagen. Controleer de toegang tot de gegevensmap van DiskPond voordat je herstart."
+  },
+  "starting": {
+    "title": "Kluis starten",
+    "description": "Je kluis wordt geïnitialiseerd. Dit duurt meestal enkele seconden."
+  },
+  "failed": {
+    "retry": "Opnieuw proberen"
+  },
+  "status": {
+    "RUNNING": "Actief",
+    "SETUP": "Instellen vereist",
+    "STARTING": "Starten",
+    "FAILED": "Starten mislukt"
+  },
+  "providers": {
+    "CLOUDBLINK": {
+      "name": "Niet-ondersteunde beheerde opslag",
+      "shortName": "Niet-ondersteunde opslag"
+    },
+    "INTERNAL_DRIVE": {
+      "name": "Deze computer",
+      "shortName": "Deze computer",
+      "description": "Opslaan in een map op deze computer",
+      "fields": {
+        "path": {
+          "label": "Doelmap voor back-ups",
+          "placeholder": "Selecteer een doelmap",
+          "dialogTitle": "Doelmap voor back-ups selecteren"
+        }
+      }
+    },
+    "EXTERNAL_DRIVE": {
+      "name": "Externe schijf",
+      "shortName": "Externe schijf",
+      "description": "Opslaan op een externe schijf",
+      "fields": {
+        "path": {
+          "label": "Map op externe schijf",
+          "placeholder": "Selecteer een map op de externe schijf",
+          "dialogTitle": "Map op externe schijf selecteren"
+        }
+      }
+    },
+    "NETWORK_DRIVE": {
+      "name": "Netwerkschijf",
+      "shortName": "Netwerkschijf",
+      "description": "Opslaan op een netwerkschijf",
+      "fields": {
+        "path": {
+          "label": "Map op netwerkschijf",
+          "placeholder": "Selecteer een map op de netwerkschijf",
+          "dialogTitle": "Map op netwerkschijf selecteren"
+        }
+      }
+    },
+    "FILESYSTEM": {
+      "name": "Deze computer",
+      "shortName": "Deze computer",
+      "description": "Opslaan in een map op deze computer",
+      "fields": {
+        "path": {
+          "label": "Doelmap voor back-ups",
+          "placeholder": "Selecteer een doelmap",
+          "dialogTitle": "Doelmap voor back-ups selecteren"
+        }
+      }
+    },
+    "NETWORK_ATTACHED_STORAGE": {
+      "name": "Netwerkschijf",
+      "shortName": "Netwerkschijf",
+      "description": "Opslaan op een netwerkschijf",
+      "fields": {
+        "path": {
+          "label": "Map op netwerkschijf",
+          "placeholder": "Selecteer een map op de netwerkschijf",
+          "dialogTitle": "Map op netwerkschijf selecteren"
+        }
+      }
+    },
+    "AMAZON_S3": {
+      "name": "Amazon S3",
+      "shortName": "S3",
+      "description": "Opslaan op Amazon S3",
+      "fields": {
+        "bucket": {
+          "label": "Bucketnaam",
+          "placeholder": "Voer je S3-bucketnaam in"
+        },
+        "endpoint": {
+          "label": "Eindpunt-URL",
+          "placeholder": "https://s3.amazonaws.com"
+        },
+        "region": {
+          "label": "Regio",
+          "placeholder": "us-east-1"
+        },
+        "accessKeyId": {
+          "label": "Toegangssleutel-ID",
+          "placeholder": "Voer je AWS-toegangssleutel-ID in"
+        },
+        "accessKeySecret": {
+          "label": "Geheime toegangssleutel",
+          "placeholder": "Voer je geheime AWS-toegangssleutel in"
+        },
+        "sessionToken": {
+          "label": "Sessietoken",
+          "placeholder": "Voer het sessietoken in"
+        },
+        "prefix": {
+          "label": "Sleutelvoorvoegsel",
+          "placeholder": "backup/"
+        }
+      }
+    },
+    "S3_COMPATIBLE": {
+      "name": "S3-compatibel",
+      "shortName": "S3",
+      "description": "Gebruik S3-compatibele opslag",
+      "fields": {
+        "bucket": {
+          "label": "Bucketnaam",
+          "placeholder": "Voer je S3-compatibele bucketnaam in"
+        },
+        "endpoint": {
+          "label": "Eindpunt-URL",
+          "placeholder": "your-s3-compatible-endpoint.com"
+        },
+        "region": {
+          "label": "Regio",
+          "placeholder": "us-east-1"
+        },
+        "accessKeyId": {
+          "label": "Toegangssleutel-ID",
+          "placeholder": "Voer je toegangssleutel-ID in"
+        },
+        "accessKeySecret": {
+          "label": "Geheime toegangssleutel",
+          "placeholder": "Voer je geheime toegangssleutel in"
+        },
+        "sessionToken": {
+          "label": "Sessietoken",
+          "placeholder": "Voer het sessietoken in"
+        },
+        "prefix": {
+          "label": "Sleutelvoorvoegsel",
+          "placeholder": "backup/"
+        },
+        "disableTls": {
+          "label": "Onbeveiligde HTTP-verbinding gebruiken"
+        },
+        "disableTlsVerification": {
+          "label": "TLS-certificaatcontrole uitschakelen"
+        }
+      }
+    },
+    "DISKPOND_CLOUD": {
+      "name": "DiskPond Cloud",
+      "shortName": "DiskPond Cloud",
+      "description": "Opslaan op DiskPond Cloud",
+      "openPortal": "DiskPond Cloud openen",
+      "endpointPlaceholder": "Voer je DiskPond Cloud-eindpunt in",
+      "bucketPlaceholder": "Voer je DiskPond Cloud-bucketnaam in"
+    },
+    "GOOGLE_CLOUD_STORAGE": {
+      "name": "Google Cloud Storage",
+      "shortName": "GCS",
+      "description": "Opslaan op Google Cloud",
+      "fields": {
+        "bucket": {
+          "label": "Bucketnaam",
+          "placeholder": "Voer je GCS-bucketnaam in"
+        },
+        "prefix": {
+          "label": "Sleutelvoorvoegsel",
+          "placeholder": "backup/"
+        },
+        "credentials": {
+          "label": "JSON-inloggegevens",
+          "placeholder": "Plak de JSON-inhoud van je serviceaccount"
+        }
+      }
+    },
+    "BACKBLAZE": {
+      "name": "Backblaze B2",
+      "shortName": "B2",
+      "description": "Opslaan op Backblaze B2",
+      "fields": {
+        "bucket": {
+          "label": "Bucketnaam",
+          "placeholder": "Voer je B2-bucketnaam in"
+        },
+        "keyId": {
+          "label": "Applicatiesleutel-ID",
+          "placeholder": "Voer je B2-applicatiesleutel-ID in"
+        },
+        "keySecret": {
+          "label": "Applicatiesleutel",
+          "placeholder": "Voer je B2-applicatiesleutel in"
+        },
+        "prefix": {
+          "label": "Sleutelvoorvoegsel",
+          "placeholder": "backup/"
+        }
+      }
+    },
+    "AZURE_BLOB_STORAGE": {
+      "name": "Azure Blob Storage",
+      "shortName": "Azure",
+      "description": "Opslaan op Azure Blob Storage",
+      "fields": {
+        "container": {
+          "label": "Containernaam",
+          "placeholder": "Voer je Azure-blobcontainernaam in"
+        },
+        "account": {
+          "label": "Opslagaccount",
+          "placeholder": "Voer de naam van je Azure-opslagaccount in"
+        },
+        "key": {
+          "label": "Opslagsleutel",
+          "placeholder": "Voer de sleutel van je Azure-opslagaccount in"
+        },
+        "domain": {
+          "label": "Opslagdomein",
+          "placeholder": "blob.core.windows.net"
+        },
+        "prefix": {
+          "label": "Sleutelvoorvoegsel",
+          "placeholder": "backup/"
+        },
+        "sasToken": {
+          "label": "SAS-token",
+          "placeholder": "Voer je SAS-token in"
+        }
+      }
+    },
+    "SFTP": {
+      "name": "SFTP",
+      "shortName": "SFTP",
+      "description": "Verbinden via SFTP",
+      "fields": {
+        "host": {
+          "label": "Host",
+          "placeholder": "Voer de hostnaam of het IP-adres van de SFTP-server in"
+        },
+        "user": {
+          "label": "Gebruikersnaam",
+          "placeholder": "Voer de SFTP-gebruikersnaam in"
+        },
+        "port": {
+          "label": "Poort",
+          "placeholder": "22"
+        },
+        "path": {
+          "label": "Extern pad",
+          "placeholder": "Voer het pad van de externe map in"
+        },
+        "password": {
+          "label": "Wachtwoord",
+          "placeholder": "Voer het SFTP-wachtwoord in"
+        },
+        "privateKey": {
+          "label": "Privésleutelgegevens",
+          "placeholder": "Plak de inhoud van de privésleutel"
+        },
+        "knownHosts": {
+          "label": "Vermelding van bekende hosts",
+          "placeholder": "Plak de inhoud van known_hosts",
+          "scan": {
+            "button": "Scannen en invullen",
+            "error": {
+              "KEYSCAN_NOT_INSTALLED": {
+                "title": "ssh-keyscan is niet geïnstalleerd",
+                "description": "Vul het veld voor bekende hosts handmatig in."
+              },
+              "SCAN_FAILED": {
+                "title": "Scannen met ssh-keyscan mislukt",
+                "description": "Controleer de opgegeven host en poort."
+              }
+            }
+          }
+        }
+      }
+    },
+    "RCLONE": {
+      "name": "Rclone-remote",
+      "shortName": "Rclone",
+      "description": "Verbind een Rclone-remote",
+      "fields": {
+        "remotePath": {
+          "label": "Extern pad",
+          "placeholder": "myremote:backups",
+          "description": "Gebruik een remotenaam uit je rclone-configuratie, gevolgd door : en een optionele map (bijvoorbeeld myremote:backups)."
+        },
+        "rclonePath": {
+          "label": "Pad naar uitvoerbaar Rclone-bestand",
+          "placeholder": "Pad naar het uitvoerbare rclone-bestand"
+        }
+      }
+    },
+    "WEBDAV": {
+      "name": "WebDAV",
+      "shortName": "WebDAV",
+      "description": "Verbinden via WebDAV",
+      "fields": {
+        "url": {
+          "label": "WebDAV-URL",
+          "placeholder": "https://your-webdav-server.com/path"
+        },
+        "user": {
+          "label": "Gebruikersnaam",
+          "placeholder": "Voer je WebDAV-gebruikersnaam in"
+        },
+        "password": {
+          "label": "Wachtwoord",
+          "placeholder": "Voer je WebDAV-wachtwoord in"
+        }
+      }
+    }
+  },
+  "overview": {
+    "title": "Start",
+    "vault": "Kluis",
+    "settings": "Instellingen",
+    "currentProfile": {
+      "title": "Huidig profiel"
+    },
+    "otherProfiles": {
+      "title": "Andere profielen",
+      "back": "Terug naar alle profielen",
+      "select": {
+        "all": "Alle profielen",
+        "clear": "Profielfilter wissen",
+        "device": {
+          "all": "Alle apparaten",
+          "clear": "Apparaatfilter wissen",
+          "empty": "Apparaat selecteren"
+        },
+        "user": {
+          "all": "Alle gebruikers",
+          "clear": "Gebruikersfilter wissen",
+          "empty": "Gebruiker selecteren"
+        }
+      },
+      "empty": {
+        "title": "Geen bestanden of mappen gevonden",
+        "description": "Dit profiel bevat geen geback-upte bestanden of mappen."
+      }
+    },
+    "sources": {
+      "title": "Bestanden/mappen",
+      "count_one": "{{count}} bestand/map beschermd",
+      "count_other": "{{count}} bestanden/mappen beschermd",
+      "addSource": "Bestand/map toevoegen",
+      "backupAll": "Alles back-uppen",
+      "empty": {
+        "title": "Geen bestanden of mappen toegevoegd",
+        "description": "Je hebt nog geen bestanden of mappen toegevoegd. Voeg er een toe met de knop hieronder."
+      }
+    },
+    "stats": {
+      "totalSize": "Beschermde gegevens",
+      "files": "Beschermde bestanden",
+      "directories": "Beschermde mappen",
+      "storageAvailable": "Beschikbare opslag",
+      "notReported": "Niet gemeld",
+      "bucketQuotaRemaining": "Resterend bucketquotum",
+      "noBucketQuota": "Geen bucketquotum",
+      "unavailable": "Niet beschikbaar"
+    },
+    "score": {
+      "empty": {
+        "category": "Nog geen kluizen",
+        "description": "Maak je eerste kluis om te beginnen met het back-uppen van je bestanden."
+      },
+      "excellent": {
+        "category": "Uitstekend",
+        "description": "Je back-upinstellingen zijn correct geconfigureerd."
+      },
+      "localOnly": {
+        "category": "Alleen lokale bestemmingen",
+        "description": "Overweeg een extra kopie op een apart apparaat of je eigen opslag op een andere fysieke locatie."
+      },
+      "unavailable": {
+        "category": "Status niet beschikbaar",
+        "description": "Sommige back-upstatussen konden niet worden gecontroleerd. Zorg dat je kluizen verbonden zijn en probeer het opnieuw."
+      },
+      "backupErrors": {
+        "category": "Aandacht nodig",
+        "description_one": "{{count}} back-up heeft problemen ondervonden. Open je kluizenlijst om te zien wat er misging.",
+        "description_other": "{{count}} back-ups hebben problemen ondervonden. Open je kluizenlijst om te zien wat er misging."
+      }
+    }
+  },
+  "remoteTooltip": {
+    "title": "Ander profiel",
+    "description": "Je bekijkt een ander profiel. Je kunt deze actie niet uitvoeren."
+  },
+  "deleteDialog": {
+    "title": "Kluis loskoppelen",
+    "description": "Deze kluisverbinding van deze computer verwijderen? De opgeslagen back-ups blijven in je opslag staan.",
+    "confirm": {
+      "label": "Typ hieronder ‘{{vaultName}}’ om te bevestigen:",
+      "placeholder": "Voer de kluisnaam in",
+      "error": {
+        "empty": "Typ ‘{{vaultName}}’ om het loskoppelen te bevestigen.",
+        "mismatch": "De ingevoerde kluisnaam komt niet overeen."
+      }
+    },
+    "storageAlert": {
+      "title": "Back-upbestanden worden niet verwijderd",
+      "description": "DiskPond stopt met het maken van back-ups naar deze kluis. Je kunt opnieuw verbinden met de opslaginstellingen en het versleutelingswachtwoord."
+    },
+    "cancel": "Annuleren",
+    "continue": "Kluis loskoppelen"
+  }
+}

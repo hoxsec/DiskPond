@@ -1,0 +1,25 @@
+{
+  "addFolder": "Bestand/map toevoegen",
+  "selectVault": {
+    "empty": "Kluis selecteren",
+    "createVault": "Kluis maken"
+  },
+  "vaultMenu": {
+    "createVault": "Nieuwe kluis maken",
+    "connectVault": "Bestaande kluis verbinden"
+  },
+  "links": {
+    "navigation": "Menu",
+    "vaultSettings": "Kluisinstellingen",
+    "home": "Start",
+    "activity": "Activiteit",
+    "overview": "Overzicht",
+    "settings": "Instellingen",
+    "policies": "Beleidsregels"
+  },
+  "updateAlert": {
+    "title": "DiskPond {{version}} beschikbaar",
+    "error": "Kon de browser niet openen. Probeer het opnieuw.",
+    "button": "Versies op GitHub bekijken"
+  }
+}

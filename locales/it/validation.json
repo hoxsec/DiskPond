@@ -1,0 +1,17 @@
+{
+  "optional": "Facoltativo",
+  "string_too_small": "{{field}} deve contenere almeno {{minimum}} caratteri",
+  "string_too_big": "{{field}} deve contenere al massimo {{maximum}} caratteri",
+  "number_too_small": "{{field}} deve essere almeno {{minimum}}",
+  "number_too_big": "{{field}} deve essere al massimo {{maximum}}",
+  "email_invalid_format": "{{field}} deve essere un indirizzo email valido",
+  "url_invalid_format": "{{field}} deve essere un URL valido",
+  "emoji_invalid_format": "{{field}} deve essere un’emoji",
+  "custom_password_mismatch": "Le password non corrispondono",
+  "custom_s3_endpoint": "Inserisci un nome host dell’endpoint o un URL HTTP(S) senza percorso, credenziali, query o frammento",
+  "custom_s3_endpoint_protocol": "Il protocollo dell’endpoint deve corrispondere all’impostazione HTTP non sicuro",
+  "custom_terms_required": "Devi accettare i termini di servizio e l’informativa sulla privacy",
+  "custom_plan_change": "Devi confermare questa scelta",
+  "custom_invalid_zip_extension": "{{field}} deve terminare con .zip",
+  "custom_restore_confirmation": "Conferma di aver compreso i rischi"
+}

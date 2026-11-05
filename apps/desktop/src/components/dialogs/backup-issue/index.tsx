@@ -51,7 +51,7 @@ export function BackupIssueDialog({
   onViewLogs: (taskId: string) => void;
   finalFocus: RefObject<HTMLButtonElement | null>;
 }) {
-  const { t } = useAppTranslation("folder.backupError.dialog");
+  const { t, language } = useAppTranslation("folder.backupError.dialog");
   const getText = useBackupIssueText();
   const { copy } = useClipboard();
   const doneRef = useRef<HTMLButtonElement>(null);
@@ -67,7 +67,7 @@ export function BackupIssueDialog({
   const Icon = partial ? TriangleAlertIcon : CircleAlertIcon;
   const SourceIcon = isFileLikeSource(source.type) ? FileIcon : FolderIcon;
   const date = details.startTime
-    ? formatBackupDate({ startTime: details.startTime })
+    ? formatBackupDate({ startTime: details.startTime }, language)
     : undefined;
   const unavailable =
     details.entries.length === 0 &&

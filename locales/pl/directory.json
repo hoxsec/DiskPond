@@ -1,0 +1,136 @@
+{
+  "backToHistory": "Wróć do historii kopii",
+  "table": {
+    "name": "Nazwa",
+    "size": "Rozmiar",
+    "modified": "Ostatnia zmiana",
+    "mode": "Tryb",
+    "uid": "UID",
+    "gid": "GID",
+    "symlink": {
+      "tooltip": "Dowiązanie symboliczne"
+    },
+    "search": {
+      "placeholder": "Szukaj plików lub folderów..."
+    },
+    "columns": {
+      "button": "Kolumny"
+    },
+    "empty": {
+      "title": "Pusty folder",
+      "description": "Ten folder był pusty w chwili tworzenia kopii. Dodaj brakujące pliki i utwórz nową kopię."
+    },
+    "emptySearch": {
+      "title": "Nie znaleziono plików",
+      "description": "Żadne pliki ani foldery nie pasują do wyszukiwania. Spróbuj innego zapytania lub dodaj brakujące pliki do folderu."
+    },
+    "mount": {
+      "active": {
+        "title": "Kopia jest zamontowana",
+        "description": "Zamontowano w {{path}}"
+      },
+      "open": {
+        "windows": "Otwórz w Eksploratorze plików",
+        "macos": "Otwórz w Finderze",
+        "other": "Otwórz w menedżerze plików"
+      },
+      "stop": {
+        "button": "Odmontuj",
+        "error": {
+          "title": "Nie udało się odmontować",
+          "description": "Punkt montowania może być nadal używany. Spróbuj zamknąć korzystające z niego aplikacje."
+        }
+      }
+    },
+    "restore": {
+      "folder": "Przywróć folder",
+      "selected_one": "Przywróć {{count}} element",
+      "selected_few": "Przywróć {{count}} elementy",
+      "selected_many": "Przywróć {{count}} elementów",
+      "selected_other": "Przywróć {{count}} elementu",
+      "single": {
+        "dialog": {
+          "title": "Wybierz folder docelowy przywracania"
+        }
+      },
+      "multiple": {
+        "dialog": {
+          "title": "Wybierz folder docelowy przywracania"
+        }
+      }
+    }
+  },
+  "restoreDialog": {
+    "title": "Przywróć folder",
+    "description": "Przywróć folder z kopii zapasowej.",
+    "type": {
+      "label": "Sposób przywracania",
+      "items": {
+        "ZIP": "Archiwum ZIP",
+        "UNPACKED": "Rozpakowane pliki"
+      }
+    },
+    "filePath": {
+      "label": "Ścieżka pliku ZIP",
+      "placeholder": "Wybierz ścieżkę pliku docelowego",
+      "defaultFileName": "{{directory}}-{{date}}-Przywracanie.zip"
+    },
+    "directoryPath": {
+      "label": "Ścieżka folderu docelowego",
+      "placeholder": "Wybierz ścieżkę folderu docelowego"
+    },
+    "compress": {
+      "label": "Kompresuj plik ZIP",
+      "description": "Zmniejsza rozmiar, ale spowalnia przywracanie"
+    },
+    "warning": {
+      "title": "Pliki mogą zostać nadpisane",
+      "description": "Wybrany folder nie jest pusty. Istniejące pliki i foldery mogą zostać nadpisane przez przywracane pliki. Rozważ utworzenie nowego, pustego folderu."
+    },
+    "confirmed": {
+      "label": "Rozumiem, że pliki mogą zostać nadpisane"
+    },
+    "submit": "Przywróć"
+  },
+  "restore": {
+    "actionError": "Nie udało się wykonać czynności lub odświeżyć stanu przywracania. Spróbuj ponownie.",
+    "status": {
+      "RUNNING": "Przywracanie w toku",
+      "CANCELING": "Anulowanie przywracania…",
+      "COMPLETE": "Przywracanie ukończone",
+      "PARTIAL": "Przywracanie ukończone z problemami",
+      "FAILED": "Przywracanie nie powiodło się",
+      "CANCELED": "Przywracanie anulowane",
+      "UNAVAILABLE": "Wynik przywracania jest niedostępny"
+    },
+    "issue": {
+      "SPACE": "Miejsce docelowe jest pełne. Zwolnij miejsce lub wybierz inną lokalizację, a następnie spróbuj ponownie w nowym folderze.",
+      "PERMISSION": "Odmówiono zapisu przywracanych danych lub metadanych. Sprawdź uprawnienia do miejsca docelowego lub wybierz inny folder i spróbuj ponownie.",
+      "ZIP": "Moduł ZIP tego silnika pomija puste foldery i dowiązania symboliczne. Aby je odzyskać, użyj przywracania rozpakowanych plików.",
+      "DESTINATION": "Sprawdź, czy miejsce docelowe istnieje, ma wolne miejsce, pozwala na zapis i nie jest używane przez inne przywracanie, a następnie spróbuj ponownie.",
+      "ENGINE": "Silnik kopii zapasowych lub wynik zadania jest niedostępny. Podłącz sejf ponownie i sprawdź miejsce docelowe przed kolejną próbą.",
+      "TASK": "Silnik nie mógł przywrócić wszystkich żądanych danych. Sprawdź wolne miejsce i uprawnienia w miejscu docelowym oraz możliwość odczytu kopii. Następnie spróbuj ponownie w nowym folderze.",
+      "TIMEOUT": "Przywracanie nie zakończyło się w limicie czasu monitorowania. Zażądano anulowania; sprawdź silnik i miejsce docelowe przed kolejną próbą.",
+      "LINK": "Miejsce docelowe zawiera dowiązanie symboliczne lub punkt połączenia. Wybierz folder bez dowiązań, aby uniknąć zapisu poza miejscem docelowym.",
+      "CONFIRMATION": "Miejsce docelowe nie jest puste. Potwierdź nadpisywanie w oknie przywracania lub wybierz pusty folder."
+    },
+    "objects": "Obiekty kopii: {{objects}}",
+    "counts": "Ostatnio zgłoszone przywrócone elementy: {{restored}} · Pominięte: {{skipped}} · Zignorowane błędy: {{errors}}",
+    "incomplete": "Wynik może być niekompletny. Zachowaj kopię zapasową i sprawdź miejsce docelowe przed użyciem przywróconych plików.",
+    "cancel": "Anuluj przywracanie",
+    "dismiss": "Zamknij wynik",
+    "title": "Przywracanie w toku",
+    "description": {
+      "files_one": "Przywracanie {{files}} pliku",
+      "files_few": "Przywracanie {{files}} plików",
+      "files_many": "Przywracanie {{files}} plików",
+      "files_other": "Przywracanie {{files}} pliku",
+      "directories_one": "Przywracanie {{directories}} folderu",
+      "directories_few": "Przywracanie {{directories}} folderów",
+      "directories_many": "Przywracanie {{directories}} folderów",
+      "directories_other": "Przywracanie {{directories}} folderu",
+      "both": "Przywracanie — pliki: {{files}}, foldery: {{directories}}"
+    },
+    "openFolder": "Otwórz folder"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "placeholders": {
+    "period": "Wybierz okres"
+  },
+  "component": {
+    "everyText": "co",
+    "emptyMonths": "każdy miesiąc",
+    "emptyMonthDays": "każdy dzień miesiąca",
+    "emptyMonthDaysShort": "dzień miesiąca",
+    "emptyWeekDays": "każdy dzień tygodnia",
+    "emptyWeekDaysShort": "dzień tygodnia",
+    "emptyHours": "każdą godzinę",
+    "emptyMinutes": "każdą minutę",
+    "emptyMinutesForHourPeriod": "każdej",
+    "yearOption": "rok",
+    "monthOption": "miesiąc",
+    "weekOption": "tydzień",
+    "dayOption": "dzień",
+    "hourOption": "godzinę",
+    "minuteOption": "minutę",
+    "rebootOption": "ponowne uruchomienie",
+    "prefixPeriod": "Co",
+    "prefixMonths": "w miesiącu",
+    "prefixMonthDays": "w dniu",
+    "prefixWeekDays": "w dniu",
+    "prefixWeekDaysForMonthAndYearPeriod": "oraz",
+    "prefixHours": "o godzinie",
+    "prefixMinutes": ":",
+    "prefixMinutesForHourPeriod": "w minucie",
+    "suffixMinutesForHourPeriod": "",
+    "errorInvalidCron": "Nieprawidłowe wyrażenie cron",
+    "clearButtonText": "Wyczyść",
+    "weekDays": [
+      "Niedziela",
+      "Poniedziałek",
+      "Wtorek",
+      "Środa",
+      "Czwartek",
+      "Piątek",
+      "Sobota"
+    ],
+    "months": [
+      "Styczeń",
+      "Luty",
+      "Marzec",
+      "Kwiecień",
+      "Maj",
+      "Czerwiec",
+      "Lipiec",
+      "Sierpień",
+      "Wrzesień",
+      "Październik",
+      "Listopad",
+      "Grudzień"
+    ],
+    "altWeekDays": [
+      "NDZ",
+      "PON",
+      "WT",
+      "ŚR",
+      "CZW",
+      "PT",
+      "SOB"
+    ],
+    "altMonths": [
+      "STY",
+      "LUT",
+      "MAR",
+      "KWI",
+      "MAJ",
+      "CZE",
+      "LIP",
+      "SIE",
+      "WRZ",
+      "PAŹ",
+      "LIS",
+      "GRU"
+    ]
+  }
+}

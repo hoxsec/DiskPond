@@ -1,0 +1,130 @@
+{
+  "backToHistory": "Terug naar back-upgeschiedenis",
+  "table": {
+    "name": "Naam",
+    "size": "Grootte",
+    "modified": "Laatst gewijzigd",
+    "mode": "Modus",
+    "uid": "UID",
+    "gid": "GID",
+    "symlink": {
+      "tooltip": "Symbolische koppeling"
+    },
+    "search": {
+      "placeholder": "Bestanden of mappen zoeken..."
+    },
+    "columns": {
+      "button": "Kolommen"
+    },
+    "empty": {
+      "title": "Lege map",
+      "description": "Deze map was leeg toen de back-up werd gemaakt. Voeg de ontbrekende bestanden toe en maak een nieuwe back-up."
+    },
+    "emptySearch": {
+      "title": "Geen bestanden gevonden",
+      "description": "Geen bestanden of mappen komen overeen met je zoekopdracht. Probeer een andere zoekopdracht of voeg de ontbrekende bestanden toe aan de map."
+    },
+    "mount": {
+      "active": {
+        "title": "Back-up is aangekoppeld",
+        "description": "Aangekoppeld op {{path}}"
+      },
+      "open": {
+        "windows": "Openen in Verkenner",
+        "macos": "Openen in Finder",
+        "other": "Openen in bestandsbeheer"
+      },
+      "stop": {
+        "button": "Ontkoppelen",
+        "error": {
+          "title": "Ontkoppelen mislukt",
+          "description": "Het koppelpunt is mogelijk nog in gebruik. Sluit toepassingen die het gebruiken."
+        }
+      }
+    },
+    "restore": {
+      "folder": "Map herstellen",
+      "selected_one": "{{count}} item herstellen",
+      "selected_other": "{{count}} items herstellen",
+      "single": {
+        "dialog": {
+          "title": "Doelmap voor herstel selecteren"
+        }
+      },
+      "multiple": {
+        "dialog": {
+          "title": "Doelmap voor herstel selecteren"
+        }
+      }
+    }
+  },
+  "restoreDialog": {
+    "title": "Map herstellen",
+    "description": "Herstel een map vanuit een back-up.",
+    "type": {
+      "label": "Hersteltype",
+      "items": {
+        "ZIP": "ZIP-archief",
+        "UNPACKED": "Uitgepakte bestanden"
+      }
+    },
+    "filePath": {
+      "label": "ZIP-bestandspad",
+      "placeholder": "Selecteer het doelbestandspad",
+      "defaultFileName": "{{directory}}-{{date}}-Herstel.zip"
+    },
+    "directoryPath": {
+      "label": "Pad van doelmap",
+      "placeholder": "Selecteer het pad van de doelmap"
+    },
+    "compress": {
+      "label": "ZIP-bestand comprimeren",
+      "description": "Verkleint het bestand, maar vertraagt het herstel"
+    },
+    "warning": {
+      "title": "Bestanden kunnen worden overschreven",
+      "description": "De geselecteerde map is niet leeg. Bestaande bestanden en mappen kunnen worden overschreven door de herstelde bestanden. Overweeg in plaats daarvan een nieuwe lege map te maken."
+    },
+    "confirmed": {
+      "label": "Ik begrijp dat bestanden kunnen worden overschreven"
+    },
+    "submit": "Herstellen"
+  },
+  "restore": {
+    "actionError": "Kon de actie niet voltooien of de herstelstatus niet vernieuwen. Probeer het opnieuw.",
+    "status": {
+      "RUNNING": "Herstel bezig",
+      "CANCELING": "Herstel annuleren…",
+      "COMPLETE": "Herstel voltooid",
+      "PARTIAL": "Herstel voltooid met problemen",
+      "FAILED": "Herstel mislukt",
+      "CANCELED": "Herstel geannuleerd",
+      "UNAVAILABLE": "Herstelresultaat niet beschikbaar"
+    },
+    "issue": {
+      "SPACE": "De bestemming is vol. Maak ruimte vrij of kies een andere bestemming en probeer het opnieuw in een nieuwe map.",
+      "PERMISSION": "Het schrijven van herstelde gegevens of metadata is geweigerd. Controleer de machtigingen van de bestemming of kies een andere map en probeer het opnieuw.",
+      "ZIP": "De ZIP-schrijver van deze engine slaat lege mappen en symbolische koppelingen over. Gebruik uitgepakt herstel om die items terug te halen.",
+      "DESTINATION": "Controleer of de bestemming bestaat, vrije ruimte heeft, schrijven toestaat en niet door een andere herstelactie wordt gebruikt. Probeer het daarna opnieuw.",
+      "ENGINE": "De back-upengine of het taakresultaat is niet beschikbaar. Verbind de kluis opnieuw en controleer de bestemming voordat je het opnieuw probeert.",
+      "TASK": "De engine kon niet alle gevraagde gegevens herstellen. Controleer de ruimte en machtigingen van de bestemming en of de back-up leesbaar is. Probeer het daarna opnieuw in een nieuwe map.",
+      "TIMEOUT": "Het herstel is niet binnen de bewakingslimiet voltooid. Annulering is aangevraagd; controleer de engine en de bestemming voordat je het opnieuw probeert.",
+      "LINK": "De bestemming bevat een symbolische koppeling of een junction. Kies een map zonder koppelingen om schrijven buiten de bestemming te voorkomen.",
+      "CONFIRMATION": "De bestemming is niet leeg. Bevestig het overschrijven in het hersteldialoogvenster of kies een lege map."
+    },
+    "objects": "Back-upobjecten: {{objects}}",
+    "counts": "Laatst gemelde herstelde items: {{restored}} · Overgeslagen: {{skipped}} · Genegeerde fouten: {{errors}}",
+    "incomplete": "Het resultaat kan onvolledig zijn. Bewaar de back-up en controleer de bestemming voordat je herstelde bestanden gebruikt.",
+    "cancel": "Herstel annuleren",
+    "dismiss": "Resultaat sluiten",
+    "title": "Herstel bezig",
+    "description": {
+      "files_one": "{{files}} bestand wordt hersteld",
+      "files_other": "{{files}} bestanden worden hersteld",
+      "directories_one": "{{directories}} map wordt hersteld",
+      "directories_other": "{{directories}} mappen worden hersteld",
+      "both": "{{files}} bestand(en) en {{directories}} map(pen) worden hersteld"
+    },
+    "openFolder": "Map openen"
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "backToHistory": "Yedekleme geçmişine dön",
+  "table": {
+    "name": "Ad",
+    "size": "Boyut",
+    "modified": "Son değiştirilme",
+    "mode": "Kip",
+    "uid": "UID",
+    "gid": "GID",
+    "symlink": {
+      "tooltip": "Sembolik bağlantı"
+    },
+    "search": {
+      "placeholder": "Dosya veya klasör ara..."
+    },
+    "columns": {
+      "button": "Sütunlar"
+    },
+    "empty": {
+      "title": "Boş klasör",
+      "description": "Yedek oluşturulduğunda bu klasör boştu. Eksik dosyaları klasöre ekleyip yeni bir yedek oluşturun."
+    },
+    "emptySearch": {
+      "title": "Dosya bulunamadı",
+      "description": "Aramanızla eşleşen dosya veya klasör yok. Farklı bir arama deneyin veya eksik dosyaları klasöre ekleyin."
+    },
+    "mount": {
+      "active": {
+        "title": "Yedek şu anda bağlı",
+        "description": "Bağlama konumu: {{path}}"
+      },
+      "open": {
+        "windows": "Dosya Gezgini’nde aç",
+        "macos": "Finder’da aç",
+        "other": "Dosya yöneticisinde aç"
+      },
+      "stop": {
+        "button": "Bağlamayı kaldır",
+        "error": {
+          "title": "Bağlama kaldırılamadı",
+          "description": "Bağlama noktası hâlâ kullanımda olabilir. Onu kullanan uygulamaları kapatmayı deneyin."
+        }
+      }
+    },
+    "restore": {
+      "folder": "Klasörü geri yükle",
+      "selected_one": "{{count}} öğeyi geri yükle",
+      "selected_other": "{{count}} öğeyi geri yükle",
+      "single": {
+        "dialog": {
+          "title": "Geri yükleme hedef klasörünü seç"
+        }
+      },
+      "multiple": {
+        "dialog": {
+          "title": "Geri yükleme hedef klasörünü seç"
+        }
+      }
+    }
+  },
+  "restoreDialog": {
+    "title": "Klasörü geri yükle",
+    "description": "Bir klasörü yedekten geri yükleyin.",
+    "type": {
+      "label": "Geri yükleme türü",
+      "items": {
+        "ZIP": "ZIP arşivi",
+        "UNPACKED": "Açılmış dosyalar"
+      }
+    },
+    "filePath": {
+      "label": "ZIP dosyası yolu",
+      "placeholder": "Hedef dosya yolunu seçin",
+      "defaultFileName": "{{directory}}-{{date}}-GeriYukleme.zip"
+    },
+    "directoryPath": {
+      "label": "Hedef klasör yolu",
+      "placeholder": "Hedef klasör yolunu seçin"
+    },
+    "compress": {
+      "label": "ZIP dosyasını sıkıştır",
+      "description": "Boyutu küçültür ancak geri yüklemeyi yavaşlatır"
+    },
+    "warning": {
+      "title": "Dosyaların üzerine yazılabilir",
+      "description": "Seçilen klasör boş değil. Mevcut dosya ve klasörlerin üzerine geri yüklenen dosyalar yazılabilir. Bunun yerine yeni, boş bir klasör oluşturmayı düşünün."
+    },
+    "confirmed": {
+      "label": "Dosyaların üzerine yazılabileceğini anlıyorum"
+    },
+    "submit": "Geri yükle"
+  },
+  "restore": {
+    "actionError": "İşlem tamamlanamadı veya geri yükleme durumu yenilenemedi. Yeniden deneyin.",
+    "status": {
+      "RUNNING": "Geri yükleme sürüyor",
+      "CANCELING": "Geri yükleme iptal ediliyor…",
+      "COMPLETE": "Geri yükleme tamamlandı",
+      "PARTIAL": "Geri yükleme sorunlarla tamamlandı",
+      "FAILED": "Geri yükleme başarısız",
+      "CANCELED": "Geri yükleme iptal edildi",
+      "UNAVAILABLE": "Geri yükleme sonucu kullanılamıyor"
+    },
+    "issue": {
+      "SPACE": "Hedef dolu. Alan boşaltın veya başka bir hedef seçin, ardından yeni bir klasöre geri yüklemeyi deneyin.",
+      "PERMISSION": "Geri yüklenen verilerin veya üst verilerin yazılmasına izin verilmedi. Hedef izinlerini denetleyin veya başka bir klasör seçip yeniden deneyin.",
+      "ZIP": "Bu motorun ZIP yazıcısı boş klasörleri ve sembolik bağlantıları atlar. Bu öğeleri kurtarmak için açılmış dosya olarak geri yüklemeyi kullanın.",
+      "DESTINATION": "Hedefin mevcut olduğunu, boş alanı bulunduğunu, yazmaya izin verdiğini ve başka bir geri yükleme tarafından kullanılmadığını denetleyip yeniden deneyin.",
+      "ENGINE": "Yedekleme motoru veya görev sonucu kullanılamıyor. Yeniden denemeden önce kasaya yeniden bağlanın ve hedefi denetleyin.",
+      "TASK": "Motor istenen tüm verileri geri yükleyemedi. Hedef alanını ve izinlerini, ayrıca yedeğin okunabilir olduğunu denetleyin. Ardından yeni bir klasöre yeniden deneyin.",
+      "TIMEOUT": "Geri yükleme, izleme süresi içinde tamamlanmadı. İptal istendi; yeniden denemeden önce motoru ve hedefi denetleyin.",
+      "LINK": "Hedef bir sembolik bağlantı veya birleşim noktası içeriyor. Hedefin dışına yazmayı önlemek için bağlantı içermeyen bir klasör seçin.",
+      "CONFIRMATION": "Hedef boş değil. Geri yükleme iletişim kutusunda üzerine yazmayı onaylayın veya boş bir klasör seçin."
+    },
+    "objects": "Yedek nesneleri: {{objects}}",
+    "counts": "Son bildirilen geri yüklenen öğe sayısı: {{restored}} · Atlanan: {{skipped}} · Yok sayılan hatalar: {{errors}}",
+    "incomplete": "Çıktı eksik olabilir. Yedeği saklayın ve geri yüklenen dosyaları kullanmadan önce hedefi inceleyin.",
+    "cancel": "Geri yüklemeyi iptal et",
+    "dismiss": "Sonucu kapat",
+    "title": "Geri yükleme sürüyor",
+    "description": {
+      "files_one": "{{files}} dosya geri yükleniyor",
+      "files_other": "{{files}} dosya geri yükleniyor",
+      "directories_one": "{{directories}} klasör geri yükleniyor",
+      "directories_other": "{{directories}} klasör geri yükleniyor",
+      "both": "{{files}} dosya ve {{directories}} klasör geri yükleniyor"
+    },
+    "openFolder": "Klasörü aç"
+  }
+}

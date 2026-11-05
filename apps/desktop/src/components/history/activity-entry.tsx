@@ -32,7 +32,7 @@ export function ActivityEntry({
   summary?: ZHistorySnapshotType["summary"];
   children?: ReactNode;
 }) {
-  const { t } = useAppTranslation("history");
+  const { t, language } = useAppTranslation("history");
   const { accountId } = useAccountId();
   const name = sourceName || source.path;
 
@@ -56,22 +56,27 @@ export function ActivityEntry({
             className="text-xs tabular-nums text-muted-foreground"
           >
             <span aria-hidden="true">
-              {new Date(endTime).toLocaleTimeString(undefined, {
+              {new Date(endTime).toLocaleTimeString(language, {
                 hour: "2-digit",
                 minute: "2-digit",
               })}
             </span>
             <span className="sr-only">
-              {t("calendar.ended", { time: formatHistoryTime(endTime) })}
+              {t("calendar.ended", {
+                time: formatHistoryTime(endTime, language),
+              })}
             </span>
           </time>
           <span className="text-xs tabular-nums text-muted-foreground">
             <span className="sr-only">{t("calendar.sizeAndFiles")}: </span>
             {summary
-              ? `${formatSize(summary.size)} · ${t("calendar.files", {
-                  count: summary.files,
-                  formatted: formatInt(summary.files),
-                })}`
+              ? `${formatSize(summary.size, { locale: language })} · ${t(
+                  "calendar.files",
+                  {
+                    count: summary.files,
+                    formatted: formatInt(summary.files, language),
+                  },
+                )}`
               : t("unavailable")}
           </span>
           <span
@@ -98,8 +103,16 @@ export function ActivityEntry({
           {source.userName}@{source.host}:{source.path}
         </p>
         <div className="flex flex-wrap gap-x-6 gap-y-1 text-xs text-muted-foreground">
-          <p>{t("calendar.started", { time: formatHistoryTime(startTime) })}</p>
-          <p>{t("calendar.ended", { time: formatHistoryTime(endTime) })}</p>
+          <p>
+            {t("calendar.started", {
+              time: formatHistoryTime(startTime, language),
+            })}
+          </p>
+          <p>
+            {t("calendar.ended", {
+              time: formatHistoryTime(endTime, language),
+            })}
+          </p>
         </div>
         {children}
         <Button

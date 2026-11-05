@@ -1,0 +1,15 @@
+{
+  "comment": "Diese Datei wird zum Laden der Standardsprache der Electron-App benötigt.",
+  "tray": {
+    "open": "Öffnen",
+    "quit": "Beenden"
+  },
+  "common": {
+    "close": "Schließen",
+    "back": "Zurück",
+    "breadcrumb": "Ordnerpfad",
+    "parentFolder": "Zum übergeordneten Ordner",
+    "selectAll": "Alles auswählen",
+    "selectRow": "Zeile auswählen"
+  }
+}

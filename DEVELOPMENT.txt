@@ -108,6 +108,25 @@ The create/connect slice adds a core initialization guard included in the publis
 
 The active website lives in `apps/marketing/site`; its `src/` and `public/` directories retain inactive upstream reference source. Website configuration, content, static hosting and deployment instructions are in apps/marketing/DEVELOPMENT.txt.
 
+## Desktop translations
+
+The desktop supports English, Spanish, French, German, Turkish, Dutch, Italian
+and Polish. Select a language in Settings > Preferences > Language; the choice
+is saved on this computer. On first
+launch, the app detects a supported system/browser language and falls back to English.
+All desktop translations are bundled for offline use.
+
+Translation JSON lives in locales/<language>/. The shared language registry is
+libs/constants/src/language.ts; libs/constants/src/localization.ts lists the desktop
+namespaces used by both startup and packaging. When adding a language, translate each
+desktop namespace, preserve {{placeholders}} and <0>markup</0>, provide its plural
+forms, register its native name in the language registry, and add its tray messages
+to apps/electron/src/tray.ts.
+The utility tests check completeness, placeholders, plural resolution and regional
+fallback: pnpm --filter @blinkdisk/utils test.
+
+## Development runtime
+
 Renderer edits use Vite HMR. Main/preload edits recompile; quit and restart the dev command to load them. Development compilation replaces `apps/electron/build`; rebuild production before a later built smoke/preview or repackaging. **Quit** in the tray exits Electron and stops the development servers; closing the window keeps the inherited tray process alive. Ctrl+C stops the runner's process tree on Windows. A busy port 3002 is an error, rather than silently selecting another port.
 
 ## Isolated development and smoke checks

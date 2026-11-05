@@ -1,0 +1,23 @@
+{
+  "welcome": {
+    "title": "Twoje kopie zapasowe. Twoje miejsce na dane.",
+    "description": "Przechowuj zaszyfrowane kopie zapasowe z historią wersji na dysku, w lokalizacji sieciowej lub we własnej przestrzeni dyskowej.",
+    "open": "Otwórz DiskPond",
+    "local": "Ustawienia pozostają na tym komputerze. Konto nie jest wymagane."
+  },
+  "settings": {
+    "title": "Ustawienia",
+    "about": {
+      "title": "O programie",
+      "version": "Wersja {{version}}",
+      "attribution": "DiskPond to wolne oprogramowanie wywodzące się z BlinkDisk (AGPL-3.0), korzystające z jego silnika kopii zapasowych opartego na Kopia (Apache-2.0). Kod źródłowy, informacje o licencjach i instrukcje kompilacji są dostępne w repozytorium projektu.",
+      "source": "Kod źródłowy i licencje",
+      "releases": "Zobacz wydania na GitHub",
+      "checkUpdates": "Sprawdź aktualizacje",
+      "upToDate": "Masz aktualną wersję",
+      "updateAvailable": "Dostępny DiskPond {{version}}",
+      "updateError": "Nie udało się sprawdzić aktualizacji. Spróbuj ponownie.",
+      "issues": "Zgłoś problem"
+    }
+  }
+}

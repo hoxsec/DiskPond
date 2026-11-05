@@ -1,0 +1,15 @@
+{
+  "comment": "Ten plik jest potrzebny do załadowania domyślnego języka aplikacji Electron.",
+  "tray": {
+    "open": "Otwórz",
+    "quit": "Zakończ"
+  },
+  "common": {
+    "close": "Zamknij",
+    "back": "Wstecz",
+    "breadcrumb": "Ścieżka folderu",
+    "parentFolder": "Przejdź do folderu nadrzędnego",
+    "selectAll": "Zaznacz wszystko",
+    "selectRow": "Zaznacz wiersz"
+  }
+}

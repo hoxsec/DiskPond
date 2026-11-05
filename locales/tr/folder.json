@@ -1,0 +1,157 @@
+{
+  "createDialog": {
+    "title": "Dosya/klasör ekle",
+    "description": "Yedeklemek için bir dosya veya klasör seçin.",
+    "type": {
+      "folder": "Klasör",
+      "file": "Dosya"
+    },
+    "name": {
+      "directory": {
+        "label": "Klasör adı",
+        "placeholder": "Klasör adını girin"
+      },
+      "file": {
+        "label": "Dosya adı",
+        "placeholder": "Dosya adını girin"
+      }
+    },
+    "emoji": {
+      "change": "Emojiyi değiştir",
+      "clear": "Emojiyi kaldır"
+    },
+    "path": {
+      "directory": {
+        "label": "Klasör yolu",
+        "placeholder": "Klasör yolunu seçin",
+        "title": "Klasör yolu seç"
+      },
+      "file": {
+        "label": "Dosya yolu",
+        "placeholder": "Dosya yolunu seçin",
+        "title": "Dosya yolu seç"
+      }
+    },
+    "submit": {
+      "directory": "Klasör ekle",
+      "file": "Dosya ekle"
+    },
+    "changePolicy": "İlkeyi değiştir",
+    "size": {
+      "title": "Boyutu hesapla",
+      "description": "Bu dosyanın veya klasörün boyutunu tahmin edin.",
+      "button": "Hesapla",
+      "error": "Boyut tahmin edilemedi",
+      "included": "Dahil edilen dosyalar:",
+      "excluded": "Hariç tutulan dosyalar:"
+    }
+  },
+  "emojiPicker": {
+    "search": "Emoji ara...",
+    "empty": "Emoji bulunamadı."
+  },
+  "dropzone": {
+    "title": "Eklemek için dosya/klasör bırakın",
+    "description": "Kasanıza eklemek ve yedeklemeye başlamak için bir dosya veya klasör bırakın."
+  },
+  "list": {
+    "item": {
+      "browseBackups": "{{name}} yedeklerine göz at",
+      "stats": "{{fileCount}} dosya ⸱ {{size}}",
+      "dropdown": {
+        "browse": "Yedeklere göz at",
+        "backup": {
+          "folder": "Klasörü yedekle",
+          "file": "Dosyayı yedekle"
+        },
+        "cancel": "Yedeklemeyi iptal et",
+        "settings": {
+          "folder": "Klasör ilkesi",
+          "file": "Dosya ilkesi"
+        },
+        "delete": {
+          "folder": "Klasörü sil",
+          "file": "Dosyayı sil"
+        }
+      }
+    }
+  },
+  "deleteDialog": {
+    "title": {
+      "folder": "Klasörü sil",
+      "file": "Dosyayı sil"
+    },
+    "description": {
+      "folder": "Bu klasörü silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+      "file": "Bu dosyayı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz."
+    },
+    "alert": {
+      "title": "Temizleme zaman içinde gerçekleşir",
+      "description": "Depolama alanı hemen boşalmaz. DiskPond, güvenilirliği sağlamak için kullanılmayan verileri daha sonra temizler."
+    },
+    "cancel": "İptal",
+    "continue": {
+      "folder": "Klasörü sil",
+      "file": "Dosyayı sil"
+    }
+  },
+  "backupError": {
+    "label": {
+      "missing": {
+        "folder": "Klasör bulunamadı",
+        "file": "Dosya bulunamadı"
+      },
+      "permission": {
+        "folder": "Erişim yok",
+        "file": "Erişim yok"
+      },
+      "failed": {
+        "folder": "Yedekleme başarısız",
+        "file": "Yedekleme başarısız"
+      },
+      "partial": {
+        "folder": "Bazı dosyalar atlandı",
+        "file": "Yedek eksik"
+      }
+    },
+    "description": {
+      "missing": {
+        "folder": "Bu klasör bulunamadı. Taşınmış, yeniden adlandırılmış veya bağlı olmayan bir sürücüde olabilir.",
+        "file": "Bu dosya bulunamadı. Taşınmış, yeniden adlandırılmış veya bağlı olmayan bir sürücüde olabilir."
+      },
+      "permission": {
+        "folder": "DiskPond’un bu klasörü okuma izni yok. İzinlerini denetleyip yeniden deneyin.",
+        "file": "DiskPond’un bu dosyayı okuma izni yok. İzinlerini denetleyip yeniden deneyin."
+      },
+      "failed": {
+        "folder": "Son yedekleme tamamlanamadı. Yeniden deneyin; hata devam ederse ayrıntıları denetleyin.",
+        "file": "Son yedekleme tamamlanamadı. Yeniden deneyin; hata devam ederse ayrıntıları denetleyin."
+      },
+      "partial": {
+        "folder": "Son yedekleme tamamlandı ancak bazı dosyalar okunamadığı için atlandı.",
+        "file": "Son yedekleme tamamlandı ancak dosya tamamen okunamadı."
+      }
+    },
+    "details": "Ayrıntılar",
+    "toast": {
+      "failed": "“{{name}}” yedeklemesi başarısız",
+      "partial": "“{{name}}” yedeklemesi hatalarla tamamlandı"
+    },
+    "viewDetails": "Ayrıntıları görüntüle",
+    "dialog": {
+      "error": "Hata ayrıntıları",
+      "errors": "Hatalı dosyalar",
+      "count_one": "{{count}} hata",
+      "count_other": "{{count}} hata",
+      "limited": "{{total}} kayıttan {{shown}} tanesi gösteriliyor. Diğer ayrıntılar bu yedekle birlikte kaydedilmedi.",
+      "unavailable": "Dosya düzeyindeki hata ayrıntıları bu yedekle birlikte kaydedilmedi.",
+      "ignored_one": "Yedekleme ilkenize göre {{count}} hata yok sayıldı.",
+      "ignored_other": "Yedekleme ilkenize göre {{count}} hata yok sayıldı.",
+      "logs": "Teknik günlükler",
+      "copy": "Ayrıntıları kopyala",
+      "copied": "Kopyalandı",
+      "copyFailed": "Ayrıntılar kopyalanamadı. Yukarıdaki metni seçip kopyalayabilirsiniz.",
+      "close": "Bitti"
+    }
+  }
+}

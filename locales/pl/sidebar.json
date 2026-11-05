@@ -1,0 +1,25 @@
+{
+  "addFolder": "Dodaj plik/folder",
+  "selectVault": {
+    "empty": "Wybierz sejf",
+    "createVault": "Utwórz sejf"
+  },
+  "vaultMenu": {
+    "createVault": "Utwórz nowy sejf",
+    "connectVault": "Podłącz istniejący sejf"
+  },
+  "links": {
+    "navigation": "Menu",
+    "vaultSettings": "Ustawienia sejfu",
+    "home": "Strona główna",
+    "activity": "Aktywność",
+    "overview": "Przegląd",
+    "settings": "Ustawienia",
+    "policies": "Zasady"
+  },
+  "updateAlert": {
+    "title": "Dostępny DiskPond {{version}}",
+    "error": "Nie udało się otworzyć przeglądarki. Spróbuj ponownie.",
+    "button": "Zobacz wydania na GitHub"
+  }
+}

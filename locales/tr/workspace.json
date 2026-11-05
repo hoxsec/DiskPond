@@ -1,0 +1,23 @@
+{
+  "welcome": {
+    "title": "Yedekleriniz. Depolama alanınız.",
+    "description": "Şifrelenmiş, sürümlü yedeklerinizi bir sürücüde, ağ konumunda veya kendi depolama alanınızda saklayın.",
+    "open": "DiskPond’u aç",
+    "local": "Ayarlar bu bilgisayarda kalır. Hesap gerekmez."
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "about": {
+      "title": "Hakkında",
+      "version": "Sürüm {{version}}",
+      "attribution": "DiskPond, BlinkDisk’ten (AGPL-3.0) türetilmiş ve onun Kopia tabanlı yedekleme motorunu (Apache-2.0) kullanan özgür bir yazılımdır. Kaynak kodu, lisans bildirimleri ve derleme talimatları proje deposunda bulunur.",
+      "source": "Kaynak kodu ve lisanslar",
+      "releases": "GitHub sürümlerini görüntüle",
+      "checkUpdates": "Güncellemeleri denetle",
+      "upToDate": "Güncel sürümü kullanıyorsunuz",
+      "updateAvailable": "DiskPond {{version}} kullanılabilir",
+      "updateError": "Güncellemeler denetlenemedi. Yeniden deneyin.",
+      "issues": "Sorun bildir"
+    }
+  }
+}

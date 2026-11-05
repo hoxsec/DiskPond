@@ -1,0 +1,25 @@
+{
+  "dialog": {
+    "title": {
+      "loading": "Chargement...",
+      "fallback": "Tâche"
+    },
+    "description": {
+      "loading": "Chargement des détails de la tâche..."
+    },
+    "logs": {
+      "waiting": "En attente des journaux...",
+      "empty": "Aucun journal disponible",
+      "unavailable": "Impossible de charger les journaux de la tâche. Les anciennes tâches expirent et l’historique des tâches est effacé au redémarrage de DiskPond."
+    },
+    "close": "Fermer",
+    "cancel": "Annuler la tâche",
+    "status": {
+      "RUNNING": "En cours",
+      "CANCELING": "Annulation en cours",
+      "CANCELED": "Annulée",
+      "SUCCESS": "Réussie",
+      "FAILED": "Échec"
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "account": {
+    "preferences": {
+      "checkForUpdates": "Verifica automaticamente gli aggiornamenti",
+      "title": "Preferenze",
+      "theme": {
+        "label": "Tema",
+        "description": "Seleziona il tema che preferisci.",
+        "items": {
+          "light": "Chiaro",
+          "dark": "Scuro",
+          "system": "Sistema"
+        }
+      },
+      "language": {
+        "label": "Lingua",
+        "description": "Seleziona la lingua che preferisci."
+      }
+    }
+  },
+  "vault": {
+    "title": "Impostazioni",
+    "home": "Home",
+    "general": {
+      "title": "Generali",
+      "description": "Scegli il nome visualizzato per questa cassaforte.",
+      "name": {
+        "label": "Nome della cassaforte",
+        "placeholder": "Inserisci il nome della cassaforte"
+      },
+      "delete": {
+        "title": "Scollega questa cassaforte",
+        "description": "Rimuovi questo collegamento da DiskPond. I backup restano nel tuo spazio di archiviazione.",
+        "button": "Scollega cassaforte"
+      }
+    },
+    "config": {
+      "title": "Configurazione dell’archiviazione",
+      "description": "Visualizza la posizione di archiviazione di questa cassaforte.",
+      "provider": "Fornitore di archiviazione:",
+      "loading": "Caricamento dei dettagli di connessione…",
+      "unavailable": "I dettagli di connessione non sono disponibili. Ricollega la cassaforte per visualizzarli.",
+      "credentialsHidden": "Password, chiavi e altre credenziali sono conservate nell’archivio credenziali di DiskPond. Gli URL mostrano solo l’indirizzo del server.",
+      "enabled": "Attivato",
+      "disabled": "Disattivato",
+      "fields": {
+        "path": "Percorso",
+        "host": "Host",
+        "port": "Porta",
+        "bucket": "Bucket",
+        "region": "Regione",
+        "prefix": "Prefisso",
+        "container": "Contenitore",
+        "endpoint": "Indirizzo del server",
+        "remotePath": "Percorso remoto Rclone",
+        "rclonePath": "Eseguibile Rclone",
+        "disableTls": "HTTP senza TLS",
+        "disableTlsVerification": "Salta la verifica del certificato TLS"
+      }
+    },
+    "throttle": {
+      "title": "Limiti di rete",
+      "description": "Limita l’uso della rete di questa cassaforte.",
+      "upload": {
+        "enabled": {
+          "label": "Limita la banda in caricamento",
+          "description": "Limita la velocità di invio dei dati di backup di questa cassaforte."
+        },
+        "limit": {
+          "label": "Limite di caricamento",
+          "description": "Limita la banda in caricamento di questa cassaforte."
+        }
+      },
+      "download": {
+        "enabled": {
+          "label": "Limita la banda in download",
+          "description": "Limita la velocità di download dei dati da ripristinare di questa cassaforte."
+        },
+        "limit": {
+          "label": "Limite di download",
+          "description": "Limita la banda in download di questa cassaforte."
+        }
+      },
+      "save": "Salva"
+    }
+  },
+  "folder": {
+    "title": "Criterio di backup",
+    "description": "Configura il criterio di backup.",
+    "general": {
+      "title": "Generali",
+      "description": "Configura le impostazioni generali.",
+      "name": {
+        "label": "Nome",
+        "placeholder": "Inserisci un nome"
+      },
+      "path": {
+        "label": "Percorso della cartella",
+        "fileLabel": "Percorso del file"
+      },
+      "emoji": {
+        "change": "Cambia emoji",
+        "clear": "Rimuovi emoji"
+      }
+    },
+    "modified": "Modificato"
+  }
+}

@@ -1,3 +1,15 @@
 {
-  "comment": "For some reason the built electron app tries to load this file, so we need to have it here"
+  "comment": "For some reason the built electron app tries to load this file, so we need to have it here",
+  "tray": {
+    "open": "Open",
+    "quit": "Quit"
+  },
+  "common": {
+    "close": "Close",
+    "back": "Back",
+    "breadcrumb": "Folder path",
+    "parentFolder": "Go to parent folder",
+    "selectAll": "Select all",
+    "selectRow": "Select row"
+  }
 }

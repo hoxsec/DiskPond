@@ -1,0 +1,23 @@
+{
+  "welcome": {
+    "title": "Vos sauvegardes. Votre stockage.",
+    "description": "Conservez des sauvegardes chiffrées et versionnées sur un disque, un emplacement réseau ou votre propre stockage.",
+    "open": "Ouvrir DiskPond",
+    "local": "Les paramètres restent sur cet ordinateur. Aucun compte nécessaire."
+  },
+  "settings": {
+    "title": "Paramètres",
+    "about": {
+      "title": "À propos",
+      "version": "Version {{version}}",
+      "attribution": "DiskPond est un logiciel libre dérivé de BlinkDisk (AGPL-3.0), utilisant son moteur de sauvegarde basé sur Kopia (Apache-2.0). Le code source, les mentions de licence et les instructions de compilation sont disponibles dans le dépôt du projet.",
+      "source": "Code source et licences",
+      "releases": "Voir les versions sur GitHub",
+      "checkUpdates": "Rechercher des mises à jour",
+      "upToDate": "Vous êtes à jour",
+      "updateAvailable": "DiskPond {{version}} disponible",
+      "updateError": "Impossible de rechercher des mises à jour. Réessayez.",
+      "issues": "Signaler un problème"
+    }
+  }
+}

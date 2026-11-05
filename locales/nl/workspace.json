@@ -1,0 +1,23 @@
+{
+  "welcome": {
+    "title": "Jouw back-ups. Jouw opslag.",
+    "description": "Bewaar versleutelde back-ups met versiegeschiedenis op een schijf, een netwerklocatie of je eigen opslag.",
+    "open": "DiskPond openen",
+    "local": "Instellingen blijven op deze computer. Geen account nodig."
+  },
+  "settings": {
+    "title": "Instellingen",
+    "about": {
+      "title": "Over",
+      "version": "Versie {{version}}",
+      "attribution": "DiskPond is vrije software afgeleid van BlinkDisk (AGPL-3.0) en gebruikt de op Kopia gebaseerde back-upengine (Apache-2.0). Broncode, licentievermeldingen en bouwinstructies zijn beschikbaar in de projectrepository.",
+      "source": "Broncode en licenties",
+      "releases": "Versies op GitHub bekijken",
+      "checkUpdates": "Op updates controleren",
+      "upToDate": "Je bent helemaal bij",
+      "updateAvailable": "DiskPond {{version}} beschikbaar",
+      "updateError": "Kon niet op updates controleren. Probeer het opnieuw.",
+      "issues": "Een probleem melden"
+    }
+  }
+}

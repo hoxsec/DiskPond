@@ -1,0 +1,157 @@
+{
+  "createDialog": {
+    "title": "Datei/Ordner hinzufügen",
+    "description": "Wähle eine Datei oder einen Ordner zum Sichern aus.",
+    "type": {
+      "folder": "Ordner",
+      "file": "Datei"
+    },
+    "name": {
+      "directory": {
+        "label": "Ordnername",
+        "placeholder": "Ordnernamen eingeben"
+      },
+      "file": {
+        "label": "Dateiname",
+        "placeholder": "Dateinamen eingeben"
+      }
+    },
+    "emoji": {
+      "change": "Emoji ändern",
+      "clear": "Emoji entfernen"
+    },
+    "path": {
+      "directory": {
+        "label": "Ordnerpfad",
+        "placeholder": "Ordnerpfad auswählen",
+        "title": "Ordnerpfad auswählen"
+      },
+      "file": {
+        "label": "Dateipfad",
+        "placeholder": "Dateipfad auswählen",
+        "title": "Dateipfad auswählen"
+      }
+    },
+    "submit": {
+      "directory": "Ordner hinzufügen",
+      "file": "Datei hinzufügen"
+    },
+    "changePolicy": "Richtlinie ändern",
+    "size": {
+      "title": "Größe berechnen",
+      "description": "Schätze die Größe dieser Datei oder dieses Ordners.",
+      "button": "Berechnen",
+      "error": "Größe konnte nicht geschätzt werden",
+      "included": "Enthaltene Dateien:",
+      "excluded": "Ausgeschlossene Dateien:"
+    }
+  },
+  "emojiPicker": {
+    "search": "Emoji suchen...",
+    "empty": "Keine Emojis gefunden."
+  },
+  "dropzone": {
+    "title": "Datei/Ordner zum Hinzufügen ablegen",
+    "description": "Lege eine Datei oder einen Ordner ab, um sie deinem Tresor hinzuzufügen und mit der Sicherung zu beginnen."
+  },
+  "list": {
+    "item": {
+      "browseBackups": "Sicherungen für {{name}} durchsuchen",
+      "stats": "{{fileCount}} Dateien ⸱ {{size}}",
+      "dropdown": {
+        "browse": "Sicherungen durchsuchen",
+        "backup": {
+          "folder": "Ordner sichern",
+          "file": "Datei sichern"
+        },
+        "cancel": "Sicherung abbrechen",
+        "settings": {
+          "folder": "Ordnerrichtlinie",
+          "file": "Dateirichtlinie"
+        },
+        "delete": {
+          "folder": "Ordner löschen",
+          "file": "Datei löschen"
+        }
+      }
+    }
+  },
+  "deleteDialog": {
+    "title": {
+      "folder": "Ordner löschen",
+      "file": "Datei löschen"
+    },
+    "description": {
+      "folder": "Möchtest du diesen Ordner wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "file": "Möchtest du diese Datei wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden."
+    },
+    "alert": {
+      "title": "Die Bereinigung erfolgt nach und nach",
+      "description": "Speicherplatz wird nicht sofort freigegeben. DiskPond bereinigt ungenutzte Daten später, um die Zuverlässigkeit zu gewährleisten."
+    },
+    "cancel": "Abbrechen",
+    "continue": {
+      "folder": "Ordner löschen",
+      "file": "Datei löschen"
+    }
+  },
+  "backupError": {
+    "label": {
+      "missing": {
+        "folder": "Ordner nicht gefunden",
+        "file": "Datei nicht gefunden"
+      },
+      "permission": {
+        "folder": "Kein Zugriff",
+        "file": "Kein Zugriff"
+      },
+      "failed": {
+        "folder": "Sicherung fehlgeschlagen",
+        "file": "Sicherung fehlgeschlagen"
+      },
+      "partial": {
+        "folder": "Einige Dateien übersprungen",
+        "file": "Sicherung unvollständig"
+      }
+    },
+    "description": {
+      "missing": {
+        "folder": "Dieser Ordner wurde nicht gefunden. Er wurde möglicherweise verschoben, umbenannt oder befindet sich auf einem nicht verbundenen Laufwerk.",
+        "file": "Diese Datei wurde nicht gefunden. Sie wurde möglicherweise verschoben, umbenannt oder befindet sich auf einem nicht verbundenen Laufwerk."
+      },
+      "permission": {
+        "folder": "DiskPond darf diesen Ordner nicht lesen. Prüfe seine Berechtigungen und versuche es erneut.",
+        "file": "DiskPond darf diese Datei nicht lesen. Prüfe ihre Berechtigungen und versuche es erneut."
+      },
+      "failed": {
+        "folder": "Die letzte Sicherung konnte nicht abgeschlossen werden. Versuche es erneut und prüfe die Details, falls das Problem weiterhin auftritt.",
+        "file": "Die letzte Sicherung konnte nicht abgeschlossen werden. Versuche es erneut und prüfe die Details, falls das Problem weiterhin auftritt."
+      },
+      "partial": {
+        "folder": "Die letzte Sicherung wurde abgeschlossen, aber einige Dateien konnten nicht gelesen werden und wurden übersprungen.",
+        "file": "Die letzte Sicherung wurde abgeschlossen, aber die Datei konnte nicht vollständig gelesen werden."
+      }
+    },
+    "details": "Details",
+    "toast": {
+      "failed": "Sicherung von „{{name}}“ fehlgeschlagen",
+      "partial": "Sicherung von „{{name}}“ mit Fehlern abgeschlossen"
+    },
+    "viewDetails": "Details anzeigen",
+    "dialog": {
+      "error": "Fehlerdetails",
+      "errors": "Dateien mit Fehlern",
+      "count_one": "{{count}} Fehler",
+      "count_other": "{{count}} Fehler",
+      "limited": "{{shown}} von {{total}} werden angezeigt. Weitere Details wurden mit dieser Sicherung nicht gespeichert.",
+      "unavailable": "Fehlerdetails auf Dateiebene wurden mit dieser Sicherung nicht gespeichert.",
+      "ignored_one": "{{count}} Fehler wurde gemäß deiner Sicherungsrichtlinie ignoriert.",
+      "ignored_other": "{{count}} Fehler wurden gemäß deiner Sicherungsrichtlinie ignoriert.",
+      "logs": "Technische Protokolle",
+      "copy": "Details kopieren",
+      "copied": "Kopiert",
+      "copyFailed": "Die Details konnten nicht kopiert werden. Du kannst den Text oben auswählen und kopieren.",
+      "close": "Fertig"
+    }
+  }
+}

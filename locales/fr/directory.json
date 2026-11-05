@@ -1,0 +1,133 @@
+{
+  "backToHistory": "Retour à l’historique des sauvegardes",
+  "table": {
+    "name": "Nom",
+    "size": "Taille",
+    "modified": "Dernière modification",
+    "mode": "Mode",
+    "uid": "UID",
+    "gid": "GID",
+    "symlink": {
+      "tooltip": "Lien symbolique"
+    },
+    "search": {
+      "placeholder": "Rechercher des fichiers ou dossiers..."
+    },
+    "columns": {
+      "button": "Colonnes"
+    },
+    "empty": {
+      "title": "Dossier vide",
+      "description": "Ce dossier était vide lors de la création de la sauvegarde. Ajoutez les fichiers manquants au dossier et créez une nouvelle sauvegarde."
+    },
+    "emptySearch": {
+      "title": "Aucun fichier trouvé",
+      "description": "Aucun fichier ou dossier ne correspond à votre recherche. Essayez une autre recherche ou ajoutez les fichiers manquants au dossier."
+    },
+    "mount": {
+      "active": {
+        "title": "Sauvegarde actuellement montée",
+        "description": "Montée à l’emplacement {{path}}"
+      },
+      "open": {
+        "windows": "Ouvrir dans l’Explorateur",
+        "macos": "Ouvrir dans le Finder",
+        "other": "Ouvrir dans le gestionnaire de fichiers"
+      },
+      "stop": {
+        "button": "Démonter",
+        "error": {
+          "title": "Échec du démontage",
+          "description": "Le montage est peut-être encore utilisé. Fermez les applications qui l’utilisent."
+        }
+      }
+    },
+    "restore": {
+      "folder": "Restaurer le dossier",
+      "selected_one": "Restaurer {{count}} élément",
+      "selected_other": "Restaurer {{count}} éléments",
+      "selected_many": "Restaurer {{count}} éléments",
+      "single": {
+        "dialog": {
+          "title": "Choisir le dossier de destination de la restauration"
+        }
+      },
+      "multiple": {
+        "dialog": {
+          "title": "Choisir le dossier de destination de la restauration"
+        }
+      }
+    }
+  },
+  "restoreDialog": {
+    "title": "Restaurer le dossier",
+    "description": "Restaurez un dossier depuis une sauvegarde.",
+    "type": {
+      "label": "Type de restauration",
+      "items": {
+        "ZIP": "Archive ZIP",
+        "UNPACKED": "Fichiers décompressés"
+      }
+    },
+    "filePath": {
+      "label": "Chemin du fichier ZIP",
+      "placeholder": "Choisissez le chemin du fichier de destination",
+      "defaultFileName": "{{directory}}-{{date}}-Restauration.zip"
+    },
+    "directoryPath": {
+      "label": "Chemin du dossier de destination",
+      "placeholder": "Choisissez le chemin du dossier de destination"
+    },
+    "compress": {
+      "label": "Compresser le fichier ZIP",
+      "description": "Réduit la taille, mais ralentit la restauration"
+    },
+    "warning": {
+      "title": "Des fichiers pourraient être écrasés",
+      "description": "Le dossier sélectionné n’est pas vide. Les fichiers et dossiers existants pourraient être écrasés par les fichiers restaurés. Envisagez de créer un nouveau dossier vide."
+    },
+    "confirmed": {
+      "label": "Je comprends que des fichiers pourraient être écrasés"
+    },
+    "submit": "Restaurer"
+  },
+  "restore": {
+    "actionError": "Impossible de terminer l’action ou d’actualiser l’état de la restauration. Réessayez.",
+    "status": {
+      "RUNNING": "Restauration en cours",
+      "CANCELING": "Annulation de la restauration…",
+      "COMPLETE": "Restauration terminée",
+      "PARTIAL": "Restauration terminée avec des problèmes",
+      "FAILED": "Échec de la restauration",
+      "CANCELED": "Restauration annulée",
+      "UNAVAILABLE": "Résultat de la restauration indisponible"
+    },
+    "issue": {
+      "SPACE": "La destination est pleine. Libérez de l’espace ou choisissez une autre destination, puis réessayez dans un nouveau dossier.",
+      "PERMISSION": "L’écriture des données ou métadonnées restaurées a été refusée. Vérifiez les autorisations de la destination ou choisissez un autre dossier, puis réessayez.",
+      "ZIP": "Le générateur ZIP de ce moteur omet les dossiers vides et les liens symboliques. Utilisez la restauration décompressée pour récupérer ces éléments.",
+      "DESTINATION": "Vérifiez que la destination existe, dispose d’espace libre, autorise l’écriture et n’est pas utilisée par une autre restauration, puis réessayez.",
+      "ENGINE": "Le moteur de sauvegarde ou le résultat de sa tâche est indisponible. Reconnectez le coffre et vérifiez la destination avant de réessayer.",
+      "TASK": "Le moteur n’a pas pu restaurer toutes les données demandées. Vérifiez l’espace et les autorisations de la destination ainsi que la lisibilité de la sauvegarde, puis réessayez dans un nouveau dossier.",
+      "TIMEOUT": "La restauration n’a pas terminé dans le délai de surveillance. Son annulation a été demandée ; vérifiez le moteur et la destination avant de réessayer.",
+      "LINK": "La destination contient un lien symbolique ou une jonction. Choisissez un dossier sans liens pour éviter d’écrire en dehors de la destination.",
+      "CONFIRMATION": "La destination n’est pas vide. Confirmez l’écrasement dans la fenêtre de restauration ou choisissez un dossier vide."
+    },
+    "objects": "Objets de la sauvegarde : {{objects}}",
+    "counts": "Dernier nombre d’éléments restaurés signalé : {{restored}} · Éléments ignorés : {{skipped}} · Erreurs ignorées : {{errors}}",
+    "incomplete": "Le résultat peut être incomplet. Conservez la sauvegarde et examinez la destination avant d’utiliser les fichiers restaurés.",
+    "cancel": "Annuler la restauration",
+    "dismiss": "Fermer le résultat",
+    "title": "Restauration en cours",
+    "description": {
+      "files_one": "Restauration de {{files}} fichier",
+      "files_other": "Restauration de {{files}} fichiers",
+      "files_many": "Restauration de {{files}} fichiers",
+      "directories_one": "Restauration de {{directories}} dossier",
+      "directories_other": "Restauration de {{directories}} dossiers",
+      "directories_many": "Restauration de {{directories}} dossiers",
+      "both": "Restauration de {{files}} fichier(s) et {{directories}} dossier(s)"
+    },
+    "openFolder": "Ouvrir le dossier"
+  }
+}

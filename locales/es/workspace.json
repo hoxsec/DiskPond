@@ -1,0 +1,23 @@
+{
+  "welcome": {
+    "title": "Tus copias de seguridad. Tu almacenamiento.",
+    "description": "Guarda copias de seguridad cifradas y con versiones en una unidad, una ubicación de red o tu propio almacenamiento.",
+    "open": "Abrir DiskPond",
+    "local": "La configuración se guarda en este equipo. No necesitas una cuenta."
+  },
+  "settings": {
+    "title": "Configuración",
+    "about": {
+      "title": "Acerca de",
+      "version": "Versión {{version}}",
+      "attribution": "DiskPond es software libre derivado de BlinkDisk (AGPL-3.0) y utiliza su motor de copias de seguridad basado en Kopia (Apache-2.0). El código fuente, los avisos de licencia y las instrucciones de compilación están disponibles en el repositorio del proyecto.",
+      "source": "Código fuente y licencias",
+      "releases": "Ver versiones en GitHub",
+      "checkUpdates": "Buscar actualizaciones",
+      "upToDate": "Tienes la última versión",
+      "updateAvailable": "DiskPond {{version}} disponible",
+      "updateError": "No se pudieron buscar actualizaciones. Inténtalo de nuevo.",
+      "issues": "Informar de un problema"
+    }
+  }
+}

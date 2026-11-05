@@ -1,0 +1,15 @@
+{
+  "comment": "Dit bestand is nodig om de standaardtaal van de Electron-app te laden.",
+  "tray": {
+    "open": "Openen",
+    "quit": "Afsluiten"
+  },
+  "common": {
+    "close": "Sluiten",
+    "back": "Terug",
+    "breadcrumb": "Mappad",
+    "parentFolder": "Naar bovenliggende map",
+    "selectAll": "Alles selecteren",
+    "selectRow": "Rij selecteren"
+  }
+}

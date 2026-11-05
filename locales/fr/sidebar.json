@@ -1,0 +1,25 @@
+{
+  "addFolder": "Ajouter un fichier/dossier",
+  "selectVault": {
+    "empty": "Choisir un coffre",
+    "createVault": "Créer un coffre"
+  },
+  "vaultMenu": {
+    "createVault": "Créer un nouveau coffre",
+    "connectVault": "Connecter un coffre existant"
+  },
+  "links": {
+    "navigation": "Menu",
+    "vaultSettings": "Paramètres du coffre",
+    "home": "Accueil",
+    "activity": "Activité",
+    "overview": "Vue d’ensemble",
+    "settings": "Paramètres",
+    "policies": "Règles"
+  },
+  "updateAlert": {
+    "title": "DiskPond {{version}} disponible",
+    "error": "Impossible d’ouvrir le navigateur. Réessayez.",
+    "button": "Voir les versions sur GitHub"
+  }
+}

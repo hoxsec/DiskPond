@@ -23,7 +23,7 @@ export function SnapshotComparison({
   source: ZHistorySourceIdentityType;
   selectedSnapshot?: string;
 }) {
-  const { t } = useAppTranslation("history");
+  const { t, language } = useAppTranslation("history");
   const history = useSnapshotHistory(vaultId, source);
   const snapshots = history.data;
   const [afterId, setAfterId] = useState(selectedSnapshot);
@@ -65,7 +65,7 @@ export function SnapshotComparison({
   const items =
     snapshots?.map((snapshot) => ({
       value: snapshot.id,
-      label: `${formatHistoryTime(snapshot.startTime)}${snapshot.description ? ` — ${snapshot.description}` : ""} · ${t(`outcome.${snapshotOutcome(snapshot)}`)} · ${snapshot.id.slice(0, 8)}`,
+      label: `${formatHistoryTime(snapshot.startTime, language)}${snapshot.description ? ` — ${snapshot.description}` : ""} · ${t(`outcome.${snapshotOutcome(snapshot)}`)} · ${snapshot.id.slice(0, 8)}`,
     })) ?? [];
   const counts = { added: 0, changed: 0, deleted: 0, unknown: 0 };
   for (const row of result?.rows ?? []) counts[row.kind]++;
@@ -230,7 +230,7 @@ export function SnapshotComparison({
                         {t(`comparison.kind.${kind}`)}
                       </p>
                       <p className="text-2xl font-semibold tabular-nums">
-                        {counts[kind].toLocaleString()}
+                        {counts[kind].toLocaleString(language)}
                       </p>
                     </div>
                   ),
@@ -345,11 +345,11 @@ export function SnapshotComparison({
                                 >
                                   {size === undefined
                                     ? unavailable
-                                    : formatSize(size)}
+                                    : formatSize(size, { locale: language })}
                                   {size !== undefined && size >= 1024 && (
                                     <span className="block text-xs text-muted-foreground">
                                       {t("comparison.exactBytes", {
-                                        value: size.toLocaleString(),
+                                        value: size.toLocaleString(language),
                                       })}
                                     </span>
                                   )}
@@ -361,7 +361,8 @@ export function SnapshotComparison({
                                 key={index}
                                 className="whitespace-nowrap p-3 tabular-nums"
                               >
-                                {formatHistoryTime(entry?.mtime) ?? unavailable}
+                                {formatHistoryTime(entry?.mtime, language) ??
+                                  unavailable}
                                 {entry?.mtime && (
                                   <span className="block font-mono text-xs text-muted-foreground">
                                     {entry.mtime}

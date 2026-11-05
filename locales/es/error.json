@@ -1,0 +1,82 @@
+{
+  "pages": {
+    "default": {
+      "title": "Algo salió mal",
+      "description": "Se produjo un error inesperado. Inténtalo de nuevo. Si persiste, <0>informa del problema</0>.",
+      "button": "Volver al inicio"
+    },
+    "not-found": {
+      "title": "404",
+      "description": "Esta página no existe. Vuelve al inicio o <0>informa del problema</0>.",
+      "button": "Volver al inicio"
+    }
+  },
+  "fallback": {
+    "title": "Algo salió mal",
+    "description": "Inténtalo de nuevo. Si el problema persiste, infórmalo desde Configuración."
+  },
+  "INTERNAL_SERVER_ERROR": {
+    "title": "Algo salió mal",
+    "description": "Se produjo un error inesperado. Si persiste, informa del problema desde Configuración."
+  },
+  "UNAUTHORIZED": {
+    "title": "No tienes permiso para hacer esto",
+    "description": "Comprueba las credenciales y los permisos del almacenamiento y vuelve a conectar la bóveda."
+  },
+  "USER_ALREADY_EXISTS": {
+    "title": "Ya existe un usuario con este correo",
+    "description": "Intenta iniciar sesión."
+  },
+  "INVALID_EMAIL_OR_PASSWORD": {
+    "title": "Correo o contraseña incorrectos",
+    "description": "Comprueba tu correo y tu contraseña."
+  },
+  "INVALID_TOKEN": {
+    "title": "Código no válido o caducado",
+    "description": "Vuelve a iniciar sesión para solicitar un código nuevo."
+  },
+  "EMAIL_NOT_VERIFIED": {
+    "title": "El correo aún no está verificado",
+    "description": "Introduce a continuación el código de verificación enviado a tu correo."
+  },
+  "SUBSCRIPTION_EXISTS": {
+    "title": "Ya tienes una suscripción activa",
+    "description": "Intenta cambiar tu suscripción a un plan superior."
+  },
+  "VAULT_ALREADY_EXISTS": {
+    "title": "La bóveda ya existe",
+    "description": "Esta bóveda ya está conectada en este equipo."
+  },
+  "VAULT_NOT_FOUND": "Bóveda no encontrada",
+  "FOLDER_NOT_FOUND": "Carpeta no encontrada",
+  "PROVIDER_NOT_FOUND": "Proveedor no encontrado",
+  "SPACE_NOT_FOUND": "Espacio no encontrado",
+  "PRICE_NOT_FOUND": "Precio no encontrado",
+  "SUBSCRIPTION_NOT_FOUND": "Suscripción no encontrada",
+  "NO_STORAGE": "No hay almacenamiento disponible",
+  "NOT_ALLOWED": "No tienes permiso para hacer esto",
+  "MISSING_REQUIRED_VALUE": {
+    "title": "Falta información obligatoria",
+    "description": "Inténtalo de nuevo o reinicia la aplicación."
+  },
+  "INVALID_PASSWORD": {
+    "title": "Contraseña de cifrado incorrecta",
+    "description": "La contraseña de cifrado introducida es incorrecta."
+  },
+  "INCORRECT_VAULT": {
+    "title": "Se encontró una bóveda diferente",
+    "description": "Tu configuración apunta a otra bóveda. Comprueba los ajustes."
+  },
+  "STORAGE_UNREACHABLE": {
+    "title": "No se puede acceder al almacenamiento",
+    "description": "DiskPond no pudo acceder al almacenamiento. Comprueba que la ruta o el servidor estén disponibles y que la configuración sea correcta."
+  },
+  "VAULT_SERVER_UNAVAILABLE": {
+    "title": "Bóveda no disponible",
+    "description": "DiskPond no pudo iniciar el motor de copias de seguridad ni reconectar esta bóveda. Comprueba que su almacenamiento esté disponible e inténtalo de nuevo."
+  },
+  "ACCOUNT_SYNC_FAILED": {
+    "title": "No se pudo sincronizar tu cuenta",
+    "description": "Inténtalo de nuevo. Si el problema persiste, infórmalo desde Configuración."
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "list": {
+    "back": "Wstecz",
+    "backToVault": "Wróć do sejfu",
+    "settings": {
+      "folder": "Zasady folderu",
+      "file": "Zasady pliku"
+    },
+    "item": {
+      "browseFiles": "Przeglądaj pliki w kopii z {{date}}",
+      "files_one": "{{formatted}} plik",
+      "files_few": "{{formatted}} pliki",
+      "files_many": "{{formatted}} plików",
+      "files_other": "{{formatted}} pliku",
+      "dropdown": {
+        "browse": "Przeglądaj pliki",
+        "restoreFile": "Przywróć plik",
+        "rename": "Zmień nazwę kopii",
+        "pin": "Przypnij kopię",
+        "delete": "Usuń kopię"
+      }
+    },
+    "pending": {
+      "title": "Nowa kopia czeka na utworzenie",
+      "description": "Trwa tworzenie innej kopii zapasowej."
+    },
+    "paused": {
+      "title": "Wznów wstrzymaną kopię",
+      "description": "Tworzenie kopii zostało wstrzymane przed ukończeniem.",
+      "button": "Wznów tworzenie kopii"
+    },
+    "empty": {
+      "default": {
+        "title": "Nie ma jeszcze kopii zapasowych",
+        "description": "Nie utworzono jeszcze żadnych kopii zapasowych. Utwórz pierwszą przyciskiem poniżej.",
+        "button": "Utwórz kopię teraz"
+      },
+      "pending": {
+        "title": "Kopia oczekuje",
+        "description": "Trwa tworzenie innej kopii zapasowej. Ta kopia czeka w kolejce."
+      },
+      "initial": {
+        "title": "Tworzenie pierwszej kopii",
+        "description": "To pierwsza kopia, więc może to chwilę potrwać. Przy kolejnych kopiach DiskPond wysyła zmienione pliki."
+      },
+      "canceling": {
+        "title": "Anulowanie tworzenia kopii",
+        "description": "Tworzenie tej kopii jest anulowane. Może to chwilę potrwać."
+      }
+    },
+    "cancel": "Anuluj tworzenie kopii",
+    "backup": {
+      "folder": "Utwórz kopię folderu",
+      "file": "Utwórz kopię pliku"
+    }
+  },
+  "progress": {
+    "title": {
+      "default": "Ukończono {{percentage}}",
+      "fallback": "Tworzenie kopii..."
+    },
+    "description": {
+      "total": "{{completed}} / {{total}}",
+      "fallback": "Przetworzono {{completed}}"
+    }
+  },
+  "renameDialog": {
+    "title": "Zmień nazwę kopii",
+    "description": "Nadaj tej kopii własną nazwę, aby łatwiej ją znaleźć.",
+    "label": "Nazwa",
+    "placeholder": "Moja kopia zapasowa",
+    "continue": "Zmień nazwę kopii"
+  },
+  "deleteDialog": {
+    "title": "Usuń kopię",
+    "description": "Czy na pewno chcesz usunąć tę kopię? Tej czynności nie można cofnąć.",
+    "alert": {
+      "title": "Czyszczenie odbywa się stopniowo",
+      "description": "Miejsce nie zostanie zwolnione od razu. DiskPond usuwa nieużywane dane później, aby zapewnić niezawodność."
+    },
+    "cancel": "Anuluj",
+    "continue": "Usuń kopię"
+  },
+  "pinDialog": {
+    "title": "Przypnij kopię",
+    "description": "Zarządzaj przypięciami tej kopii.",
+    "alert": {
+      "title": "Czym są przypięcia?",
+      "description": "Przypięta kopia nie zostanie usunięta, nawet jeśli nie spełnia zasad przechowywania."
+    },
+    "label": "Nowe przypięcie",
+    "placeholder": "np. „zachowaj”",
+    "add": "Dodaj",
+    "duplicate": "To przypięcie zostało już dodane.",
+    "save": "Zapisz"
+  }
+}

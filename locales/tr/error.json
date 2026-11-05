@@ -1,0 +1,82 @@
+{
+  "pages": {
+    "default": {
+      "title": "Bir sorun oluştu",
+      "description": "Beklenmeyen bir hata oluştu. Yeniden deneyin. Sorun devam ederse <0>sorunu bildirin</0>.",
+      "button": "Ana sayfaya dön"
+    },
+    "not-found": {
+      "title": "404",
+      "description": "Bu sayfa mevcut değil. Ana sayfaya dönün veya <0>sorunu bildirin</0>.",
+      "button": "Ana sayfaya dön"
+    }
+  },
+  "fallback": {
+    "title": "Bir sorun oluştu",
+    "description": "Yeniden deneyin. Sorun devam ederse Ayarlar’dan bildirin."
+  },
+  "INTERNAL_SERVER_ERROR": {
+    "title": "Bir sorun oluştu",
+    "description": "Beklenmeyen bir hata oluştu. Sorun devam ederse Ayarlar’dan bildirin."
+  },
+  "UNAUTHORIZED": {
+    "title": "Bu işlemi yapma izniniz yok",
+    "description": "Depolama kimlik bilgilerini ve izinlerini denetleyin, ardından kasaya yeniden bağlanın."
+  },
+  "USER_ALREADY_EXISTS": {
+    "title": "Bu e-posta adresiyle bir kullanıcı zaten mevcut",
+    "description": "Bunun yerine giriş yapmayı deneyin."
+  },
+  "INVALID_EMAIL_OR_PASSWORD": {
+    "title": "Geçersiz e-posta veya parola",
+    "description": "E-posta adresinizi ve parolanızı denetleyin."
+  },
+  "INVALID_TOKEN": {
+    "title": "Geçersiz veya süresi dolmuş kod",
+    "description": "Yeniden giriş yaparak yeni bir kod isteyin."
+  },
+  "EMAIL_NOT_VERIFIED": {
+    "title": "E-posta adresi henüz doğrulanmadı",
+    "description": "E-posta adresinize gönderilen doğrulama kodunu aşağıya girin."
+  },
+  "SUBSCRIPTION_EXISTS": {
+    "title": "Zaten etkin bir aboneliğiniz var",
+    "description": "Bunun yerine aboneliğinizi yükseltmeyi deneyin."
+  },
+  "VAULT_ALREADY_EXISTS": {
+    "title": "Kasa zaten mevcut",
+    "description": "Bu kasa bu bilgisayarda zaten bağlı."
+  },
+  "VAULT_NOT_FOUND": "Kasa bulunamadı",
+  "FOLDER_NOT_FOUND": "Klasör bulunamadı",
+  "PROVIDER_NOT_FOUND": "Sağlayıcı bulunamadı",
+  "SPACE_NOT_FOUND": "Alan bulunamadı",
+  "PRICE_NOT_FOUND": "Fiyat bulunamadı",
+  "SUBSCRIPTION_NOT_FOUND": "Abonelik bulunamadı",
+  "NO_STORAGE": "Kullanılabilir depolama alanı yok",
+  "NOT_ALLOWED": "Bu işlemi yapma izniniz yok",
+  "MISSING_REQUIRED_VALUE": {
+    "title": "Gerekli bilgiler eksik",
+    "description": "Yeniden deneyin veya uygulamayı yeniden başlatın."
+  },
+  "INVALID_PASSWORD": {
+    "title": "Geçersiz şifreleme parolası",
+    "description": "Girdiğiniz şifreleme parolası yanlış."
+  },
+  "INCORRECT_VAULT": {
+    "title": "Farklı bir kasa bulundu",
+    "description": "Yapılandırmanız farklı bir kasaya işaret ediyor. Ayarlarınızı denetleyin."
+  },
+  "STORAGE_UNREACHABLE": {
+    "title": "Depolama alanınıza ulaşılamıyor",
+    "description": "DiskPond depolama konumuna ulaşamadı. Yolun veya sunucunun kullanılabilir ve ayarlarınızın doğru olduğunu denetleyin."
+  },
+  "VAULT_SERVER_UNAVAILABLE": {
+    "title": "Kasa kullanılamıyor",
+    "description": "DiskPond yedekleme motorunu başlatamadı veya bu kasaya yeniden bağlanamadı. Depolama alanının kullanılabilir olduğunu denetleyip yeniden deneyin."
+  },
+  "ACCOUNT_SYNC_FAILED": {
+    "title": "Hesabınız eşitlenemedi",
+    "description": "Yeniden deneyin. Sorun devam ederse Ayarlar’dan bildirin."
+  }
+}

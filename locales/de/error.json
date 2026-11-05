@@ -1,0 +1,82 @@
+{
+  "pages": {
+    "default": {
+      "title": "Etwas ist schiefgelaufen",
+      "description": "Ein unerwarteter Fehler ist aufgetreten. Versuche es erneut. Falls er weiterhin auftritt, <0>melde das Problem</0>.",
+      "button": "Zur Startseite"
+    },
+    "not-found": {
+      "title": "404",
+      "description": "Diese Seite existiert nicht. Gehe zur Startseite oder <0>melde das Problem</0>.",
+      "button": "Zur Startseite"
+    }
+  },
+  "fallback": {
+    "title": "Etwas ist schiefgelaufen",
+    "description": "Versuche es erneut. Falls das Problem weiterhin auftritt, melde es über die Einstellungen."
+  },
+  "INTERNAL_SERVER_ERROR": {
+    "title": "Etwas ist schiefgelaufen",
+    "description": "Ein unerwarteter Fehler ist aufgetreten. Falls er weiterhin auftritt, melde das Problem über die Einstellungen."
+  },
+  "UNAUTHORIZED": {
+    "title": "Du darfst diese Aktion nicht ausführen",
+    "description": "Prüfe die Zugangsdaten und Berechtigungen des Speichers und verbinde den Tresor erneut."
+  },
+  "USER_ALREADY_EXISTS": {
+    "title": "Ein Benutzer mit dieser E-Mail-Adresse existiert bereits",
+    "description": "Versuche stattdessen, dich anzumelden."
+  },
+  "INVALID_EMAIL_OR_PASSWORD": {
+    "title": "Ungültige E-Mail-Adresse oder ungültiges Passwort",
+    "description": "Prüfe deine E-Mail-Adresse und dein Passwort."
+  },
+  "INVALID_TOKEN": {
+    "title": "Ungültiger oder abgelaufener Code",
+    "description": "Fordere durch erneutes Anmelden einen neuen Code an."
+  },
+  "EMAIL_NOT_VERIFIED": {
+    "title": "Die E-Mail-Adresse wurde noch nicht bestätigt",
+    "description": "Gib unten den Bestätigungscode ein, der an deine E-Mail-Adresse gesendet wurde."
+  },
+  "SUBSCRIPTION_EXISTS": {
+    "title": "Du hast bereits ein aktives Abonnement",
+    "description": "Versuche stattdessen, dein Abonnement zu erweitern."
+  },
+  "VAULT_ALREADY_EXISTS": {
+    "title": "Tresor existiert bereits",
+    "description": "Dieser Tresor ist auf diesem Computer bereits verbunden."
+  },
+  "VAULT_NOT_FOUND": "Tresor nicht gefunden",
+  "FOLDER_NOT_FOUND": "Ordner nicht gefunden",
+  "PROVIDER_NOT_FOUND": "Anbieter nicht gefunden",
+  "SPACE_NOT_FOUND": "Speicherbereich nicht gefunden",
+  "PRICE_NOT_FOUND": "Preis nicht gefunden",
+  "SUBSCRIPTION_NOT_FOUND": "Abonnement nicht gefunden",
+  "NO_STORAGE": "Kein Speicher verfügbar",
+  "NOT_ALLOWED": "Du darfst diese Aktion nicht ausführen",
+  "MISSING_REQUIRED_VALUE": {
+    "title": "Erforderliche Angaben fehlen",
+    "description": "Versuche es erneut oder starte die App neu."
+  },
+  "INVALID_PASSWORD": {
+    "title": "Ungültiges Verschlüsselungspasswort",
+    "description": "Das eingegebene Verschlüsselungspasswort ist falsch."
+  },
+  "INCORRECT_VAULT": {
+    "title": "Anderer Tresor gefunden",
+    "description": "Deine Konfiguration verweist auf einen anderen Tresor. Prüfe deine Einstellungen."
+  },
+  "STORAGE_UNREACHABLE": {
+    "title": "Dein Speicher ist nicht erreichbar",
+    "description": "DiskPond konnte den Speicherort nicht erreichen. Prüfe, ob der Pfad oder Server verfügbar ist und deine Einstellungen korrekt sind."
+  },
+  "VAULT_SERVER_UNAVAILABLE": {
+    "title": "Tresor nicht verfügbar",
+    "description": "DiskPond konnte die Sicherungs-Engine nicht starten oder diesen Tresor nicht erneut verbinden. Prüfe, ob sein Speicher verfügbar ist, und versuche es erneut."
+  },
+  "ACCOUNT_SYNC_FAILED": {
+    "title": "Dein Konto konnte nicht synchronisiert werden",
+    "description": "Versuche es erneut. Falls das Problem weiterhin auftritt, melde es über die Einstellungen."
+  }
+}

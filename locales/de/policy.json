@@ -1,0 +1,267 @@
+{
+  "page": {
+    "tree": {
+      "title": "Geltungsbereich",
+      "description": "Wähle die zu bearbeitende Richtlinie."
+    },
+    "editor": {
+      "title": "Richtlinie",
+      "save": "Speichern",
+      "mode": {
+        "basic": "Einfach",
+        "advanced": "Erweitert"
+      },
+      "advancedBanner": {
+        "title": "Suchst du weitere Optionen?",
+        "description": "Der erweiterte Modus bietet eigene Zeitpläne, Regeldateien, Komprimierung, Aufbewahrung und Dateigrößenlimits.",
+        "button": "Zum erweiterten Modus"
+      }
+    },
+    "override": {
+      "inherited": "Geerbt",
+      "custom": "Benutzerdefiniert"
+    },
+    "draft": {
+      "badge": "Entwurf",
+      "activate": {
+        "button": "Datei/Ordner hinzufügen"
+      },
+      "discard": {
+        "button": "Verwerfen"
+      }
+    }
+  },
+  "schedule": {
+    "title": "Sicherungszeitplan",
+    "description": "Plane automatische Sicherungen deiner Dateien.",
+    "trigger": {
+      "label": "Sicherungsauslöser",
+      "items": {
+        "SCHEDULE": "Nach Zeitplan",
+        "MANUAL": "Nur manuell"
+      }
+    },
+    "interval": {
+      "label": "Sicherungsintervall",
+      "placeholder": "Sicherungsintervall auswählen",
+      "items": {
+        "NONE": "Keines",
+        "10_MINUTES": "Alle 10 Minuten",
+        "15_MINUTES": "Alle 15 Minuten",
+        "20_MINUTES": "Alle 20 Minuten",
+        "30_MINUTES": "Alle 30 Minuten",
+        "1_HOUR": "Jede Stunde",
+        "3_HOURS": "Alle 3 Stunden",
+        "6_HOURS": "Alle 6 Stunden",
+        "12_HOURS": "Alle 12 Stunden",
+        "24_HOURS": "Alle 24 Stunden"
+      }
+    },
+    "catchup": {
+      "label": "Verpasste Sicherungen nachholen"
+    },
+    "cron": {
+      "label": "Eigener Zeitplan",
+      "add": "Eigenen Zeitplan hinzufügen"
+    }
+  },
+  "retention": {
+    "title": "Aufbewahrung von Sicherungen",
+    "description": "Lege fest, wie lange Sicherungen aufbewahrt werden.",
+    "latest": {
+      "label": "Neueste Sicherungen",
+      "description": "Anzahl der neuesten Sicherungen, die aufbewahrt werden."
+    },
+    "hourly": {
+      "label": "Stündliche Sicherungen",
+      "description": "Anzahl der stündlichen Sicherungen, die aufbewahrt werden."
+    },
+    "daily": {
+      "label": "Tägliche Sicherungen",
+      "description": "Anzahl der täglichen Sicherungen, die aufbewahrt werden."
+    },
+    "weekly": {
+      "label": "Wöchentliche Sicherungen",
+      "description": "Anzahl der wöchentlichen Sicherungen, die aufbewahrt werden."
+    },
+    "monthly": {
+      "label": "Monatliche Sicherungen",
+      "description": "Anzahl der monatlichen Sicherungen, die aufbewahrt werden."
+    },
+    "annual": {
+      "label": "Jährliche Sicherungen",
+      "description": "Anzahl der jährlichen Sicherungen, die aufbewahrt werden."
+    },
+    "info": {
+      "title": "So funktioniert die Aufbewahrung",
+      "description": "DiskPond behält für jeden Zeitraum die festgelegte Anzahl der neuesten Sicherungen. Eine Sicherung bleibt erhalten, wenn sie mindestens eine Regel erfüllt. Andere werden entfernt, um Speicherplatz zu sparen."
+    }
+  },
+  "files": {
+    "title": "Ausgeschlossene Dateien",
+    "description": "Schließe Dateien und Verzeichnisse von Sicherungen aus.",
+    "exclusions": {
+      "label": "Ausgeschlossene Dateien und Verzeichnisse",
+      "description": "Dateien, Verzeichnisse und Dateiendungen, die von Sicherungen ausgeschlossen werden.",
+      "descriptionWithRoot": "Dateien, Ordner und Dateiendungen, die von Sicherungen dieses Ordners ausgeschlossen werden.",
+      "add": "Ausschluss hinzufügen",
+      "example": "ignorierte-datei.txt",
+      "broken": {
+        "title_one": "{{count}} Ausschlussregel funktioniert nicht",
+        "title_other": "{{count}} Ausschlussregeln funktionieren nicht",
+        "description": "Als vollständige Pfade eingegebene Regeln finden keine Treffer. Regeln müssen relativ zum gesicherten Ordner sein.",
+        "descriptionOutside": "Pfade außerhalb von {{root}} können nicht von den Sicherungen dieses Ordners ausgeschlossen werden. Bearbeite oder entferne diese Regeln.",
+        "descriptionWithoutRoot": "Als vollständige Pfade eingegebene Regeln finden keine Treffer. Füge die Regel zur Richtlinie des jeweiligen Ordners hinzu, um einen bestimmten Ordner auszuschließen.",
+        "fix_one": "{{count}} Regel korrigieren",
+        "fix_other": "{{count}} Regeln korrigieren"
+      },
+      "dialog": {
+        "title": "Ausschlussregel bearbeiten",
+        "description": "Konfiguriere das Muster der Ausschlussregel.",
+        "type": {
+          "label": "Ausschließen nach",
+          "path": "Pfad",
+          "name": "Name",
+          "extension": "Dateiendung"
+        },
+        "matchType": {
+          "exact": "ist genau",
+          "startsWith": "beginnt mit",
+          "endsWith": "endet mit",
+          "contains": "enthält"
+        },
+        "path": {
+          "label": "Ordner oder Datei",
+          "description": "Muss innerhalb von {{root}} liegen.",
+          "descriptionWithoutRoot": "Relativ zu jedem gesicherten Ordner, z. B. /AppData/Local/Temp.",
+          "placeholderWithoutRoot": "/pfad/zum/ordner",
+          "chooseFolder": "Ordner auswählen",
+          "chooseFile": "Datei auswählen",
+          "preview": "Schließt {{path}} in diesem Ordner aus.",
+          "errors": {
+            "EMPTY": "Gib einen Pfad ein.",
+            "INVALID": "Dieser Pfad kann nicht verwendet werden. Pfade mit „..“ oder laufwerksrelative Pfade wie C:ordner werden nicht unterstützt.",
+            "IS_ROOT": "Dies ist der gesicherte Ordner selbst. Wähle etwas darin aus.",
+            "OUTSIDE_ROOT": "Dieser Pfad liegt nicht innerhalb von {{root}}.",
+            "NEEDS_ROOT": "Vollständige Pfade funktionieren nur in der eigenen Richtlinie eines Ordners. Gib stattdessen einen Pfad relativ zum gesicherten Ordner ein."
+          }
+        },
+        "pattern": {
+          "label": "dessen Name",
+          "description": "Erfasst Dateien und Ordner mit diesem Namen an beliebiger Stelle in der Sicherung.",
+          "placeholder": "Namensmuster",
+          "errors": {
+            "path": "Namen dürfen keine \\ oder Laufwerksbuchstaben enthalten."
+          },
+          "pathHint": {
+            "withRoot": "Das sieht wie ein Pfad aus. Verwende eine Pfadregel, um einen bestimmten Ordner oder eine bestimmte Datei auszuschließen.",
+            "withoutRoot": "Das sieht wie ein Pfad aus. Füge die Regel zur Richtlinie des jeweiligen Ordners hinzu, um einen bestimmten Ordner oder eine bestimmte Datei auszuschließen.",
+            "action": "Stattdessen diesen Pfad ausschließen"
+          }
+        },
+        "extension": {
+          "label": "dessen Dateiendung ist",
+          "placeholder": "Dateiendung eingeben (z. B. pdf, jpg oder docx)"
+        },
+        "foldersOnly": "Nur Ordner ausschließen",
+        "save": "Speichern"
+      },
+      "preview": {
+        "path": "Ordner oder Datei",
+        "broken": {
+          "fullPath": "Ohne Wirkung: als vollständiger Pfad eingegeben",
+          "outside": "Ohne Wirkung: Pfad liegt außerhalb dieses Ordners",
+          "isRoot": "Ohne Wirkung: verweist auf den gesicherten Ordner selbst",
+          "invalid": "Ohne Wirkung: bearbeite diese Regel zur Korrektur"
+        },
+        "extension": "Dateiendung",
+        "name": {
+          "both": "Name",
+          "foldersOnly": "Ordnername"
+        },
+        "matchType": {
+          "EXACT": "ist genau",
+          "STARTS_WITH": "beginnt mit",
+          "ENDS_WITH": "endet mit",
+          "CONTAINS": "enthält"
+        }
+      }
+    },
+    "exclusionRuleFiles": {
+      "label": "Dateien mit Ausschlussregeln",
+      "description": "Namen aller Dateien, die Ausschlussregeln enthalten.",
+      "example": "ignore.txt",
+      "docs": "Dokumentation öffnen",
+      "add": "Regeldatei hinzufügen"
+    },
+    "maxFileSize": {
+      "label": "Maximale Dateigröße",
+      "description": "Maximale Größe der in Sicherungen enthaltenen Dateien."
+    },
+    "excludeCacheDirs": {
+      "label": "Cache-Verzeichnisse ausschließen",
+      "description": "Schließe übliche Cache-Verzeichnisse von Sicherungen aus."
+    }
+  },
+  "compression": {
+    "title": "Komprimierung",
+    "description": "Konfiguriere, wie Sicherungsdaten komprimiert werden.",
+    "algorithm": {
+      "label": "Komprimierungsalgorithmus",
+      "description": "Der Algorithmus zum Komprimieren der Sicherungsdaten.",
+      "placeholder": "Algorithmus auswählen",
+      "tabs": {
+        "off": "Keiner",
+        "recommended": "Empfohlen",
+        "other": "Andere"
+      },
+      "presets": {
+        "faster": "Schneller",
+        "balanced": "Ausgewogen",
+        "smaller": "Kleiner"
+      },
+      "items": {
+        "": "Standard",
+        "none": "Keiner",
+        "gzip": "Gzip",
+        "gzip-best-compression": "Gzip (beste Komprimierung)",
+        "gzip-best-speed": "Gzip (höchste Geschwindigkeit)",
+        "zstd": "Zstandard",
+        "zstd-best-compression": "Zstandard (beste Komprimierung)",
+        "zstd-better-compression": "Zstandard (bessere Komprimierung)",
+        "zstd-fastest": "Zstandard (am schnellsten)",
+        "s2-default": "S2",
+        "s2-better": "S2 (besser)",
+        "s2-parallel-4": "S2 (parallel, 4 Threads)",
+        "s2-parallel-8": "S2 (parallel, 8 Threads)",
+        "pgzip": "Paralleles Gzip",
+        "pgzip-best-compression": "Paralleles Gzip (beste Komprimierung)",
+        "pgzip-best-speed": "Paralleles Gzip (höchste Geschwindigkeit)",
+        "deflate-default": "Deflate",
+        "deflate-best-compression": "Deflate (beste Komprimierung)",
+        "deflate-best-speed": "Deflate (höchste Geschwindigkeit)",
+        "lz4": "LZ4 (nicht empfohlen)"
+      }
+    },
+    "minFileSize": {
+      "label": "Minimale Dateigröße",
+      "description": "Nur Dateien komprimieren, die größer als dieser Wert sind."
+    },
+    "maxFileSize": {
+      "label": "Maximale Dateigröße",
+      "description": "Nur Dateien komprimieren, die kleiner als dieser Wert sind."
+    },
+    "extensionAllowlist": {
+      "label": "Erlaubte Dateiendungen",
+      "description": "Nur Dateien mit diesen Endungen komprimieren.",
+      "add": "Dateiendung hinzufügen",
+      "placeholder": "z. B. .txt"
+    },
+    "extensionDenylist": {
+      "label": "Ausgeschlossene Dateiendungen",
+      "description": "Dateien mit diesen Endungen nie komprimieren.",
+      "add": "Dateiendung hinzufügen",
+      "placeholder": "z. B. .zip"
+    }
+  }
+}

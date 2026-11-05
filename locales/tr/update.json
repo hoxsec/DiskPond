@@ -1,0 +1,55 @@
+{
+  "title": "Yeni bir güncelleme var!",
+  "description": "DiskPond’un yeni bir sürümü kullanılabilir.",
+  "restart": "Yeniden başlat",
+  "downloading": "Güncelleme indiriliyor...",
+  "error": {
+    "title": "Otomatik güncelleme başarısız",
+    "description": "Güncelleme sırasında bir hata oluştu. Aşağıdaki düğmeyi kullanarak güncellemeyi elle indirin."
+  },
+  "dismiss": {
+    "title": "Güncelleme gizlensin mi?",
+    "warning": {
+      "title": "Sorunlar yaşanabilir",
+      "description": "DiskPond güncellemesini daha sonra yükleyebilirsiniz."
+    },
+    "cancel": "İptal",
+    "confirm": "Güncellemeyi gizle"
+  },
+  "manual": "Elle indir",
+  "install": "Yeniden başlat ve yükle",
+  "download": "Güncellemeyi indir",
+  "downloadProgress": "İndiriliyor: %{{percent}}",
+  "failed": "Güncelleme başarısız. Yeniden deneyin.",
+  "installing": "Yüklemek için yeniden başlatılıyor…",
+  "cancel": "İndirmeyi iptal et",
+  "canceling": "İndirme iptal ediliyor…",
+  "canceled": "İndirme iptal edildi",
+  "preparing": "İndirme hazırlanıyor…",
+  "transfer": "{{transferred}} / {{total}}",
+  "speed": "{{speed}}/sn",
+  "waiting": "Yedeklemelerin ve geri yüklemelerin bitmesi bekleniyor",
+  "activityUnknown": "Etkinlik bilgisi kullanılamıyor. Yeniden deneniyor…",
+  "activityChecking": "Yedekleme ve geri yükleme etkinliği denetleniyor…",
+  "notes": "Yenilikler",
+  "noNotes": "Sürüm notları mevcut değil",
+  "remindLater": "Daha sonra hatırlat",
+  "reminderDelay": "24 saat sonra",
+  "reminderSet": "Yarın için hatırlatıcı ayarlandı",
+  "history": "Güncelleme geçmişi",
+  "currentVersion": "Yüklü sürüm: {{version}}",
+  "versionChange": "{{from}} → {{to}}",
+  "emptyHistory": "Henüz güncelleme girişimi yok",
+  "historyUnavailable": "Güncelleme geçmişi kaydedilemedi",
+  "outcomes": {
+    "DOWNLOADING": "İndiriliyor",
+    "DOWNLOADED": "İndirildi",
+    "CANCELED": "İptal edildi",
+    "DOWNLOAD_FAILED": "İndirme başarısız",
+    "INTERRUPTED": "İndirme kesintiye uğradı",
+    "INSTALLING": "Yükleme istendi",
+    "INSTALLED": "Yüklendi",
+    "INSTALL_FAILED": "Yükleme başarısız",
+    "NOT_INSTALLED": "Yükleme doğrulanmadı"
+  }
+}

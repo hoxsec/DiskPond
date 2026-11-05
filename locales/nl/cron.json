@@ -1,0 +1,80 @@
+{
+  "placeholders": {
+    "period": "Selecteer een periode"
+  },
+  "component": {
+    "everyText": "elke",
+    "emptyMonths": "elke maand",
+    "emptyMonthDays": "elke dag van de maand",
+    "emptyMonthDaysShort": "dag van de maand",
+    "emptyWeekDays": "elke dag van de week",
+    "emptyWeekDaysShort": "dag van de week",
+    "emptyHours": "elk uur",
+    "emptyMinutes": "elke minuut",
+    "emptyMinutesForHourPeriod": "elke",
+    "yearOption": "jaar",
+    "monthOption": "maand",
+    "weekOption": "week",
+    "dayOption": "dag",
+    "hourOption": "uur",
+    "minuteOption": "minuut",
+    "rebootOption": "herstart",
+    "prefixPeriod": "Elk(e)",
+    "prefixMonths": "in",
+    "prefixMonthDays": "op",
+    "prefixWeekDays": "op",
+    "prefixWeekDaysForMonthAndYearPeriod": "en",
+    "prefixHours": "om",
+    "prefixMinutes": ":",
+    "prefixMinutesForHourPeriod": "op minuut",
+    "suffixMinutesForHourPeriod": "",
+    "errorInvalidCron": "Ongeldige cron-expressie",
+    "clearButtonText": "Wissen",
+    "weekDays": [
+      "Zondag",
+      "Maandag",
+      "Dinsdag",
+      "Woensdag",
+      "Donderdag",
+      "Vrijdag",
+      "Zaterdag"
+    ],
+    "months": [
+      "Januari",
+      "Februari",
+      "Maart",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Augustus",
+      "September",
+      "Oktober",
+      "November",
+      "December"
+    ],
+    "altWeekDays": [
+      "ZO",
+      "MA",
+      "DI",
+      "WO",
+      "DO",
+      "VR",
+      "ZA"
+    ],
+    "altMonths": [
+      "JAN",
+      "FEB",
+      "MRT",
+      "APR",
+      "MEI",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OKT",
+      "NOV",
+      "DEC"
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "title": "Er is een nieuwe update!",
+  "description": "Er is een nieuwe versie van DiskPond beschikbaar.",
+  "restart": "Herstarten",
+  "downloading": "Update downloaden...",
+  "error": {
+    "title": "Automatisch bijwerken mislukt",
+    "description": "Er is een fout opgetreden tijdens het bijwerken. Download de update handmatig met de knop hieronder."
+  },
+  "dismiss": {
+    "title": "Update verbergen?",
+    "warning": {
+      "title": "Er kunnen problemen optreden",
+      "description": "Je kunt de DiskPond-update later installeren."
+    },
+    "cancel": "Annuleren",
+    "confirm": "Update verbergen"
+  },
+  "manual": "Handmatig downloaden",
+  "install": "Herstarten en installeren",
+  "download": "Update downloaden",
+  "downloadProgress": "Downloaden: {{percent}}%",
+  "failed": "Update mislukt. Probeer het opnieuw.",
+  "installing": "Herstarten voor installatie…",
+  "cancel": "Download annuleren",
+  "canceling": "Download annuleren…",
+  "canceled": "Download geannuleerd",
+  "preparing": "Download voorbereiden…",
+  "transfer": "{{transferred}} van {{total}}",
+  "speed": "{{speed}}/s",
+  "waiting": "Wachten tot back-ups en herstelacties klaar zijn",
+  "activityUnknown": "Activiteit niet beschikbaar. Opnieuw proberen…",
+  "activityChecking": "Back-up- en herstelactiviteit controleren…",
+  "notes": "Wat is er nieuw?",
+  "noNotes": "Geen versie-informatie beschikbaar",
+  "remindLater": "Later herinneren",
+  "reminderDelay": "Over 24 uur",
+  "reminderSet": "Herinnering ingesteld voor morgen",
+  "history": "Updategeschiedenis",
+  "currentVersion": "Geïnstalleerde versie: {{version}}",
+  "versionChange": "{{from}} → {{to}}",
+  "emptyHistory": "Nog geen updatepogingen",
+  "historyUnavailable": "Kon de updategeschiedenis niet opslaan",
+  "outcomes": {
+    "DOWNLOADING": "Downloaden",
+    "DOWNLOADED": "Gedownload",
+    "CANCELED": "Geannuleerd",
+    "DOWNLOAD_FAILED": "Download mislukt",
+    "INTERRUPTED": "Download onderbroken",
+    "INSTALLING": "Installatie aangevraagd",
+    "INSTALLED": "Geïnstalleerd",
+    "INSTALL_FAILED": "Installatie mislukt",
+    "NOT_INSTALLED": "Installatie niet bevestigd"
+  }
+}

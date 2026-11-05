@@ -1,0 +1,269 @@
+{
+  "page": {
+    "tree": {
+      "title": "Portée",
+      "description": "Choisissez les règles à modifier."
+    },
+    "editor": {
+      "title": "Règles",
+      "save": "Enregistrer",
+      "mode": {
+        "basic": "Simple",
+        "advanced": "Avancé"
+      },
+      "advancedBanner": {
+        "title": "Vous cherchez plus d’options ?",
+        "description": "Le mode avancé propose des horaires personnalisés, des fichiers de règles, la compression, la conservation et des limites de taille de fichier.",
+        "button": "Passer au mode avancé"
+      }
+    },
+    "override": {
+      "inherited": "Hérité",
+      "custom": "Personnalisé"
+    },
+    "draft": {
+      "badge": "Brouillon",
+      "activate": {
+        "button": "Ajouter un fichier/dossier"
+      },
+      "discard": {
+        "button": "Abandonner"
+      }
+    }
+  },
+  "schedule": {
+    "title": "Planification des sauvegardes",
+    "description": "Planifiez des sauvegardes automatiques de vos fichiers.",
+    "trigger": {
+      "label": "Déclenchement de la sauvegarde",
+      "items": {
+        "SCHEDULE": "Planifié",
+        "MANUAL": "Manuel uniquement"
+      }
+    },
+    "interval": {
+      "label": "Intervalle de sauvegarde",
+      "placeholder": "Choisissez un intervalle",
+      "items": {
+        "NONE": "Aucun",
+        "10_MINUTES": "Toutes les 10 minutes",
+        "15_MINUTES": "Toutes les 15 minutes",
+        "20_MINUTES": "Toutes les 20 minutes",
+        "30_MINUTES": "Toutes les 30 minutes",
+        "1_HOUR": "Toutes les heures",
+        "3_HOURS": "Toutes les 3 heures",
+        "6_HOURS": "Toutes les 6 heures",
+        "12_HOURS": "Toutes les 12 heures",
+        "24_HOURS": "Toutes les 24 heures"
+      }
+    },
+    "catchup": {
+      "label": "Rattraper les sauvegardes manquées"
+    },
+    "cron": {
+      "label": "Horaire personnalisé",
+      "add": "Ajouter un horaire personnalisé"
+    }
+  },
+  "retention": {
+    "title": "Conservation des sauvegardes",
+    "description": "Configurez la durée de conservation des sauvegardes.",
+    "latest": {
+      "label": "Dernières sauvegardes",
+      "description": "Nombre de sauvegardes les plus récentes à conserver."
+    },
+    "hourly": {
+      "label": "Sauvegardes horaires",
+      "description": "Nombre de sauvegardes horaires à conserver."
+    },
+    "daily": {
+      "label": "Sauvegardes quotidiennes",
+      "description": "Nombre de sauvegardes quotidiennes à conserver."
+    },
+    "weekly": {
+      "label": "Sauvegardes hebdomadaires",
+      "description": "Nombre de sauvegardes hebdomadaires à conserver."
+    },
+    "monthly": {
+      "label": "Sauvegardes mensuelles",
+      "description": "Nombre de sauvegardes mensuelles à conserver."
+    },
+    "annual": {
+      "label": "Sauvegardes annuelles",
+      "description": "Nombre de sauvegardes annuelles à conserver."
+    },
+    "info": {
+      "title": "Fonctionnement de la conservation",
+      "description": "DiskPond conserve le nombre de sauvegardes les plus récentes défini pour chaque période. Une sauvegarde est conservée si elle satisfait au moins une règle ; les autres sont supprimées pour libérer de l’espace."
+    }
+  },
+  "files": {
+    "title": "Fichiers exclus",
+    "description": "Excluez des fichiers et dossiers des sauvegardes.",
+    "exclusions": {
+      "label": "Fichiers et dossiers exclus",
+      "description": "Fichiers, dossiers et extensions à exclure des sauvegardes.",
+      "descriptionWithRoot": "Fichiers, dossiers et extensions à exclure des sauvegardes de ce dossier.",
+      "add": "Ajouter une exclusion",
+      "example": "fichier-ignore.txt",
+      "broken": {
+        "title_one": "{{count}} règle d’exclusion ne fonctionne pas",
+        "title_other": "{{count}} règles d’exclusion ne fonctionnent pas",
+        "title_many": "{{count}} règles d’exclusion ne fonctionnent pas",
+        "description": "Les règles saisies sous forme de chemins complets ne correspondent à rien. Elles doivent être relatives au dossier sauvegardé.",
+        "descriptionOutside": "Les chemins en dehors de {{root}} ne peuvent pas être exclus des sauvegardes de ce dossier. Modifiez ou supprimez ces règles.",
+        "descriptionWithoutRoot": "Les règles saisies sous forme de chemins complets ne correspondent à rien. Pour exclure un dossier précis, ajoutez la règle aux règles de ce dossier.",
+        "fix_one": "Corriger {{count}} règle",
+        "fix_other": "Corriger {{count}} règles",
+        "fix_many": "Corriger {{count}} règles"
+      },
+      "dialog": {
+        "title": "Modifier la règle d’exclusion",
+        "description": "Configurez le motif de la règle d’exclusion.",
+        "type": {
+          "label": "Exclure par",
+          "path": "Chemin",
+          "name": "Nom",
+          "extension": "Extension"
+        },
+        "matchType": {
+          "exact": "est exactement",
+          "startsWith": "commence par",
+          "endsWith": "se termine par",
+          "contains": "contient"
+        },
+        "path": {
+          "label": "Dossier ou fichier",
+          "description": "Doit se trouver dans {{root}}.",
+          "descriptionWithoutRoot": "Relatif à chaque dossier sauvegardé, p. ex. /AppData/Local/Temp.",
+          "placeholderWithoutRoot": "/chemin/du/dossier",
+          "chooseFolder": "Choisir un dossier",
+          "chooseFile": "Choisir un fichier",
+          "preview": "Exclut {{path}} dans ce dossier.",
+          "errors": {
+            "EMPTY": "Saisissez un chemin.",
+            "INVALID": "Ce chemin ne peut pas être utilisé. Les chemins avec « .. » ou relatifs à un lecteur comme C:dossier ne sont pas pris en charge.",
+            "IS_ROOT": "Il s’agit du dossier sauvegardé lui-même. Choisissez un élément à l’intérieur.",
+            "OUTSIDE_ROOT": "Ce chemin ne se trouve pas dans {{root}}.",
+            "NEEDS_ROOT": "Les chemins complets ne fonctionnent que dans les règles propres à un dossier. Saisissez plutôt un chemin relatif au dossier sauvegardé."
+          }
+        },
+        "pattern": {
+          "label": "dont le nom",
+          "description": "Correspond aux fichiers et dossiers portant ce nom partout dans la sauvegarde.",
+          "placeholder": "Motif du nom",
+          "errors": {
+            "path": "Les noms ne peuvent pas contenir de \\ ni de lettres de lecteur."
+          },
+          "pathHint": {
+            "withRoot": "Cela ressemble à un chemin. Pour exclure un dossier ou fichier précis, utilisez plutôt une règle de chemin.",
+            "withoutRoot": "Cela ressemble à un chemin. Pour exclure un dossier ou fichier précis, ajoutez la règle aux règles de ce dossier.",
+            "action": "Exclure plutôt ce chemin"
+          }
+        },
+        "extension": {
+          "label": "dont l’extension est",
+          "placeholder": "Saisissez l’extension (p. ex. pdf, jpg ou docx)"
+        },
+        "foldersOnly": "Exclure uniquement les dossiers",
+        "save": "Enregistrer"
+      },
+      "preview": {
+        "path": "Dossier ou fichier",
+        "broken": {
+          "fullPath": "Inactif : chemin complet saisi",
+          "outside": "Inactif : chemin en dehors de ce dossier",
+          "isRoot": "Inactif : désigne le dossier sauvegardé lui-même",
+          "invalid": "Inactif : modifiez cette règle pour la corriger"
+        },
+        "extension": "Extension de fichier",
+        "name": {
+          "both": "Nom",
+          "foldersOnly": "Nom du dossier"
+        },
+        "matchType": {
+          "EXACT": "est exactement",
+          "STARTS_WITH": "commence par",
+          "ENDS_WITH": "se termine par",
+          "CONTAINS": "contient"
+        }
+      }
+    },
+    "exclusionRuleFiles": {
+      "label": "Fichiers de règles d’exclusion",
+      "description": "Noms des fichiers contenant des règles d’exclusion.",
+      "example": "ignore.txt",
+      "docs": "Ouvrir la documentation",
+      "add": "Ajouter un fichier de règles"
+    },
+    "maxFileSize": {
+      "label": "Taille maximale des fichiers",
+      "description": "Taille maximale des fichiers à inclure dans les sauvegardes."
+    },
+    "excludeCacheDirs": {
+      "label": "Exclure les dossiers de cache",
+      "description": "Excluez les dossiers de cache courants des sauvegardes."
+    }
+  },
+  "compression": {
+    "title": "Compression",
+    "description": "Configurez la compression des données de sauvegarde.",
+    "algorithm": {
+      "label": "Algorithme de compression",
+      "description": "Algorithme utilisé pour compresser les données de sauvegarde.",
+      "placeholder": "Choisissez un algorithme",
+      "tabs": {
+        "off": "Aucun",
+        "recommended": "Recommandés",
+        "other": "Autres"
+      },
+      "presets": {
+        "faster": "Plus rapide",
+        "balanced": "Équilibré",
+        "smaller": "Plus compact"
+      },
+      "items": {
+        "": "Par défaut",
+        "none": "Aucun",
+        "gzip": "Gzip",
+        "gzip-best-compression": "Gzip (compression maximale)",
+        "gzip-best-speed": "Gzip (vitesse maximale)",
+        "zstd": "Zstandard",
+        "zstd-best-compression": "Zstandard (compression maximale)",
+        "zstd-better-compression": "Zstandard (meilleure compression)",
+        "zstd-fastest": "Zstandard (le plus rapide)",
+        "s2-default": "S2",
+        "s2-better": "S2 (amélioré)",
+        "s2-parallel-4": "S2 (parallèle, 4 threads)",
+        "s2-parallel-8": "S2 (parallèle, 8 threads)",
+        "pgzip": "Gzip parallèle",
+        "pgzip-best-compression": "Gzip parallèle (compression maximale)",
+        "pgzip-best-speed": "Gzip parallèle (vitesse maximale)",
+        "deflate-default": "Deflate",
+        "deflate-best-compression": "Deflate (compression maximale)",
+        "deflate-best-speed": "Deflate (vitesse maximale)",
+        "lz4": "LZ4 (déconseillé)"
+      }
+    },
+    "minFileSize": {
+      "label": "Taille minimale des fichiers",
+      "description": "Compresser uniquement les fichiers plus grands que cette taille."
+    },
+    "maxFileSize": {
+      "label": "Taille maximale des fichiers",
+      "description": "Compresser uniquement les fichiers plus petits que cette taille."
+    },
+    "extensionAllowlist": {
+      "label": "Extensions autorisées",
+      "description": "Compresser uniquement les fichiers avec ces extensions.",
+      "add": "Ajouter une extension",
+      "placeholder": "p. ex. .txt"
+    },
+    "extensionDenylist": {
+      "label": "Extensions exclues",
+      "description": "Ne jamais compresser les fichiers avec ces extensions.",
+      "add": "Ajouter une extension",
+      "placeholder": "p. ex. .zip"
+    }
+  }
+}

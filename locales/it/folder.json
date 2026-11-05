@@ -1,0 +1,159 @@
+{
+  "createDialog": {
+    "title": "Aggiungi file/cartella",
+    "description": "Scegli un file o una cartella da sottoporre a backup.",
+    "type": {
+      "folder": "Cartella",
+      "file": "File"
+    },
+    "name": {
+      "directory": {
+        "label": "Nome della cartella",
+        "placeholder": "Inserisci il nome della cartella"
+      },
+      "file": {
+        "label": "Nome del file",
+        "placeholder": "Inserisci il nome del file"
+      }
+    },
+    "emoji": {
+      "change": "Cambia emoji",
+      "clear": "Rimuovi emoji"
+    },
+    "path": {
+      "directory": {
+        "label": "Percorso della cartella",
+        "placeholder": "Seleziona il percorso della cartella",
+        "title": "Seleziona percorso della cartella"
+      },
+      "file": {
+        "label": "Percorso del file",
+        "placeholder": "Seleziona il percorso del file",
+        "title": "Seleziona percorso del file"
+      }
+    },
+    "submit": {
+      "directory": "Aggiungi cartella",
+      "file": "Aggiungi file"
+    },
+    "changePolicy": "Modifica criterio",
+    "size": {
+      "title": "Calcola dimensione",
+      "description": "Stima la dimensione di questo file o cartella.",
+      "button": "Calcola",
+      "error": "Impossibile stimare la dimensione",
+      "included": "File inclusi:",
+      "excluded": "File esclusi:"
+    }
+  },
+  "emojiPicker": {
+    "search": "Cerca emoji...",
+    "empty": "Nessuna emoji trovata."
+  },
+  "dropzone": {
+    "title": "Trascina qui un file/cartella",
+    "description": "Trascina qui un file o una cartella per aggiungerlo alla cassaforte e iniziare il backup."
+  },
+  "list": {
+    "item": {
+      "browseBackups": "Esplora i backup di {{name}}",
+      "stats": "{{fileCount}} file ⸱ {{size}}",
+      "dropdown": {
+        "browse": "Esplora backup",
+        "backup": {
+          "folder": "Esegui backup della cartella",
+          "file": "Esegui backup del file"
+        },
+        "cancel": "Annulla backup",
+        "settings": {
+          "folder": "Criterio della cartella",
+          "file": "Criterio del file"
+        },
+        "delete": {
+          "folder": "Elimina cartella",
+          "file": "Elimina file"
+        }
+      }
+    }
+  },
+  "deleteDialog": {
+    "title": {
+      "folder": "Elimina cartella",
+      "file": "Elimina file"
+    },
+    "description": {
+      "folder": "Vuoi davvero eliminare questa cartella? L’azione non può essere annullata.",
+      "file": "Vuoi davvero eliminare questo file? L’azione non può essere annullata."
+    },
+    "alert": {
+      "title": "La pulizia avviene gradualmente",
+      "description": "Lo spazio non verrà liberato subito. DiskPond elimina i dati inutilizzati in un secondo momento per garantire l’affidabilità."
+    },
+    "cancel": "Annulla",
+    "continue": {
+      "folder": "Elimina cartella",
+      "file": "Elimina file"
+    }
+  },
+  "backupError": {
+    "label": {
+      "missing": {
+        "folder": "Cartella non trovata",
+        "file": "File non trovato"
+      },
+      "permission": {
+        "folder": "Accesso negato",
+        "file": "Accesso negato"
+      },
+      "failed": {
+        "folder": "Backup non riuscito",
+        "file": "Backup non riuscito"
+      },
+      "partial": {
+        "folder": "Alcuni file ignorati",
+        "file": "Backup incompleto"
+      }
+    },
+    "description": {
+      "missing": {
+        "folder": "Questa cartella non è stata trovata. Potrebbe essere stata spostata, rinominata o trovarsi su un’unità scollegata.",
+        "file": "Questo file non è stato trovato. Potrebbe essere stato spostato, rinominato o trovarsi su un’unità scollegata."
+      },
+      "permission": {
+        "folder": "DiskPond non ha il permesso di leggere questa cartella. Controlla i permessi e riprova.",
+        "file": "DiskPond non ha il permesso di leggere questo file. Controlla i permessi e riprova."
+      },
+      "failed": {
+        "folder": "L’ultimo backup non è stato completato. Riprova e controlla i dettagli se continua a non riuscire.",
+        "file": "L’ultimo backup non è stato completato. Riprova e controlla i dettagli se continua a non riuscire."
+      },
+      "partial": {
+        "folder": "L’ultimo backup è terminato, ma alcuni file non sono stati letti e sono stati ignorati.",
+        "file": "L’ultimo backup è terminato, ma il file non è stato letto completamente."
+      }
+    },
+    "details": "Dettagli",
+    "toast": {
+      "failed": "Backup di “{{name}}” non riuscito",
+      "partial": "Backup di “{{name}}” terminato con errori"
+    },
+    "viewDetails": "Visualizza dettagli",
+    "dialog": {
+      "error": "Dettagli dell’errore",
+      "errors": "File con errori",
+      "count_one": "{{count}} errore",
+      "count_other": "{{count}} errori",
+      "count_many": "{{count}} errori",
+      "limited": "Visualizzati {{shown}} di {{total}}. Gli altri dettagli non sono stati salvati con questo backup.",
+      "unavailable": "I dettagli degli errori per file non sono stati salvati con questo backup.",
+      "ignored_one": "{{count}} errore è stato ignorato secondo il criterio di backup.",
+      "ignored_other": "{{count}} errori sono stati ignorati secondo il criterio di backup.",
+      "ignored_many": "{{count}} errori sono stati ignorati secondo il criterio di backup.",
+      "logs": "Log tecnici",
+      "copy": "Copia dettagli",
+      "copied": "Copiato",
+      "copyFailed": "Impossibile copiare i dettagli. Puoi selezionare e copiare il testo qui sopra.",
+      "close": "Fine"
+    }
+  }
+}

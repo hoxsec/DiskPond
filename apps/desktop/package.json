@@ -37,6 +37,8 @@
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-loading-skeleton": "catalog:",
+    "react-markdown": "catalog:",
+    "remark-gfm": "catalog:",
     "sonner": "catalog:",
     "vite-plugin-static-copy": "catalog:",
     "zod": "catalog:"

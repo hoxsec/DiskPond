@@ -1,0 +1,527 @@
+{
+  "noVaults": {
+    "title": "Sauvegardez et récupérez vos fichiers",
+    "description": "Créez un coffre chiffré dans votre propre stockage ou connectez un coffre pour récupérer des sauvegardes existantes.",
+    "refresh": "Recharger les coffres",
+    "add": "Ajouter un coffre"
+  },
+  "home": {
+    "title": "Coffres",
+    "createVault": "Créer un nouveau coffre",
+    "connectVault": "Connecter un coffre existant",
+    "count_one": "{{count}} coffre trouvé",
+    "count_other": "{{count}} coffres trouvés",
+    "count_many": "{{count}} coffres trouvés"
+  },
+  "createDialog": {
+    "back": "Retour",
+    "title": {
+      "default": "Créer un nouveau coffre",
+      "connect": "Connecter un coffre existant"
+    },
+    "description": "Choisissez une destination vide pour un nouveau coffre chiffré.",
+    "connectDescription": "Choisissez le stockage contenant votre coffre. Son mot de passe de chiffrement existant sera nécessaire.",
+    "providers": {
+      "search": {
+        "label": "Rechercher des fournisseurs de stockage",
+        "placeholder": "Rechercher des fournisseurs..."
+      }
+    },
+    "config": {
+      "submit": "Continuer",
+      "checking": "Vérification de la destination. Veuillez patienter.",
+      "validationError": {
+        "title": "Impossible de vérifier les paramètres de stockage",
+        "rcloneRemoteNotConfigured": "Le distant rclone « {{remote}} » n’est pas configuré sur cet ordinateur. Vérifiez son nom dans votre configuration rclone et réessayez."
+      },
+      "existsError": {
+        "title": "Le coffre existe déjà",
+        "description": "Ce coffre est déjà connecté sur cet ordinateur sous le nom « {{name}} »."
+      }
+    },
+    "details": {
+      "name": {
+        "label": "Nom du coffre",
+        "placeholder": "Saisissez le nom du coffre"
+      },
+      "password": {
+        "label": "Mot de passe de chiffrement",
+        "placeholder": "Saisissez le mot de passe de chiffrement du coffre"
+      },
+      "confirmPassword": {
+        "label": "Confirmer le mot de passe de chiffrement",
+        "placeholder": "Confirmez le mot de passe de chiffrement du coffre"
+      },
+      "warning": {
+        "title": "N’oubliez jamais ce mot de passe",
+        "description": "Conservez ce mot de passe de chiffrement en lieu sûr. DiskPond ne peut pas le réinitialiser. Il sera nécessaire pour restaurer vos sauvegardes sur un autre ordinateur."
+      },
+      "submit": "Créer le coffre",
+      "connect": "Connecter le coffre",
+      "connectHint": "Utilisez le mot de passe existant du coffre. La connexion peut copier d’anciennes métadonnées du dépôt sous leurs noms actuels ; les sauvegardes existantes sont conservées.",
+      "creating": "Création du coffre. Veuillez patienter.",
+      "connecting": "Connexion au coffre. Veuillez patienter.",
+      "failed": "Impossible d’ouvrir le coffre"
+    }
+  },
+  "connectionErrors": {
+    "password": "Le mot de passe de chiffrement est incorrect. Saisissez le mot de passe existant du coffre, espaces compris.",
+    "exists": "Cette destination contient déjà un coffre. Utilisez Connecter un coffre existant ou choisissez une destination vide.",
+    "notEmpty": "Cette destination contient des fichiers ou des données de dépôt. Choisissez une destination vide ; ne supprimez pas les sauvegardes existantes pour continuer.",
+    "missing": "Aucun coffre trouvé ici. Vérifiez la destination ou utilisez Créer un nouveau coffre pour une destination vide.",
+    "duplicate": "Ce coffre est déjà connecté sur cet ordinateur. Ouvrez-le depuis la liste des coffres.",
+    "invalid": "Impossible de lire l’identité du dépôt. Vérifiez qu’il s’agit d’un coffre complet et compatible.",
+    "destinationMissing": "Le dossier de destination est manquant ou n’est pas un dossier. Reconnectez le disque ou choisissez un dossier existant.",
+    "unavailable": "Impossible d’ouvrir le coffre. Vérifiez la destination, les autorisations d’accès, les identifiants du fournisseur et les fichiers du dépôt, puis réessayez."
+  },
+  "setup": {
+    "title": "Configurer le coffre",
+    "description": "Vous devez configurer ce coffre avant de l’utiliser.",
+    "password": {
+      "label": "Mot de passe de chiffrement",
+      "placeholder": "Saisissez le mot de passe de chiffrement du coffre"
+    },
+    "submit": "Continuer"
+  },
+  "passwordStorage": {
+    "protected": {
+      "title": "Stockage des identifiants des coffres",
+      "description": "DiskPond utilise le stockage sécurisé de cet ordinateur pour enregistrer les mots de passe des coffres et les connexions aux fournisseurs. Conservez séparément vos mots de passe et identifiants de stockage pour une récupération sur un autre ordinateur."
+    },
+    "session": {
+      "title": "Identifiants des coffres limités à la session",
+      "description": "Certains identifiants ne peuvent pas être enregistrés de manière sécurisée et restent en mémoire jusqu’à la fermeture de DiskPond. Après un redémarrage, saisissez le mot de passe du coffre et les détails de connexion demandés pour reprendre les sauvegardes planifiées.",
+      "recovery": "Rétablissez l’accès au trousseau de clés du système, puis redémarrez DiskPond pour tenter à nouveau d’enregistrer les identifiants."
+    },
+    "locked": {
+      "title": "Saisissez à nouveau les identifiants de vos coffres",
+      "description": "Les identifiants enregistrés n’ont pas pu être déverrouillés ou migrés. Ouvrez le coffre concerné et saisissez son mot de passe ainsi que les détails de connexion demandés. Ses sauvegardes restent dans votre stockage."
+    },
+    "cleanupFailed": {
+      "title": "Les identifiants enregistrés nécessitent un nettoyage",
+      "description": "DiskPond n’a pas pu migrer ou supprimer une ancienne copie des identifiants. Vérifiez l’accès au dossier de données de DiskPond et redémarrez pour réessayer. L’ancienne copie peut encore être présente sans protection sur le disque."
+    },
+    "unknown": {
+      "title": "État du stockage des identifiants indisponible",
+      "description": "Redémarrez DiskPond pour vérifier le stockage des identifiants. Gardez les mots de passe des coffres et les détails de connexion à disposition pour les saisir à nouveau."
+    },
+    "saveFailed": "Impossible d’enregistrer les identifiants. Vérifiez l’accès au dossier de données de DiskPond avant de redémarrer."
+  },
+  "starting": {
+    "title": "Démarrage du coffre",
+    "description": "Votre coffre est en cours d’initialisation. Cela prend généralement quelques secondes."
+  },
+  "failed": {
+    "retry": "Réessayer"
+  },
+  "status": {
+    "RUNNING": "Actif",
+    "SETUP": "Configuration requise",
+    "STARTING": "Démarrage",
+    "FAILED": "Échec du démarrage"
+  },
+  "providers": {
+    "CLOUDBLINK": {
+      "name": "Stockage géré non pris en charge",
+      "shortName": "Stockage non pris en charge"
+    },
+    "INTERNAL_DRIVE": {
+      "name": "Cet ordinateur",
+      "shortName": "Cet ordinateur",
+      "description": "Enregistrer dans un dossier de cet ordinateur",
+      "fields": {
+        "path": {
+          "label": "Dossier de destination des sauvegardes",
+          "placeholder": "Choisissez le dossier de destination",
+          "dialogTitle": "Choisir le dossier de destination des sauvegardes"
+        }
+      }
+    },
+    "EXTERNAL_DRIVE": {
+      "name": "Disque externe",
+      "shortName": "Disque externe",
+      "description": "Enregistrer sur un disque externe",
+      "fields": {
+        "path": {
+          "label": "Dossier du disque externe",
+          "placeholder": "Choisissez un dossier du disque externe",
+          "dialogTitle": "Choisir un dossier du disque externe"
+        }
+      }
+    },
+    "NETWORK_DRIVE": {
+      "name": "Lecteur réseau",
+      "shortName": "Lecteur réseau",
+      "description": "Enregistrer sur un lecteur réseau",
+      "fields": {
+        "path": {
+          "label": "Dossier du lecteur réseau",
+          "placeholder": "Choisissez un dossier du lecteur réseau",
+          "dialogTitle": "Choisir un dossier du lecteur réseau"
+        }
+      }
+    },
+    "FILESYSTEM": {
+      "name": "Cet ordinateur",
+      "shortName": "Cet ordinateur",
+      "description": "Enregistrer dans un dossier de cet ordinateur",
+      "fields": {
+        "path": {
+          "label": "Dossier de destination des sauvegardes",
+          "placeholder": "Choisissez le dossier de destination",
+          "dialogTitle": "Choisir le dossier de destination des sauvegardes"
+        }
+      }
+    },
+    "NETWORK_ATTACHED_STORAGE": {
+      "name": "Lecteur réseau",
+      "shortName": "Lecteur réseau",
+      "description": "Enregistrer sur un lecteur réseau",
+      "fields": {
+        "path": {
+          "label": "Dossier du lecteur réseau",
+          "placeholder": "Choisissez un dossier du lecteur réseau",
+          "dialogTitle": "Choisir un dossier du lecteur réseau"
+        }
+      }
+    },
+    "AMAZON_S3": {
+      "name": "Amazon S3",
+      "shortName": "S3",
+      "description": "Stocker sur Amazon S3",
+      "fields": {
+        "bucket": {
+          "label": "Nom du bucket",
+          "placeholder": "Saisissez le nom de votre bucket S3"
+        },
+        "endpoint": {
+          "label": "URL du point d’accès",
+          "placeholder": "https://s3.amazonaws.com"
+        },
+        "region": {
+          "label": "Région",
+          "placeholder": "us-east-1"
+        },
+        "accessKeyId": {
+          "label": "Identifiant de clé d’accès",
+          "placeholder": "Saisissez l’identifiant de votre clé d’accès AWS"
+        },
+        "accessKeySecret": {
+          "label": "Clé d’accès secrète",
+          "placeholder": "Saisissez votre clé d’accès secrète AWS"
+        },
+        "sessionToken": {
+          "label": "Jeton de session",
+          "placeholder": "Saisissez le jeton de session"
+        },
+        "prefix": {
+          "label": "Préfixe de clé",
+          "placeholder": "backup/"
+        }
+      }
+    },
+    "S3_COMPATIBLE": {
+      "name": "Compatible S3",
+      "shortName": "S3",
+      "description": "Utiliser un stockage compatible S3",
+      "fields": {
+        "bucket": {
+          "label": "Nom du bucket",
+          "placeholder": "Saisissez le nom de votre bucket compatible S3"
+        },
+        "endpoint": {
+          "label": "URL du point d’accès",
+          "placeholder": "your-s3-compatible-endpoint.com"
+        },
+        "region": {
+          "label": "Région",
+          "placeholder": "us-east-1"
+        },
+        "accessKeyId": {
+          "label": "Identifiant de clé d’accès",
+          "placeholder": "Saisissez l’identifiant de votre clé d’accès"
+        },
+        "accessKeySecret": {
+          "label": "Clé d’accès secrète",
+          "placeholder": "Saisissez votre clé d’accès secrète"
+        },
+        "sessionToken": {
+          "label": "Jeton de session",
+          "placeholder": "Saisissez le jeton de session"
+        },
+        "prefix": {
+          "label": "Préfixe de clé",
+          "placeholder": "backup/"
+        },
+        "disableTls": {
+          "label": "Utiliser une connexion HTTP non sécurisée"
+        },
+        "disableTlsVerification": {
+          "label": "Désactiver la vérification du certificat TLS"
+        }
+      }
+    },
+    "DISKPOND_CLOUD": {
+      "name": "DiskPond Cloud",
+      "shortName": "DiskPond Cloud",
+      "description": "Stocker sur DiskPond Cloud",
+      "openPortal": "Ouvrir DiskPond Cloud",
+      "endpointPlaceholder": "Saisissez votre point d’accès DiskPond Cloud",
+      "bucketPlaceholder": "Saisissez le nom de votre bucket DiskPond Cloud"
+    },
+    "GOOGLE_CLOUD_STORAGE": {
+      "name": "Google Cloud Storage",
+      "shortName": "GCS",
+      "description": "Stocker sur Google Cloud",
+      "fields": {
+        "bucket": {
+          "label": "Nom du bucket",
+          "placeholder": "Saisissez le nom de votre bucket GCS"
+        },
+        "prefix": {
+          "label": "Préfixe de clé",
+          "placeholder": "backup/"
+        },
+        "credentials": {
+          "label": "Identifiants JSON",
+          "placeholder": "Collez le contenu JSON de votre compte de service"
+        }
+      }
+    },
+    "BACKBLAZE": {
+      "name": "Backblaze B2",
+      "shortName": "B2",
+      "description": "Stocker sur Backblaze B2",
+      "fields": {
+        "bucket": {
+          "label": "Nom du bucket",
+          "placeholder": "Saisissez le nom de votre bucket B2"
+        },
+        "keyId": {
+          "label": "Identifiant de clé d’application",
+          "placeholder": "Saisissez l’identifiant de votre clé d’application B2"
+        },
+        "keySecret": {
+          "label": "Clé d’application",
+          "placeholder": "Saisissez votre clé d’application B2"
+        },
+        "prefix": {
+          "label": "Préfixe de clé",
+          "placeholder": "backup/"
+        }
+      }
+    },
+    "AZURE_BLOB_STORAGE": {
+      "name": "Azure Blob Storage",
+      "shortName": "Azure",
+      "description": "Stocker sur Azure Blob Storage",
+      "fields": {
+        "container": {
+          "label": "Nom du conteneur",
+          "placeholder": "Saisissez le nom de votre conteneur de blobs Azure"
+        },
+        "account": {
+          "label": "Compte de stockage",
+          "placeholder": "Saisissez le nom de votre compte de stockage Azure"
+        },
+        "key": {
+          "label": "Clé de stockage",
+          "placeholder": "Saisissez la clé de votre compte de stockage Azure"
+        },
+        "domain": {
+          "label": "Domaine de stockage",
+          "placeholder": "blob.core.windows.net"
+        },
+        "prefix": {
+          "label": "Préfixe de clé",
+          "placeholder": "backup/"
+        },
+        "sasToken": {
+          "label": "Jeton SAS",
+          "placeholder": "Saisissez votre jeton SAS"
+        }
+      }
+    },
+    "SFTP": {
+      "name": "SFTP",
+      "shortName": "SFTP",
+      "description": "Se connecter via SFTP",
+      "fields": {
+        "host": {
+          "label": "Hôte",
+          "placeholder": "Saisissez le nom d’hôte ou l’adresse IP du serveur SFTP"
+        },
+        "user": {
+          "label": "Nom d’utilisateur",
+          "placeholder": "Saisissez le nom d’utilisateur SFTP"
+        },
+        "port": {
+          "label": "Port",
+          "placeholder": "22"
+        },
+        "path": {
+          "label": "Chemin distant",
+          "placeholder": "Saisissez le chemin du dossier distant"
+        },
+        "password": {
+          "label": "Mot de passe",
+          "placeholder": "Saisissez le mot de passe SFTP"
+        },
+        "privateKey": {
+          "label": "Données de la clé privée",
+          "placeholder": "Collez le contenu de la clé privée"
+        },
+        "knownHosts": {
+          "label": "Entrée des hôtes connus",
+          "placeholder": "Collez le contenu de known_hosts",
+          "scan": {
+            "button": "Détecter et remplir",
+            "error": {
+              "KEYSCAN_NOT_INSTALLED": {
+                "title": "ssh-keyscan n’est pas installé",
+                "description": "Remplissez manuellement le champ des hôtes connus."
+              },
+              "SCAN_FAILED": {
+                "title": "Échec de la détection avec ssh-keyscan",
+                "description": "Vérifiez l’hôte et le port indiqués."
+              }
+            }
+          }
+        }
+      }
+    },
+    "RCLONE": {
+      "name": "Distant Rclone",
+      "shortName": "Rclone",
+      "description": "Connecter un distant Rclone",
+      "fields": {
+        "remotePath": {
+          "label": "Chemin distant",
+          "placeholder": "myremote:backups",
+          "description": "Utilisez un nom de distant de votre configuration rclone, suivi de : et d’un dossier facultatif (par exemple, myremote:backups)."
+        },
+        "rclonePath": {
+          "label": "Chemin de l’exécutable Rclone",
+          "placeholder": "Chemin de l’exécutable rclone"
+        }
+      }
+    },
+    "WEBDAV": {
+      "name": "WebDAV",
+      "shortName": "WebDAV",
+      "description": "Se connecter via WebDAV",
+      "fields": {
+        "url": {
+          "label": "URL WebDAV",
+          "placeholder": "https://your-webdav-server.com/path"
+        },
+        "user": {
+          "label": "Nom d’utilisateur",
+          "placeholder": "Saisissez votre nom d’utilisateur WebDAV"
+        },
+        "password": {
+          "label": "Mot de passe",
+          "placeholder": "Saisissez votre mot de passe WebDAV"
+        }
+      }
+    }
+  },
+  "overview": {
+    "title": "Accueil",
+    "vault": "Coffre",
+    "settings": "Paramètres",
+    "currentProfile": {
+      "title": "Profil actuel"
+    },
+    "otherProfiles": {
+      "title": "Autres profils",
+      "back": "Retour à tous les profils",
+      "select": {
+        "all": "Tous les profils",
+        "clear": "Effacer le filtre de profil",
+        "device": {
+          "all": "Tous les appareils",
+          "clear": "Effacer le filtre d’appareil",
+          "empty": "Choisir un appareil"
+        },
+        "user": {
+          "all": "Tous les utilisateurs",
+          "clear": "Effacer le filtre d’utilisateur",
+          "empty": "Choisir un utilisateur"
+        }
+      },
+      "empty": {
+        "title": "Aucun fichier ou dossier trouvé",
+        "description": "Ce profil ne contient aucun fichier ou dossier sauvegardé."
+      }
+    },
+    "sources": {
+      "title": "Fichiers/dossiers",
+      "count_one": "{{count}} fichier/dossier protégé",
+      "count_other": "{{count}} fichiers/dossiers protégés",
+      "count_many": "{{count}} fichiers/dossiers protégés",
+      "addSource": "Ajouter un fichier/dossier",
+      "backupAll": "Tout sauvegarder",
+      "empty": {
+        "title": "Aucun fichier ou dossier ajouté",
+        "description": "Vous n’avez pas encore ajouté de fichier ou dossier. Ajoutez-en un avec le bouton ci-dessous."
+      }
+    },
+    "stats": {
+      "totalSize": "Données protégées",
+      "files": "Fichiers protégés",
+      "directories": "Dossiers protégés",
+      "storageAvailable": "Stockage disponible",
+      "notReported": "Non communiqué",
+      "bucketQuotaRemaining": "Quota restant du bucket",
+      "noBucketQuota": "Aucun quota de bucket",
+      "unavailable": "Indisponible"
+    },
+    "score": {
+      "empty": {
+        "category": "Aucun coffre pour le moment",
+        "description": "Créez votre premier coffre pour commencer à sauvegarder vos fichiers."
+      },
+      "excellent": {
+        "category": "Excellent",
+        "description": "Votre configuration de sauvegarde est correcte."
+      },
+      "localOnly": {
+        "category": "Destinations locales uniquement",
+        "description": "Envisagez une autre copie sur un appareil distinct ou un stockage hors site que vous fournissez."
+      },
+      "unavailable": {
+        "category": "État indisponible",
+        "description": "Certains états de sauvegarde n’ont pas pu être vérifiés. Assurez-vous que vos coffres sont connectés et réessayez."
+      },
+      "backupErrors": {
+        "category": "Attention requise",
+        "description_one": "{{count}} sauvegarde a rencontré des problèmes. Ouvrez la liste des coffres pour en savoir plus.",
+        "description_other": "{{count}} sauvegardes ont rencontré des problèmes. Ouvrez la liste des coffres pour en savoir plus.",
+        "description_many": "{{count}} sauvegardes ont rencontré des problèmes. Ouvrez la liste des coffres pour en savoir plus."
+      }
+    }
+  },
+  "remoteTooltip": {
+    "title": "Autre profil",
+    "description": "Vous consultez un autre profil. Vous ne pouvez pas effectuer cette action."
+  },
+  "deleteDialog": {
+    "title": "Déconnecter le coffre",
+    "description": "Supprimer la connexion à ce coffre de cet ordinateur ? Ses sauvegardes resteront dans votre stockage.",
+    "confirm": {
+      "label": "Pour confirmer, saisissez « {{vaultName}} » ci-dessous :",
+      "placeholder": "Saisissez le nom du coffre",
+      "error": {
+        "empty": "Saisissez « {{vaultName}} » pour confirmer la déconnexion.",
+        "mismatch": "Le nom du coffre saisi ne correspond pas."
+      }
+    },
+    "storageAlert": {
+      "title": "Les fichiers de sauvegarde ne seront pas supprimés",
+      "description": "DiskPond cessera de sauvegarder dans ce coffre. Vous pourrez le reconnecter avec ses paramètres de stockage et son mot de passe de chiffrement."
+    },
+    "cancel": "Annuler",
+    "continue": "Déconnecter le coffre"
+  }
+}

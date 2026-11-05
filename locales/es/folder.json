@@ -1,0 +1,159 @@
+{
+  "createDialog": {
+    "title": "Añadir archivo/carpeta",
+    "description": "Elige un archivo o una carpeta para crear copias de seguridad.",
+    "type": {
+      "folder": "Carpeta",
+      "file": "Archivo"
+    },
+    "name": {
+      "directory": {
+        "label": "Nombre de la carpeta",
+        "placeholder": "Introduce el nombre de la carpeta"
+      },
+      "file": {
+        "label": "Nombre del archivo",
+        "placeholder": "Introduce el nombre del archivo"
+      }
+    },
+    "emoji": {
+      "change": "Cambiar emoji",
+      "clear": "Quitar emoji"
+    },
+    "path": {
+      "directory": {
+        "label": "Ruta de la carpeta",
+        "placeholder": "Selecciona la ruta de la carpeta",
+        "title": "Seleccionar ruta de la carpeta"
+      },
+      "file": {
+        "label": "Ruta del archivo",
+        "placeholder": "Selecciona la ruta del archivo",
+        "title": "Seleccionar ruta del archivo"
+      }
+    },
+    "submit": {
+      "directory": "Añadir carpeta",
+      "file": "Añadir archivo"
+    },
+    "changePolicy": "Cambiar política",
+    "size": {
+      "title": "Calcular tamaño",
+      "description": "Estima el tamaño de este archivo o carpeta.",
+      "button": "Calcular",
+      "error": "No se pudo estimar el tamaño",
+      "included": "Archivos incluidos:",
+      "excluded": "Archivos excluidos:"
+    }
+  },
+  "emojiPicker": {
+    "search": "Buscar emoji...",
+    "empty": "No se encontraron emojis."
+  },
+  "dropzone": {
+    "title": "Suelta un archivo/carpeta para añadirlo",
+    "description": "Suelta un archivo o una carpeta para añadirlo a tu bóveda y empezar a crear copias."
+  },
+  "list": {
+    "item": {
+      "browseBackups": "Explorar copias de {{name}}",
+      "stats": "{{fileCount}} archivos ⸱ {{size}}",
+      "dropdown": {
+        "browse": "Explorar copias",
+        "backup": {
+          "folder": "Crear copia de la carpeta",
+          "file": "Crear copia del archivo"
+        },
+        "cancel": "Cancelar copia",
+        "settings": {
+          "folder": "Política de la carpeta",
+          "file": "Política del archivo"
+        },
+        "delete": {
+          "folder": "Eliminar carpeta",
+          "file": "Eliminar archivo"
+        }
+      }
+    }
+  },
+  "deleteDialog": {
+    "title": {
+      "folder": "Eliminar carpeta",
+      "file": "Eliminar archivo"
+    },
+    "description": {
+      "folder": "¿Seguro que quieres eliminar esta carpeta? Esta acción no se puede deshacer.",
+      "file": "¿Seguro que quieres eliminar este archivo? Esta acción no se puede deshacer."
+    },
+    "alert": {
+      "title": "La limpieza es gradual",
+      "description": "El espacio no se liberará de inmediato. DiskPond elimina los datos sin usar más adelante para garantizar la fiabilidad."
+    },
+    "cancel": "Cancelar",
+    "continue": {
+      "folder": "Eliminar carpeta",
+      "file": "Eliminar archivo"
+    }
+  },
+  "backupError": {
+    "label": {
+      "missing": {
+        "folder": "Carpeta no encontrada",
+        "file": "Archivo no encontrado"
+      },
+      "permission": {
+        "folder": "Sin acceso",
+        "file": "Sin acceso"
+      },
+      "failed": {
+        "folder": "Copia fallida",
+        "file": "Copia fallida"
+      },
+      "partial": {
+        "folder": "Se omitieron algunos archivos",
+        "file": "Copia incompleta"
+      }
+    },
+    "description": {
+      "missing": {
+        "folder": "No se encontró esta carpeta. Puede que se haya movido, renombrado o que esté en una unidad desconectada.",
+        "file": "No se encontró este archivo. Puede que se haya movido, renombrado o que esté en una unidad desconectada."
+      },
+      "permission": {
+        "folder": "DiskPond no tiene permiso para leer esta carpeta. Comprueba sus permisos e inténtalo de nuevo.",
+        "file": "DiskPond no tiene permiso para leer este archivo. Comprueba sus permisos e inténtalo de nuevo."
+      },
+      "failed": {
+        "folder": "No se pudo completar la última copia. Inténtalo de nuevo y consulta los detalles si sigue fallando.",
+        "file": "No se pudo completar la última copia. Inténtalo de nuevo y consulta los detalles si sigue fallando."
+      },
+      "partial": {
+        "folder": "La última copia terminó, pero no se pudieron leer algunos archivos y se omitieron.",
+        "file": "La última copia terminó, pero no se pudo leer el archivo completo."
+      }
+    },
+    "details": "Detalles",
+    "toast": {
+      "failed": "La copia de «{{name}}» falló",
+      "partial": "La copia de «{{name}}» terminó con errores"
+    },
+    "viewDetails": "Ver detalles",
+    "dialog": {
+      "error": "Detalles del error",
+      "errors": "Archivos con errores",
+      "count_one": "{{count}} error",
+      "count_other": "{{count}} errores",
+      "count_many": "{{count}} errores",
+      "limited": "Se muestran {{shown}} de {{total}}. Los demás detalles no se guardaron con esta copia.",
+      "unavailable": "Los detalles de errores por archivo no se guardaron con esta copia.",
+      "ignored_one": "Se ignoró {{count}} error según tu política de copias de seguridad.",
+      "ignored_other": "Se ignoraron {{count}} errores según tu política de copias de seguridad.",
+      "ignored_many": "Se ignoraron {{count}} errores según tu política de copias de seguridad.",
+      "logs": "Registros técnicos",
+      "copy": "Copiar detalles",
+      "copied": "Copiado",
+      "copyFailed": "No se pudieron copiar los detalles. Puedes seleccionar y copiar el texto de arriba.",
+      "close": "Listo"
+    }
+  }
+}

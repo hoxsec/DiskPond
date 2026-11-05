@@ -1,0 +1,25 @@
+{
+  "addFolder": "Añadir archivo/carpeta",
+  "selectVault": {
+    "empty": "Seleccionar bóveda",
+    "createVault": "Crear bóveda"
+  },
+  "vaultMenu": {
+    "createVault": "Crear una bóveda nueva",
+    "connectVault": "Conectar una bóveda existente"
+  },
+  "links": {
+    "navigation": "Menú",
+    "vaultSettings": "Configuración de la bóveda",
+    "home": "Inicio",
+    "activity": "Actividad",
+    "overview": "Resumen",
+    "settings": "Configuración",
+    "policies": "Políticas"
+  },
+  "updateAlert": {
+    "title": "DiskPond {{version}} disponible",
+    "error": "No se pudo abrir el navegador. Inténtalo de nuevo.",
+    "button": "Ver versiones en GitHub"
+  }
+}

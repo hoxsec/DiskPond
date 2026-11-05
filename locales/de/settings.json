@@ -1,0 +1,108 @@
+{
+  "account": {
+    "preferences": {
+      "checkForUpdates": "Automatisch nach Updates suchen",
+      "title": "Voreinstellungen",
+      "theme": {
+        "label": "Design",
+        "description": "Wähle dein bevorzugtes Design.",
+        "items": {
+          "light": "Hell",
+          "dark": "Dunkel",
+          "system": "System"
+        }
+      },
+      "language": {
+        "label": "Sprache",
+        "description": "Wähle deine bevorzugte Sprache."
+      }
+    }
+  },
+  "vault": {
+    "title": "Einstellungen",
+    "home": "Startseite",
+    "general": {
+      "title": "Allgemein",
+      "description": "Wähle den angezeigten Namen dieses Tresors.",
+      "name": {
+        "label": "Tresorname",
+        "placeholder": "Tresornamen eingeben"
+      },
+      "delete": {
+        "title": "Diesen Tresor trennen",
+        "description": "Entferne diese Verbindung aus DiskPond. Gespeicherte Sicherungen bleiben in deinem Speicher erhalten.",
+        "button": "Tresor trennen"
+      }
+    },
+    "config": {
+      "title": "Speicherkonfiguration",
+      "description": "Sieh dir den Speicherort dieses Tresors an.",
+      "provider": "Speicheranbieter:",
+      "loading": "Verbindungsdetails werden geladen…",
+      "unavailable": "Verbindungsdetails sind nicht verfügbar. Verbinde den Tresor erneut, um sie anzuzeigen.",
+      "credentialsHidden": "Passwörter, Schlüssel und andere Zugangsdaten werden im Zugangsdaten-Speicher von DiskPond aufbewahrt. URLs zeigen nur die Serveradresse.",
+      "enabled": "Aktiviert",
+      "disabled": "Deaktiviert",
+      "fields": {
+        "path": "Pfad",
+        "host": "Host",
+        "port": "Port",
+        "bucket": "Bucket",
+        "region": "Region",
+        "prefix": "Präfix",
+        "container": "Container",
+        "endpoint": "Serveradresse",
+        "remotePath": "Rclone-Remotepfad",
+        "rclonePath": "Rclone-Programmdatei",
+        "disableTls": "HTTP ohne TLS",
+        "disableTlsVerification": "TLS-Zertifikatsprüfung überspringen"
+      }
+    },
+    "throttle": {
+      "title": "Netzwerkbegrenzung",
+      "description": "Begrenze die Netzwerknutzung dieses Tresors.",
+      "upload": {
+        "enabled": {
+          "label": "Upload-Bandbreite begrenzen",
+          "description": "Begrenze, wie schnell dieser Tresor Sicherungsdaten senden kann."
+        },
+        "limit": {
+          "label": "Upload-Limit",
+          "description": "Begrenze die Upload-Bandbreite dieses Tresors."
+        }
+      },
+      "download": {
+        "enabled": {
+          "label": "Download-Bandbreite begrenzen",
+          "description": "Begrenze, wie schnell dieser Tresor Daten zur Wiederherstellung herunterladen kann."
+        },
+        "limit": {
+          "label": "Download-Limit",
+          "description": "Begrenze die Download-Bandbreite dieses Tresors."
+        }
+      },
+      "save": "Speichern"
+    }
+  },
+  "folder": {
+    "title": "Sicherungsrichtlinie",
+    "description": "Konfiguriere die Sicherungsrichtlinie.",
+    "general": {
+      "title": "Allgemein",
+      "description": "Konfiguriere allgemeine Einstellungen.",
+      "name": {
+        "label": "Name",
+        "placeholder": "Namen eingeben"
+      },
+      "path": {
+        "label": "Ordnerpfad",
+        "fileLabel": "Dateipfad"
+      },
+      "emoji": {
+        "change": "Emoji ändern",
+        "clear": "Emoji entfernen"
+      }
+    },
+    "modified": "Geändert"
+  }
+}

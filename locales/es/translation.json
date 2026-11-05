@@ -1,0 +1,15 @@
+{
+  "comment": "Este archivo es necesario para cargar el idioma predeterminado de la aplicación Electron.",
+  "tray": {
+    "open": "Abrir",
+    "quit": "Salir"
+  },
+  "common": {
+    "close": "Cerrar",
+    "back": "Volver",
+    "breadcrumb": "Ruta de la carpeta",
+    "parentFolder": "Ir a la carpeta superior",
+    "selectAll": "Seleccionar todo",
+    "selectRow": "Seleccionar fila"
+  }
+}

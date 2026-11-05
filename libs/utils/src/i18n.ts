@@ -19,6 +19,7 @@ i18n
   .init({
     fallbackLng: DEFAULT_LANGUAGE_CODE,
     supportedLngs: LANGUAGE_CODES,
+    load: "languageOnly",
     backend: {
       loadPath: "/locales/{{lng}}/{{ns}}.json",
     },
@@ -26,5 +27,12 @@ i18n
       escapeValue: false,
     },
   });
+
+i18n.on("languageChanged", (language) => {
+  if (typeof document !== "undefined") {
+    document.documentElement.lang = language;
+    document.documentElement.dir = i18n.dir(language);
+  }
+});
 
 export { I18nextProvider, i18n, Trans, useTranslation };

@@ -1,0 +1,96 @@
+{
+  "list": {
+    "back": "Indietro",
+    "backToVault": "Torna alla cassaforte",
+    "settings": {
+      "folder": "Criterio della cartella",
+      "file": "Criterio del file"
+    },
+    "item": {
+      "browseFiles": "Esplora i file del backup del {{date}}",
+      "files_one": "{{formatted}} file",
+      "files_other": "{{formatted}} file",
+      "files_many": "{{formatted}} file",
+      "dropdown": {
+        "browse": "Esplora file",
+        "restoreFile": "Ripristina file",
+        "rename": "Rinomina backup",
+        "pin": "Fissa backup",
+        "delete": "Elimina backup"
+      }
+    },
+    "pending": {
+      "title": "Un nuovo backup è in attesa",
+      "description": "È in corso un altro backup."
+    },
+    "paused": {
+      "title": "Riprendi il backup in pausa",
+      "description": "Hai messo in pausa un backup non ancora completato.",
+      "button": "Riprendi backup"
+    },
+    "empty": {
+      "default": {
+        "title": "Ancora nessun backup",
+        "description": "Non hai ancora creato backup. Creane uno con il pulsante qui sotto.",
+        "button": "Esegui backup ora"
+      },
+      "pending": {
+        "title": "Backup in attesa",
+        "description": "È in corso un altro backup. Questo backup è in coda."
+      },
+      "initial": {
+        "title": "Primo backup in corso",
+        "description": "Questo è il primo backup, quindi potrebbe richiedere tempo. Nei successivi, DiskPond carica i file modificati."
+      },
+      "canceling": {
+        "title": "Annullamento del backup",
+        "description": "Questo backup è in fase di annullamento. L’operazione potrebbe richiedere tempo."
+      }
+    },
+    "cancel": "Annulla backup",
+    "backup": {
+      "folder": "Esegui backup della cartella",
+      "file": "Esegui backup del file"
+    }
+  },
+  "progress": {
+    "title": {
+      "default": "{{percentage}} completato",
+      "fallback": "Backup in corso..."
+    },
+    "description": {
+      "total": "{{completed}} / {{total}}",
+      "fallback": "{{completed}} elaborati"
+    }
+  },
+  "renameDialog": {
+    "title": "Rinomina backup",
+    "description": "Assegna un nome a questo backup per trovarlo più facilmente.",
+    "label": "Nome",
+    "placeholder": "Il mio backup",
+    "continue": "Rinomina backup"
+  },
+  "deleteDialog": {
+    "title": "Elimina backup",
+    "description": "Vuoi davvero eliminare questo backup? L’azione non può essere annullata.",
+    "alert": {
+      "title": "La pulizia avviene gradualmente",
+      "description": "Lo spazio non verrà liberato subito. DiskPond elimina i dati inutilizzati in un secondo momento per garantire l’affidabilità."
+    },
+    "cancel": "Annulla",
+    "continue": "Elimina backup"
+  },
+  "pinDialog": {
+    "title": "Fissa backup",
+    "description": "Gestisci i contrassegni di conservazione di questo backup.",
+    "alert": {
+      "title": "A cosa servono i contrassegni?",
+      "description": "Un backup con un contrassegno non viene eliminato, anche se non rientra nel criterio di conservazione."
+    },
+    "label": "Nuovo contrassegno",
+    "placeholder": "es. “conserva”",
+    "add": "Aggiungi",
+    "duplicate": "Questo contrassegno è già presente.",
+    "save": "Salva"
+  }
+}

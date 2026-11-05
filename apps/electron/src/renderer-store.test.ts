@@ -48,6 +48,14 @@ it("rejects writes that bypass password protection or overwrite hosted records",
 });
 
 it("validates the retained theme/language/mode/update/local-vault preferences", () => {
+  for (const language of ["en", "es", "fr", "de", "tr", "nl", "it", "pl"]) {
+    writeRendererStore("preferences.language", language);
+    expect(mocks.set).toHaveBeenCalledWith("preferences.language", language);
+  }
+  for (const language of ["unknown", "es-MX", "", null, {}])
+    expect(() => writeRendererStore("preferences.language", language)).toThrow(
+      "Invalid preference value",
+    );
   writeRendererStore("preferences.theme", "light");
   expect(mocks.set).toHaveBeenCalledWith("preferences.theme", "light");
   writeRendererStore("preferences.checkForUpdates", false);

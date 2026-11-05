@@ -1,0 +1,55 @@
+{
+  "title": "Ein neues Update ist verfügbar!",
+  "description": "Eine neue Version von DiskPond ist verfügbar.",
+  "restart": "Neustarten",
+  "downloading": "Update wird heruntergeladen...",
+  "error": {
+    "title": "Automatisches Update fehlgeschlagen",
+    "description": "Beim Aktualisieren ist ein Fehler aufgetreten. Lade das Update über die Schaltfläche unten manuell herunter."
+  },
+  "dismiss": {
+    "title": "Update ausblenden?",
+    "warning": {
+      "title": "Es können Probleme auftreten",
+      "description": "Du kannst das DiskPond-Update später installieren."
+    },
+    "cancel": "Abbrechen",
+    "confirm": "Update ausblenden"
+  },
+  "manual": "Manuell herunterladen",
+  "install": "Neustarten und installieren",
+  "download": "Update herunterladen",
+  "downloadProgress": "Download: {{percent}} %",
+  "failed": "Update fehlgeschlagen. Versuche es erneut.",
+  "installing": "Neustart zur Installation…",
+  "cancel": "Download abbrechen",
+  "canceling": "Download wird abgebrochen…",
+  "canceled": "Download abgebrochen",
+  "preparing": "Download wird vorbereitet…",
+  "transfer": "{{transferred}} von {{total}}",
+  "speed": "{{speed}}/s",
+  "waiting": "Warten auf den Abschluss von Sicherungen und Wiederherstellungen",
+  "activityUnknown": "Aktivität nicht verfügbar. Erneuter Versuch…",
+  "activityChecking": "Sicherungs- und Wiederherstellungsaktivität wird geprüft…",
+  "notes": "Was ist neu?",
+  "noNotes": "Keine Versionshinweise verfügbar",
+  "remindLater": "Später erinnern",
+  "reminderDelay": "In 24 Stunden",
+  "reminderSet": "Erinnerung für morgen eingerichtet",
+  "history": "Updateverlauf",
+  "currentVersion": "Installierte Version: {{version}}",
+  "versionChange": "{{from}} → {{to}}",
+  "emptyHistory": "Noch keine Updateversuche",
+  "historyUnavailable": "Updateverlauf konnte nicht gespeichert werden",
+  "outcomes": {
+    "DOWNLOADING": "Wird heruntergeladen",
+    "DOWNLOADED": "Heruntergeladen",
+    "CANCELED": "Abgebrochen",
+    "DOWNLOAD_FAILED": "Download fehlgeschlagen",
+    "INTERRUPTED": "Download unterbrochen",
+    "INSTALLING": "Installation angefordert",
+    "INSTALLED": "Installiert",
+    "INSTALL_FAILED": "Installation fehlgeschlagen",
+    "NOT_INSTALLED": "Installation nicht bestätigt"
+  }
+}

@@ -38,7 +38,7 @@ function finish(error) {
   if (error) console.error(error);
   else
     console.info(
-      "Desktop smoke passed: account-free onboarding, provider flow, settings/theme persistence, retired API rejection, engine discovery; no remote renderer or main-fetch requests.",
+      "Desktop smoke passed: account-free onboarding, provider flow, settings/theme/language persistence, retired API rejection, engine discovery; no remote renderer or main-fetch requests.",
     );
   app.once("will-quit", () => app.exit(error ? 1 : 0));
   app.quit();
@@ -93,7 +93,7 @@ function waitFor(contents, expression) {
     const deadline = Date.now() + 15000;
     function check() {
       if (${expression}) return resolve(true);
-      if (Date.now() >= deadline) return reject(new Error('Timed out: ' + ${JSON.stringify(expression)}));
+      if (Date.now() >= deadline) return reject(new Error('Timed out: ' + ${JSON.stringify(expression)} + '\\nLanguage: ' + document.documentElement.lang + '\\nPreferences: ' + JSON.stringify(window.electron.store.get('preferences')) + '\\n' + document.body.innerText));
       setTimeout(check, 50);
     }
     check();
@@ -113,6 +113,30 @@ async function selectTheme(contents, theme) {
   await waitFor(
     contents,
     `window.electron.store.get('preferences.theme') === ${JSON.stringify(theme)}`,
+  );
+}
+
+async function selectLanguage(contents, code, name, title) {
+  await contents.executeJavaScript(
+    "document.querySelectorAll('[data-slot=select-trigger]')[1].click()",
+  );
+  await waitFor(
+    contents,
+    "[...document.querySelectorAll('[role=option]')].some(element => element.checkVisibility())",
+  );
+  await contents.executeJavaScript(`(() => {
+    const option = [...document.querySelectorAll('[role=option]')].find(element => element.checkVisibility() && element.textContent.trim() === ${JSON.stringify(name)});
+    if (!option) throw new Error('Language option not found');
+    option.click();
+  })()`);
+  await waitFor(
+    contents,
+    "!document.querySelector('[data-slot=select-trigger][aria-expanded=true]')",
+  );
+  await waitForText(contents, title);
+  await waitFor(
+    contents,
+    `document.documentElement.lang === ${JSON.stringify(code)} && window.electron.store.get('preferences.language') === ${JSON.stringify(code)}`,
   );
 }
 
@@ -252,6 +276,35 @@ app.on("browser-window-created", (_, window) => {
         );
       }
       await selectTheme(contents, "dark");
+      for (const [code, name, title] of [
+        ["es", "Español", "Preferencias"],
+        ["fr", "Français", "Préférences"],
+        ["de", "Deutsch", "Voreinstellungen"],
+        ["tr", "Türkçe", "Tercihler"],
+        ["nl", "Nederlands", "Voorkeuren"],
+        ["it", "Italiano", "Preferenze"],
+        ["pl", "Polski", "Preferencje"],
+      ]) {
+        await selectLanguage(contents, code, name, title);
+        const loaded = new Promise((resolve) =>
+          contents.once("did-finish-load", resolve),
+        );
+        contents.reload();
+        await loaded;
+        await waitForText(contents, title);
+        await waitFor(
+          contents,
+          `document.documentElement.lang === ${JSON.stringify(code)}`,
+        );
+        assert.equal(
+          await contents.executeJavaScript(
+            "window.electron.store.get('preferences.language')",
+          ),
+          code,
+        );
+        await capture(contents, `settings-${code}`);
+      }
+      await selectLanguage(contents, "en", "English", "Preferences");
       await contents.executeJavaScript("window.electron.zoom(2)");
       await waitFor(contents, "window.innerWidth < 768");
       await capture(contents, "settings-200-percent");
@@ -323,6 +376,7 @@ app.on("browser-window-created", (_, window) => {
       assert.deepEqual(blocked, []);
       finish();
     } catch (error) {
+      await capture(contents, "failure").catch(() => {});
       finish(error);
     }
   });

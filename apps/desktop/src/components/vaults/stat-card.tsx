@@ -1,3 +1,4 @@
+import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
 import { Card, CardContent, CardTitle } from "@blinkdisk/ui/card";
 import { Skeleton } from "@blinkdisk/ui/skeleton";
 import { Sparkline } from "@blinkdisk/ui/sparkline";
@@ -16,6 +17,7 @@ export function VaultStatCard({
   history,
   isLoading,
 }: VaultStatCardProps) {
+  const { language } = useAppTranslation();
   const trend = getHistoryTrend(history);
   const TrendIcon =
     trend.direction === "down"
@@ -34,7 +36,7 @@ export function VaultStatCard({
           {!isLoading && history ? (
             <div className="text-foreground flex shrink-0 items-center gap-1 text-xs font-semibold">
               <TrendIcon className="size-4" />
-              {formatTrendPercent(trend.percent)}
+              {formatTrendPercent(trend.percent, language)}
             </div>
           ) : null}
         </div>
@@ -66,9 +68,10 @@ export function getHistoryTrend(history?: number[]) {
   };
 }
 
-function formatTrendPercent(percent: number) {
-  return `${percent.toLocaleString(undefined, {
+function formatTrendPercent(percent: number, language: string) {
+  return (percent / 100).toLocaleString(language, {
+    style: "percent",
     maximumFractionDigits: 1,
     minimumFractionDigits: 1,
-  })}%`;
+  });
 }

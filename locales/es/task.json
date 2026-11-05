@@ -1,0 +1,25 @@
+{
+  "dialog": {
+    "title": {
+      "loading": "Cargando...",
+      "fallback": "Tarea"
+    },
+    "description": {
+      "loading": "Cargando detalles de la tarea..."
+    },
+    "logs": {
+      "waiting": "Esperando registros...",
+      "empty": "No hay registros disponibles",
+      "unavailable": "No se pudieron cargar los registros de la tarea. Las tareas antiguas caducan y el historial se borra al reiniciar DiskPond."
+    },
+    "close": "Cerrar",
+    "cancel": "Cancelar tarea",
+    "status": {
+      "RUNNING": "En curso",
+      "CANCELING": "Cancelando",
+      "CANCELED": "Cancelada",
+      "SUCCESS": "Completada",
+      "FAILED": "Fallida"
+    }
+  }
+}

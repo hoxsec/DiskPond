@@ -1,0 +1,96 @@
+{
+  "list": {
+    "back": "Retour",
+    "backToVault": "Retour au coffre",
+    "settings": {
+      "folder": "Règles du dossier",
+      "file": "Règles du fichier"
+    },
+    "item": {
+      "browseFiles": "Parcourir les fichiers de la sauvegarde du {{date}}",
+      "files_one": "{{formatted}} fichier",
+      "files_other": "{{formatted}} fichiers",
+      "files_many": "{{formatted}} fichiers",
+      "dropdown": {
+        "browse": "Parcourir les fichiers",
+        "restoreFile": "Restaurer le fichier",
+        "rename": "Renommer la sauvegarde",
+        "pin": "Épingler la sauvegarde",
+        "delete": "Supprimer la sauvegarde"
+      }
+    },
+    "pending": {
+      "title": "Une nouvelle sauvegarde est en attente",
+      "description": "Une autre sauvegarde est en cours."
+    },
+    "paused": {
+      "title": "Reprendre la sauvegarde en pause",
+      "description": "Vous avez mis en pause une sauvegarde qui n’est pas terminée.",
+      "button": "Reprendre la sauvegarde"
+    },
+    "empty": {
+      "default": {
+        "title": "Aucune sauvegarde pour le moment",
+        "description": "Vous n’avez pas encore créé de sauvegarde. Créez-en une avec le bouton ci-dessous.",
+        "button": "Sauvegarder maintenant"
+      },
+      "pending": {
+        "title": "Sauvegarde en attente",
+        "description": "Une autre sauvegarde est en cours. Cette sauvegarde est dans la file d’attente."
+      },
+      "initial": {
+        "title": "Première sauvegarde en cours",
+        "description": "Il s’agit de la première sauvegarde, ce qui peut prendre du temps. Lors des suivantes, DiskPond envoie les fichiers modifiés."
+      },
+      "canceling": {
+        "title": "Annulation de la sauvegarde",
+        "description": "Cette sauvegarde est en cours d’annulation. Cela peut prendre du temps."
+      }
+    },
+    "cancel": "Annuler la sauvegarde",
+    "backup": {
+      "folder": "Sauvegarder le dossier",
+      "file": "Sauvegarder le fichier"
+    }
+  },
+  "progress": {
+    "title": {
+      "default": "{{percentage}} terminé",
+      "fallback": "Sauvegarde en cours..."
+    },
+    "description": {
+      "total": "{{completed}} / {{total}}",
+      "fallback": "{{completed}} traités"
+    }
+  },
+  "renameDialog": {
+    "title": "Renommer la sauvegarde",
+    "description": "Donnez un nom à cette sauvegarde pour la retrouver plus facilement.",
+    "label": "Nom",
+    "placeholder": "Ma sauvegarde",
+    "continue": "Renommer la sauvegarde"
+  },
+  "deleteDialog": {
+    "title": "Supprimer la sauvegarde",
+    "description": "Voulez-vous vraiment supprimer cette sauvegarde ? Cette action est irréversible.",
+    "alert": {
+      "title": "Le nettoyage est progressif",
+      "description": "L’espace ne sera pas libéré immédiatement. DiskPond nettoie les données inutilisées plus tard pour garantir la fiabilité."
+    },
+    "cancel": "Annuler",
+    "continue": "Supprimer la sauvegarde"
+  },
+  "pinDialog": {
+    "title": "Épingler la sauvegarde",
+    "description": "Gérez les épingles de cette sauvegarde.",
+    "alert": {
+      "title": "À quoi servent les épingles ?",
+      "description": "Une sauvegarde épinglée n’est pas supprimée, même si elle dépasse les limites de vos règles de conservation."
+    },
+    "label": "Nouvelle épingle",
+    "placeholder": "p. ex. « conserver »",
+    "add": "Ajouter",
+    "duplicate": "Cette épingle est déjà ajoutée.",
+    "save": "Enregistrer"
+  }
+}
