@@ -2,8 +2,9 @@
 
 2026-11-05 — **D16 / P12**, reusing **P05 / F02 / F24 / DP01**.
 
-Status: implemented and verified locally on Windows x64. The owner authorized
-publication in v0.1.6; see windows-v0.1.6.txt for release status. Live-service
+Status: published in owner-authorized v0.1.6, now GitHub Latest. Local provider
+checks and clean Windows release CI passed; see windows-v0.1.6.txt for installed
+upgrade/updater/recovery and downloaded-checksum evidence. Live-service
 backup/restore acceptance remains pending.
 
 ## Delivered

@@ -3,7 +3,11 @@ Windows v0.1.6 — DiskPond Cloud and Markdown cleanup
 2026-11-05. Owner-authorized commit, push and stable Windows release.
 Requirements: D16 / P12, P05 / F02 / F24 / DP01, F25 / F26.
 
-Status: release preparation; tag, clean Windows CI and publication pending.
+Status: published as GitHub Latest on 2026-11-05 at 12:11:25 UTC.
+Release: https://github.com/hoxsec/DiskPond/releases/tag/v0.1.6
+Public, stable (not draft/prerelease), unsigned Windows x64.
+Application tag: v0.1.6 at 516ed9bae7863c7b155b343fbaf9efcd38373a28.
+Merged main: 49a2494. Passing release CI: https://github.com/hoxsec/DiskPond/actions/runs/42024056422.
 Core pin: 0f31eefe409cb4f0571baf65abd7d063784598cd.
 
 Changes
@@ -30,7 +34,36 @@ Local release preparation checks passed:
   mobile/200% layouts and no automatic external requests). Evidence directory:
   %LOCALAPPDATA%/Temp/opencode/diskpond-site-hG44Xv/.
 - git diff --check.
+- Release asset assembly: all 10 SHA-256 checksums match; application source ZIP
+  contains no .md files and includes required .txt build/provenance/release inputs.
+  Evidence: %LOCALAPPDATA%/Temp/opencode/diskpond-v016-assembly-bfba433f8df743658cd59d3681b102fe/.
+- Packaged UPSTREAM.txt equals the source; local updater metadata reports 0.1.6;
+  built website GitHub links resolve to retained .txt documents.
 
-Installed release checks and downloaded asset verification will be recorded after CI.
+Clean Windows release CI passed:
+- Frozen install, lint, desktop/library types, 766 unit tests (38 schema, 62 utility,
+  366 Electron, 300 desktop) and 5 process-launcher tests.
+- Pinned-core, renderer/main and NSIS build; release asset assembly/publication.
+- Installed desktop-only package inventory: 235 ASAR entries, correct native
+  resource roots, excluded website files and matching UPSTREAM.txt attribution.
+- Checksum-pinned v0.1.2 installer replacement with retained preferences.
+- Bundled-engine backup/restore hashes using disposable source/repository data.
+- Real updater download/checksum, NSIS handoff, relaunch, retained settings and
+  truthful unconfirmed-version history through the synthetic-version fixture.
+- Fixture uninstall/cleanup. The inherited startup/URI registration leftovers
+  were recorded and removed only for the fixture; complete uninstall remains deferred.
+Log: %LOCALAPPDATA%/Temp/opencode/diskpond-v016-ci-42024056422.log.
+
+Published assets were downloaded with:
+  gh release download v0.1.6 --repo hoxsec/DiskPond --dir <fresh-directory>
+All 10 files listed in SHA256SUMS.txt matched their downloaded SHA-256 hashes.
+latest.yml reports 0.1.6 and its SHA-512 matches the downloaded installer.
+The downloaded application source ZIP contains no .md files and includes LICENSE,
+UPSTREAM.txt, DEVELOPMENT.txt and the .txt release notes/installation guide.
+Installer: DiskPond-Windows.exe, 118443788 bytes.
+Installer SHA-256: 37fe99693d4bd083d076ea9cb715b9aae9f09abb8793daada1191a79375a2652
+Download evidence: %LOCALAPPDATA%/Temp/opencode/diskpond-v016-published-b34d1d724e9144609ee1cf0e2532321f/.
+
+Next: installation and actual-use feedback; live Cloud recovery validation.
 Live Cloud backup/restart/restore hashes remain pending disposable service
 credentials. Broader provider/platform certification remains deferred.
