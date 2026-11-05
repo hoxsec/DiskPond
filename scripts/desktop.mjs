@@ -7,7 +7,6 @@ import {
   electronDirectory,
   launch,
   pnpm,
-  root,
   stop,
 } from "./lib/process.mjs";
 
@@ -93,11 +92,12 @@ async function develop() {
   await Promise.race([ready(), ...failures]);
   if (stopping) return;
   const smoke = process.argv.includes("--smoke");
-  const electron = track(
-    launch(executable, [
-      smoke ? resolve(root, "scripts/smoke-electron.cjs") : electronDirectory,
-    ]),
-  );
+  const entry = smoke ? process.env.DISKPOND_SMOKE_ENTRY : electronDirectory;
+  if (!entry)
+    throw new Error(
+      "Run the development smoke through pnpm smoke:desktop --dev.",
+    );
+  const electron = track(launch(executable, [entry]));
   await Promise.race([completed(electron), ...failures]);
 }
 

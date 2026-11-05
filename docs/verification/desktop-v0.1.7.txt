@@ -25,5 +25,17 @@ file before its architecture list. The follow-up disables unused native dependen
 rebuilds and corrects all lipo verification calls. Package smoke now also validates
 the actual distribution metadata on branch builds, before a release tag is made.
 
+Follow-up ae8db3344b7e05706c86ba73d9ae2ed08b08bd69:
+https://github.com/hoxsec/DiskPond/actions/runs/42030319275
+
+Windows and macOS passed all checks, including universal app/engine signatures,
+distribution metadata, bundled-core recovery and macOS desktop smoke. Linux built
+and validated all nine distributions plus bundled-core recovery. Its desktop smoke
+then exposed Electron's non-semver "0.0" fallback when launching a bare script.
+The smoke runner now creates an isolated entry package with the actual application
+version, for both built and development smoke, and asserts the reported version.
+Both entry-package smoke modes passed locally on Windows with session-only
+credentials before the next CI push.
+
 Clean three-platform CI, annotated tag, release publication and downloaded-asset
 verification are pending. This record will be updated after publication.

@@ -158,7 +158,7 @@ app.on("browser-window-created", (_, window) => {
       const version = await contents.executeJavaScript(
         "window.electron.app.version()",
       );
-      assert.equal(typeof version, "string");
+      assert.equal(version, require("../apps/electron/package.json").version);
       assert.equal(app.getName(), "DiskPond");
       assert.equal(app.getPath("userData"), process.env.DISKPOND_DATA_DIR);
       assert.equal(
