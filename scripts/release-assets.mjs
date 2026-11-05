@@ -62,8 +62,7 @@ if (command === "validate") {
     ],
     coreDirectory,
   );
-  for (const name of ["LICENSE", "UPSTREAM.txt", "DEVELOPMENT.txt"])
-    await copyFile(join(root, name), join(output, name));
+  await copyFile(join(root, "LICENSE"), join(output, "LICENSE"));
   await copyFile(
     join(coreDirectory, "LICENSE"),
     join(output, "core-LICENSE.txt"),
@@ -101,11 +100,13 @@ Release gates: lint, desktop types and unit tests on all three operating systems
 
 Windows and Linux AppImage updates download inside DiskPond and offer explicit restart/install when native work is idle. macOS and Linux DEB/RPM installations open the matching release for manual installation. Versions through v0.1.2 need one manual Windows installer update to receive the updater.
 
-DiskPond derives from BlinkDisk (AGPL-3.0); the Kopia-derived core retains Apache-2.0. See LICENSE, core-LICENSE.txt and UPSTREAM.txt. Prior recovery evidence is retained in docs/verification.
+DiskPond derives from BlinkDisk (AGPL-3.0); the Kopia-derived core retains Apache-2.0. See the LICENSE and core-LICENSE.txt release assets, plus UPSTREAM.txt inside the application source archive. Prior recovery evidence is retained in docs/verification.
 `,
   );
   const sums = [];
-  for (const name of (await readdir(output)).sort())
+  for (const name of (await readdir(output))
+    .sort()
+    .filter((name) => name !== "RELEASE-NOTES.txt"))
     sums.push(
       `${await hashFile(join(output, name), "sha256", "hex")}  ${name}`,
     );
