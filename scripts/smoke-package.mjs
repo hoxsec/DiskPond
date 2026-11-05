@@ -16,6 +16,7 @@ import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { electronDirectory, root } from "./lib/process.mjs";
+import { validateAssets } from "./lib/release-assets.mjs";
 
 const appRequire = createRequire(join(electronDirectory, "package.json"));
 const builderRequire = createRequire(appRequire.resolve("electron-builder"));
@@ -36,6 +37,11 @@ const packages = {
   ],
 }[process.platform];
 assert.ok(packages, `Unsupported package smoke platform: ${process.platform}`);
+await validateAssets(
+  join(electronDirectory, "dist"),
+  { win32: "windows", darwin: "macos", linux: "linux" }[process.platform],
+  version,
+);
 let nativeCore;
 for (const [architecture, relative] of packages) {
   const resources = join(electronDirectory, "dist", relative);
@@ -104,12 +110,12 @@ for (const [architecture, relative] of packages) {
     }
   }
   if (process.platform === "darwin") {
-    execFileSync("lipo", ["-verify_arch", "x86_64", "arm64", core]);
+    execFileSync("lipo", [core, "-verify_arch", "x86_64", "arm64"]);
     execFileSync("lipo", [
+      join(resources, "../MacOS/DiskPond"),
       "-verify_arch",
       "x86_64",
       "arm64",
-      join(resources, "../MacOS/DiskPond"),
     ]);
     execFileSync("codesign", [
       "--verify",

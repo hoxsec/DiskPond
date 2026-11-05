@@ -20,6 +20,9 @@ export default {
   productName: APP_NAME,
   appId: APP_ID,
   files: ["build/**", "frontend/**", "!node_modules/**/*"],
+  // Main/preload bundle their JavaScript; optional SSH native accelerators are
+  // deliberately excluded by esbuild and disabled in pnpm's build allowlist.
+  npmRebuild: false,
   directories: {
     buildResources: "icon",
   },

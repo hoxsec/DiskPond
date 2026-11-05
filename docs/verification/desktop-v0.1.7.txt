@@ -13,6 +13,17 @@ Build, assembly and local validation details are in cross-platform-release.txt.
 
 ## Publication status
 
-Source push, clean three-platform CI, annotated tag, release publication and
-downloaded-asset verification are pending. This record will be updated with the
-actual commit, workflow results and checksum verification after publication.
+Source preparation 65430feed5739233f94456498a59033a0fbf9b66 was pushed to main.
+First native CI: https://github.com/hoxsec/DiskPond/actions/runs/42029229482
+
+Windows passed, including installed replacement, in-app updater handoff/relaunch
+and packaged-engine recovery. Linux and macOS passed lint, types and unit tests;
+Linux built all three engines and macOS built/merged both engines. Packaging found
+two issues: electron-builder tried to rebuild the deliberately disabled optional
+cpu-features addon on Linux, and lipo's -verify_arch operation requires the input
+file before its architecture list. The follow-up disables unused native dependency
+rebuilds and corrects all lipo verification calls. Package smoke now also validates
+the actual distribution metadata on branch builds, before a release tag is made.
+
+Clean three-platform CI, annotated tag, release publication and downloaded-asset
+verification are pending. This record will be updated after publication.

@@ -93,6 +93,6 @@ if (packaging && process.platform === "darwin") {
   ]);
   // lipo invalidates Go's ARM64 ad-hoc signature. Re-sign the merged executable.
   await run("codesign", ["--force", "--sign", "-", output]);
-  await run("lipo", ["-verify_arch", "x86_64", "arm64", output]);
+  await run("lipo", [output, "-verify_arch", "x86_64", "arm64"]);
   await run(output, ["--version"]);
 }
