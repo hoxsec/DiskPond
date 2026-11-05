@@ -8,6 +8,8 @@
   "url_invalid_format": "{{field}} must be a valid URL",
   "emoji_invalid_format": "{{field}} must be an emoji",
   "custom_password_mismatch": "Passwords do not match",
+  "custom_s3_endpoint": "Enter an endpoint hostname or HTTP(S) URL without a path, credentials, query or fragment",
+  "custom_s3_endpoint_protocol": "Endpoint protocol must match the insecure HTTP setting",
   "custom_terms_required": "You must agree to the ToS and Privacy Policy",
   "custom_plan_change": "You must confirm this",
   "custom_invalid_zip_extension": "{{field}} must end with .zip",

@@ -70,7 +70,10 @@ beforeEach(() => {
   vi.clearAllMocks();
   mocks.saved.mockReturnValue(false);
 });
-it("accepts omitted form fields and preserves explicit empty/false values", async () => {
+it.each([
+  "S3_COMPATIBLE",
+  "DISKPOND_CLOUD",
+])("accepts %s with omitted fields and explicit empty/false values", async (provider) => {
   const config = {
     endpoint: "s3.example.test",
     bucket: "bucket",
@@ -84,12 +87,62 @@ it("accepts omitted form fields and preserves explicit empty/false values", asyn
   };
   await invoke("connect", mocks.event, {
     ...payload,
-    provider: "S3_COMPATIBLE",
+    provider,
     config,
   });
   expect(mocks.connect).toHaveBeenCalledWith(
-    expect.objectContaining({ config }),
+    expect.objectContaining({ provider, config }),
   );
+});
+it.each([
+  "validate",
+  "create",
+  "connect",
+])("validates DiskPond Cloud at the %s boundary", async (method) => {
+  const config = {
+    endpoint: "https://storage.example.test/",
+    bucket: "bucket",
+    accessKeyId: "key",
+    accessKeySecret: "secret",
+    region: "eu-west-1",
+    disableTls: false,
+    disableTlsVerification: false,
+  };
+  const request = (endpoint: string) => {
+    const vault = {
+      ...payload,
+      id: "vlt_cloud_fixture",
+      provider: "DISKPOND_CLOUD",
+      config: { ...config, endpoint },
+    };
+    return method === "validate"
+      ? { type: vault.provider, config: vault.config, intent: "CONNECT" }
+      : method === "create"
+        ? {
+            vault: { ...vault, options: DEFAULT_VAULT_OPTIONS },
+            userPolicy: {},
+            globalPolicy: {},
+          }
+        : vault;
+  };
+  expect(() =>
+    invoke(
+      method,
+      mocks.event,
+      request("https://user:secret@storage.example.test"),
+    ),
+  ).toThrow("Invalid connection request");
+  expect(mocks.validate).not.toHaveBeenCalled();
+  expect(mocks.create).not.toHaveBeenCalled();
+  expect(mocks.connect).not.toHaveBeenCalled();
+  await invoke(method, mocks.event, request(config.endpoint));
+  expect(
+    method === "validate"
+      ? mocks.validate
+      : method === "create"
+        ? mocks.create
+        : mocks.connect,
+  ).toHaveBeenCalledOnce();
 });
 it("accepts only active local vaults for unlock and the sanitized summary", async () => {
   await invoke("unlock", mocks.event, {

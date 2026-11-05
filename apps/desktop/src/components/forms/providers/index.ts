@@ -1,6 +1,7 @@
 import { AmazonS3Form } from "@desktop/components/forms/providers/amazon-s3";
 import { AzureBlobStorageForm } from "@desktop/components/forms/providers/azure-blob-storage";
 import { BackblazeForm } from "@desktop/components/forms/providers/backblaze";
+import { DiskPondCloudForm } from "@desktop/components/forms/providers/diskpond-cloud";
 import {
   ExternalDriveForm,
   InternalDriveForm,
@@ -25,6 +26,7 @@ export const providerForms = {
   GOOGLE_CLOUD_STORAGE: GoogleCloudStorageForm,
   RCLONE: RcloneForm,
   S3_COMPATIBLE: S3CompatibleForm,
+  DISKPOND_CLOUD: DiskPondCloudForm,
   SFTP: SftpForm,
   WEBDAV: WebDavForm,
 };

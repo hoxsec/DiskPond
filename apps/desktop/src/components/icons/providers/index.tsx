@@ -1,3 +1,4 @@
+import { DiskPondIcon } from "@blinkdisk/components/diskpond-icon";
 import { AmazonS3Icon } from "@desktop/components/icons/providers/amazon-s3";
 import { AzureBlobStorageIcon } from "@desktop/components/icons/providers/azure-blob-storage";
 import { BackblazeIcon } from "@desktop/components/icons/providers/backblaze";
@@ -23,6 +24,7 @@ export const providerIcons = {
   NETWORK_ATTACHED_STORAGE: NetworkDriveIcon,
   RCLONE: RcloneIcon,
   S3_COMPATIBLE: S3CompatibleIcon,
+  DISKPOND_CLOUD: DiskPondIcon,
   SFTP: SftpIcon,
   WEBDAV: WebdavIcon,
 };

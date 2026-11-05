@@ -1,6 +1,11 @@
 # DiskPond development guide
 
-Build and contribute to DiskPond's Windows desktop application. The [release guide](docs/windows-release.md) covers installation and tagged source reproduction; [verification records](docs/verification/) retain the scoped build, recovery and compatibility evidence. See [TODO.md](TODO.md) for current work.
+Build and contribute to DiskPond's Windows desktop application. The release guide
+at docs/windows-release.txt covers installation and tagged source reproduction;
+docs/verification/ retains build, recovery and compatibility evidence. Records use
+.txt extensions from v0.1.6 onward; historical .md references identify their names
+before the owner-requested cleanup. Current release status is recorded in
+docs/verification/windows-v0.1.6.txt.
 
 ## Toolchain
 
@@ -40,7 +45,7 @@ git -C apps/core rev-parse HEAD
 pnpm install --frozen-lockfile
 ```
 
-The engine gitlink is `0f31eefe409cb4f0571baf65abd7d063784598cd`, published on the owner-approved `hoxsec/diskpond-core` fork's `main`. It includes output cleanup after copy and ZIP finalization failures. The original upstream baseline remains recorded in [provenance](UPSTREAM.md). Do not use `git submodule update --remote` or substitute a globally installed Kopia binary. `pnpm build:core` checks the checkout against the recorded gitlink and marks modified core source with a `-dirty` build revision. The application starts core with `--managed-storage`, which the original baseline binary does not implement; build the pinned core.
+The engine gitlink is `0f31eefe409cb4f0571baf65abd7d063784598cd`, published on the owner-approved `hoxsec/diskpond-core` fork's `main`. It includes output cleanup after copy and ZIP finalization failures. The original upstream baseline remains recorded in UPSTREAM.txt. Do not use `git submodule update --remote` or substitute a globally installed Kopia binary. `pnpm build:core` checks the checkout against the recorded gitlink and marks modified core source with a `-dirty` build revision. The application starts core with `--managed-storage`, which the original baseline binary does not implement; build the pinned core.
 
 The discovery compatibility fixture also builds the original baseline. In shallow checkouts, fetch that exact object before `pnpm smoke:discovery`, as CI does; this leaves the candidate checkout and gitlink unchanged:
 
@@ -70,7 +75,7 @@ The create/connect slice adds a core initialization guard included in the publis
 | `pnpm smoke:site` | Isolated built-site keyboard, theme, pricing, contact, link/asset and mobile/200% checks; requires the website build and installed Electron runtime. |
 | `pnpm dev:desktop` | Builds the pinned native core and initial main/preload; starts Vite at `http://127.0.0.1:3002`, the main/preload compiler watcher and Electron. |
 | `pnpm build:core` | Builds the native pinned engine with version/revision metadata and prints `--version`. Windows output: `apps/core/dist/kopia_windows_amd64/kopia.exe`. |
-| `pnpm build:branding` | Regenerates desktop/favicons/tray artwork from the owner's SVGs. See [asset instructions](libs/assets/brand/README.md). |
+| `pnpm build:branding` | Regenerates desktop/favicons/tray artwork from the owner's canonical SVGs in libs/assets/brand using pinned resvg. Do not hand-edit generated assets. |
 | `pnpm build:desktop` | Rebuilds core, renderer, copied frontend and production main/preload. Type-checks the Electron package. |
 | `pnpm preview:desktop` | Launches the existing build using `diskpondapp://frontend`; run `build:desktop` first. |
 | `pnpm smoke:desktop` | Exercises the built renderer, preload, local onboarding and engine discovery in temporary app data. |
@@ -83,6 +88,7 @@ The create/connect slice adds a core initialization guard included in the publis
 | `pnpm smoke:providers` | Builds a credential-isolated loopback WebDAV service and Electron fixture; checks two-vault versioned snapshots/restores with hashes, protected/session/failure storage, restart, wrong/swapped credentials, both legacy migrations and credential scans. Requires Go and the matching managed-core build; no live-provider credentials. |
 | `node scripts/smoke-history.mjs` | Requires the matching `build:core` output and Electron runtime. Creates two disposable repositories and checks validated comparison/calendar reads, repeated snapshots, root-file metadata, profile identity, engine restart, failures without snapshots and two-version recovery. Retains the evidence directory. |
 | `node scripts/smoke-history-ui.mjs` | Requires the current renderer build (`pnpm --filter @blinkdisk/electron build:frontend`). Exercises actual Home/vault/history/comparison/browser components with isolated fixture reads, keyboard/filter/navigation/cancel/retry flows, available-space states/offline reads and Light/Dark/200% layout checks. Retains screenshots; see [history evidence](docs/verification/snapshot-comparison-and-activity.md) and [available-space evidence](docs/verification/vault-storage-space.md). |
+| `node scripts/smoke-cloud-provider-ui.mjs` | Actual provider picker/form with isolated IPC: DiskPond Cloud placement/search, keyboard selection, browser-link handoff, validation, failure/retry, create/connect and duplicate checks, Light/Dark/200% layouts. Requires renderer CSS and Electron. |
 | `node scripts/capture-readme.mjs` | Requires the built desktop and pinned core on Windows. Refreshes 18 website/README images in `docs/images/`: nine Light/Dark views of vaults, comparison, Activity, policies, browsing, restore controls and local/cloud/remote provider choices. Uses five real disposable snapshots, a demo identity and a temporary drive; cleans its own storage/profile and mapping. |
 | `pnpm smoke:desktop --session-passwords` | Runs built desktop smoke with test-only unavailable secure storage, verifying the localized notice and password/settings IPC rejection. |
 | `pnpm smoke:windows` | Checks checksum-pinned v0.1.2-to-candidate replacement, desktop-only ASAR/resources, startup/preferences, native updater download/install/relaunch and bundled-engine recovery hashes, then uninstalls. Validates the tag version when supplied. Requires a Windows user with no existing DiskPond installation/data/registration/updater cache. |
@@ -95,7 +101,7 @@ The create/connect slice adds a core initialization guard included in the publis
 
 `pnpm dev` and `pnpm build` alias the desktop commands. They no longer launch the upstream hosted stack. Use the root packaging wrapper: the inherited package-level `build:windows` invokes the packager without building its inputs.
 
-The active website lives in `apps/marketing/site`; its `src/` and `public/` directories retain inactive upstream reference source. Website configuration, content, static hosting and deployment instructions are in [apps/marketing/README.md](apps/marketing/README.md).
+The active website lives in `apps/marketing/site`; its `src/` and `public/` directories retain inactive upstream reference source. Website configuration, content, static hosting and deployment instructions are in apps/marketing/DEVELOPMENT.txt.
 
 Renderer edits use Vite HMR. Main/preload edits recompile; quit and restart the dev command to load them. Development compilation replaces `apps/electron/build`; rebuild production before a later built smoke/preview or repackaging. **Quit** in the tray exits Electron and stops the development servers; closing the window keeps the inherited tray process alive. Ctrl+C stops the runner's process tree on Windows. A busy port 3002 is an error, rather than silently selecting another port.
 
@@ -123,7 +129,7 @@ No `.env` file is needed. Set optional `GO_BINARY`, `DISKPOND_DATA_DIR`, `DISKPO
 
 `pnpm build:windows` builds a local installer using `apps/electron/package.json`'s version when no release tag is supplied. Expected output is `apps/electron/dist/DiskPond-Windows.exe` plus `win-unpacked/`. It packages only the desktop build/frontend, native engine, app assets, licenses and provenance record. Website source/output, pricing copy and product screenshots stay in the separate website build and application source archive. GitHub publishing is disabled by the wrapper.
 
-The inherited optional `CERTUM_*` signing variables remain available for future integration; the release workflow uses no certificate. Installer identity/feed metadata belongs to `hoxsec/DiskPond`. [Release instructions](docs/windows-release.md) describe the current release, tag-triggered checks, asset publication and source reproduction; [v0.1.5 verification](docs/verification/windows-v0.1.5.md) records the website/installer-isolation release.
+The inherited optional `CERTUM_*` signing variables remain available for future integration; the release workflow uses no certificate. Installer identity/feed metadata belongs to `hoxsec/DiskPond`. Release instructions in docs/windows-release.txt describe tag-triggered checks, asset publication and source reproduction; docs/verification/windows-v0.1.6.txt records the current release.
 
 After building, `pnpm smoke:windows` exercises the installed artifact on a fresh test user/runner. It expects the package version, or the version in `GITHUB_REF_NAME` when `GITHUB_REF_TYPE=tag`. It verifies checksum-pinned v0.1.2-to-candidate installer replacement and retained preferences, inspects the installed ASAR/native resources for desktop-only contents, and tests native updater download/install/relaunch using a synthetic-version loopback feed. It temporarily registers installer/URI/startup entries, checks the installed executable via loopback debug connections, and uses the installed core CLI to create a disposable snapshot, delete its fixture source, restore and compare hashes/entries. This compact check reuses prior renderer recovery evidence. The inherited uninstaller leaves app-created startup/URI entries; the harness records that gap and removes only entries pointing to its own fixture. It refuses to replace an existing installation, data directory or updater cache.
 
@@ -144,4 +150,4 @@ Remove-Item Env:TESTING_ACTION_EXE
 Pop-Location
 ```
 
-Race-enabled runs need a working C toolchain; live providers, mount helpers and OS-specific integrations have separate prerequisites. For engine or recovery changes, use the requirement-specific real-repository checks in PLAN.md, not just mocked Vitest results.
+Race-enabled runs need a working C toolchain; live providers, mount helpers and OS-specific integrations have separate prerequisites. For engine or recovery changes, use real-repository recovery/hash checks and interruption/compatibility fixtures recorded in docs/verification, not just mocked Vitest results.

@@ -13,6 +13,7 @@ describe("mapProviderType", () => {
     expect(mapProviderType("NETWORK_ATTACHED_STORAGE")).toBe("filesystem");
     expect(mapProviderType("AMAZON_S3")).toBe("s3");
     expect(mapProviderType("S3_COMPATIBLE")).toBe("s3");
+    expect(mapProviderType("DISKPOND_CLOUD")).toBe("s3");
     expect(mapProviderType("GOOGLE_CLOUD_STORAGE")).toBe("gcs");
     expect(mapProviderType("BACKBLAZE")).toBe("b2");
     expect(mapProviderType("AZURE_BLOB_STORAGE")).toBe("azureBlob");
@@ -55,6 +56,44 @@ describe("storage provider compatibility", () => {
 });
 
 describe("mapConfigFields", () => {
+  it("maps DiskPond Cloud to S3 with a hostname and exact credentials/options", () => {
+    expect(
+      mapConfigFields("DISKPOND_CLOUD", {
+        endpoint: "https://storage.example.test:9443/",
+        bucket: "bucket",
+        region: "eu-west-1",
+        accessKeyId: "key",
+        accessKeySecret: " exact secret ",
+        sessionToken: "token",
+        prefix: "backup/",
+        disableTls: false,
+        disableTlsVerification: false,
+      }),
+    ).toEqual({
+      endpoint: "storage.example.test:9443",
+      bucket: "bucket",
+      region: "eu-west-1",
+      accessKeyID: "key",
+      secretAccessKey: " exact secret ",
+      sessionToken: "token",
+      prefix: "backup/",
+      doNotUseTLS: false,
+      doNotVerifyTLS: false,
+    });
+  });
+
+  it("rejects invalid cloud configuration without returning credentials", () => {
+    expect(() =>
+      mapConfigFields("DISKPOND_CLOUD", {
+        endpoint: "https://user:secret@storage.example.test",
+        bucket: "bucket",
+        accessKeyId: "key",
+        disableTls: false,
+        disableTlsVerification: false,
+      }),
+    ).toThrow(/^Invalid provider configuration$/);
+  });
+
   it("maps S3-compatible fields using coreMapping", () => {
     const result = mapConfigFields("S3_COMPATIBLE", {
       endpoint: "https://s3.example.com",

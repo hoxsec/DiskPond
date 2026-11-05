@@ -1,4 +1,5 @@
 import { getStorageProvider } from "@blinkdisk/constants/providers";
+import { ZDiskPondCloudConfig } from "@blinkdisk/schemas/providers";
 
 export function mapProviderType(providerType: string) {
   const provider = getStorageProvider(providerType);
@@ -16,6 +17,12 @@ export function mapConfigFields(
     throw new Error("Unsupported storage provider");
 
   const mapped: Record<string, unknown> = {};
+
+  if (provider.type === "DISKPOND_CLOUD") {
+    const parsed = ZDiskPondCloudConfig.safeParse(config);
+    if (!parsed.success) throw new Error("Invalid provider configuration");
+    config = { ...config, endpoint: parsed.data.endpoint };
+  }
 
   for (const [key, value] of Object.entries(config)) {
     if (provider.type === "GOOGLE_CLOUD_STORAGE" && key === "credentials") {

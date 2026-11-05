@@ -7,6 +7,7 @@ export type StorageProviderType =
   | "NETWORK_ATTACHED_STORAGE"
   | "AMAZON_S3"
   | "S3_COMPATIBLE"
+  | "DISKPOND_CLOUD"
   | "GOOGLE_CLOUD_STORAGE"
   | "BACKBLAZE"
   | "AZURE_BLOB_STORAGE"
@@ -95,6 +96,11 @@ export const STORAGE_PROVIDERS: StorageProvider[] = [
   },
   {
     type: "S3_COMPATIBLE",
+    level: "VAULT",
+    ...s3Base,
+  },
+  {
+    type: "DISKPOND_CLOUD",
     level: "VAULT",
     ...s3Base,
   },

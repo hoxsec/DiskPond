@@ -41,8 +41,8 @@ export default {
       to: "licenses/core-Apache-2.0.txt",
     },
     {
-      from: "../../UPSTREAM.md",
-      to: "licenses/UPSTREAM.md",
+      from: "../../UPSTREAM.txt",
+      to: "licenses/UPSTREAM.txt",
     },
     {
       from: "assets",
