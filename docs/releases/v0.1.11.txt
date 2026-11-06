@@ -1,0 +1,20 @@
+## More useful settings
+
+- Choose whether DiskPond launches in the tray when you sign in to your computer.
+- Choose whether closing the window keeps backups running in the background or quits DiskPond.
+- Adjust interface size from 75% to 200% and reduce animations and transitions. System reduced-motion preferences are also respected.
+- Select the basic or advanced backup-policy view from Settings.
+- Preferences save automatically on this computer, with descriptions in all eight supported languages and a dedicated Updates section.
+- Improved preference persistence so turning a setting off and switching between preferences retains the saved values.
+
+## Clearer backup protection overview
+
+- Home protection status now reflects live backup information.
+- More compact backup-setup cards make completed checks and remaining steps easier to scan.
+
+## Maintenance
+
+- Removed unused desktop UI code and added an unused-code check to the release workflow.
+- Expanded desktop checks for preference persistence, interface scaling and startup/background behavior.
+
+Windows x64, universal macOS and Linux x64/ARM64/ARMv7 packages are included. Scheduled backups require DiskPond to remain open or running in the tray. Closing the window with background operation disabled also stops running backup and restore tasks.

@@ -13,7 +13,7 @@ DiskPond is a free, open-source desktop backup app for **Windows, Linux and macO
 
 ## Downloads
 
-Current release: **[v0.1.9](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.9)**.
+Current release: **[v0.1.11](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.11)**.
 
 | Platform | Download |
 | --- | --- |
@@ -34,7 +34,7 @@ Installation instructions and checksums are available on the release page. Windo
 - **Compare backups** to inspect added, changed and deleted paths, including sizes and modification times.
 - **Activity calendar** with selectable vault summaries, backup history and expandable backup/issue details.
 - **Eight desktop languages**: English, Spanish, French, German, Turkish, Dutch, Italian and Polish.
-- **Light, dark and system themes**, keyboard navigation and tray/background operation.
+- **Light, dark and system themes**, interface scaling, reduced motion, keyboard navigation and configurable startup/background operation.
 - **Update support** with in-app downloads on Windows and Linux AppImage; macOS and Linux DEB/RPM installations link to the matching release for manual installation.
 - **Account-free backups** to your own storage, with no required subscription, analytics or automatic crash uploads. Credentials use OS-protected storage, with session-only storage when protection is unavailable.
 

@@ -217,12 +217,11 @@ export function HealthCard({ isLoading, vaults }: HealthCardProps) {
             const detail = check.passed
               ? t("score.passed")
               : t(`score.hints.${check.key}`);
-            const Icon =
-              pending
-                ? CircleHelpIcon
-                : check.passed
-                  ? CheckIcon
-                  : MinusIcon;
+            const Icon = pending
+              ? CircleHelpIcon
+              : check.passed
+                ? CheckIcon
+                : MinusIcon;
             return (
               <li
                 key={check.key}
@@ -235,23 +234,25 @@ export function HealthCard({ isLoading, vaults }: HealthCardProps) {
                 }`}
               >
                 <div className="mb-2 flex items-start gap-2">
-                  <Illustration aria-hidden="true" className="mt-0.5 size-3.5 shrink-0 text-muted-foreground" />
+                  <Illustration
+                    aria-hidden="true"
+                    className="mt-0.5 size-3.5 shrink-0 text-muted-foreground"
+                  />
                   <p className="text-xs font-semibold leading-snug">
                     {t(`score.checks.${check.key}`)}
                   </p>
                 </div>
                 <div className={`mt-auto flex items-start gap-1.5 ${color}`}>
-                  <Icon aria-hidden="true" className="mt-0.5 size-3.5 shrink-0" />
-                  <p
-                    className="text-xs font-medium leading-relaxed"
-                  >
-                    {loading ? (
-                      t("score.checking")
-                    ) : check.passed === null ? (
-                      t("score.unknown")
-                    ) : (
-                      detail
-                    )}
+                  <Icon
+                    aria-hidden="true"
+                    className="mt-0.5 size-3.5 shrink-0"
+                  />
+                  <p className="text-xs font-medium leading-relaxed">
+                    {loading
+                      ? t("score.checking")
+                      : check.passed === null
+                        ? t("score.unknown")
+                        : detail}
                   </p>
                 </div>
               </li>
