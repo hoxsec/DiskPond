@@ -12,6 +12,30 @@
     "count_one": "{{count}} Tresor gefunden",
     "count_other": "{{count}} Tresore gefunden"
   },
+  "card": {
+    "open": "Tresor öffnen",
+    "reconnect": "Neu verbinden",
+    "changeColor": "Symbolfarbe für {{name}} ändern",
+    "colors": { "blue": "Blau", "green": "Grün", "purple": "Violett", "amber": "Bernstein", "rose": "Rosa", "graphite": "Graphit" },
+    "used": "{{size}} belegt",
+    "available": "{{size}} verfügbar",
+    "stored": "≈ {{size}} gespeichert",
+    "capacity": "von {{size}}",
+    "noQuota": "Kein Kontingent festgelegt",
+    "capacityUnknown": "Kapazität nicht gemeldet",
+    "storageUnavailable": "Speicher nicht verfügbar",
+    "storageLabel": "Belegter Zielspeicher",
+    "destinationUsage": "Belegung des gesamten Ziellaufwerks oder Buckets, einschließlich Daten außerhalb dieses Tresors.",
+    "estimatedUsage": "Geschätzter Tresorspeicher anhand indizierter gepackter Daten und Metadaten. Zusätzlicher Speicherbedarf des Anbieters ist nicht enthalten.",
+    "lastBackup": "Letztes Backup",
+    "never": "Noch keine Backups",
+    "folders_one": "{{count}} Ordner",
+    "folders_other": "{{count}} Ordner",
+    "sources_one": "{{count}} Quelle",
+    "sources_other": "{{count}} Quellen",
+    "sourcesUnknown": "Quellen nicht verfügbar",
+    "status": { "current": "Aktuell", "stale": "Nicht aktuell", "new": "Noch nicht gesichert", "issues": "Handlungsbedarf", "offline": "Offline", "setup": "Einrichtung erforderlich", "checking": "Wird geprüft…", "uploading": "Backup läuft", "queued": "Backup eingereiht", "unavailable": "Status nicht verfügbar" }
+  },
   "createDialog": {
     "back": "Zurück",
     "title": {
@@ -465,6 +489,16 @@
         "description": "Du hast noch keine Dateien oder Ordner hinzugefügt. Füge über die Schaltfläche unten welche hinzu."
       }
     },
+    "global": {
+      "title": "Gesamtübersicht",
+      "snapshots": "Snapshots",
+      "saved": "Eingesparter Speicher",
+      "latestCopies": "Letztes Backup in jedem Tresor",
+      "retained": "In allen Tresoren verfügbar",
+      "savingsDescription": "Geschätzt · Komprimierung & Deduplizierung",
+      "savingsExplanation": "Vergleich mit vollständigen Kopien der aufbewahrten Snapshots anhand der indizierten gepackten Daten und Metadaten. Zusätzlicher Speicherbedarf des Anbieters ist nicht enthalten.",
+      "coverage": "{{available}} von {{total}} Tresoren verfügbar"
+    },
     "stats": {
       "totalSize": "Geschützte Daten",
       "files": "Geschützte Dateien",
@@ -476,6 +510,16 @@
       "unavailable": "Nicht verfügbar"
     },
     "score": {
+      "title": "Backup-Einrichtung",
+      "rating": "Backup-Einrichtung: {{score}} von 100",
+      "checking": "Wird geprüft…",
+      "unknown": "Tresore zum Prüfen verbinden",
+      "passed": "Eingerichtet · +25 Punkte",
+      "points": "+25 Punkte",
+      "checks": { "destinations": "Mehrere Ziele", "variety": "Verschiedene Speichertypen", "remote": "Entfernter Speicher", "freshness": "Aktuelle Backups" },
+      "hints": { "destinations": "Mindestens zwei unabhängige Tresore nutzen", "variety": "Verschiedene Speichertypen nutzen", "remote": "Ein entferntes Ziel hinzufügen", "freshness": "Jede Quelle innerhalb von 24 Stunden sichern" },
+      "good": { "category": "Gut", "description": "Drei Prüfungen bestanden. Ein weiterer Schritt stärkt deine Backups." },
+      "improve": { "category": "Noch verbesserbar", "description": "Jede bestandene Prüfung bringt 25 Punkte." },
       "empty": {
         "category": "Noch keine Tresore",
         "description": "Erstelle deinen ersten Tresor, um mit der Sicherung deiner Dateien zu beginnen."

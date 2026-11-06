@@ -12,9 +12,13 @@ const probe = `
   try {
     const stats = statfsSync(process.argv[1], { bigint: true });
     const bytes = stats.bavail * stats.bsize;
-    if (stats.bsize <= 0n || bytes < 0n || bytes > BigInt(Number.MAX_SAFE_INTEGER))
+    const total = stats.blocks * stats.bsize;
+    const used = (stats.blocks - stats.bfree) * stats.bsize;
+    if (stats.bsize <= 0n || bytes < 0n || used < 0n || used > total ||
+        bytes > total - used || total > BigInt(Number.MAX_SAFE_INTEGER))
       throw new Error("Invalid capacity");
-    process.stdout.write(JSON.stringify({ status: "AVAILABLE", availableBytes: Number(bytes) }));
+    process.stdout.write(JSON.stringify({ status: "AVAILABLE", availableBytes: Number(bytes),
+      totalBytes: Number(total), usedBytes: Number(used) }));
   } catch {
     process.stdout.write(JSON.stringify({ status: "UNAVAILABLE" }));
   }

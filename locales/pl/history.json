@@ -21,6 +21,10 @@
     "failed": "Niepowodzenie"
   },
   "calendar": {
+    "snapshots": "Migawki",
+    "lastBackup": "Ostatnia kopia",
+    "noBackups": "Brak kopii zapasowych",
+    "updated": "Zaktualizowano {{time}}",
     "title": "Aktywność kopii zapasowych",
     "zone": "Dni ukończenia w czasie lokalnym · {{zone}}",
     "refresh": "Odśwież historię",

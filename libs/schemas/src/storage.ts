@@ -1,24 +1,28 @@
 import { z } from "zod";
 
+const bytes = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
+
 export const ZVaultStorageSpace = z.discriminatedUnion("status", [
   z
     .object({
       status: z.literal("AVAILABLE"),
-      availableBytes: z.number().int().nonnegative(),
+      availableBytes: bytes,
+      totalBytes: bytes.optional(),
+      usedBytes: bytes.optional(),
     })
     .strict(),
   z.object({ status: z.literal("UNSUPPORTED") }).strict(),
   z
     .object({
       status: z.literal("QUOTA"),
-      availableBytes: z
-        .number()
-        .int()
-        .nonnegative()
-        .max(Number.MAX_SAFE_INTEGER),
+      availableBytes: bytes,
+      totalBytes: bytes.optional(),
+      usedBytes: bytes.optional(),
     })
     .strict(),
-  z.object({ status: z.literal("NO_QUOTA") }).strict(),
+  z
+    .object({ status: z.literal("NO_QUOTA"), usedBytes: bytes.optional() })
+    .strict(),
   z.object({ status: z.literal("UNAVAILABLE") }).strict(),
 ]);
 

@@ -1,3 +1,4 @@
+import "./history-ui-electron.mjs";
 import { i18n } from "@blinkdisk/utils/i18n";
 import {
   onlineManager,
@@ -19,6 +20,7 @@ import { AccountActivity } from "../../apps/desktop/src/components/accounts/acti
 import { AccountHome } from "../../apps/desktop/src/components/accounts/home";
 import { CompactNavigation } from "../../apps/desktop/src/components/sidebar/compact-navigation";
 import { VaultOverview } from "../../apps/desktop/src/components/vaults/overview";
+import { useStorageListener } from "../../apps/desktop/src/hooks/use-app-storage";
 import { Route as BrowserRoute } from "../../apps/desktop/src/routes/$accountId/$vaultId/$sourceId/$backupId/$directoryId/index";
 import { Route as CompareRoute } from "../../apps/desktop/src/routes/$accountId/$vaultId/$sourceId/compare";
 import { Route as HistoryRoute } from "../../apps/desktop/src/routes/$accountId/$vaultId/$sourceId/index";
@@ -29,7 +31,13 @@ import history from "../../locales/en/history.json";
 import sidebar from "../../locales/en/sidebar.json";
 import vault from "../../locales/en/vault.json";
 import {
+  reconnects,
+  storageSpaces,
+  vaultStatuses,
+} from "./history-ui-electron.mjs";
+import {
   fixtureVaults,
+  setFixtureVaults,
   snapshots,
   sources,
   summary,
@@ -55,26 +63,11 @@ await i18n.init({
   resources: { en: { vault, folder, backup, directory, sidebar } },
   interpolation: { escapeValue: false },
 });
-const storageSpaces = new Map([
-  ["vault-a", { status: "AVAILABLE", availableBytes: 250_000_000_000 }],
-  ["vault-b", { status: "UNSUPPORTED" }],
-]);
-window.electron = {
-  vault: {
-    status: async () => ({ status: "RUNNING" }),
-    storageSpace: async ({ vaultId }) => {
-      const space = storageSpaces.get(vaultId);
-      if (space === "ERROR") throw new Error("Storage query failed");
-      return space;
-    },
-  },
-  path: { basename: async (path) => path.split(/[\\/]/).at(-1) },
-  platform: async () => "windows",
-};
 const client = new QueryClient({
   defaultOptions: { queries: { retry: false } },
 });
 let mode = "normal";
+let overviewScenario = null;
 let aborted = 0;
 const originalFetch = window.fetch;
 const entry = (name, obj, type = "f") => ({
@@ -93,7 +86,48 @@ window.fetch = async (input, options) => {
   if (url.hostname !== "vault") return originalFetch(input, options);
   if (options.method !== "GET") throw new Error("Unexpected modifying request");
   const vaultId = new Headers(options.headers).get("vault-id");
+  if (overviewScenario) {
+    if (overviewScenario === "unavailable")
+      throw new Error("Fixture unavailable");
+    const index = fixtureVaults.findIndex((vault) => vault.id === vaultId);
+    if (url.pathname.endsWith("/repo/stats"))
+      return Response.json({
+        protectedBytes: [10e9, 9e9, 1e9, 0][index],
+        protectedFiles: [420, 140, 40, 0][index],
+        snapshots: [42, 14, 4, 0][index],
+        logicalBytes: [40e9, 19e9, 4e9, 0][index],
+        packedBytes: [10e9, 9e9, 1e9, 0][index],
+        savedBytes: [30e9, 10e9, 3e9, 0][index],
+      });
+    if (url.pathname.endsWith("/sources")) {
+      if (overviewScenario === "cards" && index === 3)
+        return Response.json({ sources: [] });
+      const lastTime = new Date(
+        Date.now() -
+          (overviewScenario === "fresh" || overviewScenario === "cards"
+            ? 60_000
+            : 48 * 60 * 60_000),
+      ).toISOString();
+      return Response.json({
+        sources: [
+          {
+            ...sources[0],
+            lastSnapshot: { ...snapshots[0], endTime: lastTime, stats: {} },
+          },
+        ],
+      });
+    }
+  }
   if (vaultId === "vault-b") throw new Error("Fixture vault offline");
+  if (url.pathname.endsWith("/repo/stats"))
+    return Response.json({
+      protectedBytes: 8,
+      protectedFiles: 2,
+      snapshots: 6,
+      logicalBytes: 48,
+      packedBytes: 32,
+      savedBytes: 16,
+    });
   if (url.pathname.endsWith("/sources")) return Response.json({ sources });
   if (url.pathname.endsWith("/snapshots")) {
     if (url.searchParams.get("all") !== "1")
@@ -169,11 +203,14 @@ window.fetch = async (input, options) => {
   throw new Error(`Unexpected fixture request ${url.pathname}`);
 };
 const root = createRootRoute({
-  component: () => (
-    <div className="flex h-full min-w-0 flex-col overflow-auto">
-      <Outlet />
-    </div>
-  ),
+  component: function FixtureRoot() {
+    useStorageListener();
+    return (
+      <div className="flex h-full min-w-0 flex-col overflow-auto">
+        <Outlet />
+      </div>
+    );
+  },
 });
 const account = createRoute({
   getParentRoute: () => root,
@@ -261,7 +298,53 @@ const router = createRouter({
   }),
 });
 window.historyFixture = {
+  dashboard: async (scenario) => {
+    overviewScenario = scenario;
+    vaultStatuses.clear();
+    if (scenario === "cards") vaultStatuses.set("vault-c", "FAILED");
+    storageSpaces.set("vault-a", {
+      status: "AVAILABLE",
+      availableBytes: 250e9,
+      totalBytes: 1e12,
+      usedBytes: 750e9,
+    });
+    storageSpaces.set("vault-b", {
+      status: "QUOTA",
+      availableBytes: 80e9,
+      totalBytes: 100e9,
+      usedBytes: 20e9,
+    });
+    storageSpaces.set("vault-c", { status: "UNSUPPORTED" });
+    storageSpaces.set("vault-d", { status: "NO_QUOTA", usedBytes: 0 });
+    setFixtureVaults(
+      scenario === "empty"
+        ? []
+        : [
+            { id: "vault-a", name: "Folder", provider: "INTERNAL_DRIVE" },
+            { id: "vault-b", name: "S3 pve", provider: "S3_COMPATIBLE" },
+            { id: "vault-c", name: "S3 Paris", provider: "S3_COMPATIBLE" },
+            {
+              id: "vault-d",
+              name: "DiskPond Cloud",
+              provider: "DISKPOND_CLOUD",
+            },
+          ],
+    );
+    await client.cancelQueries();
+    await client.resetQueries();
+    await router.navigate({
+      to: "/$accountId",
+      params: { accountId: "local" },
+    });
+  },
   online: (value) => onlineManager.setOnline(value),
+  reconnects: () => reconnects,
+  vaultStatus: async (vaultId, status) => {
+    vaultStatuses.set(vaultId, status);
+    await client.invalidateQueries({
+      queryKey: ["local", "vault", vaultId, "status"],
+    });
+  },
   setReadMode: (value) => {
     mode = value;
   },

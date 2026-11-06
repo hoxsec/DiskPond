@@ -12,6 +12,30 @@
     "count_one": "{{count}} kasa bulundu",
     "count_other": "{{count}} kasa bulundu"
   },
+  "card": {
+    "open": "Kasayı aç",
+    "reconnect": "Yeniden bağlan",
+    "changeColor": "{{name}} için simge rengini değiştir",
+    "colors": { "blue": "Mavi", "green": "Yeşil", "purple": "Mor", "amber": "Kehribar", "rose": "Pembe", "graphite": "Grafit" },
+    "used": "{{size}} kullanılıyor",
+    "available": "{{size}} kullanılabilir",
+    "stored": "≈ {{size}} depolandı",
+    "capacity": "toplam {{size}}",
+    "noQuota": "Kota ayarlanmamış",
+    "capacityUnknown": "Kapasite bildirilmedi",
+    "storageUnavailable": "Depolama kullanılamıyor",
+    "storageLabel": "Hedefte kullanılan depolama",
+    "destinationUsage": "Bu kasanın dışındaki veriler dahil, hedef sürücü veya kovadaki toplam kullanım.",
+    "estimatedUsage": "Dizinlenmiş paketlenmiş veri ve meta verilerden tahmin edilen kasa depolaması. Sağlayıcının ek alan kullanımı dahil değildir.",
+    "lastBackup": "Son yedek",
+    "never": "Henüz yedek yok",
+    "folders_one": "{{count}} klasör",
+    "folders_other": "{{count}} klasör",
+    "sources_one": "{{count}} kaynak",
+    "sources_other": "{{count}} kaynak",
+    "sourcesUnknown": "Kaynaklar kullanılamıyor",
+    "status": { "current": "Güncel", "stale": "Güncel yedek yok", "new": "Yedeklenmedi", "issues": "İlgilenilmesi gerekiyor", "offline": "Çevrimdışı", "setup": "Kurulum gerekli", "checking": "Kontrol ediliyor…", "uploading": "Yedekleniyor", "queued": "Yedek sırada", "unavailable": "Durum kullanılamıyor" }
+  },
   "createDialog": {
     "back": "Geri",
     "title": {
@@ -465,6 +489,16 @@
         "description": "Henüz dosya veya klasör eklemediniz. Aşağıdaki düğmeyle bir tane ekleyin."
       }
     },
+    "global": {
+      "title": "Genel bakış",
+      "snapshots": "Anlık görüntüler",
+      "saved": "Tasarruf edilen alan",
+      "latestCopies": "Her kasadaki son yedek",
+      "retained": "Tüm kasalarda kullanılabilir",
+      "savingsDescription": "Tahmini · sıkıştırma ve tekilleştirme",
+      "savingsExplanation": "Dizinlenmiş paketlenmiş veri ve meta veriler kullanılarak saklanan anlık görüntülerin tam kopyalarıyla karşılaştırılır. Depolama sağlayıcısının ek alan kullanımı dahil değildir.",
+      "coverage": "{{total}} kasadan {{available}} tanesi kullanılabilir"
+    },
     "stats": {
       "totalSize": "Korunan veriler",
       "files": "Korunan dosyalar",
@@ -476,6 +510,16 @@
       "unavailable": "Kullanılamıyor"
     },
     "score": {
+      "title": "Yedekleme düzeni",
+      "rating": "Yedekleme düzeni: 100 üzerinden {{score}}",
+      "checking": "Kontrol ediliyor…",
+      "unknown": "Kontrol için kasaları bağlayın",
+      "passed": "Yapılandırıldı · +25 puan",
+      "points": "+25 puan",
+      "checks": { "destinations": "Birden fazla hedef", "variety": "Depolama çeşitliliği", "remote": "Uzak depolama", "freshness": "Güncel yedekler" },
+      "hints": { "destinations": "En az iki bağımsız kasa kullanın", "variety": "Farklı depolama türleri kullanın", "remote": "Uzak bir hedef ekleyin", "freshness": "Her kaynağı 24 saat içinde yedekleyin" },
+      "good": { "category": "İyi", "description": "Üç kontrol başarılı. Yedeklerinizi güçlendirmek için bir adım daha." },
+      "improve": { "category": "Geliştirilebilir", "description": "Tamamlanan her kontrol puanınıza 25 puan ekler." },
       "empty": {
         "category": "Henüz kasa yok",
         "description": "Dosyalarınızı yedeklemeye başlamak için ilk kasanızı oluşturun."

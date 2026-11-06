@@ -9,6 +9,10 @@
   "type": { "d": "Folder", "f": "File", "s": "Symlink", "unknown": "Unknown type" },
   "outcome": { "completed": "Completed", "partial": "Completed with issues", "incomplete": "Incomplete", "canceled": "Canceled", "unknown": "Outcome unknown", "failed": "Failed" },
   "calendar": {
+    "snapshots": "Snapshots",
+    "lastBackup": "Last backup",
+    "noBackups": "No backups yet",
+    "updated": "Updated {{time}}",
     "title": "Backup activity",
     "zone": "Local completion days · {{zone}}",
     "refresh": "Refresh history",

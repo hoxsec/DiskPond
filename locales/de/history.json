@@ -21,6 +21,10 @@
     "failed": "Fehlgeschlagen"
   },
   "calendar": {
+    "snapshots": "Snapshots",
+    "lastBackup": "Letztes Backup",
+    "noBackups": "Noch keine Backups",
+    "updated": "Aktualisiert {{time}}",
     "title": "Sicherungsaktivität",
     "zone": "Abschlusstage in Ortszeit · {{zone}}",
     "refresh": "Verlauf aktualisieren",

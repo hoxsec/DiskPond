@@ -5,16 +5,18 @@ import { useCreateVaultDialog } from "@desktop/hooks/state/use-create-vault-dial
 import { PlusIcon } from "lucide-react";
 import { VaultCard } from "../vaults/card";
 import { HealthCard } from "./health-card";
+import { AccountOverviewCards } from "./overview-cards";
 
 export function AccountHome() {
   const { t } = useAppTranslation("vault.home");
   const { openCreateVault, openConnectVault } = useCreateVaultDialog();
   const { data: vaults } = useVaultList();
   return (
-    <div className="flex min-h-full flex-col overflow-y-auto p-6">
+    <div className="@container flex min-h-full flex-col overflow-y-auto p-6">
       <div className="mb-8 flex flex-row gap-6">
         <HealthCard isLoading={vaults === undefined} vaults={vaults} />
       </div>
+      <AccountOverviewCards vaults={vaults} />
       <div className="mb-6 flex w-full flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-semibold">{t("title")}</h1>
@@ -32,7 +34,7 @@ export function AccountHome() {
           </Button>
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 @2xl:grid-cols-2 @5xl:grid-cols-3 @7xl:grid-cols-4">
         {vaults?.map((vault) => (
           <VaultCard key={vault.id} vault={vault} />
         ))}

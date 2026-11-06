@@ -1,4 +1,5 @@
 import { useParams } from "@tanstack/react-router";
+import { useSyncExternalStore } from "react";
 
 const date = new Date();
 date.setHours(10, 0, 0, 0);
@@ -51,15 +52,24 @@ export const snapshots = [0, 1, 2].map((index) => ({
   retention: [],
   pins: [],
 }));
-export const fixtureVaults = [
+export let fixtureVaults = [
   { id: "vault-a", name: "Fixture A", provider: "INTERNAL_DRIVE" },
   { id: "vault-b", name: "Fixture B", provider: "INTERNAL_DRIVE" },
 ];
+const vaultListeners = new Set();
+export function setFixtureVaults(vaults) {
+  fixtureVaults = vaults;
+  for (const listener of vaultListeners) listener();
+}
+const subscribeVaults = (listener) => {
+  vaultListeners.add(listener);
+  return () => vaultListeners.delete(listener);
+};
 const unexpected = () => {
   throw new Error("History inspection must not mutate backup data");
 };
 export function useVaultList() {
-  return { data: fixtureVaults };
+  return { data: useSyncExternalStore(subscribeVaults, () => fixtureVaults) };
 }
 export function useLocalProfile() {
   return { localHostName: "laptop", localUserName: "owner", remote: true };
@@ -147,6 +157,18 @@ export function useRenameBackupDialog() {
 export function useRestoreDirectoryDialog() {
   return { openRestoreDirectory: unexpected };
 }
+function subscribeTheme(listener) {
+  const observer = new MutationObserver(listener);
+  observer.observe(document.body, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+  return () => observer.disconnect();
+}
 export function useTheme() {
-  return { dark: document.body.classList.contains("dark") };
+  return {
+    dark: useSyncExternalStore(subscribeTheme, () =>
+      document.body.classList.contains("dark"),
+    ),
+  };
 }

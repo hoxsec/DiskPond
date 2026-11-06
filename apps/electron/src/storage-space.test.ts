@@ -1,4 +1,5 @@
 import { resolve } from "node:path";
+import { runInNewContext } from "node:vm";
 import { readStorageSpace } from "@electron/storage-space";
 
 const mocks = vi.hoisted(() => ({
@@ -16,6 +17,31 @@ vi.mock("node:child_process", () => ({ execFile: mocks.execFile }));
 
 beforeEach(() => {
   mocks.execFile.mockReset();
+});
+
+it("measures total and used blocks without counting reserved space as used", async () => {
+  mocks.execFile.mockImplementation((_file, args, _options, callback) => {
+    runInNewContext(args[1] ?? "", {
+      require: () => ({
+        statfsSync: () => ({
+          bsize: 1024n,
+          blocks: 100n,
+          bfree: 90n,
+          bavail: 7n,
+        }),
+      }),
+      process: {
+        argv: ["node", args.at(-1)],
+        stdout: { write: (output: string) => callback(null, output) },
+      },
+    });
+  });
+  expect(await readStorageSpace(resolve("fixture"))).toEqual({
+    status: "AVAILABLE",
+    totalBytes: 102400,
+    usedBytes: 10240,
+    availableBytes: 7168,
+  });
 });
 
 it("preserves zero available bytes and bounds the native read without a shell", async () => {

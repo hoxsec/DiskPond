@@ -1,10 +1,16 @@
-import { getStorageProvider } from "@blinkdisk/constants/providers";
 import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
 import type { ZVaultType } from "@blinkdisk/schemas/vault";
 import { Card, CardContent } from "@blinkdisk/ui/card";
 import { Skeleton } from "@blinkdisk/ui/skeleton";
 import { useBackupHealth } from "@desktop/hooks/queries/use-backup-health";
 import { useTheme } from "@desktop/hooks/use-theme";
+import { scoreBackupSetup } from "@desktop/lib/backup-health";
+import {
+  CheckIcon,
+  CircleHelpIcon,
+  MinusIcon,
+  ShieldCheckIcon,
+} from "lucide-react";
 
 type HealthCardProps = {
   isLoading?: boolean;
@@ -85,11 +91,7 @@ function HealthGauge({ dark, score }: { dark: boolean; score: number | null }) {
   }));
 
   return (
-    <svg
-      aria-hidden="true"
-      className="mx-[-2rem] mb-[-1rem] mt-[-1.25rem] w-48"
-      viewBox="0 0 180 100"
-    >
+    <svg aria-hidden="true" className="-mb-3 -mt-3 w-44" viewBox="0 0 180 100">
       {segments.map((segment) => (
         <path
           d={segment.path}
@@ -118,63 +120,132 @@ function HealthGauge({ dark, score }: { dark: boolean; score: number | null }) {
 export function HealthCard({ isLoading, vaults }: HealthCardProps) {
   const { t } = useAppTranslation("vault.overview");
   const { dark } = useTheme();
+  const health = useBackupHealth(vaults);
   const {
     sourcesWithIssues,
     isLoading: isHealthLoading,
     isUnavailable,
-  } = useBackupHealth(vaults);
+  } = health;
   const hasNoVaults = vaults?.length === 0;
   const loading = isLoading || isHealthLoading;
-  const onlyLocalVaults =
-    !!vaults?.length &&
-    vaults.every((vault) => {
-      const provider = getStorageProvider(vault.provider);
-
-      return provider?.local;
-    });
-  const score = hasNoVaults
-    ? null
-    : sourcesWithIssues
-      ? 15
-      : isUnavailable
-        ? null
-        : onlyLocalVaults
-          ? 40
-          : 100;
+  const { score, checks } = scoreBackupSetup(vaults ?? [], health);
   const scoreKey = hasNoVaults
     ? "empty"
     : sourcesWithIssues
       ? "backupErrors"
       : isUnavailable
         ? "unavailable"
-        : onlyLocalVaults
-          ? "localOnly"
-          : "excellent";
+        : score === 100
+          ? "excellent"
+          : score === 75
+            ? "good"
+            : "improve";
 
   return (
-    <Card className="grow">
-      <CardContent className="flex h-full items-center gap-7 px-6 py-2">
-        {!loading ? (
-          <HealthGauge dark={dark} score={score} />
-        ) : (
-          <Skeleton width="8rem" height="5rem" />
-        )}
-        <div className="flex flex-col gap-1">
-          <p className="text-2xl font-bold">
+    <Card className="min-w-0 grow py-0">
+      <CardContent className="grid gap-6 p-5 sm:p-6 @5xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+        <div className="flex min-w-0 flex-wrap items-center gap-5 sm:flex-nowrap">
+          <div className="flex shrink-0 flex-col items-center">
             {!loading ? (
-              t(`score.${scoreKey}.category`)
+              <>
+                <HealthGauge dark={dark} score={hasNoVaults ? null : score} />
+                <meter
+                  className="sr-only"
+                  aria-label={t("score.title")}
+                  min={0}
+                  max={100}
+                  value={score}
+                  aria-valuetext={t("score.rating", { score })}
+                />
+                <p
+                  aria-hidden="true"
+                  className="flex items-baseline gap-1.5 tabular-nums"
+                >
+                  <span className="text-3xl font-semibold">{score}</span>
+                  <span className="text-sm text-muted-foreground">/ 100</span>
+                </p>
+              </>
             ) : (
-              <Skeleton width={100} />
+              <Skeleton width="10rem" height="7rem" />
             )}
-          </p>
-          <p className="text-muted-foreground text-sm">
-            {!loading ? (
-              t(`score.${scoreKey}.description`, { count: sourcesWithIssues })
-            ) : (
-              <Skeleton width={200} count={2} />
-            )}
-          </p>
+          </div>
+          <div className="min-w-0 space-y-2">
+            <p className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+              <ShieldCheckIcon className="size-4" aria-hidden="true" />
+              {t("score.title")}
+            </p>
+            <h2 className="text-2xl font-semibold">
+              {!loading ? (
+                t(`score.${scoreKey}.category`)
+              ) : (
+                <Skeleton width={100} />
+              )}
+            </h2>
+            {loading || scoreKey !== "improve" ? (
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                {!loading ? (
+                  t(`score.${scoreKey}.description`, {
+                    count: sourcesWithIssues,
+                  })
+                ) : (
+                  <Skeleton width="90%" count={2} />
+                )}
+              </p>
+            ) : null}
+          </div>
         </div>
+        <ul className="grid gap-x-6 gap-y-4 border-t pt-5 sm:grid-cols-2 @5xl:border-l @5xl:border-t-0 @5xl:pl-6 @5xl:pt-0">
+          {checks.map((check) => {
+            const color =
+              loading || check.passed === null
+                ? "text-muted-foreground"
+                : check.passed
+                  ? "text-success"
+                  : "text-orange-700 dark:text-orange-400";
+            const detail = check.passed
+              ? t("score.passed")
+              : t(`score.hints.${check.key}`);
+            const Icon =
+              check.passed === null
+                ? CircleHelpIcon
+                : check.passed
+                  ? CheckIcon
+                  : MinusIcon;
+            return (
+              <li key={check.key} className="flex items-start gap-2.5">
+                <Icon
+                  aria-hidden="true"
+                  className={`mt-0.5 size-4 shrink-0 ${color}`}
+                />
+                <div className="min-w-0">
+                  <p className="text-sm font-medium">
+                    {t(`score.checks.${check.key}`)}
+                  </p>
+                  <p
+                    className={`mt-1 text-xs font-medium ${color}`}
+                    title={
+                      !loading && check.passed !== null ? detail : undefined
+                    }
+                  >
+                    {loading ? (
+                      t("score.checking")
+                    ) : check.passed === null ? (
+                      t("score.unknown")
+                    ) : (
+                      <>
+                        <span aria-hidden="true">{t("score.points")}</span>
+                        <span className="sr-only">
+                          {detail}
+                          {!check.passed ? ` · ${t("score.points")}` : ""}
+                        </span>
+                      </>
+                    )}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       </CardContent>
     </Card>
   );

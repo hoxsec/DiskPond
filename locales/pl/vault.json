@@ -14,6 +14,34 @@
     "count_many": "Znaleziono {{count}} sejfów",
     "count_other": "Znaleziono {{count}} sejfu"
   },
+  "card": {
+    "open": "Otwórz sejf",
+    "reconnect": "Połącz ponownie",
+    "changeColor": "Zmień kolor ikony sejfu {{name}}",
+    "colors": { "blue": "Niebieski", "green": "Zielony", "purple": "Fioletowy", "amber": "Bursztynowy", "rose": "Różowy", "graphite": "Grafitowy" },
+    "used": "{{size}} zajęte",
+    "available": "{{size}} dostępne",
+    "stored": "≈ {{size}} zapisane",
+    "capacity": "z {{size}}",
+    "noQuota": "Nie ustawiono limitu",
+    "capacityUnknown": "Pojemność niepodana",
+    "storageUnavailable": "Pamięć niedostępna",
+    "storageLabel": "Zajęta pamięć docelowa",
+    "destinationUsage": "Wykorzystanie całego dysku lub zasobnika docelowego, w tym danych spoza tego sejfu.",
+    "estimatedUsage": "Szacowana pamięć sejfu na podstawie zindeksowanych spakowanych danych i metadanych. Nie uwzględnia narzutu dostawcy.",
+    "lastBackup": "Ostatnia kopia",
+    "never": "Brak kopii zapasowych",
+    "folders_one": "{{count}} folder",
+    "folders_few": "{{count}} foldery",
+    "folders_many": "{{count}} folderów",
+    "folders_other": "{{count}} folderu",
+    "sources_one": "{{count}} źródło",
+    "sources_few": "{{count}} źródła",
+    "sources_many": "{{count}} źródeł",
+    "sources_other": "{{count}} źródła",
+    "sourcesUnknown": "Źródła niedostępne",
+    "status": { "current": "Aktualne", "stale": "Brak aktualnej kopii", "new": "Brak kopii", "issues": "Wymaga uwagi", "offline": "Offline", "setup": "Wymaga konfiguracji", "checking": "Sprawdzanie…", "uploading": "Tworzenie kopii", "queued": "Kopia w kolejce", "unavailable": "Status niedostępny" }
+  },
   "createDialog": {
     "back": "Wstecz",
     "title": {
@@ -469,6 +497,16 @@
         "description": "Nie dodano jeszcze plików ani folderów. Dodaj je przyciskiem poniżej."
       }
     },
+    "global": {
+      "title": "Przegląd ogólny",
+      "snapshots": "Migawki",
+      "saved": "Zaoszczędzone miejsce",
+      "latestCopies": "Ostatnia kopia w każdym sejfie",
+      "retained": "Dostępne we wszystkich sejfach",
+      "savingsDescription": "Szacunek · kompresja i deduplikacja",
+      "savingsExplanation": "Porównanie z pełnymi kopiami zachowanych migawek na podstawie zindeksowanych spakowanych danych i metadanych. Nie uwzględnia narzutu dostawcy pamięci.",
+      "coverage": "Dostępne sejfy: {{available}} z {{total}}"
+    },
     "stats": {
       "totalSize": "Chronione dane",
       "files": "Chronione pliki",
@@ -480,6 +518,16 @@
       "unavailable": "Niedostępne"
     },
     "score": {
+      "title": "Konfiguracja kopii zapasowych",
+      "rating": "Konfiguracja kopii zapasowych: {{score}} ze 100",
+      "checking": "Sprawdzanie…",
+      "unknown": "Połącz sejfy, aby sprawdzić",
+      "passed": "Skonfigurowano · +25 punktów",
+      "points": "+25 punktów",
+      "checks": { "destinations": "Wiele miejsc docelowych", "variety": "Różne typy pamięci", "remote": "Pamięć zdalna", "freshness": "Aktualne kopie zapasowe" },
+      "hints": { "destinations": "Używaj co najmniej dwóch niezależnych sejfów", "variety": "Używaj różnych typów pamięci", "remote": "Dodaj zdalne miejsce docelowe", "freshness": "Wykonaj kopię każdego źródła w ciągu 24 godzin" },
+      "good": { "category": "Dobrze", "description": "Trzy kontrole zaliczone. Jeszcze jeden krok, aby wzmocnić kopie zapasowe." },
+      "improve": { "category": "Do poprawy", "description": "Każda zaliczona kontrola dodaje 25 punktów do wyniku." },
       "empty": {
         "category": "Nie ma jeszcze sejfów",
         "description": "Utwórz pierwszy sejf, aby zacząć tworzyć kopie zapasowe plików."

@@ -96,6 +96,22 @@ app.whenReady().then(async () => {
     await wait("document.body.innerText.includes('Comparison finished')");
     await evaluate("window.historyFixture.home()");
     await wait("document.body.innerText.includes('Fixture A')");
+    const overviewCards =
+      "document.querySelector('section[aria-label=\"Global overview\"]')";
+    await wait(`${overviewCards}?.innerText.includes('16 B')`);
+    assert.equal(
+      await evaluate(
+        `${overviewCards}.querySelectorAll('[data-slot=card]').length`,
+      ),
+      4,
+    );
+    assert.ok(
+      await evaluate(
+        `${overviewCards}.querySelector('[data-slot=card]').title.includes('1 of 2 vaults available')`,
+      ),
+    );
+    await wait("document.querySelector('meter') !== null");
+    await capture("home-overview-light");
     assert.equal(await evaluate("document.querySelector('[data-day]')"), null);
     contents.setZoomFactor(2);
     await wait("innerWidth<768");
@@ -110,12 +126,23 @@ app.whenReady().then(async () => {
     await wait("window.historyFixture.location().pathname==='/local/activity'");
     contents.setZoomFactor(1);
     await wait(
-      "document.body.innerText.includes('6 retained snapshots') && document.body.innerText.includes('History unavailable')",
+      "document.querySelector('[data-slot=activity-vault]')?.textContent.includes('6') && document.body.innerText.includes('History unavailable')",
     );
     assert.ok(
       await evaluate(
         "!document.body.innerText.includes('Numbers count retained backups')",
       ),
+    );
+    assert.ok(
+      await evaluate(
+        "!document.body.innerText.includes('retained snapshots · read')",
+      ),
+    );
+    assert.equal(
+      await evaluate(
+        "document.querySelectorAll('[data-slot=activity-vault]').length",
+      ),
+      2,
     );
     await focus("document.activeElement?.hasAttribute('data-day')");
     const today = await evaluate("document.activeElement.dataset.day");
@@ -142,9 +169,13 @@ app.whenReady().then(async () => {
     );
     await button("Today");
     await select("Vault");
-    await wait("!document.body.innerText.includes('6 retained snapshots')");
+    await wait(
+      "document.querySelectorAll('[data-slot=activity-entry]').length === 0",
+    );
     await select("Vault", 1);
-    await wait("document.body.innerText.includes('6 retained snapshots')");
+    await wait(
+      "document.querySelectorAll('[data-slot=activity-entry]').length === 7",
+    );
     const entries =
       "Array.from(document.querySelectorAll('[data-slot=activity-entry]'))";
     const firstEntry = `${entries}[0]`;
@@ -428,8 +459,162 @@ app.whenReady().then(async () => {
       "document.body.innerText.includes('At least two retained backups')",
     );
     await button("Back to backup history");
+    contents.setZoomFactor(1);
+    window.setContentSize(1440, 1000);
+    await evaluate(
+      "document.body.classList.remove('dark'); window.historyFixture.dashboard('stale')",
+    );
+    await wait(
+      "document.querySelector('meter')?.value === 75 && document.body.innerText.includes('43 GB')",
+    );
+    assert.ok(
+      await evaluate(
+        `${overviewCards}.innerText.includes('20 GB') && ${overviewCards}.innerText.includes('600') && ${overviewCards}.innerText.includes('60')`,
+      ),
+    );
+    await capture("home-75-light");
+    await evaluate(
+      "document.body.classList.add('dark'); window.historyFixture.dashboard('stale')",
+    );
+    await wait(
+      "document.querySelector('meter')?.value === 75 && document.body.innerText.includes('43 GB')",
+    );
+    await capture("home-75-dark");
+    contents.setZoomFactor(2);
+    await frame();
+    assert.ok(
+      await evaluate("document.documentElement.scrollWidth <= innerWidth"),
+    );
+    assert.ok(
+      await evaluate(
+        `${overviewCards}.scrollWidth <= ${overviewCards}.clientWidth`,
+      ),
+    );
+    await capture("home-75-dark-200");
+    await evaluate("window.historyFixture.dashboard('fresh')");
+    await wait("document.querySelector('meter')?.value === 100");
+    await evaluate("window.historyFixture.dashboard('unavailable')");
+    await wait(
+      `${overviewCards}.innerText.includes('Unavailable') && document.body.innerText.includes('Status unavailable')`,
+    );
+    assert.ok(
+      await evaluate(
+        `!${overviewCards}.innerText.includes('43 GB') && !${overviewCards}.innerText.includes('0 B')`,
+      ),
+    );
+    await evaluate("window.historyFixture.dashboard('empty')");
+    await wait(
+      "document.querySelector('meter')?.value === 0 && document.body.innerText.includes('No vaults yet')",
+    );
+    assert.ok(
+      await evaluate(
+        `${overviewCards}.innerText.includes('0 B') && !${overviewCards}.innerText.includes('Unavailable')`,
+      ),
+    );
+    contents.setZoomFactor(1);
+    await evaluate(
+      "document.body.classList.remove('dark'); window.historyFixture.dashboard('cards')",
+    );
+    const vaultCard = (id) =>
+      `document.querySelector('[data-slot=vault-card][data-vault-id="${id}"]')`;
+    await wait(
+      `${vaultCard("vault-a")}?.innerText.includes('750 GB used') && ${vaultCard("vault-d")}?.innerText.includes('Not backed up')`,
+    );
+    await wait(
+      "document.querySelector('meter')?.value === 75 && document.body.innerText.includes('19 GB')",
+    );
+    assert.equal(
+      await evaluate(
+        "document.querySelectorAll('[data-slot=vault-card]').length",
+      ),
+      4,
+    );
+    assert.equal(
+      await evaluate(`${vaultCard("vault-a")}.querySelector('meter').value`),
+      75,
+    );
+    assert.equal(
+      await evaluate(`${vaultCard("vault-b")}.querySelector('meter').value`),
+      20,
+    );
+    assert.ok(
+      await evaluate(
+        `${vaultCard("vault-a")}.innerText.includes('1 folder') && ${vaultCard("vault-a")}.querySelector('time').dateTime.length > 0`,
+      ),
+    );
+    assert.ok(
+      await evaluate(
+        `${vaultCard("vault-d")}.innerText.includes('0 folders') && ${vaultCard("vault-d")}.innerText.includes('0 B used') && !${vaultCard("vault-d")}.querySelector('meter')`,
+      ),
+    );
+    assert.ok(
+      await evaluate(
+        `${vaultCard("vault-c")}.innerText.includes('Offline') && !${vaultCard("vault-c")}.querySelector('meter') && !${vaultCard("vault-c")}.innerText.includes('0 B')`,
+      ),
+    );
+    await capture("home-vault-cards-light");
+    await focus(
+      "document.activeElement?.getAttribute('aria-label') === 'Change icon color for Folder'",
+    );
+    await key("Return");
+    await wait(
+      "document.querySelectorAll('[role=menuitemcheckbox]').length === 6",
+    );
+    await key("End");
+    await key("Up");
+    await key("Return");
+    await key("Escape");
+    await wait(`${vaultCard("vault-a")}.dataset.vaultColor === 'rose'`);
+    assert.equal(
+      await evaluate(
+        "window.electron.store.get().preferences.vaultColors['vault-a']",
+      ),
+      "rose",
+    );
+    await focus(
+      `document.activeElement?.closest('[data-vault-id="vault-a"]') && document.activeElement?.textContent.trim()==='Open vault'`,
+    );
+    await key("Return");
+    await wait("window.historyFixture.location().pathname==='/local/vault-a'");
+    await evaluate("window.historyFixture.home()");
+    await wait(`${vaultCard("vault-a")}?.dataset.vaultColor === 'rose'`);
+    await evaluate("document.body.classList.add('dark')");
+    await capture("home-vault-cards-dark");
+    contents.setZoomFactor(2);
+    await frame();
+    assert.ok(
+      await evaluate(
+        "document.documentElement.scrollWidth <= innerWidth && Array.from(document.querySelectorAll('[data-slot=vault-card]')).every(card=>card.scrollWidth<=card.clientWidth)",
+      ),
+    );
+    await evaluate(`${vaultCard("vault-a")}.scrollIntoView({block:'start'})`);
+    await capture("home-vault-cards-dark-200");
+    await button("Reconnect");
+    await wait(
+      `${vaultCard("vault-c")}.innerText.includes('Up to date') && ${vaultCard("vault-c")}.innerText.includes('Capacity not reported')`,
+    );
+    assert.equal(
+      await evaluate("window.historyFixture.reconnects().at(-1)"),
+      "vault-c",
+    );
+    assert.ok(
+      await evaluate(
+        `${vaultCard("vault-c")}.innerText.includes('1 GB stored') && !${vaultCard("vault-c")}.querySelector('meter')`,
+      ),
+    );
+    await evaluate(
+      "window.historyFixture.storageSpace('vault-a', {status:'AVAILABLE', availableBytes:1000000000000, totalBytes:1000000000000, usedBytes:0})",
+    );
+    await wait(`${vaultCard("vault-a")}.querySelector('meter')?.value === 0`);
+    assert.ok(
+      await evaluate(`${vaultCard("vault-a")}.innerText.includes('0 B used')`),
+    );
+    await evaluate("window.historyFixture.storageSpace('vault-a', 'ERROR')");
+    await wait(
+      `${vaultCard("vault-a")}.innerText.includes('Storage unavailable') && !${vaultCard("vault-a")}.querySelector('meter')`,
+    );
     console.info(
-      "History UI passed: cold-start comparison labels and both entry points, Home and vault without calendars, Activity navigation and vault filtering, compact backup/issue summaries with keyboard expansion and history links, no Activity in vault menu, keyboard day selection, comparison selection/filter/swap/browse/return, missing/cancel/large/insufficient states, Light/Dark and 200% zoom.",
+      "History UI passed: Home vault cards, capacity/unknown/zero/error states, keyboard color picker and saved preference, open/reconnect actions, global overview totals, setup scores, Activity cards and filters, comparison flows, Light/Dark and 200% zoom.",
     );
     clearTimeout(timeout);
     app.exit(0);

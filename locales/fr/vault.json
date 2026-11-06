@@ -13,6 +13,32 @@
     "count_other": "{{count}} coffres trouvés",
     "count_many": "{{count}} coffres trouvés"
   },
+  "card": {
+    "open": "Ouvrir le coffre",
+    "reconnect": "Reconnecter",
+    "changeColor": "Changer la couleur de l’icône de {{name}}",
+    "colors": { "blue": "Bleu", "green": "Vert", "purple": "Violet", "amber": "Ambre", "rose": "Rose", "graphite": "Graphite" },
+    "used": "{{size}} utilisés",
+    "available": "{{size}} disponibles",
+    "stored": "≈ {{size}} stockés",
+    "capacity": "sur {{size}}",
+    "noQuota": "Aucun quota défini",
+    "capacityUnknown": "Capacité non indiquée",
+    "storageUnavailable": "Stockage indisponible",
+    "storageLabel": "Stockage utilisé à destination",
+    "destinationUsage": "Utilisation de l’ensemble du disque ou du bucket de destination, y compris les données extérieures à ce coffre.",
+    "estimatedUsage": "Stockage estimé du coffre à partir des données compactées et métadonnées indexées. Le surcoût du fournisseur est exclu.",
+    "lastBackup": "Dernière sauvegarde",
+    "never": "Aucune sauvegarde",
+    "folders_one": "{{count}} dossier",
+    "folders_many": "{{count}} dossiers",
+    "folders_other": "{{count}} dossiers",
+    "sources_one": "{{count}} source",
+    "sources_many": "{{count}} sources",
+    "sources_other": "{{count}} sources",
+    "sourcesUnknown": "Sources indisponibles",
+    "status": { "current": "À jour", "stale": "Pas de copie récente", "new": "Non sauvegardé", "issues": "À vérifier", "offline": "Hors ligne", "setup": "Configuration requise", "checking": "Vérification…", "uploading": "Sauvegarde en cours", "queued": "Sauvegarde en attente", "unavailable": "État indisponible" }
+  },
   "createDialog": {
     "back": "Retour",
     "title": {
@@ -467,6 +493,16 @@
         "description": "Vous n’avez pas encore ajouté de fichier ou dossier. Ajoutez-en un avec le bouton ci-dessous."
       }
     },
+    "global": {
+      "title": "Vue d’ensemble globale",
+      "snapshots": "Instantanés",
+      "saved": "Stockage économisé",
+      "latestCopies": "Dernière sauvegarde de chaque coffre",
+      "retained": "Disponibles dans tous les coffres",
+      "savingsDescription": "Estimation · compression et déduplication",
+      "savingsExplanation": "Comparaison avec des copies complètes des instantanés conservés, à partir des données compactées et métadonnées indexées. Le surcoût de stockage du fournisseur est exclu.",
+      "coverage": "{{available}} coffres disponibles sur {{total}}"
+    },
     "stats": {
       "totalSize": "Données protégées",
       "files": "Fichiers protégés",
@@ -478,6 +514,16 @@
       "unavailable": "Indisponible"
     },
     "score": {
+      "title": "Configuration des sauvegardes",
+      "rating": "Configuration des sauvegardes : {{score}} sur 100",
+      "checking": "Vérification…",
+      "unknown": "Connectez les coffres pour vérifier",
+      "passed": "Configuré · +25 points",
+      "points": "+25 points",
+      "checks": { "destinations": "Plusieurs destinations", "variety": "Diversité du stockage", "remote": "Stockage distant", "freshness": "Sauvegardes récentes" },
+      "hints": { "destinations": "Utilisez au moins deux coffres indépendants", "variety": "Utilisez différents types de stockage", "remote": "Ajoutez une destination distante", "freshness": "Sauvegardez chaque source dans les dernières 24 heures" },
+      "good": { "category": "Bien", "description": "Trois vérifications réussies. Une étape de plus pour renforcer vos sauvegardes." },
+      "improve": { "category": "À améliorer", "description": "Chaque vérification réussie ajoute 25 points à votre score." },
       "empty": {
         "category": "Aucun coffre pour le moment",
         "description": "Créez votre premier coffre pour commencer à sauvegarder vos fichiers."

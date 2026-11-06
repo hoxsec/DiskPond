@@ -12,6 +12,30 @@
     "count_one": "{{count}} kluis gevonden",
     "count_other": "{{count}} kluizen gevonden"
   },
+  "card": {
+    "open": "Kluis openen",
+    "reconnect": "Opnieuw verbinden",
+    "changeColor": "Pictogramkleur voor {{name}} wijzigen",
+    "colors": { "blue": "Blauw", "green": "Groen", "purple": "Paars", "amber": "Amber", "rose": "Roze", "graphite": "Grafiet" },
+    "used": "{{size}} gebruikt",
+    "available": "{{size}} beschikbaar",
+    "stored": "≈ {{size}} opgeslagen",
+    "capacity": "van {{size}}",
+    "noQuota": "Geen quotum ingesteld",
+    "capacityUnknown": "Capaciteit niet gemeld",
+    "storageUnavailable": "Opslag niet beschikbaar",
+    "storageLabel": "Gebruikte opslag op bestemming",
+    "destinationUsage": "Gebruik van de volledige doelschijf of bucket, inclusief gegevens buiten deze kluis.",
+    "estimatedUsage": "Geschatte kluisopslag op basis van geïndexeerde verpakte gegevens en metadata. Extra ruimtegebruik van de aanbieder is niet inbegrepen.",
+    "lastBackup": "Laatste back-up",
+    "never": "Nog geen back-ups",
+    "folders_one": "{{count}} map",
+    "folders_other": "{{count}} mappen",
+    "sources_one": "{{count}} bron",
+    "sources_other": "{{count}} bronnen",
+    "sourcesUnknown": "Bronnen niet beschikbaar",
+    "status": { "current": "Actueel", "stale": "Geen recente back-up", "new": "Nog niet geback-upt", "issues": "Aandacht nodig", "offline": "Offline", "setup": "Configuratie vereist", "checking": "Controleren…", "uploading": "Back-up wordt gemaakt", "queued": "Back-up in wachtrij", "unavailable": "Status niet beschikbaar" }
+  },
   "createDialog": {
     "back": "Terug",
     "title": {
@@ -465,6 +489,16 @@
         "description": "Je hebt nog geen bestanden of mappen toegevoegd. Voeg er een toe met de knop hieronder."
       }
     },
+    "global": {
+      "title": "Totaaloverzicht",
+      "snapshots": "Snapshots",
+      "saved": "Bespaarde opslag",
+      "latestCopies": "Laatste back-up in elke kluis",
+      "retained": "Beschikbaar in alle kluizen",
+      "savingsDescription": "Schatting · compressie en deduplicatie",
+      "savingsExplanation": "Vergelijking met volledige kopieën van bewaarde snapshots op basis van geïndexeerde verpakte gegevens en metadata. Extra opslaggebruik van de aanbieder is niet inbegrepen.",
+      "coverage": "{{available}} van {{total}} kluizen beschikbaar"
+    },
     "stats": {
       "totalSize": "Beschermde gegevens",
       "files": "Beschermde bestanden",
@@ -476,6 +510,16 @@
       "unavailable": "Niet beschikbaar"
     },
     "score": {
+      "title": "Back-upconfiguratie",
+      "rating": "Back-upconfiguratie: {{score}} van 100",
+      "checking": "Controleren…",
+      "unknown": "Verbind kluizen om te controleren",
+      "passed": "Ingesteld · +25 punten",
+      "points": "+25 punten",
+      "checks": { "destinations": "Meerdere bestemmingen", "variety": "Verschillende opslagtypen", "remote": "Externe opslag", "freshness": "Recente back-ups" },
+      "hints": { "destinations": "Gebruik minstens twee onafhankelijke kluizen", "variety": "Gebruik verschillende opslagtypen", "remote": "Voeg een externe bestemming toe", "freshness": "Maak binnen 24 uur een back-up van elke bron" },
+      "good": { "category": "Goed", "description": "Drie controles geslaagd. Nog één stap om je back-ups te versterken." },
+      "improve": { "category": "Ruimte voor verbetering", "description": "Elke geslaagde controle voegt 25 punten toe aan je score." },
       "empty": {
         "category": "Nog geen kluizen",
         "description": "Maak je eerste kluis om te beginnen met het back-uppen van je bestanden."

@@ -177,6 +177,8 @@ it("reads destination available blocks with password authentication", async () =
   expect(await readSftpStorageSpace(config)).toEqual({
     status: "AVAILABLE",
     availableBytes: 7168,
+    totalBytes: 102400,
+    usedBytes: 10240,
   });
   expect(requests).toEqual([config.path]);
 });
@@ -187,10 +189,20 @@ it("supports private keys and retains engine password precedence", async () => {
       password: "",
       keyData: userKey.private,
     }),
-  ).toEqual({ status: "AVAILABLE", availableBytes: 7168 });
+  ).toEqual({
+    status: "AVAILABLE",
+    availableBytes: 7168,
+    totalBytes: 102400,
+    usedBytes: 10240,
+  });
   expect(
     await readSftpStorageSpace({ ...config, keyData: "invalid ignored key" }),
-  ).toEqual({ status: "AVAILABLE", availableBytes: 7168 });
+  ).toEqual({
+    status: "AVAILABLE",
+    availableBytes: 7168,
+    totalBytes: 102400,
+    usedBytes: 10240,
+  });
 });
 it("verifies the host before sending authentication credentials", async () => {
   expect(
@@ -227,6 +239,8 @@ it("preserves genuine zero", async () => {
   expect(await readSftpStorageSpace(config)).toEqual({
     status: "AVAILABLE",
     availableBytes: 0,
+    totalBytes: 102400,
+    usedBytes: 10240,
   });
 });
 it.each([
@@ -251,6 +265,8 @@ it("deduplicates concurrent reads and retries after failure", async () => {
   expect(await readSftpStorageSpace(config)).toEqual({
     status: "AVAILABLE",
     availableBytes: 7168,
+    totalBytes: 102400,
+    usedBytes: 10240,
   });
 });
 it("bounds stalled connections and concurrent work", async () => {

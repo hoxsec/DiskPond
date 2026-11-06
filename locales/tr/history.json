@@ -21,6 +21,10 @@
     "failed": "Başarısız"
   },
   "calendar": {
+    "snapshots": "Anlık görüntüler",
+    "lastBackup": "Son yedek",
+    "noBackups": "Henüz yedek yok",
+    "updated": "Güncellendi: {{time}}",
     "title": "Yedekleme etkinliği",
     "zone": "Yerel saate göre tamamlanma günleri · {{zone}}",
     "refresh": "Geçmişi yenile",

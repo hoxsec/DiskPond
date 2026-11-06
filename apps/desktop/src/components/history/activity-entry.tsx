@@ -10,7 +10,12 @@ import { formatHistoryTime, type SnapshotOutcome } from "@desktop/lib/history";
 import { formatInt, formatSize } from "@desktop/lib/number";
 import { buildSourceId } from "@desktop/lib/source";
 import { Link } from "@tanstack/react-router";
-import { ChevronRightIcon } from "lucide-react";
+import {
+  AlertTriangleIcon,
+  CheckIcon,
+  ChevronRightIcon,
+  CircleHelpIcon,
+} from "lucide-react";
 import type { ReactNode } from "react";
 
 export function ActivityEntry({
@@ -35,14 +40,35 @@ export function ActivityEntry({
   const { t, language } = useAppTranslation("history");
   const { accountId } = useAccountId();
   const name = sourceName || source.path;
+  const OutcomeIcon =
+    outcome === "completed"
+      ? CheckIcon
+      : outcome === "unknown" || outcome === "canceled"
+        ? CircleHelpIcon
+        : AlertTriangleIcon;
+  const outcomeClass =
+    outcome === "completed"
+      ? "text-success"
+      : outcome === "failed"
+        ? "text-destructive"
+        : outcome === "unknown" || outcome === "canceled"
+          ? "text-muted-foreground"
+          : "text-warning";
 
   return (
-    <details data-slot="activity-entry" className="group @container text-sm">
-      <summary className="flex min-h-9 cursor-pointer list-none items-start gap-2 px-3 py-2 outline-none hover:bg-card-hover focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring [&::-webkit-details-marker]:hidden">
-        <ChevronRightIcon
-          aria-hidden="true"
-          className="mt-0.5 size-4 shrink-0 group-open:rotate-90"
-        />
+    <details
+      data-slot="activity-entry"
+      className="group @container border bg-card text-sm"
+    >
+      <summary className="flex cursor-pointer list-none items-start gap-3 p-4 outline-none hover:bg-card-hover focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring [&::-webkit-details-marker]:hidden">
+        <span
+          className={cn(
+            "flex size-8 shrink-0 items-center justify-center border bg-muted",
+            outcomeClass,
+          )}
+        >
+          <OutcomeIcon aria-hidden="true" className="size-4" />
+        </span>
         <span className="grid min-w-0 flex-1 grid-cols-2 items-center gap-x-3 gap-y-1 @3xl:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_auto_auto_minmax(0,1fr)]">
           <span className="col-span-2 truncate font-medium @3xl:col-span-1">
             {name}
@@ -79,23 +105,16 @@ export function ActivityEntry({
                 )}`
               : t("unavailable")}
           </span>
-          <span
-            className={cn(
-              "text-xs",
-              outcome === "completed"
-                ? "text-success"
-                : outcome === "failed"
-                  ? "text-destructive"
-                  : outcome === "unknown" || outcome === "canceled"
-                    ? "text-muted-foreground"
-                    : "text-warning",
-            )}
-          >
+          <span className={cn("text-xs", outcomeClass)}>
             {t(`outcome.${outcome}`)}
           </span>
         </span>
+        <ChevronRightIcon
+          aria-hidden="true"
+          className="mt-1 size-4 shrink-0 text-muted-foreground group-open:rotate-90"
+        />
       </summary>
-      <div className="space-y-2 border-t px-3 py-3">
+      <div className="space-y-3 border-t bg-muted/30 p-4">
         <p className="break-all font-medium">
           {name} · {vault.name}
         </p>

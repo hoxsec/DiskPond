@@ -1,4 +1,5 @@
 import { LANGUAGE_CODES } from "@blinkdisk/constants/language";
+import { VAULT_COLORS } from "@blinkdisk/constants/vault-color";
 import { store } from "@electron/store";
 import { z } from "zod";
 
@@ -7,6 +8,10 @@ const writable = {
   "preferences.theme": z.enum(["system", "light", "dark"]),
   "preferences.language": z.enum(LANGUAGE_CODES),
   "preferences.mode": z.enum(["basic", "advanced"]),
+  "preferences.vaultColors": z.record(
+    z.string().min(1).max(244),
+    z.enum(VAULT_COLORS),
+  ),
   dismissedUpdateVersion: z.string().nullable(),
   "accounts.local.lastUsedVaultId": z.string().nullable(),
 };
@@ -21,6 +26,7 @@ export function readRendererStore(key?: unknown): unknown {
       theme: store.get("preferences.theme"),
       language: store.get("preferences.language"),
       mode: store.get("preferences.mode"),
+      vaultColors: store.get("preferences.vaultColors"),
     },
     dismissedUpdateVersion: store.get("dismissedUpdateVersion"),
     accounts: {

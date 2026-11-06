@@ -21,6 +21,10 @@
     "failed": "Échec"
   },
   "calendar": {
+    "snapshots": "Instantanés",
+    "lastBackup": "Dernière sauvegarde",
+    "noBackups": "Aucune sauvegarde pour le moment",
+    "updated": "Actualisé à {{time}}",
     "title": "Activité des sauvegardes",
     "zone": "Jours de fin en heure locale · {{zone}}",
     "refresh": "Actualiser l’historique",

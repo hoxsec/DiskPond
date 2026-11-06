@@ -13,6 +13,32 @@
     "count_other": "{{count}} casseforti trovate",
     "count_many": "{{count}} casseforti trovate"
   },
+  "card": {
+    "open": "Apri archivio",
+    "reconnect": "Riconnetti",
+    "changeColor": "Cambia il colore dell’icona di {{name}}",
+    "colors": { "blue": "Blu", "green": "Verde", "purple": "Viola", "amber": "Ambra", "rose": "Rosa", "graphite": "Grafite" },
+    "used": "{{size}} utilizzati",
+    "available": "{{size}} disponibili",
+    "stored": "≈ {{size}} archiviati",
+    "capacity": "di {{size}}",
+    "noQuota": "Nessuna quota impostata",
+    "capacityUnknown": "Capacità non indicata",
+    "storageUnavailable": "Archiviazione non disponibile",
+    "storageLabel": "Spazio utilizzato nella destinazione",
+    "destinationUsage": "Utilizzo dell’intera unità o bucket di destinazione, inclusi i dati esterni a questo archivio.",
+    "estimatedUsage": "Spazio stimato dell’archivio dai dati compattati e metadati indicizzati. Non include lo spazio aggiuntivo del fornitore.",
+    "lastBackup": "Ultimo backup",
+    "never": "Ancora nessun backup",
+    "folders_one": "{{count}} cartella",
+    "folders_many": "{{count}} cartelle",
+    "folders_other": "{{count}} cartelle",
+    "sources_one": "{{count}} origine",
+    "sources_many": "{{count}} origini",
+    "sources_other": "{{count}} origini",
+    "sourcesUnknown": "Origini non disponibili",
+    "status": { "current": "Aggiornato", "stale": "Backup non recente", "new": "Nessun backup", "issues": "Richiede attenzione", "offline": "Non connesso", "setup": "Configurazione richiesta", "checking": "Verifica…", "uploading": "Backup in corso", "queued": "Backup in coda", "unavailable": "Stato non disponibile" }
+  },
   "createDialog": {
     "back": "Indietro",
     "title": {
@@ -467,6 +493,16 @@
         "description": "Non hai ancora aggiunto file o cartelle. Aggiungine uno con il pulsante qui sotto."
       }
     },
+    "global": {
+      "title": "Panoramica globale",
+      "snapshots": "Snapshot",
+      "saved": "Spazio risparmiato",
+      "latestCopies": "Ultimo backup di ogni archivio",
+      "retained": "Disponibili in tutti gli archivi",
+      "savingsDescription": "Stima · compressione e deduplicazione",
+      "savingsExplanation": "Confronto con copie complete degli snapshot conservati, usando dati compattati e metadati indicizzati. Lo spazio aggiuntivo usato dal fornitore non è incluso.",
+      "coverage": "{{available}} archivi disponibili su {{total}}"
+    },
     "stats": {
       "totalSize": "Dati protetti",
       "files": "File protetti",
@@ -478,6 +514,16 @@
       "unavailable": "Non disponibile"
     },
     "score": {
+      "title": "Configurazione dei backup",
+      "rating": "Configurazione dei backup: {{score}} su 100",
+      "checking": "Verifica…",
+      "unknown": "Collega gli archivi per verificare",
+      "passed": "Configurato · +25 punti",
+      "points": "+25 punti",
+      "checks": { "destinations": "Più destinazioni", "variety": "Varietà di archiviazione", "remote": "Archiviazione remota", "freshness": "Backup recenti" },
+      "hints": { "destinations": "Usa almeno due archivi indipendenti", "variety": "Usa diversi tipi di archiviazione", "remote": "Aggiungi una destinazione remota", "freshness": "Esegui il backup di ogni origine entro 24 ore" },
+      "good": { "category": "Buono", "description": "Tre verifiche superate. Un altro passo per rafforzare i tuoi backup." },
+      "improve": { "category": "Da migliorare", "description": "Ogni verifica superata aggiunge 25 punti al punteggio." },
       "empty": {
         "category": "Ancora nessuna cassaforte",
         "description": "Crea la prima cassaforte per iniziare a eseguire il backup dei tuoi file."

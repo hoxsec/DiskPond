@@ -119,7 +119,12 @@ export async function readS3StorageSpace(
           );
           if (quota.bucket !== value.bucket) throw new Error("Invalid quota");
           if (quota.quota_limit === null || quota.quota_limit === 0) {
-            finish({ status: "NO_QUOTA" });
+            finish({
+              status: "NO_QUOTA",
+              ...(quota.current_usage !== null
+                ? { usedBytes: quota.current_usage }
+                : {}),
+            });
             return;
           }
           if (
@@ -129,7 +134,12 @@ export async function readS3StorageSpace(
               Math.max(0, quota.quota_limit - quota.current_usage)
           )
             throw new Error("Unavailable quota usage");
-          finish({ status: "QUOTA", availableBytes: quota.remaining_quota });
+          finish({
+            status: "QUOTA",
+            availableBytes: quota.remaining_quota,
+            totalBytes: quota.quota_limit,
+            usedBytes: quota.current_usage,
+          });
         } catch {
           finish({ status: "UNAVAILABLE" });
         }

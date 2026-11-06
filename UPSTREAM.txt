@@ -1,6 +1,6 @@
 # DiskPond upstream provenance
 
-Updated 2026-11-05. DiskPond is derived from BlinkDisk and its Kopia-derived core.
+Updated 2026-11-06. DiskPond is derived from BlinkDisk and its Kopia-derived core.
 
 The owner requested removal of application-repository .md files for v0.1.6.
 Build instructions, provenance and verification records now use .txt. Historical
@@ -37,6 +37,26 @@ The recorded procedure was:
 Do not replay the tree import over later work. A future clone recreates the core using the committed gitlink, not `--remote`. The upstream `branch = main` hint was removed from `.gitmodules`. The core build checks the checkout against the index gitlink before compiling.
 
 ## DiskPond modifications to upstream application files
+
+### Home overview and Activity cards (2026-11-06)
+
+The current Home layout now includes global protected-data, file, snapshot and
+estimated storage-savings cards, plus a four-check backup setup score. Vault cards
+show destination details, reported storage usage/capacity, latest snapshots,
+source counts and backup status, with persisted icon colors and reconnect actions.
+Activity uses vault summary cards and expandable backup entries with concise
+timestamps. Changes include shared renderer queries, native storage probes,
+presentation preferences, all eight desktop languages and component smoke fixtures.
+
+The application now pins owned core commit
+[`71dbcd74d6361b3bcb460980ff3abf20d8176bc8`](https://github.com/hoxsec/diskpond-core/commit/71dbcd74d6361b3bcb460980ff3abf20d8176bc8).
+Its authenticated read-only repository-statistics endpoint reads retained manifests
+and indexed packed contents. Savings compare complete retained-snapshot copies
+against packed data and metadata; provider overhead is excluded. Native filesystem,
+SFTP and supported S3 quota probes report destination capacity independently of
+repository size. The endpoint has a native repository integration regression;
+desktop tests cover accounting, availability, preferences and UI interactions.
+Repository formats, encryption and retained licenses are unchanged.
 
 ### DiskPond Cloud provider (2026-11-05)
 
@@ -181,7 +201,7 @@ The owner authorized committing and pushing the restore-outcome slice to applica
 
 ### Distribution requirements
 
-The final restore-cleanup pin is [`0f31eefe409cb4f0571baf65abd7d063784598cd`](https://github.com/hoxsec/diskpond-core/commit/0f31eefe409cb4f0571baf65abd7d063784598cd). In addition to `945404f` below, `restore.Entry` closes output after copy failure/cancellation, preserving the primary error. Its regression uses an actual local source with write-time destination failure. This is the revision pinned by the application.
+The final restore-cleanup pin is [`0f31eefe409cb4f0571baf65abd7d063784598cd`](https://github.com/hoxsec/diskpond-core/commit/0f31eefe409cb4f0571baf65abd7d063784598cd). In addition to `945404f` below, `restore.Entry` closes output after copy failure/cancellation, preserving the primary error. Its regression uses an actual local source with write-time destination failure. This revision was pinned through v0.1.8; the Home overview change above records the subsequent pin.
 
 Core ZIP failure cleanup (2026-11-03): real full-volume Windows CI exposed an inherited open-handle leak in `snapshot/restore/zip_output.go` when archive finalization failed. Published core [`945404f`](https://github.com/hoxsec/diskpond-core/commit/945404fe056671797eb3aee4be71faebfcb47301) always closes the destination and preserves the finalization error, with a focused regression. The application deliberately advances its gitlink from `dca6beb` to this revision. ZIP contents, repository format, encryption, and Apache-2.0 notices are unchanged. Verification is tracked in [desktop recovery evidence](docs/verification/m2-desktop-recovery.md).
 

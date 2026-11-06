@@ -1,3 +1,4 @@
+import type { VaultColor } from "@blinkdisk/constants/vault-color";
 import type { EncryptedString } from "@electron/encryption";
 import { globalConfigDirectory } from "@electron/path";
 import type { UpdateLocalState } from "@electron/update-history";
@@ -22,6 +23,7 @@ export type GlobalStorageType = {
     mode?: "basic" | "advanced";
     language?: string;
     hideEmail?: boolean;
+    vaultColors?: Record<string, VaultColor>;
   };
   passwords: {
     [vaultId: string]: EncryptedString;

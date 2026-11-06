@@ -3,12 +3,16 @@ import { Card, CardContent, CardTitle } from "@blinkdisk/ui/card";
 import { Skeleton } from "@blinkdisk/ui/skeleton";
 import { Sparkline } from "@blinkdisk/ui/sparkline";
 import { ArrowDownRightIcon, ArrowUpRightIcon, MinusIcon } from "lucide-react";
+import type { ReactNode } from "react";
 
 type VaultStatCardProps = {
   title: string;
   value?: string;
   history?: number[];
   isLoading: boolean;
+  description?: string;
+  tooltip?: string;
+  icon?: ReactNode;
 };
 
 export function VaultStatCard({
@@ -16,6 +20,9 @@ export function VaultStatCard({
   value,
   history,
   isLoading,
+  description,
+  tooltip,
+  icon,
 }: VaultStatCardProps) {
   const { language } = useAppTranslation();
   const trend = getHistoryTrend(history);
@@ -27,12 +34,20 @@ export function VaultStatCard({
         : MinusIcon;
 
   return (
-    <Card className="min-w-0 overflow-hidden py-0">
+    <Card className="min-w-0 overflow-hidden py-0" title={tooltip}>
       <CardContent className="flex h-full flex-col p-5">
         <div className="flex items-start justify-between gap-4">
           <CardTitle className="text-muted-foreground min-w-0 text-sm font-medium">
             {!isLoading ? title : <Skeleton width={90} />}
           </CardTitle>
+          {icon ? (
+            <span
+              aria-hidden="true"
+              className="shrink-0 text-muted-foreground [&>svg]:size-4"
+            >
+              {icon}
+            </span>
+          ) : null}
           {!isLoading && history ? (
             <div className="text-foreground flex shrink-0 items-center gap-1 text-xs font-semibold">
               <TrendIcon className="size-4" />
@@ -51,6 +66,11 @@ export function VaultStatCard({
             />
           ) : null}
         </div>
+        {description ? (
+          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+            {!isLoading ? description : <Skeleton width="80%" />}
+          </p>
+        ) : null}
       </CardContent>
     </Card>
   );

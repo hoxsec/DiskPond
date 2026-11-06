@@ -47,7 +47,12 @@ afterAll(async () => {
 it("reads bucket quota with a valid SigV4 signature and session token", async () => {
   expect(
     await readS3StorageSpace({ ...config, prefix: "vault-prefix/" }),
-  ).toEqual({ status: "QUOTA", availableBytes: 600 });
+  ).toEqual({
+    status: "QUOTA",
+    availableBytes: 600,
+    totalBytes: 1000,
+    usedBytes: 400,
+  });
   const request = calls[0];
   if (!request) throw new Error("Missing request");
   expect(request.method).toBe("GET");
@@ -93,6 +98,8 @@ it.each([
   expect(await readS3StorageSpace(config)).toEqual({
     status: "QUOTA",
     availableBytes: 0,
+    totalBytes: 1000,
+    usedBytes: usage,
   });
 });
 
@@ -104,7 +111,10 @@ it.each([
     response.end(
       JSON.stringify({ ...quota, quota_limit: limit, remaining_quota: null }),
     );
-  expect(await readS3StorageSpace(config)).toEqual({ status: "NO_QUOTA" });
+  expect(await readS3StorageSpace(config)).toEqual({
+    status: "NO_QUOTA",
+    usedBytes: 400,
+  });
 });
 
 it.each([
@@ -156,6 +166,8 @@ it("deduplicates concurrent reads and retries failures", async () => {
   expect(await readS3StorageSpace(config)).toEqual({
     status: "QUOTA",
     availableBytes: 600,
+    totalBytes: 1000,
+    usedBytes: 400,
   });
   expect(calls).toHaveLength(2);
 });

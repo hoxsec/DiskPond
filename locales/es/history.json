@@ -21,6 +21,10 @@
     "failed": "Fallida"
   },
   "calendar": {
+    "snapshots": "Instantáneas",
+    "lastBackup": "Última copia",
+    "noBackups": "Aún no hay copias",
+    "updated": "Actualizado {{time}}",
     "title": "Actividad de copias de seguridad",
     "zone": "Días de finalización en hora local · {{zone}}",
     "refresh": "Actualizar historial",

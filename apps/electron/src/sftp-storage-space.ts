@@ -14,7 +14,12 @@ const ZConfig = z.object({
   externalSSH: z.boolean().optional(),
 });
 const integer = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
-const ZStats = z.object({ f_frsize: integer.positive(), f_bavail: integer });
+const ZStats = z.object({
+  f_frsize: integer.positive(),
+  f_bavail: integer,
+  f_blocks: integer,
+  f_bfree: integer,
+});
 const pending = new Map<string, Promise<VaultStorageSpace>>();
 
 function sameBytes(left: Buffer, right: Buffer) {
@@ -131,11 +136,22 @@ export async function readSftpStorageSpace(
             }
             const parsed = ZStats.safeParse(stats);
             if (!parsed.success) return finish({ status: "UNAVAILABLE" });
-            const bytes =
-              BigInt(parsed.data.f_frsize) * BigInt(parsed.data.f_bavail);
+            const { f_frsize, f_bavail, f_blocks, f_bfree } = parsed.data;
+            const bytes = BigInt(f_frsize) * BigInt(f_bavail);
+            const total = BigInt(f_frsize) * BigInt(f_blocks);
+            const used =
+              BigInt(f_frsize) * (BigInt(f_blocks) - BigInt(f_bfree));
             finish(
-              bytes <= BigInt(Number.MAX_SAFE_INTEGER)
-                ? { status: "AVAILABLE", availableBytes: Number(bytes) }
+              used >= 0n &&
+                used <= total &&
+                bytes <= total - used &&
+                total <= BigInt(Number.MAX_SAFE_INTEGER)
+                ? {
+                    status: "AVAILABLE",
+                    availableBytes: Number(bytes),
+                    totalBytes: Number(total),
+                    usedBytes: Number(used),
+                  }
                 : { status: "UNAVAILABLE" },
             );
           });

@@ -67,3 +67,16 @@ it("validates the retained theme/language/mode/update/local-vault preferences", 
     "Invalid preference value",
   );
 });
+
+it("persists only supported vault colors through the preference bridge", () => {
+  const colors = { "vault-a": "rose", "vault-b": "blue" };
+  writeRendererStore("preferences.vaultColors", colors);
+  expect(mocks.set).toHaveBeenCalledWith("preferences.vaultColors", colors);
+  mocks.values.set("preferences.vaultColors", colors);
+  expect(readRendererStore("preferences.vaultColors")).toEqual(colors);
+  expect(() =>
+    writeRendererStore("preferences.vaultColors", {
+      "vault-a": "url(file://private)",
+    }),
+  ).toThrow("Invalid preference value");
+});

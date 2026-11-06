@@ -21,6 +21,10 @@
     "failed": "Mislukt"
   },
   "calendar": {
+    "snapshots": "Snapshots",
+    "lastBackup": "Laatste back-up",
+    "noBackups": "Nog geen back-ups",
+    "updated": "Bijgewerkt om {{time}}",
     "title": "Back-upactiviteit",
     "zone": "Voltooiingsdagen in lokale tijd · {{zone}}",
     "refresh": "Geschiedenis vernieuwen",

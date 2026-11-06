@@ -12,6 +12,30 @@
     "count_one": "{{count}} vault found",
     "count_other": "{{count}} vaults found"
   },
+  "card": {
+    "open": "Open vault",
+    "reconnect": "Reconnect",
+    "changeColor": "Change icon color for {{name}}",
+    "colors": { "blue": "Blue", "green": "Green", "purple": "Purple", "amber": "Amber", "rose": "Rose", "graphite": "Graphite" },
+    "used": "{{size}} used",
+    "available": "{{size}} available",
+    "stored": "≈ {{size}} stored",
+    "capacity": "of {{size}}",
+    "noQuota": "No quota set",
+    "capacityUnknown": "Capacity not reported",
+    "storageUnavailable": "Storage unavailable",
+    "storageLabel": "Destination storage used",
+    "destinationUsage": "Usage of the entire destination drive or bucket, including data outside this vault.",
+    "estimatedUsage": "Estimated vault storage from indexed packed data and metadata. Provider overhead is not included.",
+    "lastBackup": "Last backup",
+    "never": "No backups yet",
+    "folders_one": "{{count}} folder",
+    "folders_other": "{{count}} folders",
+    "sources_one": "{{count}} source",
+    "sources_other": "{{count}} sources",
+    "sourcesUnknown": "Sources unavailable",
+    "status": { "current": "Up to date", "stale": "Not recent", "new": "Not backed up", "issues": "Needs attention", "offline": "Offline", "setup": "Setup required", "checking": "Checking…", "uploading": "Backing up", "queued": "Backup queued", "unavailable": "Status unavailable" }
+  },
   "createDialog": {
     "back": "Back",
     "title": {
@@ -465,6 +489,16 @@
         "description": "You haven't added any files or folders yet. Add one by pressing the button below."
       }
     },
+    "global": {
+      "title": "Global overview",
+      "snapshots": "Snapshots",
+      "saved": "Storage saved",
+      "latestCopies": "Latest backup in each vault",
+      "retained": "Available across all vaults",
+      "savingsDescription": "Estimated · compression & deduplication",
+      "savingsExplanation": "Compared with full copies of retained snapshots, using indexed packed data and metadata. Storage-provider overhead is not included.",
+      "coverage": "{{available}} of {{total}} vaults available"
+    },
     "stats": {
       "totalSize": "Protected data",
       "files": "Protected files",
@@ -476,6 +510,16 @@
       "unavailable": "Unavailable"
     },
     "score": {
+      "title": "Backup setup",
+      "rating": "Backup setup: {{score}} out of 100",
+      "checking": "Checking…",
+      "unknown": "Connect vaults to check",
+      "passed": "Configured · +25 points",
+      "points": "+25 points",
+      "checks": { "destinations": "Multiple destinations", "variety": "Storage variety", "remote": "Remote storage", "freshness": "Recent backups" },
+      "hints": { "destinations": "Use at least two independent vaults", "variety": "Use different storage types", "remote": "Add a remote destination", "freshness": "Back up every source within 24 hours" },
+      "good": { "category": "Good", "description": "Three setup checks passed. One more step to strengthen your backups." },
+      "improve": { "category": "Room to improve", "description": "Each completed setup check adds 25 points to your score." },
       "empty": {
         "category": "No vaults yet",
         "description": "Create your first vault to start backing up your files."

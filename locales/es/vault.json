@@ -13,6 +13,32 @@
     "count_other": "{{count}} bóvedas encontradas",
     "count_many": "{{count}} bóvedas encontradas"
   },
+  "card": {
+    "open": "Abrir bóveda",
+    "reconnect": "Reconectar",
+    "changeColor": "Cambiar el color del icono de {{name}}",
+    "colors": { "blue": "Azul", "green": "Verde", "purple": "Morado", "amber": "Ámbar", "rose": "Rosa", "graphite": "Grafito" },
+    "used": "{{size}} usados",
+    "available": "{{size}} disponibles",
+    "stored": "≈ {{size}} almacenados",
+    "capacity": "de {{size}}",
+    "noQuota": "Sin cuota configurada",
+    "capacityUnknown": "Capacidad no indicada",
+    "storageUnavailable": "Almacenamiento no disponible",
+    "storageLabel": "Almacenamiento usado en el destino",
+    "destinationUsage": "Uso de toda la unidad o bucket de destino, incluidos los datos ajenos a esta bóveda.",
+    "estimatedUsage": "Almacenamiento estimado de la bóveda a partir de datos empaquetados y metadatos indexados. No incluye el espacio adicional del proveedor.",
+    "lastBackup": "Última copia",
+    "never": "Aún no hay copias",
+    "folders_one": "{{count}} carpeta",
+    "folders_many": "{{count}} carpetas",
+    "folders_other": "{{count}} carpetas",
+    "sources_one": "{{count}} origen",
+    "sources_many": "{{count}} orígenes",
+    "sources_other": "{{count}} orígenes",
+    "sourcesUnknown": "Orígenes no disponibles",
+    "status": { "current": "Al día", "stale": "Sin copia reciente", "new": "Sin copia de seguridad", "issues": "Requiere atención", "offline": "Sin conexión", "setup": "Requiere configuración", "checking": "Comprobando…", "uploading": "Creando copia", "queued": "Copia en cola", "unavailable": "Estado no disponible" }
+  },
   "createDialog": {
     "back": "Volver",
     "title": {
@@ -467,6 +493,16 @@
         "description": "Aún no has añadido archivos ni carpetas. Añade uno con el botón de abajo."
       }
     },
+    "global": {
+      "title": "Resumen global",
+      "snapshots": "Instantáneas",
+      "saved": "Espacio ahorrado",
+      "latestCopies": "Última copia de cada bóveda",
+      "retained": "Disponibles en todas las bóvedas",
+      "savingsDescription": "Estimación · compresión y deduplicación",
+      "savingsExplanation": "Comparación con copias completas de las instantáneas conservadas, usando los datos empaquetados y metadatos del índice. No incluye el espacio adicional utilizado por el proveedor.",
+      "coverage": "{{available}} de {{total}} bóvedas disponibles"
+    },
     "stats": {
       "totalSize": "Datos protegidos",
       "files": "Archivos protegidos",
@@ -478,6 +514,16 @@
       "unavailable": "No disponible"
     },
     "score": {
+      "title": "Configuración de copias",
+      "rating": "Configuración de copias: {{score}} de 100",
+      "checking": "Comprobando…",
+      "unknown": "Conecta las bóvedas para comprobar",
+      "passed": "Configurado · +25 puntos",
+      "points": "+25 puntos",
+      "checks": { "destinations": "Varios destinos", "variety": "Variedad de almacenamiento", "remote": "Almacenamiento remoto", "freshness": "Copias recientes" },
+      "hints": { "destinations": "Usa al menos dos bóvedas independientes", "variety": "Usa distintos tipos de almacenamiento", "remote": "Añade un destino remoto", "freshness": "Copia cada origen en las últimas 24 horas" },
+      "good": { "category": "Bien", "description": "Tres comprobaciones superadas. Un paso más para reforzar tus copias." },
+      "improve": { "category": "Se puede mejorar", "description": "Cada comprobación superada suma 25 puntos." },
       "empty": {
         "category": "Aún no hay bóvedas",
         "description": "Crea tu primera bóveda para empezar a respaldar tus archivos."
