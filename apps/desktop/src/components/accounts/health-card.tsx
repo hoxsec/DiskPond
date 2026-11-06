@@ -8,6 +8,10 @@ import { Skeleton } from "@diskpond/ui/skeleton";
 import {
   CheckIcon,
   CircleHelpIcon,
+  ClockIcon,
+  CloudIcon,
+  HardDriveIcon,
+  LayersIcon,
   MinusIcon,
   ShieldCheckIcon,
 } from "lucide-react";
@@ -143,7 +147,7 @@ export function HealthCard({ isLoading, vaults }: HealthCardProps) {
 
   return (
     <Card className="min-w-0 grow py-0">
-      <CardContent className="grid gap-6 p-5 sm:p-6 @5xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+      <CardContent className="grid gap-4 p-5 sm:p-6">
         <div className="flex min-w-0 flex-wrap items-center gap-5 sm:flex-nowrap">
           <div className="flex shrink-0 flex-col items-center">
             {!loading ? (
@@ -194,8 +198,16 @@ export function HealthCard({ isLoading, vaults }: HealthCardProps) {
             ) : null}
           </div>
         </div>
-        <ul className="grid gap-x-6 gap-y-4 border-t pt-5 sm:grid-cols-2 @5xl:border-l @5xl:border-t-0 @5xl:pl-6 @5xl:pt-0">
+        <ul className="grid grid-cols-1 gap-2 border-t pt-4 @sm:grid-cols-2 @3xl:grid-cols-4">
           {checks.map((check) => {
+            const pending = loading || check.passed === null;
+            const illustration = {
+              destinations: LayersIcon,
+              variety: HardDriveIcon,
+              remote: CloudIcon,
+              freshness: ClockIcon,
+            };
+            const Illustration = illustration[check.key];
             const color =
               loading || check.passed === null
                 ? "text-muted-foreground"
@@ -206,39 +218,39 @@ export function HealthCard({ isLoading, vaults }: HealthCardProps) {
               ? t("score.passed")
               : t(`score.hints.${check.key}`);
             const Icon =
-              check.passed === null
+              pending
                 ? CircleHelpIcon
                 : check.passed
                   ? CheckIcon
                   : MinusIcon;
             return (
-              <li key={check.key} className="flex items-start gap-2.5">
-                <Icon
-                  aria-hidden="true"
-                  className={`mt-0.5 size-4 shrink-0 ${color}`}
-                />
-                <div className="min-w-0">
-                  <p className="text-sm font-medium">
+              <li
+                key={check.key}
+                className={`flex min-w-0 flex-col border p-2.5 ${
+                  pending
+                    ? "border-border bg-muted/20"
+                    : check.passed
+                      ? "border-success/25 bg-success/5"
+                      : "border-border bg-muted/20"
+                }`}
+              >
+                <div className="mb-2 flex items-start gap-2">
+                  <Illustration aria-hidden="true" className="mt-0.5 size-3.5 shrink-0 text-muted-foreground" />
+                  <p className="text-xs font-semibold leading-snug">
                     {t(`score.checks.${check.key}`)}
                   </p>
+                </div>
+                <div className={`mt-auto flex items-start gap-1.5 ${color}`}>
+                  <Icon aria-hidden="true" className="mt-0.5 size-3.5 shrink-0" />
                   <p
-                    className={`mt-1 text-xs font-medium ${color}`}
-                    title={
-                      !loading && check.passed !== null ? detail : undefined
-                    }
+                    className="text-xs font-medium leading-relaxed"
                   >
                     {loading ? (
                       t("score.checking")
                     ) : check.passed === null ? (
                       t("score.unknown")
                     ) : (
-                      <>
-                        <span aria-hidden="true">{t("score.points")}</span>
-                        <span className="sr-only">
-                          {detail}
-                          {!check.passed ? ` · ${t("score.points")}` : ""}
-                        </span>
-                      </>
+                      detail
                     )}
                   </p>
                 </div>
