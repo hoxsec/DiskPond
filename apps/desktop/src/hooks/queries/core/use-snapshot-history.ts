@@ -1,7 +1,7 @@
-import type { ZHistorySourceIdentityType } from "@blinkdisk/schemas/history";
 import { useVaultStatus } from "@desktop/hooks/queries/use-vault-status";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
 import { historyKey, readSnapshotHistory } from "@desktop/lib/history";
+import type { ZHistorySourceIdentityType } from "@diskpond/schemas/history";
 import { useQuery } from "@tanstack/react-query";
 
 export function useSnapshotHistory(

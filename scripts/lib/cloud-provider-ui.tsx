@@ -1,6 +1,6 @@
-import type { StorageProviderType } from "@blinkdisk/constants/providers";
-import type { ProviderConfig } from "@blinkdisk/schemas/providers";
-import { i18n } from "@blinkdisk/utils/i18n";
+import type { StorageProviderType } from "@diskpond/constants/providers";
+import type { ProviderConfig } from "@diskpond/schemas/providers";
+import { i18n } from "@diskpond/utils/i18n";
 import { useState } from "react";
 import { createRoot } from "react-dom/client";
 import { CreateVaultConfig } from "../../apps/desktop/src/components/dialogs/create-vault/config";

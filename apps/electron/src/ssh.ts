@@ -1,8 +1,5 @@
 import { execFile } from "node:child_process";
-import {
-  ZSftpConfig,
-  type ZSftpConfigType,
-} from "@blinkdisk/schemas/providers";
+import { ZSftpConfig, type ZSftpConfigType } from "@diskpond/schemas/providers";
 
 const ZKeyscanRequest = ZSftpConfig.pick({ host: true, port: true }).refine(
   ({ host }) => /^[a-zA-Z0-9:][a-zA-Z0-9.:%_-]*$/.test(host),

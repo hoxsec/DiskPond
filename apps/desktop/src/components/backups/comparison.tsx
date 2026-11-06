@@ -1,13 +1,13 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import type { ZHistorySourceIdentityType } from "@blinkdisk/schemas/history";
-import { Button } from "@blinkdisk/ui/button";
-import { Input } from "@blinkdisk/ui/input";
 import { HistorySelect } from "@desktop/components/history/select";
 import { useSnapshotHistory } from "@desktop/hooks/queries/core/use-snapshot-history";
 import { useSnapshotComparison } from "@desktop/hooks/use-snapshot-comparison";
 import { formatHistoryTime, snapshotOutcome } from "@desktop/lib/history";
 import { formatSize } from "@desktop/lib/number";
 import { comparisonSize } from "@desktop/lib/snapshot-comparison";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import type { ZHistorySourceIdentityType } from "@diskpond/schemas/history";
+import { Button } from "@diskpond/ui/button";
+import { Input } from "@diskpond/ui/input";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeftIcon, ArrowLeftRightIcon } from "lucide-react";
 import { useId, useMemo, useState } from "react";

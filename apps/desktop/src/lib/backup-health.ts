@@ -1,8 +1,8 @@
-import { getStorageProvider } from "@blinkdisk/constants/providers";
-import { sourceTypeFromKopiaEntryType } from "@blinkdisk/schemas/source";
-import type { ZVaultType } from "@blinkdisk/schemas/vault";
 import type { CoreSourceItem } from "@desktop/hooks/queries/core/use-source-list";
 import { getBackupIssue } from "@desktop/lib/backup-issue";
+import { getStorageProvider } from "@diskpond/constants/providers";
+import { sourceTypeFromKopiaEntryType } from "@diskpond/schemas/source";
+import type { ZVaultType } from "@diskpond/schemas/vault";
 
 type HealthQuery = {
   data?: Pick<

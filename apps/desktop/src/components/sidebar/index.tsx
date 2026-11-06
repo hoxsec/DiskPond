@@ -1,5 +1,10 @@
-import { Logo } from "@blinkdisk/components/logo";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
+import { SidebarAlerts } from "@desktop/components/sidebar/alerts";
+import { SidebarSkeletonTheme } from "@desktop/components/sidebar/skeleton-theme";
+import { VaultMenuDropdown } from "@desktop/components/vaults/menu-dropdown";
+import { VaultPreview } from "@desktop/components/vaults/preview";
+import { useVault } from "@desktop/hooks/queries/use-vault";
+import { Logo } from "@diskpond/components/logo";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
 import {
   Sidebar as SidebarContainer,
   SidebarContent,
@@ -8,12 +13,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@blinkdisk/ui/sidebar";
-import { SidebarAlerts } from "@desktop/components/sidebar/alerts";
-import { SidebarSkeletonTheme } from "@desktop/components/sidebar/skeleton-theme";
-import { VaultMenuDropdown } from "@desktop/components/vaults/menu-dropdown";
-import { VaultPreview } from "@desktop/components/vaults/preview";
-import { useVault } from "@desktop/hooks/queries/use-vault";
+} from "@diskpond/ui/sidebar";
 import { Link, useLocation, useParams } from "@tanstack/react-router";
 import {
   ArrowLeftIcon,

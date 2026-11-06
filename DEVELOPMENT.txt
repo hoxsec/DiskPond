@@ -54,7 +54,7 @@ The discovery compatibility fixture also builds the original baseline. In shallo
 git -C apps/core fetch --no-tags --depth=1 origin e8955e7280edd9526b9f104f1592f233cfe6789b
 ```
 
-Installation uses the pinned workspace lockfile and approved dependency build scripts. Retained hosted-service source packages still install their own dependencies; the desktop no longer imports their API/database contracts. Run installation once after intentional manifest changes, before starting parallel checks: pnpm 11 may auto-install on subsequent commands and concurrent installation can race on Windows shims. Regenerate the lockfile with pnpm rather than editing it manually.
+Installation uses the pinned desktop-workspace lockfile and approved dependency build scripts. Run installation once after intentional manifest changes, before starting parallel checks: pnpm 11 may auto-install on subsequent commands and concurrent installation can race on Windows shims. Regenerate the lockfile with pnpm rather than editing it manually.
 
 Electron 42 exposes `install-electron`; its binary is not downloaded by this dependency's ordinary installation script. The dev/preview/smoke runners call it explicitly. To download it separately:
 
@@ -70,10 +70,6 @@ The create/connect slice adds a core initialization guard included in the publis
 
 | Command | Behavior |
 | --- | --- |
-| `pnpm dev:site` | Runs the DiskPond Astro website on `http://127.0.0.1:3000`; no Go build or hosted-service credentials needed. |
-| `pnpm build:site` / `pnpm preview:site` | Produces `apps/marketing/dist` static output, or serves that output locally. |
-| `pnpm types:site` | Checks active website TypeScript/Astro source. Run sequentially with `build:site` on Windows; both update Astro/Vite caches. |
-| `pnpm smoke:site` | Isolated built-site keyboard, theme, pricing, contact, link/asset and mobile/200% checks; requires the website build and installed Electron runtime. |
 | `pnpm dev:desktop` | Builds the pinned native core and initial main/preload; starts Vite at `http://127.0.0.1:3002`, the main/preload compiler watcher and Electron. |
 | `pnpm build:core` | Builds the native pinned engine with version/revision metadata and prints `--version`. `--package` builds all host-platform release architectures and merges the macOS universal engine. Windows output: `apps/core/dist/kopia_windows_amd64/kopia.exe`. |
 | `pnpm build:branding` | Regenerates desktop/favicons/tray artwork from the owner's canonical SVGs in libs/assets/brand using pinned resvg. Do not hand-edit generated assets. |
@@ -90,23 +86,41 @@ The create/connect slice adds a core initialization guard included in the publis
 | `node scripts/smoke-history.mjs` | Requires the matching `build:core` output and Electron runtime. Creates two disposable repositories and checks validated comparison/calendar reads, repeated snapshots, root-file metadata, profile identity, engine restart, failures without snapshots and two-version recovery. Retains the evidence directory. |
 | `node scripts/smoke-history-ui.mjs` | Requires the current renderer build (`pnpm --filter @blinkdisk/electron build:frontend`). Exercises actual Home/vault/history/comparison/browser components with isolated fixture reads, keyboard/filter/navigation/cancel/retry flows, available-space states/offline reads and Light/Dark/200% layout checks. Retains screenshots; see [history evidence](docs/verification/snapshot-comparison-and-activity.md) and [available-space evidence](docs/verification/vault-storage-space.md). |
 | `node scripts/smoke-cloud-provider-ui.mjs` | Actual provider picker/form with isolated IPC: DiskPond Cloud placement/search, keyboard selection, browser-link handoff, validation, failure/retry, create/connect and duplicate checks, Light/Dark/200% layouts. Requires renderer CSS and Electron. |
-| `node scripts/capture-readme.mjs` | Requires the built desktop and pinned core on Windows. Refreshes 18 website/README images in `docs/images/`: nine Light/Dark views of vaults, comparison, Activity, policies, browsing, restore controls and local/cloud/remote provider choices. Uses five real disposable snapshots, a demo identity and a temporary drive; cleans its own storage/profile and mapping. |
+| `node scripts/capture-readme.mjs` | Requires the built desktop and pinned core on Windows. Refreshes 18 documentation images in `docs/images/`: nine Light/Dark views of vaults, comparison, Activity, policies, browsing, restore controls and local/cloud/remote provider choices. Uses five real disposable snapshots, a demo identity and a temporary drive; cleans its own storage/profile and mapping. |
 | `pnpm smoke:desktop --session-passwords` | Runs built desktop smoke with test-only unavailable secure storage, verifying the localized notice and password/settings IPC rejection. |
 | `pnpm smoke:windows` | Checks checksum-pinned v0.1.2-to-candidate replacement, desktop-only ASAR/resources, startup/preferences, native updater download/install/relaunch and bundled-engine recovery hashes, then uninstalls. Validates the tag version when supplied. Requires a Windows user with no existing DiskPond installation/data/registration/updater cache. |
 | `pnpm build:windows` | Builds desktop/core, then invokes electron-builder's Windows NSIS target with `--publish never`. Outputs under `apps/electron/dist/`. |
 | `pnpm build:linux` | On Linux, builds the renderer/main and x64, ARM64 and ARMv7 engines, then AppImage, DEB and RPM packages with `--publish never`. |
 | `pnpm build:macos` | On macOS, builds both native engines, combines them with lipo, and produces an ad-hoc-signed universal DMG/ZIP with `--publish never`. Requires Xcode Command Line Tools. |
 | `pnpm smoke:package` | Inspects packaged versions, desktop-only contents, licenses and engine architectures, then performs snapshot/restore hash checks with the packaged native engine. |
-| `pnpm lint:ci` | Whole imported application lint/format check; excludes generated routes, worker types and the Go submodule. |
-| `pnpm types` / `pnpm types:desktop` | Type-checks desktop, Electron and inherited libraries with a `types` script. |
+| `pnpm lint:ci` | Desktop workspace lint/format check; excludes generated routes and the Go submodule. |
+| `pnpm types` / `pnpm types:desktop` | Type-checks desktop, Electron and shared libraries with a `types` script. |
 | `pnpm test` / `pnpm test:desktop` | Existing Electron, renderer, schema and utility Vitest suites. |
 | `node --test scripts/lib/process.test.mjs` | Desktop process-launcher regressions for JavaScript pnpm, standalone executables and nested command names; checks argument, working-directory and environment forwarding. |
 | `node --test scripts/lib/*.test.mjs` | Process-launcher and release asset integrity tests, including OS metadata, missing/tampered packages and version mismatch rejection. |
-| `pnpm unused` | Whole-workspace dependency/export analysis, including inherited service sources. |
+| `pnpm unused` | Desktop workspace dependency/export analysis. |
 
 `pnpm dev` and `pnpm build` alias the desktop commands. They no longer launch the upstream hosted stack. Use the root packaging wrappers: package-level `build:windows`, `build:linux` and `build:macos` invoke the packager without building their inputs.
 
-The active website lives in `apps/marketing/site`; its `src/` and `public/` directories retain inactive upstream reference source. Website configuration, content, static hosting and deployment instructions are in apps/marketing/DEVELOPMENT.txt.
+## Repository layout
+
+- `apps/desktop`: React desktop interface.
+- `apps/electron`: Electron runtime, native integration and packaging.
+- `apps/core`: pinned backup-engine submodule.
+- `libs`: shared desktop components, schemas, utilities, styles and build configuration.
+- `locales`, `scripts`, `docs`: desktop translations, build/verification tools and documentation.
+
+Internal workspace packages use the `@diskpond/*` namespace. The published
+`@blinkdisk/signaldb-electron` dependency supplies the local database IPC bridge.
+
+New vault policies use `.diskpondignore` for file exclusion rules. Existing policies
+keep their configured filenames, including `.blinkdiskignore` and custom names,
+when loaded or edited. These files use the engine's gitignore-style rule syntax.
+
+The website, customer portal and managed-storage service are maintained in
+[hoxsec/diskpond-vault](https://github.com/hoxsec/diskpond-vault). Its `apps/website`
+package has its own build instructions and dependencies. Follow that repository's
+guide for website or hosted-service development and deployment.
 
 ## Desktop translations
 
@@ -151,7 +165,7 @@ No `.env` file is needed. Set optional `GO_BINARY`, `DISKPOND_DATA_DIR`, `DISKPO
 
 ## Windows packaging
 
-`pnpm build:windows` builds a local installer using `apps/electron/package.json`'s version when no release tag is supplied. Expected output is `apps/electron/dist/DiskPond-Windows.exe` plus `win-unpacked/`. It packages only the desktop build/frontend, native engine, app assets, licenses and provenance record. Website source/output, pricing copy and product screenshots stay in the separate website build and application source archive. GitHub publishing is disabled by the wrapper.
+`pnpm build:windows` builds a local installer using `apps/electron/package.json`'s version when no release tag is supplied. Expected output is `apps/electron/dist/DiskPond-Windows.exe` plus `win-unpacked/`. It packages the desktop build/frontend, native engine, app assets, licenses and provenance record. Documentation screenshots stay in the application source archive. The website and hosted service are built and deployed from `diskpond-vault`. GitHub publishing is disabled by the wrapper.
 
 The inherited optional `CERTUM_*` signing variables remain available for future integration; the release workflow uses no certificate. Installer identity/feed metadata belongs to `hoxsec/DiskPond`. Release instructions in docs/desktop-release.txt describe the three-platform checks, asset publication and source reproduction; docs/verification/windows-v0.1.6.txt records the previous Windows-only release.
 

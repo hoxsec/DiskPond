@@ -1,8 +1,8 @@
-import { LOCAL_ACCOUNT_ID } from "@blinkdisk/constants/account";
-import type { StorageProviderType } from "@blinkdisk/constants/providers";
-import { ZUnlockVaultRequest } from "@blinkdisk/schemas/connection";
-import type { ProviderConfig } from "@blinkdisk/schemas/providers";
-import type { ZVaultOptionsType } from "@blinkdisk/schemas/vault";
+import { LOCAL_ACCOUNT_ID } from "@diskpond/constants/account";
+import type { StorageProviderType } from "@diskpond/constants/providers";
+import { ZUnlockVaultRequest } from "@diskpond/schemas/connection";
+import type { ProviderConfig } from "@diskpond/schemas/providers";
+import type { ZVaultOptionsType } from "@diskpond/schemas/vault";
 import { collections } from "@electron/db";
 import { log } from "@electron/log";
 import { preparePasswordCache, setPasswordCache } from "@electron/password";

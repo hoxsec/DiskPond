@@ -1,11 +1,3 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Button } from "@blinkdisk/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from "@blinkdisk/ui/dialog";
 import { CreateVaultConfig } from "@desktop/components/dialogs/create-vault/config";
 import { CreateVaultDetails } from "@desktop/components/dialogs/create-vault/details";
 import { CreateVaultProviders } from "@desktop/components/dialogs/create-vault/providers";
@@ -14,6 +6,14 @@ import {
   useCreateVaultDialog,
 } from "@desktop/hooks/state/use-create-vault-dialog";
 import { VaultValidationPending } from "@desktop/hooks/use-config-validation";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Button } from "@diskpond/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@diskpond/ui/dialog";
 import { ArrowLeftIcon } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 

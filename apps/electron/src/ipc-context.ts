@@ -1,4 +1,4 @@
-import { PROTOCOL_FRONTEND_URL } from "@blinkdisk/constants/app";
+import { PROTOCOL_FRONTEND_URL } from "@diskpond/constants/app";
 import { window } from "@electron/window";
 import { app, type IpcMainEvent, type IpcMainInvokeEvent } from "electron";
 

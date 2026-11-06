@@ -1,4 +1,3 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
 import { useStartBackup } from "@desktop/hooks/mutations/core/use-start-backup";
 import type { CoreSourceItem } from "@desktop/hooks/queries/core/use-source-list";
 import { useBackupIssueText } from "@desktop/hooks/use-backup-issue-text";
@@ -9,6 +8,7 @@ import {
   getBackupIssue,
 } from "@desktop/lib/backup-issue";
 import { getBackupStartCoordinator } from "@desktop/lib/backup-start-latch";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
 import { useStore } from "@tanstack/react-store";
 import { useEffect, useMemo } from "react";
 import { toast } from "sonner";

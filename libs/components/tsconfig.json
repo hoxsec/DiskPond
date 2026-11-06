@@ -1,5 +1,5 @@
 {
-  "extends": "@blinkdisk/typescript/react.json",
+  "extends": "@diskpond/typescript/react.json",
   "compilerOptions": {
     "outDir": "dist",
     "target": "esnext",

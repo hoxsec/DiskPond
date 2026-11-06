@@ -1,4 +1,4 @@
-import { useTranslation } from "@blinkdisk/utils/i18n";
+import { useTranslation } from "@diskpond/utils/i18n";
 import { useCallback } from "react";
 
 type Translate = (key: string, ...args: unknown[]) => string;

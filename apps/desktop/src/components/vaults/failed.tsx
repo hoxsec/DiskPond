@@ -1,9 +1,9 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Button } from "@blinkdisk/ui/button";
-import { showErrorToast } from "@blinkdisk/utils/error-toast";
 import { Empty } from "@desktop/components/empty";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
 import { useVaultId } from "@desktop/hooks/use-vault-id";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Button } from "@diskpond/ui/button";
+import { showErrorToast } from "@diskpond/utils/error-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AlertTriangleIcon } from "lucide-react";
 

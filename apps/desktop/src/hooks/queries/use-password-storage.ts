@@ -1,4 +1,4 @@
-import type { PasswordStorageStatus } from "@blinkdisk/schemas/password";
+import type { PasswordStorageStatus } from "@diskpond/schemas/password";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 

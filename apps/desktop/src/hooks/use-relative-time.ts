@@ -1,4 +1,4 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
 import { useCallback, useEffect, useState } from "react";
 
 const RELATIVE_TIME_UNITS = [

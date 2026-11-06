@@ -1,6 +1,6 @@
-import type { AccountStorageSchema } from "@blinkdisk/electron/store";
 import { useAccountId } from "@desktop/hooks/use-account-id";
 import { useAppStorage } from "@desktop/hooks/use-app-storage";
+import type { AccountStorageSchema } from "@diskpond/electron/store";
 
 export function useAccountStorage<K extends keyof AccountStorageSchema>(
   key: K,

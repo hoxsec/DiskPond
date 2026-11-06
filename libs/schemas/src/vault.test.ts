@@ -1,4 +1,4 @@
-import { LATEST_VAULT_VERSION } from "@blinkdisk/constants/vault";
+import { LATEST_VAULT_VERSION } from "@diskpond/constants/vault";
 import { ZVault, ZVaultOptions } from "@schemas/vault";
 
 const validOptions = {

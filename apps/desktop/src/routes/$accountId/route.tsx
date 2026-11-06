@@ -1,6 +1,6 @@
-import { LOCAL_ACCOUNT_ID } from "@blinkdisk/constants/account";
 import { Layout } from "@desktop/components/layout";
 import { getVaultCollection } from "@desktop/lib/db";
+import { LOCAL_ACCOUNT_ID } from "@diskpond/constants/account";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/$accountId")({

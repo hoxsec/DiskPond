@@ -1,7 +1,7 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Card, CardContent, CardTitle } from "@blinkdisk/ui/card";
-import { Skeleton } from "@blinkdisk/ui/skeleton";
-import { Sparkline } from "@blinkdisk/ui/sparkline";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Card, CardContent, CardTitle } from "@diskpond/ui/card";
+import { Skeleton } from "@diskpond/ui/skeleton";
+import { Sparkline } from "@diskpond/ui/sparkline";
 import { ArrowDownRightIcon, ArrowUpRightIcon, MinusIcon } from "lucide-react";
 import type { ReactNode } from "react";
 

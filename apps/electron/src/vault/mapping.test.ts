@@ -1,7 +1,7 @@
 import {
   getStorageProvider,
   resolveStorageProviderType,
-} from "@blinkdisk/constants/providers";
+} from "@diskpond/constants/providers";
 import { mapConfigFields, mapProviderType } from "@electron/vault/mapping";
 
 describe("mapProviderType", () => {

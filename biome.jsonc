@@ -8,15 +8,12 @@
   "files": {
     "ignoreUnknown": true,
     "includes": [
-      "**/*.{js,jsx,ts,tsx,mjs,cjs,md,astro}",
+      "**/*.{js,jsx,ts,tsx,mjs,cjs,md}",
       "!dist",
       "!build",
       "!out",
-      "!.wrangler",
-      "!.astro",
       "!apps/core",
-      "!**/routeTree.gen.ts",
-      "!**/worker-configuration.d.ts"
+      "!**/routeTree.gen.ts"
     ]
   },
   "formatter": {

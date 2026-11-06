@@ -1,11 +1,11 @@
-import type { StorageProviderType } from "@blinkdisk/constants/providers";
-import { FormDisabledContext, useStore } from "@blinkdisk/forms/use-app-form";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import type { ProviderConfig } from "@blinkdisk/schemas/providers";
-import { Alert, AlertDescription, AlertTitle } from "@blinkdisk/ui/alert";
 import { PasswordStorageNotice } from "@desktop/components/vaults/password-storage-notice";
 import { useCreateVaultForm } from "@desktop/hooks/forms/use-create-vault-form";
 import { useAccountId } from "@desktop/hooks/use-account-id";
+import type { StorageProviderType } from "@diskpond/constants/providers";
+import { FormDisabledContext, useStore } from "@diskpond/forms/use-app-form";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import type { ProviderConfig } from "@diskpond/schemas/providers";
+import { Alert, AlertDescription, AlertTitle } from "@diskpond/ui/alert";
 import { useNavigate } from "@tanstack/react-router";
 import { AlertTriangleIcon } from "lucide-react";
 import { useEffect, useRef } from "react";

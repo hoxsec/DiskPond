@@ -1,4 +1,4 @@
-import type { VaultColor } from "@blinkdisk/constants/vault-color";
+import type { VaultColor } from "@diskpond/constants/vault-color";
 import type { EncryptedString } from "@electron/encryption";
 import { globalConfigDirectory } from "@electron/path";
 import type { UpdateLocalState } from "@electron/update-history";

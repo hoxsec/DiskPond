@@ -1,7 +1,7 @@
 import {
   DynamicField,
   type DynamicFieldProps,
-} from "@blinkdisk/components/dynamic-field";
+} from "@diskpond/components/dynamic-field";
 import {
   SelectContent,
   SelectItem,
@@ -9,7 +9,7 @@ import {
   Select as SelectRoot,
   SelectTrigger,
   SelectValue,
-} from "@blinkdisk/ui/select";
+} from "@diskpond/ui/select";
 import { FormDisabledContext, useFieldContext } from "@forms/use-app-form";
 import React, { type ReactNode, useContext } from "react";
 

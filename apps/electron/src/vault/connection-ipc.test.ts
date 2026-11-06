@@ -52,7 +52,7 @@ vi.mock("@electron/vault/validate", () => ({
 }));
 
 import "@electron/vault/connection-ipc";
-import { DEFAULT_VAULT_OPTIONS } from "@blinkdisk/constants/vault";
+import { DEFAULT_VAULT_OPTIONS } from "@diskpond/constants/vault";
 
 const payload = {
   id: "vlt_new",

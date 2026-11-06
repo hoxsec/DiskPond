@@ -1,5 +1,5 @@
-vi.mock("@blinkdisk/utils/id", () => ({ generateId: vi.fn(() => "mock-id") }));
-vi.mock("@blinkdisk/utils/try-catch", () => ({ tryCatch: vi.fn() }));
+vi.mock("@diskpond/utils/id", () => ({ generateId: vi.fn(() => "mock-id") }));
+vi.mock("@diskpond/utils/try-catch", () => ({ tryCatch: vi.fn() }));
 vi.mock("@electron/log", () => ({
   log: { info: vi.fn(), error: vi.fn(), warn: vi.fn() },
 }));
@@ -18,7 +18,7 @@ vi.mock("@electron/vault/manage", () => ({
 vi.mock("@electron/vault/connection", () => ({
   prepareConnection: vi.fn(
     async (): Promise<
-      import("@blinkdisk/schemas/connection").ManagedStorage | null
+      import("@diskpond/schemas/connection").ManagedStorage | null
     > => null,
   ),
   completeConnectionMigration: vi.fn(),
@@ -36,8 +36,8 @@ vi.mock("tough-cookie", () => ({ CookieJar: vi.fn() }));
 
 import { spawn } from "node:child_process";
 import { EventEmitter } from "node:events";
-import { VAULT_SERVER_START_TIMEOUT_MS } from "@blinkdisk/constants/vault";
-import { tryCatch } from "@blinkdisk/utils/try-catch";
+import { VAULT_SERVER_START_TIMEOUT_MS } from "@diskpond/constants/vault";
+import { tryCatch } from "@diskpond/utils/try-catch";
 import { log } from "@electron/log";
 import { getPasswordCache } from "@electron/password";
 import { prepareConnection } from "@electron/vault/connection";

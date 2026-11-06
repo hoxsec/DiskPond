@@ -1,9 +1,9 @@
-import { useAppForm } from "@blinkdisk/forms/use-app-form";
+import { useVaultPassword } from "@desktop/hooks/queries/use-vault-password";
+import { useAppForm } from "@diskpond/forms/use-app-form";
 import {
   ZVaultPasswordForm,
   type ZVaultPasswordFormType,
-} from "@blinkdisk/schemas/vault";
-import { useVaultPassword } from "@desktop/hooks/queries/use-vault-password";
+} from "@diskpond/schemas/vault";
 
 export function useSetupPasswordForm({
   vaultId,

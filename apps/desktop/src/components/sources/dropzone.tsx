@@ -1,6 +1,6 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
 import { Empty } from "@desktop/components/empty";
 import { useCreateSourceDialog } from "@desktop/hooks/state/use-create-source-dialog";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
 import { FolderPlusIcon } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 

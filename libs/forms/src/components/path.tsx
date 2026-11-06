@@ -1,9 +1,9 @@
 import {
   DynamicField,
   type DynamicFieldProps,
-} from "@blinkdisk/components/dynamic-field";
-import { Button } from "@blinkdisk/ui/button";
-import { cn } from "@blinkdisk/utils/class";
+} from "@diskpond/components/dynamic-field";
+import { Button } from "@diskpond/ui/button";
+import { cn } from "@diskpond/utils/class";
 import { FormDisabledContext, useFieldContext } from "@forms/use-app-form";
 import { FileIcon, FolderIcon, TrashIcon } from "lucide-react";
 import React, { useCallback, useContext, useState } from "react";

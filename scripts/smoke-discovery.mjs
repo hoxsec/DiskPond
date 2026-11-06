@@ -246,7 +246,7 @@ try {
     }),
   );
   await completed(
-    pnpm(["--filter", "@blinkdisk/electron", "exec", "install-electron"]),
+    pnpm(["--filter", "@diskpond/electron", "exec", "install-electron"]),
   );
   const { build } = require("esbuild");
   const { TsconfigPathsPlugin } = require("@esbuild-plugins/tsconfig-paths");
@@ -257,14 +257,19 @@ try {
     bundle: true,
     platform: "node",
     format: "esm",
-    external: ["electron"],
+    // Match the production bundle's optional SSH accelerator handling.
+    external: [
+      "electron",
+      "cpu-features",
+      "./crypto/build/Release/sshcrypto.node",
+    ],
     plugins: [
       TsconfigPathsPlugin({
         tsconfig: resolve(electronDirectory, "tsconfig.json"),
       }),
     ],
     banner: {
-      js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
+      js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url); const __dirname = import.meta.dirname;",
     },
   });
   for (const phase of ["connect", "restart"]) {

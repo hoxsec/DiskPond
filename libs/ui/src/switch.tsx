@@ -1,6 +1,6 @@
 import { Switch as SwitchPrimitive } from "@base-ui/react/switch";
 
-import { cn } from "@blinkdisk/utils/class";
+import { cn } from "@diskpond/utils/class";
 
 export type SwitchProps = SwitchPrimitive.Root.Props & {
   size?: "sm" | "default";

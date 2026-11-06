@@ -1,17 +1,17 @@
 import {
   DynamicField,
   type DynamicFieldProps,
-} from "@blinkdisk/components/dynamic-field";
-import type { ZBandwithType } from "@blinkdisk/schemas/vault";
-import { Input, type InputProps } from "@blinkdisk/ui/input";
+} from "@diskpond/components/dynamic-field";
+import type { ZBandwithType } from "@diskpond/schemas/vault";
+import { Input, type InputProps } from "@diskpond/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@blinkdisk/ui/select";
-import { cn } from "@blinkdisk/utils/class";
+} from "@diskpond/ui/select";
+import { cn } from "@diskpond/utils/class";
 import {
   FormDisabledContext,
   useFieldContext,

@@ -1,4 +1,4 @@
-import { i18n } from "@blinkdisk/utils/i18n";
+import { i18n } from "@diskpond/utils/i18n";
 import { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import { UpdateAction } from "../../apps/desktop/src/components/settings/update-action";

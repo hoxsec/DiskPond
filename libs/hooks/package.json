@@ -1,5 +1,5 @@
 {
-  "name": "@blinkdisk/hooks",
+  "name": "@diskpond/hooks",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -9,14 +9,14 @@
     "./*": "./src/*.ts"
   },
   "devDependencies": {
-    "@blinkdisk/typescript": "workspace:*",
+    "@diskpond/typescript": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "typescript": "catalog:"
   },
   "dependencies": {
-    "@blinkdisk/constants": "workspace:*",
-    "@blinkdisk/utils": "workspace:*",
+    "@diskpond/constants": "workspace:*",
+    "@diskpond/utils": "workspace:*",
     "react": "catalog:"
   }
 }

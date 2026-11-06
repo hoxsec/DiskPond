@@ -12,7 +12,7 @@ import {
   type ZRestoreResultType,
   ZRestoreSingle,
   ZRestoreTask,
-} from "@blinkdisk/schemas/restore";
+} from "@diskpond/schemas/restore";
 import { restorePathExists, validateRestorePath } from "@electron/restore-path";
 import { fetchVault } from "@electron/vault/fetch";
 import { getVault } from "@electron/vault/manage";

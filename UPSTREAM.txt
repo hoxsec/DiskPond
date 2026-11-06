@@ -38,6 +38,67 @@ Do not replay the tree import over later work. A future clone recreates the core
 
 ## DiskPond modifications to upstream application files
 
+### Remaining BlinkDisk cleanup (2026-11-06)
+
+Renamed all 13 private workspace packages to `@diskpond/*` and updated imports,
+package filters, TypeScript configuration, lint guidance and smoke fixtures.
+The published `@blinkdisk/signaldb-electron` bridge remains an external dependency.
+Removed unused account/authentication/billing and other retired ID-generation
+prefixes; existing IDs retain their checksum salt and prefix-independent validation.
+New vault policies use `.diskpondignore`; stored legacy/custom exclusion filenames
+and inheritance settings round-trip without being replaced by the new default.
+
+The desktop now pins owned engine commit
+`4e882d186b45ed6a4d152ff89d3e15b44fe20ac5`. This removes the retired CloudBlink
+`bdc` backend and CLI adapter, including its sole-use Gorilla WebSocket dependency.
+DiskPond Cloud continues to
+use S3. The engine README now describes DiskPond integration and credits its
+BlinkDisk/Kopia origins. Legacy repository/snapshot readers, password migration,
+draft-policy identifiers, unsupported-provider handling and attribution are retained.
+
+Local Windows verification passed: frozen installation, lint, types, Knip,
+902 desktop/shared-library tests, nine tooling tests, and Go tests for CLI, blob,
+repository format, snapshot filesystem, server, ignore filesystem and policy.
+The production desktop/core build and isolated desktop smoke passed. Real engine
+snapshot/restore checks verified both the new default and saved legacy exclusion
+rules after policy editing. Discovery/compatibility smoke restored both baseline
+snapshot versions from current and legacy repository copies and verified recovery
+with the original engine after migration. Its fixture bundler now matches the
+production build's optional SSH accelerator handling. The npm lockfile retains
+871 package versions with no new versions or direct-version changes.
+
+Pre-release remote audit found no open pull requests in the owned application or
+engine repositories. Application release branches and both upstream main branches
+are already incorporated. Engine branch `deadlock` is patch-equivalent to
+`52c09bf4`; `fix/source-backup-failures` has the same tree as the squashed
+`e8955e72` baseline. The old `renamed` branch only changes Kopia identifiers to
+BlinkDisk and is intentionally excluded from DiskPond's compatibility-preserving
+cleanup. No additional functional merge is needed.
+
+### Desktop-only repository cleanup (2026-11-06)
+
+The owner confirmed that the website, customer portal and managed-storage service
+are maintained in `hoxsec/diskpond-vault`, with the website in `apps/website` there.
+Removed this repository's duplicated `apps/marketing` website and inherited
+`apps/api`, `apps/cloud` and `apps/web` services, including their legacy artwork.
+Removed the service-only database/email libraries, authentication/billing/cloud
+schemas, email/token/marketing helpers and service/website translation namespaces.
+The desktop preference schema now reads the shared language registry directly.
+
+Workspace membership, dependency catalog/lockfile, build permissions, aliases,
+lint/unused configuration, CI environment and documentation now target the desktop
+packages. Retired website smoke, service setup scripts, Turbo configuration and
+the unused AWS XML dependency patch are removed. `apps/desktop`, `apps/electron`,
+`apps/core`, shared desktop libraries and documentation screenshots remain here.
+
+The pnpm-generated lockfile now contains 14 workspaces and 871 package versions,
+down from 20 workspaces and 1,626 versions, with no new versions or direct-package
+version changes. Local Windows verification passed: frozen installation, lint,
+desktop/shared-library types, Knip, 899 Vitest tests, nine process/release tests,
+the production desktop/core build and isolated built-desktop smoke. The smoke
+covered local onboarding, providers, preference persistence, retired API rejection
+and engine discovery with no remote renderer or main-fetch requests.
+
 ### Home overview and Activity cards (2026-11-06)
 
 The current Home layout now includes global protected-data, file, snapshot and

@@ -1,8 +1,8 @@
-import { SidebarInset } from "@blinkdisk/ui/sidebar";
 import { CreateVaultDialog } from "@desktop/components/dialogs/create-vault/index";
 import { CompactNavigation } from "@desktop/components/sidebar/compact-navigation";
 import { Sidebar } from "@desktop/components/sidebar/index";
 import { PasswordStorageNotice } from "@desktop/components/vaults/password-storage-notice";
+import { SidebarInset } from "@diskpond/ui/sidebar";
 import { useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 

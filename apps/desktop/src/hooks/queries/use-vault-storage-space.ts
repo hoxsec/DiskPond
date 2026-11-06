@@ -1,6 +1,6 @@
-import { ZVaultStorageSpace } from "@blinkdisk/schemas/storage";
-import { CustomError } from "@blinkdisk/utils/error";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
+import { ZVaultStorageSpace } from "@diskpond/schemas/storage";
+import { CustomError } from "@diskpond/utils/error";
 import { useQuery } from "@tanstack/react-query";
 
 export function useVaultStorageSpace(vaultId?: string) {

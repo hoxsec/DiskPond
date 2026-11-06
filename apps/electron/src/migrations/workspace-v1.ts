@@ -1,6 +1,6 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { LOCAL_ACCOUNT_ID } from "@blinkdisk/constants/account";
+import { LOCAL_ACCOUNT_ID } from "@diskpond/constants/account";
 import { globalAccountDirectory } from "@electron/path";
 import { store } from "@electron/store";
 

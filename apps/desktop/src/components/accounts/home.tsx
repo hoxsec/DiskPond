@@ -1,7 +1,7 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Button } from "@blinkdisk/ui/button";
 import { useVaultList } from "@desktop/hooks/queries/use-vault-list";
 import { useCreateVaultDialog } from "@desktop/hooks/state/use-create-vault-dialog";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Button } from "@diskpond/ui/button";
 import { PlusIcon } from "lucide-react";
 import { VaultCard } from "../vaults/card";
 import { HealthCard } from "./health-card";

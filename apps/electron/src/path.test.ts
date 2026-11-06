@@ -102,4 +102,4 @@ describe("core build targets", () => {
 });
 
 import { join } from "node:path";
-import { coreBuildTarget } from "@blinkdisk/constants/core";
+import { coreBuildTarget } from "@diskpond/constants/core";

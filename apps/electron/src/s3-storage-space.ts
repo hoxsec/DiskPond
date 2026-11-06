@@ -1,6 +1,6 @@
 import { request as httpRequest } from "node:http";
 import { request as httpsRequest } from "node:https";
-import type { VaultStorageSpace } from "@blinkdisk/schemas/storage";
+import type { VaultStorageSpace } from "@diskpond/schemas/storage";
 import { sign } from "aws4";
 import { z } from "zod";
 

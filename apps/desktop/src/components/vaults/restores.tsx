@@ -1,6 +1,6 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Button } from "@blinkdisk/ui/button";
 import { useRestoreList } from "@desktop/hooks/queries/use-restore-list";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Button } from "@diskpond/ui/button";
 import { AlertCircleIcon, CheckIcon, LoaderCircleIcon } from "lucide-react";
 import { useState } from "react";
 

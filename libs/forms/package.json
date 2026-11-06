@@ -1,5 +1,5 @@
 {
-  "name": "@blinkdisk/forms",
+  "name": "@diskpond/forms",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -9,16 +9,16 @@
     "./*": "./src/*.ts"
   },
   "devDependencies": {
-    "@blinkdisk/typescript": "workspace:*",
+    "@diskpond/typescript": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "typescript": "catalog:"
   },
   "dependencies": {
-    "@blinkdisk/schemas": "workspace:*",
-    "@blinkdisk/ui": "workspace:*",
-    "@blinkdisk/utils": "workspace:*",
-    "@blinkdisk/components": "workspace:*",
+    "@diskpond/schemas": "workspace:*",
+    "@diskpond/ui": "workspace:*",
+    "@diskpond/utils": "workspace:*",
+    "@diskpond/components": "workspace:*",
     "@tanstack/react-form": "catalog:",
     "lucide-react": "catalog:",
     "react": "catalog:"

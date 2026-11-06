@@ -1,14 +1,3 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { isFileLikeSource } from "@blinkdisk/schemas/source";
-import { Button } from "@blinkdisk/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@blinkdisk/ui/dropdown-menu";
-import { Skeleton } from "@blinkdisk/ui/skeleton";
-import { cn } from "@blinkdisk/utils/class";
 import { PinBadge } from "@desktop/components/backups/pin-badge";
 import { BackupProgress } from "@desktop/components/backups/progress";
 import { LocalButton } from "@desktop/components/vaults/local-button";
@@ -22,6 +11,17 @@ import { useRelativeTime } from "@desktop/hooks/use-relative-time";
 import { useSource } from "@desktop/hooks/use-source";
 import { formatBackupDate } from "@desktop/lib/backup";
 import { formatSize } from "@desktop/lib/number";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { isFileLikeSource } from "@diskpond/schemas/source";
+import { Button } from "@diskpond/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@diskpond/ui/dropdown-menu";
+import { Skeleton } from "@diskpond/ui/skeleton";
+import { cn } from "@diskpond/utils/class";
 import { Link } from "@tanstack/react-router";
 import {
   CalendarClockIcon,

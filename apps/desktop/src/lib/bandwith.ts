@@ -1,4 +1,4 @@
-import type { ZBandwithType } from "@blinkdisk/schemas/vault";
+import type { ZBandwithType } from "@diskpond/schemas/vault";
 
 export function fromBits(bytes: number): ZBandwithType {
   if (bytes === undefined) return { value: undefined, unit: "bps" };

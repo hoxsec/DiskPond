@@ -1,8 +1,8 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Skeleton } from "@blinkdisk/ui/skeleton";
 import { useVaultStats } from "@desktop/hooks/queries/use-account-stats";
 import { useVaultStorageSpace } from "@desktop/hooks/queries/use-vault-storage-space";
 import { formatSize } from "@desktop/lib/number";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Skeleton } from "@diskpond/ui/skeleton";
 
 export function VaultCardStorage({
   vaultId,

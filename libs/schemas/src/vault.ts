@@ -1,4 +1,4 @@
-import { LATEST_VAULT_VERSION } from "@blinkdisk/constants/vault";
+import { LATEST_VAULT_VERSION } from "@diskpond/constants/vault";
 import { ZConfigLevel, ZVaultEncryptedConfig } from "@schemas/config";
 import { ZProviderType } from "@schemas/providers";
 import { ZDateString } from "@schemas/shared/date";
@@ -132,8 +132,3 @@ export const ZVaultThrottle = z.object({
 });
 
 export type ZVaultThrottleType = z.infer<typeof ZVaultThrottle>;
-
-export const ZPushVaults = z.object({
-  added: z.array(ZVault),
-  modified: z.array(ZVault),
-});

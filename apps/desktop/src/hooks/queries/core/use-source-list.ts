@@ -1,8 +1,3 @@
-import {
-  type SourceType,
-  sourceTypeFromKopiaEntryType,
-  sourceTypeWithFallback,
-} from "@blinkdisk/schemas/source";
 import type { CoreBackupIncompleteReason } from "@desktop/hooks/queries/core/use-backup-list";
 import type { CoreDirectorySummary } from "@desktop/hooks/queries/core/use-directory";
 import type { CoreTask } from "@desktop/hooks/queries/core/use-task";
@@ -14,6 +9,11 @@ import { isDraftPolicyUserName } from "@desktop/lib/policy-target";
 import { kopiaParamsFromProfile } from "@desktop/lib/profile";
 import { buildSourceId } from "@desktop/lib/source";
 import { vaultApi } from "@desktop/lib/vault";
+import {
+  type SourceType,
+  sourceTypeFromKopiaEntryType,
+  sourceTypeWithFallback,
+} from "@diskpond/schemas/source";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 

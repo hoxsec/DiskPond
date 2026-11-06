@@ -1,14 +1,14 @@
-import { useAppForm } from "@blinkdisk/forms/use-app-form";
-import {
-  ZExclusionForm,
-  type ZExclusionFormType,
-} from "@blinkdisk/schemas/policy";
 import {
   buildExclusionRule,
   formatExclusionPath,
   getBrokenExclusionRule,
   parseExclusionRule,
 } from "@desktop/lib/exclusion";
+import { useAppForm } from "@diskpond/forms/use-app-form";
+import {
+  ZExclusionForm,
+  type ZExclusionFormType,
+} from "@diskpond/schemas/policy";
 import { useMemo } from "react";
 
 export function useEditExclusionForm(

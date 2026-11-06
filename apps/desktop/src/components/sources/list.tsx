@@ -1,15 +1,3 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { isFileLikeSource } from "@blinkdisk/schemas/source";
-import { Button } from "@blinkdisk/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@blinkdisk/ui/dropdown-menu";
-import { Skeleton } from "@blinkdisk/ui/skeleton";
 import { BackupProgress } from "@desktop/components/backups/progress";
 import { SourcePreview } from "@desktop/components/sources/preview";
 import { useBackupStartFeedback } from "@desktop/hooks/mutations/core/use-backup-start-feedback";
@@ -20,6 +8,18 @@ import type { SelectedProfile } from "@desktop/hooks/use-profile";
 import { useRelativeTime } from "@desktop/hooks/use-relative-time";
 import { formatInt, formatSize } from "@desktop/lib/number";
 import { policyTargetToSearch } from "@desktop/lib/policy-target";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { isFileLikeSource } from "@diskpond/schemas/source";
+import { Button } from "@diskpond/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@diskpond/ui/dropdown-menu";
+import { Skeleton } from "@diskpond/ui/skeleton";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
   CloudUploadIcon,

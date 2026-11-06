@@ -54,7 +54,7 @@ async function checkNoPasswordFiles(path) {
 
 try {
   await completed(
-    pnpm(["--filter", "@blinkdisk/electron", "exec", "install-electron"]),
+    pnpm(["--filter", "@diskpond/electron", "exec", "install-electron"]),
   );
   await build({
     absWorkingDir: electronDirectory,

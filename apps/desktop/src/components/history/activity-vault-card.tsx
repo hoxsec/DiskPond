@@ -1,11 +1,3 @@
-import {
-  resolveStorageProviderType,
-  type StorageProviderType,
-} from "@blinkdisk/constants/providers";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Button } from "@blinkdisk/ui/button";
-import { Skeleton } from "@blinkdisk/ui/skeleton";
-import { cn } from "@blinkdisk/utils/class";
 import { providerIcons } from "@desktop/components/icons/providers/index";
 import {
   type ActivityHistory,
@@ -13,6 +5,14 @@ import {
 } from "@desktop/lib/backup-activity";
 import { formatHistoryTime } from "@desktop/lib/history";
 import { formatInt } from "@desktop/lib/number";
+import {
+  resolveStorageProviderType,
+  type StorageProviderType,
+} from "@diskpond/constants/providers";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Button } from "@diskpond/ui/button";
+import { Skeleton } from "@diskpond/ui/skeleton";
+import { cn } from "@diskpond/utils/class";
 import {
   AlertTriangleIcon,
   ArrowUpRightIcon,

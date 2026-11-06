@@ -1,15 +1,3 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { useClipboard } from "@blinkdisk/hooks/use-clipboard";
-import { isFileLikeSource } from "@blinkdisk/schemas/source";
-import { Button } from "@blinkdisk/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@blinkdisk/ui/dialog";
-import { cn } from "@blinkdisk/utils/class";
 import type { CoreSourceItem } from "@desktop/hooks/queries/core/use-source-list";
 import { useBackupIssueText } from "@desktop/hooks/use-backup-issue-text";
 import { formatBackupDate } from "@desktop/lib/backup";
@@ -18,6 +6,18 @@ import {
   getBackupIssueDetails,
   getEntryErrorReason,
 } from "@desktop/lib/backup-issue";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { useClipboard } from "@diskpond/hooks/use-clipboard";
+import { isFileLikeSource } from "@diskpond/schemas/source";
+import { Button } from "@diskpond/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@diskpond/ui/dialog";
+import { cn } from "@diskpond/utils/class";
 import {
   CheckIcon,
   CircleAlertIcon,

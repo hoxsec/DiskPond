@@ -1,10 +1,10 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import type { ZS3CompatibleConfigType } from "@blinkdisk/schemas/providers";
-import { Button } from "@blinkdisk/ui/button";
 import { CreateVaultAlerts } from "@desktop/components/dialogs/create-vault/alerts";
 import { ProviderSubmitButton } from "@desktop/components/forms/providers/submit-button";
 import { useS3CompatibleForm } from "@desktop/hooks/forms/providers/use-s3-compatible-form";
 import type { VaultAction } from "@desktop/hooks/use-config-validation";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import type { ZS3CompatibleConfigType } from "@diskpond/schemas/providers";
+import { Button } from "@diskpond/ui/button";
 import { ExternalLinkIcon } from "lucide-react";
 
 export type S3CompatibleFormProps = {

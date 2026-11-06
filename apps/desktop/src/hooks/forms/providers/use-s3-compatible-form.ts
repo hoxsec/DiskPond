@@ -1,13 +1,13 @@
-import { useAppForm } from "@blinkdisk/forms/use-app-form";
-import {
-  ZDiskPondCloudConfig,
-  ZS3CompatibleConfig,
-  type ZS3CompatibleConfigType,
-} from "@blinkdisk/schemas/providers";
 import {
   useConfigValidation,
   type VaultAction,
 } from "@desktop/hooks/use-config-validation";
+import { useAppForm } from "@diskpond/forms/use-app-form";
+import {
+  ZDiskPondCloudConfig,
+  ZS3CompatibleConfig,
+  type ZS3CompatibleConfigType,
+} from "@diskpond/schemas/providers";
 import type { z } from "zod";
 
 export function useS3CompatibleForm({

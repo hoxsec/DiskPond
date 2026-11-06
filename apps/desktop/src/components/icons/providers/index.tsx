@@ -1,4 +1,3 @@
-import { DiskPondIcon } from "@blinkdisk/components/diskpond-icon";
 import { AmazonS3Icon } from "@desktop/components/icons/providers/amazon-s3";
 import { AzureBlobStorageIcon } from "@desktop/components/icons/providers/azure-blob-storage";
 import { BackblazeIcon } from "@desktop/components/icons/providers/backblaze";
@@ -10,6 +9,7 @@ import { RcloneIcon } from "@desktop/components/icons/providers/rclone";
 import { S3CompatibleIcon } from "@desktop/components/icons/providers/s3-compatible";
 import { SftpIcon } from "@desktop/components/icons/providers/sftp";
 import { WebdavIcon } from "@desktop/components/icons/providers/webdav";
+import { DiskPondIcon } from "@diskpond/components/diskpond-icon";
 
 export const providerIcons = {
   CLOUDBLINK: InternalDriveIcon,

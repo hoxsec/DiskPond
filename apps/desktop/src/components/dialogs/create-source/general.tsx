@@ -1,14 +1,14 @@
-import { SourceCard } from "@blinkdisk/components/source-card";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
+import type { useCreateSourceForm } from "@desktop/hooks/forms/use-create-source-form";
+import { SourceCard } from "@diskpond/components/source-card";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
 import {
   isFileLikeSource,
   type SourceType,
   type ZCreateSourceFormType,
-} from "@blinkdisk/schemas/source";
-import { Button } from "@blinkdisk/ui/button";
-import { EmojiPicker } from "@blinkdisk/ui/emoji-picker";
-import { Tabs, TabsList, TabsTrigger } from "@blinkdisk/ui/tabs";
-import type { useCreateSourceForm } from "@desktop/hooks/forms/use-create-source-form";
+} from "@diskpond/schemas/source";
+import { Button } from "@diskpond/ui/button";
+import { EmojiPicker } from "@diskpond/ui/emoji-picker";
+import { Tabs, TabsList, TabsTrigger } from "@diskpond/ui/tabs";
 import {
   FileIcon,
   FolderIcon,

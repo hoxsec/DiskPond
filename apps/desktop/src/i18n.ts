@@ -1,9 +1,9 @@
 import {
   LANGUAGE_CODES,
   type LanguageCode,
-} from "@blinkdisk/constants/language";
-import { DESKTOP_NAMESPACES } from "@blinkdisk/constants/localization";
-import { i18n } from "@blinkdisk/utils/i18n";
+} from "@diskpond/constants/language";
+import { DESKTOP_NAMESPACES } from "@diskpond/constants/localization";
+import { i18n } from "@diskpond/utils/i18n";
 
 i18n.loadNamespaces(DESKTOP_NAMESPACES);
 

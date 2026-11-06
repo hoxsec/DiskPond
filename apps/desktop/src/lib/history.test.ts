@@ -1,10 +1,10 @@
-import { ZHistorySnapshot } from "@blinkdisk/schemas/history";
 import {
   historyKey,
   readHistoryDirectory,
   readSnapshotHistory,
   snapshotOutcome,
 } from "@desktop/lib/history";
+import { ZHistorySnapshot } from "@diskpond/schemas/history";
 
 const summary = {
   size: 0,

@@ -1,5 +1,5 @@
-import type { ZVaultThrottleType } from "@blinkdisk/schemas/vault";
 import { fromBits, toBits } from "@desktop/lib/bandwith";
+import type { ZVaultThrottleType } from "@diskpond/schemas/vault";
 
 export const DEFAULT_THROTTLE_LIMIT = {
   value: 10,

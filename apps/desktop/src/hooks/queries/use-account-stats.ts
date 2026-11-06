@@ -1,10 +1,10 @@
-import type { ZVaultType } from "@blinkdisk/schemas/vault";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
 import {
   summarizeAccountStats,
   ZRepositoryStats,
 } from "@desktop/lib/account-stats";
 import { vaultApi } from "@desktop/lib/vault";
+import type { ZVaultType } from "@diskpond/schemas/vault";
 import { queryOptions, useQueries, useQuery } from "@tanstack/react-query";
 
 function repositoryStatsOptions(key: readonly unknown[], vaultId: string) {

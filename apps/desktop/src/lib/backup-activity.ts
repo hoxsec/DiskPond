@@ -1,13 +1,13 @@
-import type {
-  ZHistorySnapshotType,
-  ZHistorySourceIdentityType,
-  ZHistorySourceType,
-} from "@blinkdisk/schemas/history";
 import {
   readHistorySources,
   readSnapshotHistory,
   snapshotOutcome,
 } from "@desktop/lib/history";
+import type {
+  ZHistorySnapshotType,
+  ZHistorySourceIdentityType,
+  ZHistorySourceType,
+} from "@diskpond/schemas/history";
 
 export type ActivitySnapshot = {
   vaultId: string;

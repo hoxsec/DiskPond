@@ -82,7 +82,7 @@ Compare two backups to inspect added, changed and deleted paths.
 | Mounted network drives / NAS | Backblaze B2 | WebDAV |
 | | Google Cloud Storage, Azure Blob | Rclone remotes |
 
-NAS/network drives use an OS-mounted path or Windows share. Rclone uses remotes configured separately on your computer. The app also includes a DiskPond Cloud connection flow; see the [website development guide](apps/marketing/DEVELOPMENT.txt) for the managed-storage site's status.
+NAS/network drives use an OS-mounted path or Windows share. Rclone uses remotes configured separately on your computer. The app also includes a DiskPond Cloud connection flow; account and storage management live at [cloud.diskpond.com](https://cloud.diskpond.com).
 
 ## Get started
 
@@ -105,9 +105,9 @@ pnpm dev:desktop
 
 Build native packages on their matching operating system with `pnpm build:windows`, `pnpm build:linux`, or `pnpm build:macos`.
 
-The website lives in `apps/marketing/site`. Run `pnpm dev:site` to preview it, or `pnpm build:site` to produce static hosting output.
+This repository contains the desktop interface (`apps/desktop`), Electron runtime (`apps/electron`), backup engine (`apps/core`) and shared libraries (`libs`). The website, customer portal and managed-storage service are maintained separately in [hoxsec/diskpond-vault](https://github.com/hoxsec/diskpond-vault).
 
-[Development guide](DEVELOPMENT.txt) · [Release and installation guide](docs/desktop-release.txt) · [Windows recovery walkthrough](docs/windows-release.txt) · [Website development](apps/marketing/DEVELOPMENT.txt)
+[Development guide](DEVELOPMENT.txt) · [Release and installation guide](docs/desktop-release.txt) · [Windows recovery walkthrough](docs/windows-release.txt) · [Website](https://diskpond.com)
 
 ## License and credits
 

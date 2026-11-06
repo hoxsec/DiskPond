@@ -1,13 +1,13 @@
 import { spawn } from "node:child_process";
 import { resolve } from "node:path";
 import { env } from "node:process";
-import { VAULT_SERVER_START_TIMEOUT_MS } from "@blinkdisk/constants/vault";
+import { VAULT_SERVER_START_TIMEOUT_MS } from "@diskpond/constants/vault";
 import {
   CoreError,
   VAULT_SERVER_UNAVAILABLE_MARKER,
-} from "@blinkdisk/utils/error";
-import { generateId } from "@blinkdisk/utils/id";
-import { tryCatch } from "@blinkdisk/utils/try-catch";
+} from "@diskpond/utils/error";
+import { generateId } from "@diskpond/utils/id";
+import { tryCatch } from "@diskpond/utils/try-catch";
 import { log } from "@electron/log";
 import { getPasswordCache } from "@electron/password";
 import { corePath, globalVaultDirectory } from "@electron/path";

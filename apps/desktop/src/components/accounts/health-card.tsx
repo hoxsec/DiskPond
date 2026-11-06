@@ -1,10 +1,10 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import type { ZVaultType } from "@blinkdisk/schemas/vault";
-import { Card, CardContent } from "@blinkdisk/ui/card";
-import { Skeleton } from "@blinkdisk/ui/skeleton";
 import { useBackupHealth } from "@desktop/hooks/queries/use-backup-health";
 import { useTheme } from "@desktop/hooks/use-theme";
 import { scoreBackupSetup } from "@desktop/lib/backup-health";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import type { ZVaultType } from "@diskpond/schemas/vault";
+import { Card, CardContent } from "@diskpond/ui/card";
+import { Skeleton } from "@diskpond/ui/skeleton";
 import {
   CheckIcon,
   CircleHelpIcon,

@@ -1,5 +1,3 @@
-import { resolveStorageProviderType } from "@blinkdisk/constants/providers";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
 import { providerIcons } from "@desktop/components/icons/providers";
 import {
   SettingsGroup,
@@ -8,6 +6,8 @@ import {
 } from "@desktop/components/settings";
 import { useVault } from "@desktop/hooks/queries/use-vault";
 import { useVaultConfig } from "@desktop/hooks/queries/use-vault-config";
+import { resolveStorageProviderType } from "@diskpond/constants/providers";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
 
 export function VaultConfigSettings() {
   const { t } = useAppTranslation("settings.vault.config");

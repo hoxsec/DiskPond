@@ -1,7 +1,7 @@
-import { useAppForm } from "@blinkdisk/forms/use-app-form";
-import { ZPolicy, type ZPolicyType } from "@blinkdisk/schemas/policy";
 import { PolicyContext } from "@desktop/components/policy/context";
 import { emptyPolicy, pickDefinedFields } from "@desktop/lib/policy";
+import { useAppForm } from "@diskpond/forms/use-app-form";
+import { ZPolicy, type ZPolicyType } from "@diskpond/schemas/policy";
 import type { AnyFieldApi, AnyFormApi } from "@tanstack/react-form";
 import { useContext } from "react";
 import { z } from "zod";

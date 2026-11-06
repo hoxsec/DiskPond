@@ -1,4 +1,4 @@
-import type { UpdateStatus } from "@blinkdisk/electron/updater";
+import type { UpdateStatus } from "@diskpond/electron/updater";
 import { Store, useStore } from "@tanstack/react-store";
 
 const store = new Store<UpdateStatus | null>(null);

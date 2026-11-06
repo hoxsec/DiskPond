@@ -1,9 +1,9 @@
-import { SourceCard } from "@blinkdisk/components/source-card";
-import { Skeleton } from "@blinkdisk/ui/skeleton";
-import { cn } from "@blinkdisk/utils/class";
 import { BackupIssueBadge } from "@desktop/components/sources/backup-issue";
 import type { CoreSourceItem } from "@desktop/hooks/queries/core/use-source-list";
 import { useTheme } from "@desktop/hooks/use-theme";
+import { SourceCard } from "@diskpond/components/source-card";
+import { Skeleton } from "@diskpond/ui/skeleton";
+import { cn } from "@diskpond/utils/class";
 import { MonitorIcon, UserIcon } from "lucide-react";
 
 type SourcePreviewProps = {

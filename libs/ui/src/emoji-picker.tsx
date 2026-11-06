@@ -1,4 +1,4 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
 import { Button } from "@ui/button";
 import { Input } from "@ui/input";
 import { Loader } from "@ui/loader";

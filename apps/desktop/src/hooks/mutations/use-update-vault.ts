@@ -1,10 +1,10 @@
-import type { ZUpdateVaultFormType } from "@blinkdisk/schemas/vault";
-import { CustomError } from "@blinkdisk/utils/error";
-import { showErrorToast } from "@blinkdisk/utils/error-toast";
 import { useAccountId } from "@desktop/hooks/use-account-id";
 import { useVaultId } from "@desktop/hooks/use-vault-id";
 import { getVaultCollection } from "@desktop/lib/db";
 import { vaultApi } from "@desktop/lib/vault";
+import type { ZUpdateVaultFormType } from "@diskpond/schemas/vault";
+import { CustomError } from "@diskpond/utils/error";
+import { showErrorToast } from "@diskpond/utils/error-toast";
 import { useMutation } from "@tanstack/react-query";
 
 export function useUpdateVault(onSuccess: () => void) {

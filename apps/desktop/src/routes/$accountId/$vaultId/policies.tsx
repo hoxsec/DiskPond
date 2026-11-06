@@ -1,13 +1,3 @@
-import { getEmojiUrl } from "@blinkdisk/components/folder-card";
-import { useStore } from "@blinkdisk/forms/use-app-form";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import type { ZPolicyType } from "@blinkdisk/schemas/policy";
-import { isFileLikeSource } from "@blinkdisk/schemas/source";
-import { Badge } from "@blinkdisk/ui/badge";
-import { Button } from "@blinkdisk/ui/button";
-import { Skeleton } from "@blinkdisk/ui/skeleton";
-import { Tabs, TabsList, TabsTrigger } from "@blinkdisk/ui/tabs";
-import { cn } from "@blinkdisk/utils/class";
 import { SettingsCategorySkeleton } from "@desktop/components/policy/category";
 import { CompressionSettings } from "@desktop/components/policy/compression";
 import { PolicyContextProvider } from "@desktop/components/policy/context";
@@ -41,6 +31,16 @@ import {
   policyTargetParent,
   policyTargetToSearch,
 } from "@desktop/lib/policy-target";
+import { getEmojiUrl } from "@diskpond/components/source-card";
+import { useStore } from "@diskpond/forms/use-app-form";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import type { ZPolicyType } from "@diskpond/schemas/policy";
+import { isFileLikeSource } from "@diskpond/schemas/source";
+import { Badge } from "@diskpond/ui/badge";
+import { Button } from "@diskpond/ui/button";
+import { Skeleton } from "@diskpond/ui/skeleton";
+import { Tabs, TabsList, TabsTrigger } from "@diskpond/ui/tabs";
+import { cn } from "@diskpond/utils/class";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   ChevronRightIcon,

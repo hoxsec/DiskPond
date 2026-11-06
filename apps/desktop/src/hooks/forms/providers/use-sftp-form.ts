@@ -1,12 +1,9 @@
-import { useAppForm } from "@blinkdisk/forms/use-app-form";
-import {
-  ZSftpConfig,
-  type ZSftpConfigType,
-} from "@blinkdisk/schemas/providers";
 import {
   useConfigValidation,
   type VaultAction,
 } from "@desktop/hooks/use-config-validation";
+import { useAppForm } from "@diskpond/forms/use-app-form";
+import { ZSftpConfig, type ZSftpConfigType } from "@diskpond/schemas/providers";
 
 export function useSftpForm({
   action,

@@ -1,13 +1,13 @@
 import {
   DynamicField,
   type DynamicFieldProps,
-} from "@blinkdisk/components/dynamic-field";
+} from "@diskpond/components/dynamic-field";
 import {
   TabsList,
   type TabsProps,
   Tabs as TabsRoot,
   TabsTrigger,
-} from "@blinkdisk/ui/tabs";
+} from "@diskpond/ui/tabs";
 import { FormDisabledContext, useFieldContext } from "@forms/use-app-form";
 import React, { type ReactNode, useContext } from "react";
 

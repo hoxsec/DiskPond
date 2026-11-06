@@ -1,5 +1,3 @@
-import { getErrorCode } from "@blinkdisk/utils/error";
-import { tryCatch } from "@blinkdisk/utils/try-catch";
 import { useVaultStatus } from "@desktop/hooks/queries/use-vault-status";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
 import { useVaultId } from "@desktop/hooks/use-vault-id";
@@ -18,6 +16,8 @@ import {
   policyTargetToResolveParams,
 } from "@desktop/lib/policy-target";
 import { vaultApi } from "@desktop/lib/vault";
+import { getErrorCode } from "@diskpond/utils/error";
+import { tryCatch } from "@diskpond/utils/try-catch";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 

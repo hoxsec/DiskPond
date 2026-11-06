@@ -51,7 +51,7 @@ await require("esbuild").build({
       name: "translation-fixture",
       setup(build) {
         build.onResolve(
-          { filter: /^@blinkdisk\/hooks\/use-app-translation$/ },
+          { filter: /^@diskpond\/hooks\/use-app-translation$/ },
           () => ({ path: "translation", namespace: "fixture" }),
         );
         build.onLoad({ filter: /.*/, namespace: "fixture" }, () => ({

@@ -1,9 +1,9 @@
-import { SourceCard } from "@blinkdisk/components/source-card";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
 import type { CoreBackupItem } from "@desktop/hooks/queries/core/use-backup-list";
 import type { CoreSourceItem } from "@desktop/hooks/queries/core/use-source-list";
 import { useTheme } from "@desktop/hooks/use-theme";
 import { formatBackupDate } from "@desktop/lib/backup";
+import { SourceCard } from "@diskpond/components/source-card";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
 
 type BackupPreviewProps = {
   backup: CoreBackupItem;

@@ -10,10 +10,6 @@ concurrency:
   group: desktop-extended-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  TURBO_TELEMETRY_DISABLED: "1"
-  ASTRO_TELEMETRY_DISABLED: "1"
-
 jobs:
   windows:
     runs-on: windows-latest

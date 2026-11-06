@@ -1,20 +1,3 @@
-import { resolveStorageProviderType } from "@blinkdisk/constants/providers";
-import {
-  VAULT_COLORS,
-  type VaultColor,
-} from "@blinkdisk/constants/vault-color";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import type { ZVaultType } from "@blinkdisk/schemas/vault";
-import { Button } from "@blinkdisk/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@blinkdisk/ui/dropdown-menu";
-import { Skeleton } from "@blinkdisk/ui/skeleton";
-import { cn } from "@blinkdisk/utils/class";
-import { showErrorToast } from "@blinkdisk/utils/error-toast";
 import { providerIcons } from "@desktop/components/icons/providers/index";
 import { VaultCardStorage } from "@desktop/components/vaults/card-storage";
 import { useVaultHealth } from "@desktop/hooks/queries/use-backup-health";
@@ -29,6 +12,20 @@ import {
   vaultColorClasses,
   vaultLocation,
 } from "@desktop/lib/vault-card";
+import { resolveStorageProviderType } from "@diskpond/constants/providers";
+import { VAULT_COLORS, type VaultColor } from "@diskpond/constants/vault-color";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import type { ZVaultType } from "@diskpond/schemas/vault";
+import { Button } from "@diskpond/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@diskpond/ui/dropdown-menu";
+import { Skeleton } from "@diskpond/ui/skeleton";
+import { cn } from "@diskpond/utils/class";
+import { showErrorToast } from "@diskpond/utils/error-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import {

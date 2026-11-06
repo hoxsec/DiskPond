@@ -1,6 +1,6 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Alert, AlertDescription, AlertTitle } from "@blinkdisk/ui/alert";
 import { usePasswordStorage } from "@desktop/hooks/queries/use-password-storage";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Alert, AlertDescription, AlertTitle } from "@diskpond/ui/alert";
 import { KeyRoundIcon } from "lucide-react";
 
 export function PasswordStorageNotice({

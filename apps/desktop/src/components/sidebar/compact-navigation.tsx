@@ -1,12 +1,12 @@
-import { Logo } from "@blinkdisk/components/logo";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Button } from "@blinkdisk/ui/button";
+import { Logo } from "@diskpond/components/logo";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Button } from "@diskpond/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@blinkdisk/ui/dropdown-menu";
+} from "@diskpond/ui/dropdown-menu";
 import { Link, useParams } from "@tanstack/react-router";
 import { MenuIcon } from "lucide-react";
 

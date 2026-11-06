@@ -1,5 +1,5 @@
-import { PROTOCOL_VAULT_URL } from "@blinkdisk/constants/app";
-import { CoreError } from "@blinkdisk/utils/error";
+import { PROTOCOL_VAULT_URL } from "@diskpond/constants/app";
+import { CoreError } from "@diskpond/utils/error";
 
 type VaultRequestConfig = {
   params?: Record<string, boolean | number | string | null | undefined>;

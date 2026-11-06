@@ -96,7 +96,7 @@ vi.mock("@electron/vault/validate", () => ({
   },
 }));
 
-import { DEFAULT_VAULT_OPTIONS } from "@blinkdisk/constants/vault";
+import { DEFAULT_VAULT_OPTIONS } from "@diskpond/constants/vault";
 import {
   connectVault,
   createVault,

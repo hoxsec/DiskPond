@@ -1,4 +1,4 @@
-import { LOCAL_ACCOUNT_ID } from "@blinkdisk/constants/account";
+import { LOCAL_ACCOUNT_ID } from "@diskpond/constants/account";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 

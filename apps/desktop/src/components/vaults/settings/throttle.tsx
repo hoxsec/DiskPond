@@ -1,11 +1,11 @@
-import { FormDisabledContext, useStore } from "@blinkdisk/forms/use-app-form";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
 import {
   SettingsGroup,
   SettingsPanel,
   SettingsRow,
 } from "@desktop/components/settings";
 import { useUpdateThrottleForm } from "@desktop/hooks/forms/use-update-throttle-form";
+import { FormDisabledContext, useStore } from "@diskpond/forms/use-app-form";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
 
 export function VaultThrottleSettings() {
   const { t } = useAppTranslation("settings.vault.throttle");

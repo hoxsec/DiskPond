@@ -1,4 +1,4 @@
-import { APP_NAME } from "@blinkdisk/constants/app";
+import { APP_NAME } from "@diskpond/constants/app";
 import AutoLaunch from "auto-launch";
 import { app } from "electron";
 

@@ -1,13 +1,13 @@
+import { limitHistoryRead } from "@desktop/lib/history-read-limit";
+import { isDraftPolicyUserName } from "@desktop/lib/policy-target";
+import { vaultApi } from "@desktop/lib/vault";
 import {
   ZHistoryDirectory,
   ZHistorySnapshotList,
   type ZHistorySnapshotType,
   type ZHistorySourceIdentityType,
   ZHistorySourceList,
-} from "@blinkdisk/schemas/history";
-import { limitHistoryRead } from "@desktop/lib/history-read-limit";
-import { isDraftPolicyUserName } from "@desktop/lib/policy-target";
-import { vaultApi } from "@desktop/lib/vault";
+} from "@diskpond/schemas/history";
 
 const HISTORY_READ_TIMEOUT = 30_000;
 

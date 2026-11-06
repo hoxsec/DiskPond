@@ -1,4 +1,4 @@
-import { ZVaultEncryptedConfig } from "@blinkdisk/schemas/config";
+import { ZVaultEncryptedConfig } from "@diskpond/schemas/config";
 import { log } from "@electron/log";
 import { safeStorage } from "electron";
 

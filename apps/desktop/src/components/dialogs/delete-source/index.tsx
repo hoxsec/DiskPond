@@ -1,7 +1,10 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { isFileLikeSource } from "@blinkdisk/schemas/source";
-import { Alert, AlertDescription, AlertTitle } from "@blinkdisk/ui/alert";
-import { Button } from "@blinkdisk/ui/button";
+import { useDeleteSource } from "@desktop/hooks/mutations/core/use-delete-source";
+import { useDeleteSourceDialog } from "@desktop/hooks/state/use-delete-source-dialog";
+import { useSource } from "@desktop/hooks/use-source";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { isFileLikeSource } from "@diskpond/schemas/source";
+import { Alert, AlertDescription, AlertTitle } from "@diskpond/ui/alert";
+import { Button } from "@diskpond/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,10 +12,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@blinkdisk/ui/dialog";
-import { useDeleteSource } from "@desktop/hooks/mutations/core/use-delete-source";
-import { useDeleteSourceDialog } from "@desktop/hooks/state/use-delete-source-dialog";
-import { useSource } from "@desktop/hooks/use-source";
+} from "@diskpond/ui/dialog";
 import { InfoIcon } from "lucide-react";
 
 export function DeleteSourceDialog() {

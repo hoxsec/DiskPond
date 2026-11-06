@@ -1,5 +1,5 @@
 import { mkdirSync } from "node:fs";
-import { APP_ID, APP_NAME } from "@blinkdisk/constants/app";
+import { APP_ID, APP_NAME } from "@diskpond/constants/app";
 import { globalConfigDirectory } from "@electron/path";
 import { app } from "electron";
 

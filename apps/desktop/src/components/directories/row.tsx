@@ -1,7 +1,7 @@
-import { TableCell, TableRow } from "@blinkdisk/ui/table";
-import { cn } from "@blinkdisk/utils/class";
 import type { Item } from "@desktop/components/directories/table";
 import { useStartRestore } from "@desktop/hooks/mutations/core/use-start-restore";
+import { TableCell, TableRow } from "@diskpond/ui/table";
+import { cn } from "@diskpond/utils/class";
 import { useNavigate } from "@tanstack/react-router";
 import { flexRender, type Row } from "@tanstack/react-table";
 import type { VirtualItem } from "@tanstack/react-virtual";

@@ -1,4 +1,3 @@
-import type { ZVaultType } from "@blinkdisk/schemas/vault";
 import type { CoreSourceItem } from "@desktop/hooks/queries/core/use-source-list";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
 import {
@@ -7,6 +6,7 @@ import {
 } from "@desktop/lib/backup-health";
 import { isDraftPolicyUserName } from "@desktop/lib/policy-target";
 import { vaultApi } from "@desktop/lib/vault";
+import type { ZVaultType } from "@diskpond/schemas/vault";
 import { queryOptions, useQueries, useQuery } from "@tanstack/react-query";
 
 function backupHealthOptions(key: readonly unknown[], vaultId: string) {

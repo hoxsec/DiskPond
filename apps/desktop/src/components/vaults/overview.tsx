@@ -1,15 +1,3 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Button } from "@blinkdisk/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@blinkdisk/ui/dropdown-menu";
-import { Skeleton } from "@blinkdisk/ui/skeleton";
-import { cn } from "@blinkdisk/utils/class";
 import { Empty } from "@desktop/components/empty";
 import { SourceList } from "@desktop/components/sources/list";
 import { VaultStatCard } from "@desktop/components/vaults/stat-card";
@@ -38,6 +26,18 @@ import {
   buildVaultStatHistory,
   buildVaultStats,
 } from "@desktop/lib/vault-stats";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Button } from "@diskpond/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@diskpond/ui/dropdown-menu";
+import { Skeleton } from "@diskpond/ui/skeleton";
+import { cn } from "@diskpond/utils/class";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import {
   ArrowLeftIcon,

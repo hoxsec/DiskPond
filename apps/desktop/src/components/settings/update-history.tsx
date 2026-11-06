@@ -1,5 +1,5 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
 import { useUpdateStatus } from "@desktop/hooks/state/use-update-status";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
 
 export function UpdateHistory() {
   const { t, language } = useAppTranslation("update");

@@ -1,6 +1,6 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
 import { BackupActivityCalendar } from "@desktop/components/history/activity-calendar";
 import { useVaultList } from "@desktop/hooks/queries/use-vault-list";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
 
 export function AccountActivity() {
   const { t } = useAppTranslation("history");

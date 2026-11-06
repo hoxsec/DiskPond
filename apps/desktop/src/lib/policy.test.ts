@@ -347,6 +347,32 @@ describe("convertPolicyToCore", () => {
   });
 });
 
+describe("existing exclusion policies", () => {
+  it.each(
+    [[".blinkdiskignore", ".customignore"], [".kopiaignore"], []].map(
+      (ignoreDotFiles) => ({ ignoreDotFiles }),
+    ),
+  )("preserves configured exclusion files when editing another policy field: $ignoreDotFiles", ({
+    ignoreDotFiles,
+  }) => {
+    const core = minimalCorePolicy({
+      files: {
+        ignore: ["*.tmp"],
+        ignoreDotFiles,
+        noParentDotFiles: true,
+      },
+      retention: { keepLatest: 10 },
+    });
+    const ui = expectValue(convertPolicyFromCore(core));
+    ui.retention.latest = 20;
+
+    const saved = convertPolicyToCore(ui);
+    expect(saved.retention.keepLatest).toBe(20);
+    expect(saved.files).toEqual(core.files);
+    expect(core.retention.keepLatest).toBe(10);
+  });
+});
+
 describe("roundtrip with defaultVaultPolicy", () => {
   it("preserves retention through toCore → fromCore", () => {
     const core = convertPolicyToCore(defaultVaultPolicy);

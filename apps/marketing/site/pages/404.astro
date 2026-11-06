@@ -1,8 +1,0 @@
----
-import ArrowLeftIcon from "@lucide/astro/icons/arrow-left";
-import { copy } from "../content";
-import SiteLayout from "../layouts/site-layout.astro";
----
-<SiteLayout title={copy.notFound.eyebrow} noindex>
-  <section class="container page-heading not-found"><p class="eyebrow">{copy.notFound.eyebrow}</p><h1>{copy.notFound.title}</h1><p>{copy.notFound.description}</p><a class="button" href="/"><ArrowLeftIcon aria-hidden="true" />{copy.common.backHome}</a></section>
-</SiteLayout>

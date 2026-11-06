@@ -1,5 +1,5 @@
 import { lstat, stat } from "node:fs/promises";
-import type { SourceType } from "@blinkdisk/schemas/source";
+import type { SourceType } from "@diskpond/schemas/source";
 import getFolderSize from "get-folder-size";
 
 export async function folderSize(path: string) {

@@ -1,6 +1,3 @@
-import { FormDisabledContext, useStore } from "@blinkdisk/forms/use-app-form";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Button } from "@blinkdisk/ui/button";
 import {
   SettingsGroup,
   SettingsPanel,
@@ -9,6 +6,9 @@ import {
 import { useUpdateVaultForm } from "@desktop/hooks/forms/use-update-vault-form";
 import { useDeleteVaultDialog } from "@desktop/hooks/state/use-delete-vault-dialog";
 import { useVaultId } from "@desktop/hooks/use-vault-id";
+import { FormDisabledContext, useStore } from "@diskpond/forms/use-app-form";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Button } from "@diskpond/ui/button";
 import { TrashIcon } from "lucide-react";
 import { useContext } from "react";
 import { VaultConfigSettings } from "./config";

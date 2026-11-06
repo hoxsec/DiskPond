@@ -1,4 +1,4 @@
-import { getStorageProvider } from "@blinkdisk/constants/providers";
+import { getStorageProvider } from "@diskpond/constants/providers";
 import { ZPasswordVault } from "@schemas/password";
 import {
   ZAmazonS3Config,

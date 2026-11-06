@@ -1,8 +1,8 @@
+import { snapshotOutcome } from "@desktop/lib/history";
 import type {
   ZHistoryEntryType,
   ZHistorySnapshotType,
-} from "@blinkdisk/schemas/history";
-import { snapshotOutcome } from "@desktop/lib/history";
+} from "@diskpond/schemas/history";
 
 export type ComparisonEntry = Partial<ZHistoryEntryType> & { obj: string };
 type ComparisonRow = {

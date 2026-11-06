@@ -1,8 +1,8 @@
-import { useStore } from "@blinkdisk/forms/use-app-form";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
 import { ConfigValidationError } from "@desktop/components/errors/config-validation";
 import { VaultExistsError } from "@desktop/components/errors/vault-exists";
 import type { VaultAction } from "@desktop/hooks/use-config-validation";
+import { useStore } from "@diskpond/forms/use-app-form";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
 import type { AnyFormApi } from "@tanstack/react-form";
 import { useEffect, useRef } from "react";
 

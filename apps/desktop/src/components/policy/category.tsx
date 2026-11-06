@@ -1,7 +1,7 @@
-import type { ZPolicyType } from "@blinkdisk/schemas/policy";
-import { Skeleton } from "@blinkdisk/ui/skeleton";
 import { PolicyContext } from "@desktop/components/policy/context";
 import { SettingsPanel, SettingsRow } from "@desktop/components/settings";
+import type { ZPolicyType } from "@diskpond/schemas/policy";
+import { Skeleton } from "@diskpond/ui/skeleton";
 import { type ReactNode, useContext } from "react";
 
 type SettingsCategoryProps = {

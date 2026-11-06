@@ -4,8 +4,8 @@ import {
   ZProviderConnection,
   ZUnlockVaultRequest,
   ZValidateConnection,
-} from "@blinkdisk/schemas/connection";
-import { ZPasswordVault } from "@blinkdisk/schemas/password";
+} from "@diskpond/schemas/connection";
+import { ZPasswordVault } from "@diskpond/schemas/password";
 import { collections } from "@electron/db";
 import { requireMainWindow } from "@electron/ipc-context";
 import {

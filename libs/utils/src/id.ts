@@ -2,34 +2,17 @@ import {
   createId as legidCreateId,
   verifyId as legidVerifyId,
 } from "legid-sync";
-import { customAlphabet } from "nanoid";
 
 const prefixes = {
-  Account: "acct",
-  AuthMethod: "auth",
-  Session: "sesh",
-  Verification: "ver",
-  Queue: "que",
-  Device: "dev",
-  Profile: "prf",
   // Old vaults might also be prefixed with "strg"
   Vault: "vlt",
-  Config: "cfg",
-  Folder: "fld",
-  Space: "spc",
-  Subscription: "sub",
-  Trial: "trial",
 } as const;
 
-export type Prefix = keyof typeof prefixes;
+type Prefix = keyof typeof prefixes;
 
+// Part of the checksum for existing IDs; independent of the product name.
 const salt = "blinkdisk:";
 const length = 21;
-
-const codeGenerator = customAlphabet(
-  "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789",
-  length,
-);
 
 export function generateId(prefix?: Prefix) {
   const id = legidCreateId({
@@ -55,8 +38,4 @@ export function verifyId(id: string) {
   return legidVerifyId(trimmed, {
     salt: salt,
   });
-}
-
-export function generateCode(length?: number) {
-  return codeGenerator(length);
 }

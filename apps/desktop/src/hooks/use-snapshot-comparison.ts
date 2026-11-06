@@ -1,13 +1,13 @@
-import type {
-  ZHistoryEntryType,
-  ZHistorySnapshotType,
-  ZHistorySourceIdentityType,
-} from "@blinkdisk/schemas/history";
 import { historyKey, readHistoryDirectory } from "@desktop/lib/history";
 import {
   type ComparisonResult,
   compareSnapshots,
 } from "@desktop/lib/snapshot-comparison";
+import type {
+  ZHistoryEntryType,
+  ZHistorySnapshotType,
+  ZHistorySourceIdentityType,
+} from "@diskpond/schemas/history";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 

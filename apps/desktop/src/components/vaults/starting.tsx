@@ -1,7 +1,7 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Button } from "@blinkdisk/ui/button";
 import { useVaultStatus } from "@desktop/hooks/queries/use-vault-status";
 import { useTaskDialog } from "@desktop/hooks/state/use-task-dialog";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Button } from "@diskpond/ui/button";
 import { VaultIcon } from "lucide-react";
 
 export function VaultStarting() {

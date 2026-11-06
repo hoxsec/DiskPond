@@ -1,9 +1,9 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Button } from "@blinkdisk/ui/button";
 import { UpdateAction } from "@desktop/components/settings/update-action";
 import { UpdateHistory } from "@desktop/components/settings/update-history";
 import { UpdateNotes } from "@desktop/components/settings/update-notes";
 import { useUpdateStatus } from "@desktop/hooks/state/use-update-status";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Button } from "@diskpond/ui/button";
 import { useState } from "react";
 
 export function CheckForUpdates() {

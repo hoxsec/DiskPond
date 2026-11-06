@@ -2,7 +2,7 @@
 
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { cn } from "@blinkdisk/utils/class";
+import { cn } from "@diskpond/utils/class";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@ui/tooltip";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";

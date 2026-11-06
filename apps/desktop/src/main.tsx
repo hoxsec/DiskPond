@@ -1,8 +1,8 @@
 import "./styles.css";
 
-import { DefaultErrorPage } from "@blinkdisk/components/errors/default";
-import { NotFoundPage } from "@blinkdisk/components/errors/not-found";
 import { routeTree } from "@desktop/routeTree.gen";
+import { DefaultErrorPage } from "@diskpond/components/errors/default";
+import { NotFoundPage } from "@diskpond/components/errors/not-found";
 import {
   createHashHistory,
   createRouter,

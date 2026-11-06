@@ -56,7 +56,7 @@ try {
   if (!/^http:\/\/127\.0\.0\.1:\d+$/.test(url))
     throw new Error("Invalid fixture address");
   await completed(
-    pnpm(["--filter", "@blinkdisk/electron", "exec", "install-electron"]),
+    pnpm(["--filter", "@diskpond/electron", "exec", "install-electron"]),
   );
   const { build } = require("esbuild");
   const { TsconfigPathsPlugin } = require("@esbuild-plugins/tsconfig-paths");

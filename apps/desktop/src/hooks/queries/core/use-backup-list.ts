@@ -1,4 +1,3 @@
-import type { KopiaEntryType } from "@blinkdisk/schemas/source";
 import type { CoreDirectorySummary } from "@desktop/hooks/queries/core/use-directory";
 import { useVaultStatus } from "@desktop/hooks/queries/use-vault-status";
 import { useProfile } from "@desktop/hooks/use-profile";
@@ -7,6 +6,7 @@ import { useSource } from "@desktop/hooks/use-source";
 import { useVaultId } from "@desktop/hooks/use-vault-id";
 import { kopiaParamsFromProfile } from "@desktop/lib/profile";
 import { vaultApi } from "@desktop/lib/vault";
+import type { KopiaEntryType } from "@diskpond/schemas/source";
 import { useQuery } from "@tanstack/react-query";
 
 export type CoreBackupIncompleteReason =

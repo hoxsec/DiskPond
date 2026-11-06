@@ -24,8 +24,3 @@ export const ZConfig = z.object({
 });
 
 export type ZConfigType = z.infer<typeof ZConfig>;
-
-export const ZPushConfigs = z.object({
-  added: z.array(ZConfig),
-  modified: z.array(ZConfig),
-});

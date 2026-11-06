@@ -1,5 +1,5 @@
 import "./history-ui-electron.mjs";
-import { i18n } from "@blinkdisk/utils/i18n";
+import { i18n } from "@diskpond/utils/i18n";
 import {
   onlineManager,
   QueryClient,

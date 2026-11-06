@@ -1,10 +1,10 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Loader } from "@blinkdisk/ui/loader";
-import { Skeleton } from "@blinkdisk/ui/skeleton";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@blinkdisk/ui/tooltip";
-import { cn } from "@blinkdisk/utils/class";
 import type { Item } from "@desktop/components/directories/table";
 import { getStringHue } from "@desktop/lib/color";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Loader } from "@diskpond/ui/loader";
+import { Skeleton } from "@diskpond/ui/skeleton";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@diskpond/ui/tooltip";
+import { cn } from "@diskpond/utils/class";
 import type { CellContext } from "@tanstack/react-table";
 import { FileSymlinkIcon, FolderIcon } from "lucide-react";
 import { useMemo } from "react";

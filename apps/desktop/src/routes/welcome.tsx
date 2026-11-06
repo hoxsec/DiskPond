@@ -1,8 +1,8 @@
-import { Logo } from "@blinkdisk/components/logo";
-import { LOCAL_ACCOUNT_ID } from "@blinkdisk/constants/account";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Button } from "@blinkdisk/ui/button";
-import { showErrorToast } from "@blinkdisk/utils/error-toast";
+import { Logo } from "@diskpond/components/logo";
+import { LOCAL_ACCOUNT_ID } from "@diskpond/constants/account";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Button } from "@diskpond/ui/button";
+import { showErrorToast } from "@diskpond/utils/error-toast";
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRightIcon } from "lucide-react";
 import { useState } from "react";

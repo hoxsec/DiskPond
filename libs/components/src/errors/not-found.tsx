@@ -1,6 +1,6 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Button } from "@blinkdisk/ui/button";
-import { Trans } from "@blinkdisk/utils/i18n";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Button } from "@diskpond/ui/button";
+import { Trans } from "@diskpond/utils/i18n";
 import { Link } from "@tanstack/react-router";
 
 export function NotFoundPage() {
@@ -38,4 +38,4 @@ export function NotFoundPage() {
   );
 }
 
-import { SOURCE_URL } from "@blinkdisk/constants/app";
+import { SOURCE_URL } from "@diskpond/constants/app";

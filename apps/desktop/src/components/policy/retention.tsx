@@ -1,8 +1,8 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Alert, AlertDescription, AlertTitle } from "@blinkdisk/ui/alert";
 import { SettingsCategory } from "@desktop/components/policy/category";
 import { PolicyField } from "@desktop/components/policy/field";
 import type { PolicyForm } from "@desktop/hooks/forms/use-policy-form";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Alert, AlertDescription, AlertTitle } from "@diskpond/ui/alert";
 import { InfoIcon } from "lucide-react";
 
 export function RetentionSettings({ form }: { form: PolicyForm }) {

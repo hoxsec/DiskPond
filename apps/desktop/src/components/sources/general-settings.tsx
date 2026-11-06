@@ -1,18 +1,18 @@
-import { DynamicField } from "@blinkdisk/components/dynamic-field";
-import { SourceCard } from "@blinkdisk/components/source-card";
-import { FormDisabledContext, useStore } from "@blinkdisk/forms/use-app-form";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import {
-  isFileLikeSource,
-  sourceTypeWithFallback,
-} from "@blinkdisk/schemas/source";
-import { Button } from "@blinkdisk/ui/button";
-import { EmojiPicker } from "@blinkdisk/ui/emoji-picker";
-import { Input } from "@blinkdisk/ui/input";
 import { SettingsCategory } from "@desktop/components/policy/category";
 import { PolicyContext } from "@desktop/components/policy/context";
 import type { PolicyForm } from "@desktop/hooks/forms/use-policy-form";
 import { useSource } from "@desktop/hooks/use-source";
+import { DynamicField } from "@diskpond/components/dynamic-field";
+import { SourceCard } from "@diskpond/components/source-card";
+import { FormDisabledContext, useStore } from "@diskpond/forms/use-app-form";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import {
+  isFileLikeSource,
+  sourceTypeWithFallback,
+} from "@diskpond/schemas/source";
+import { Button } from "@diskpond/ui/button";
+import { EmojiPicker } from "@diskpond/ui/emoji-picker";
+import { Input } from "@diskpond/ui/input";
 import { useContext } from "react";
 
 export function SourceGeneralSettings({ form }: { form: PolicyForm }) {

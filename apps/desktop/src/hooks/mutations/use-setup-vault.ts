@@ -1,9 +1,9 @@
-import type { ProviderConfig } from "@blinkdisk/schemas/providers";
-import { CustomError } from "@blinkdisk/utils/error";
-import { showErrorToast } from "@blinkdisk/utils/error-toast";
 import type { SetupStep } from "@desktop/components/vaults/setup";
 import type { VaultItem } from "@desktop/hooks/queries/use-vault";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
+import type { ProviderConfig } from "@diskpond/schemas/providers";
+import { CustomError } from "@diskpond/utils/error";
+import { showErrorToast } from "@diskpond/utils/error-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useSetupVault({

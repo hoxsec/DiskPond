@@ -1,4 +1,4 @@
-import { Button } from "@blinkdisk/ui/button";
+import { Button } from "@diskpond/ui/button";
 import { FormDisabledContext, useFormContext } from "@forms/use-app-form";
 import React, { useContext } from "react";
 

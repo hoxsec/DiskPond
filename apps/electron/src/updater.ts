@@ -2,8 +2,8 @@ import {
   RELEASE_OWNER,
   RELEASE_REPOSITORY,
   SOURCE_URL,
-} from "@blinkdisk/constants/app";
-import { updateMetadataName } from "@blinkdisk/constants/update";
+} from "@diskpond/constants/app";
+import { updateMetadataName } from "@diskpond/constants/update";
 import { log } from "@electron/log";
 import { store } from "@electron/store";
 import {

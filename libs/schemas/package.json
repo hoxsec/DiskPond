@@ -1,5 +1,5 @@
 {
-  "name": "@blinkdisk/schemas",
+  "name": "@diskpond/schemas",
   "version": "0.0.0",
   "private": true,
   "exports": {
@@ -10,14 +10,14 @@
     "test": "vitest run"
   },
   "devDependencies": {
-    "@blinkdisk/typescript": "workspace:*",
+    "@diskpond/typescript": "workspace:*",
     "@types/node": "catalog:",
     "typescript": "catalog:",
     "vite-tsconfig-paths": "catalog:",
     "vitest": "catalog:"
   },
   "dependencies": {
-    "@blinkdisk/constants": "workspace:*",
+    "@diskpond/constants": "workspace:*",
     "zod": "catalog:"
   }
 }

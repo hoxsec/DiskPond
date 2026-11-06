@@ -1,7 +1,3 @@
-import type {
-  ZHistorySnapshotType,
-  ZHistorySourceType,
-} from "@blinkdisk/schemas/history";
 import {
   activityMonthDays,
   groupActivityDays,
@@ -10,6 +6,10 @@ import {
   shiftActivityMonth,
 } from "@desktop/lib/backup-activity";
 import { createHistoryReadLimit } from "@desktop/lib/history-read-limit";
+import type {
+  ZHistorySnapshotType,
+  ZHistorySourceType,
+} from "@diskpond/schemas/history";
 
 const time = "2026-11-03T12:00:00Z";
 const source = (userName: string): ZHistorySourceType => ({

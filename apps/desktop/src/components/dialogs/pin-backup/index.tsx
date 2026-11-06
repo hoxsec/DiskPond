@@ -1,6 +1,9 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Alert, AlertDescription, AlertTitle } from "@blinkdisk/ui/alert";
-import { Button } from "@blinkdisk/ui/button";
+import { PinBadge } from "@desktop/components/backups/pin-badge";
+import { useEditBackup } from "@desktop/hooks/mutations/core/use-edit-backup";
+import { usePinBackupDialog } from "@desktop/hooks/state/use-pin-backup-dialog";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Alert, AlertDescription, AlertTitle } from "@diskpond/ui/alert";
+import { Button } from "@diskpond/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,11 +11,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@blinkdisk/ui/dialog";
-import { Input } from "@blinkdisk/ui/input";
-import { PinBadge } from "@desktop/components/backups/pin-badge";
-import { useEditBackup } from "@desktop/hooks/mutations/core/use-edit-backup";
-import { usePinBackupDialog } from "@desktop/hooks/state/use-pin-backup-dialog";
+} from "@diskpond/ui/dialog";
+import { Input } from "@diskpond/ui/input";
 import { InfoIcon, PlusIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";

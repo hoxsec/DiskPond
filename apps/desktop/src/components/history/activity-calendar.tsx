@@ -1,8 +1,3 @@
-import type { StorageProviderType } from "@blinkdisk/constants/providers";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import type { ZHistorySourceIdentityType } from "@blinkdisk/schemas/history";
-import { Button } from "@blinkdisk/ui/button";
-import { cn } from "@blinkdisk/utils/class";
 import { ActivityEntry } from "@desktop/components/history/activity-entry";
 import { ActivityVaultCard } from "@desktop/components/history/activity-vault-card";
 import { HistorySelect } from "@desktop/components/history/select";
@@ -15,6 +10,11 @@ import {
   shiftActivityMonth,
 } from "@desktop/lib/backup-activity";
 import { formatHistoryTime } from "@desktop/lib/history";
+import type { StorageProviderType } from "@diskpond/constants/providers";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import type { ZHistorySourceIdentityType } from "@diskpond/schemas/history";
+import { Button } from "@diskpond/ui/button";
+import { cn } from "@diskpond/utils/class";
 import {
   AlertTriangleIcon,
   CheckIcon,

@@ -1,5 +1,5 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Alert, AlertDescription, AlertTitle } from "@blinkdisk/ui/alert";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Alert, AlertDescription, AlertTitle } from "@diskpond/ui/alert";
 import { AlertTriangleIcon } from "lucide-react";
 
 type VaultExistsErrorProps = {

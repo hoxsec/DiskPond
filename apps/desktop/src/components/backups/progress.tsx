@@ -1,9 +1,9 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { CircularProgress } from "@blinkdisk/ui/circular-progress";
-import { Loader } from "@blinkdisk/ui/loader";
-import { cn } from "@blinkdisk/utils/class";
 import type { CoreSourceItem } from "@desktop/hooks/queries/core/use-source-list";
 import { formatInt, formatSize } from "@desktop/lib/number";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { CircularProgress } from "@diskpond/ui/circular-progress";
+import { Loader } from "@diskpond/ui/loader";
+import { cn } from "@diskpond/utils/class";
 import { useMemo } from "react";
 
 type BackupProgressProps = {

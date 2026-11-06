@@ -1,11 +1,11 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
 import {
   Field,
   FieldDescription,
   FieldError,
   FieldLabel,
-} from "@blinkdisk/ui/field";
-import { cn } from "@blinkdisk/utils/class";
+} from "@diskpond/ui/field";
+import { cn } from "@diskpond/utils/class";
 import { useMemo } from "react";
 
 export type DynamicFieldProps = {

@@ -41,30 +41,23 @@ async function command(args) {
 }
 
 async function ensureElectron() {
-  await command([
-    "--filter",
-    "@blinkdisk/electron",
-    "exec",
-    "install-electron",
-  ]);
+  await command(["--filter", "@diskpond/electron", "exec", "install-electron"]);
   return appRequire("electron");
 }
 
 async function build(packaging = false) {
   await command(["run", "build:core", ...(packaging ? ["--package"] : [])]);
-  await command(["--filter", "@blinkdisk/electron", "run", "prebuild"]);
+  await command(["--filter", "@diskpond/electron", "run", "prebuild"]);
 }
 
 async function develop() {
   await command(["run", "build:core"]);
   const executable = await ensureElectron();
-  await command(["--filter", "@blinkdisk/electron", "run", "compile:once"]);
+  await command(["--filter", "@diskpond/electron", "run", "compile:once"]);
 
-  const renderer = track(
-    pnpm(["--filter", "@blinkdisk/desktop", "run", "dev"]),
-  );
+  const renderer = track(pnpm(["--filter", "@diskpond/desktop", "run", "dev"]));
   const compiler = track(
-    pnpm(["--filter", "@blinkdisk/electron", "run", "compile:dev"]),
+    pnpm(["--filter", "@diskpond/electron", "run", "compile:dev"]),
   );
   const failures = [renderer, compiler].map((child) =>
     completed(child).then(() => {
@@ -121,7 +114,7 @@ try {
     await build(true);
     await command([
       "--filter",
-      "@blinkdisk/electron",
+      "@diskpond/electron",
       "run",
       `build:${mode}`,
       "--publish",

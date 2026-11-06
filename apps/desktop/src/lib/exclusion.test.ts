@@ -1,4 +1,3 @@
-import { ZExclusionForm } from "@blinkdisk/schemas/policy";
 import {
   buildExclusionRule,
   formatExclusionPath,
@@ -9,6 +8,7 @@ import {
   parseExclusionRule,
   toExclusionPath,
 } from "@desktop/lib/exclusion";
+import { ZExclusionForm } from "@diskpond/schemas/policy";
 
 describe("parseExclusionRule", () => {
   describe("extension patterns", () => {

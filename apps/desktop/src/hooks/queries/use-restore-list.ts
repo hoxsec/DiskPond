@@ -1,7 +1,7 @@
-import { ZRestoreResult } from "@blinkdisk/schemas/restore";
-import { CustomError } from "@blinkdisk/utils/error";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
 import { useSourceId } from "@desktop/hooks/use-source-id";
+import { ZRestoreResult } from "@diskpond/schemas/restore";
+import { CustomError } from "@diskpond/utils/error";
 import { useQuery } from "@tanstack/react-query";
 
 export function useRestoreList() {

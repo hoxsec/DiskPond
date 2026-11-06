@@ -12,13 +12,13 @@ const queryState = vi.hoisted(() => ({
   status: "SUCCESS",
 }));
 
-vi.mock("@blinkdisk/hooks/use-app-translation", () => ({
+vi.mock("@diskpond/hooks/use-app-translation", () => ({
   useAppTranslation: (namespace: string) => ({
     t: (key: string) => `${namespace}.${key}`,
   }),
 }));
 
-vi.mock("@blinkdisk/ui/dialog", () => {
+vi.mock("@diskpond/ui/dialog", () => {
   const Content = ({ children }: PropsWithChildren) => children;
   return {
     Dialog: Content,

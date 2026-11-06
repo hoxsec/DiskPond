@@ -1,14 +1,14 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import type {
-  ZHistorySnapshotType,
-  ZHistorySourceIdentityType,
-} from "@blinkdisk/schemas/history";
-import { Button } from "@blinkdisk/ui/button";
-import { cn } from "@blinkdisk/utils/class";
 import { useAccountId } from "@desktop/hooks/use-account-id";
 import { formatHistoryTime, type SnapshotOutcome } from "@desktop/lib/history";
 import { formatInt, formatSize } from "@desktop/lib/number";
 import { buildSourceId } from "@desktop/lib/source";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import type {
+  ZHistorySnapshotType,
+  ZHistorySourceIdentityType,
+} from "@diskpond/schemas/history";
+import { Button } from "@diskpond/ui/button";
+import { cn } from "@diskpond/utils/class";
 import { Link } from "@tanstack/react-router";
 import {
   AlertTriangleIcon,

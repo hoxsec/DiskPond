@@ -1,10 +1,10 @@
-import { resolveStorageProviderType } from "@blinkdisk/constants/providers";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import type { ProviderConfig } from "@blinkdisk/schemas/providers";
 import { providerForms } from "@desktop/components/forms/providers";
 import { useSetupPasswordForm } from "@desktop/hooks/forms/use-setup-password-form";
 import { useSetupVault } from "@desktop/hooks/mutations/use-setup-vault";
 import { useVault } from "@desktop/hooks/queries/use-vault";
+import { resolveStorageProviderType } from "@diskpond/constants/providers";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import type { ProviderConfig } from "@diskpond/schemas/providers";
 import { SettingsIcon } from "lucide-react";
 import { type ComponentType, useMemo, useState } from "react";
 

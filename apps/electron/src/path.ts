@@ -1,6 +1,6 @@
 import { isAbsolute, join, resolve } from "node:path";
-import { APP_SLUG } from "@blinkdisk/constants/app";
-import { coreBuildTarget } from "@blinkdisk/constants/core";
+import { APP_SLUG } from "@diskpond/constants/app";
+import { coreBuildTarget } from "@diskpond/constants/core";
 import { app } from "electron";
 
 export const platform = (() => {

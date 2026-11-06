@@ -3,7 +3,7 @@ import { isAbsolute } from "node:path";
 import {
   type VaultStorageSpace,
   ZVaultStorageSpace,
-} from "@blinkdisk/schemas/storage";
+} from "@diskpond/schemas/storage";
 
 // A disconnected share can block a native filesystem call. Keep it outside
 // Electron's main process/thread pool so the deadline can terminate the read.

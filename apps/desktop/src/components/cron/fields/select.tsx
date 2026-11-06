@@ -2,15 +2,15 @@
 // Original copyright (c) 2021 Xavier Rutayisire
 // https://github.com/xrutayisire/react-js-cron
 
+import { formatValue } from "@desktop/components/cron/converter";
+import type { CustomSelectProps } from "@desktop/components/cron/types";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@blinkdisk/ui/select";
-import { formatValue } from "@desktop/components/cron/converter";
-import type { CustomSelectProps } from "@desktop/components/cron/types";
+} from "@diskpond/ui/select";
 import { useCallback, useMemo } from "react";
 
 export function CustomSelect(props: CustomSelectProps) {

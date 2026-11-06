@@ -3,7 +3,7 @@ import {
   APP_NAME,
   INTERNAL_PROTOCOL,
   PROTOCOL_FRONTEND_URL,
-} from "@blinkdisk/constants/app";
+} from "@diskpond/constants/app";
 import { openBrowser } from "@electron/shell";
 import { getTheme } from "@electron/theme";
 import { app, BrowserWindow } from "electron";

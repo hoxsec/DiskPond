@@ -1,5 +1,5 @@
 import { Input as InputPrimitive } from "@base-ui/react/input";
-import { cn } from "@blinkdisk/utils/class";
+import { cn } from "@diskpond/utils/class";
 import type * as React from "react";
 
 export type InputProps = React.ComponentProps<"input"> & {

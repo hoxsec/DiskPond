@@ -1,5 +1,5 @@
-import type { authClient } from "@blinkdisk/electron/auth";
-import type { ElectronAPI } from "@blinkdisk/electron/preload";
+import type { authClient } from "@diskpond/electron/auth";
+import type { ElectronAPI } from "@diskpond/electron/preload";
 
 declare global {
   type Bridges = typeof authClient.$Infer.Bridges;

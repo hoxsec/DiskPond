@@ -1,4 +1,4 @@
-import type { ZExclusionFormType } from "@blinkdisk/schemas/policy";
+import type { ZExclusionFormType } from "@diskpond/schemas/policy";
 
 export type ParsedExclusionRule = {
   type: ZExclusionFormType["type"];

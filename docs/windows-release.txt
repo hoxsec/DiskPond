@@ -4,7 +4,7 @@
 
 **v0.1.7** targets **Windows 10/11 x64** and adds Linux and macOS packages to the same release. The Windows installer remains unsigned. Release verification at verification/desktop-v0.1.7.txt records publication status and checks; see desktop-release.txt for all platforms.
 
-`DiskPond-Windows.exe` contains the desktop app, backup engine, app assets and licenses. Marketing pages, website build output, pricing copy and product screenshots are excluded. They are available in the repository/application source ZIP and deployed separately as a static website.
+`DiskPond-Windows.exe` contains the desktop app, backup engine, app assets and licenses. Documentation screenshots are available in the repository/application source ZIP. The website, customer portal and managed-storage service are maintained and deployed separately from [hoxsec/diskpond-vault](https://github.com/hoxsec/diskpond-vault).
 
 ## Install and make a backup
 

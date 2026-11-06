@@ -70,7 +70,7 @@ try {
     },
   );
   await completed(
-    pnpm(["--filter", "@blinkdisk/electron", "exec", "install-electron"]),
+    pnpm(["--filter", "@diskpond/electron", "exec", "install-electron"]),
   );
   for (const phase of ["setup", "restart"])
     await run(

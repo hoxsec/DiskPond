@@ -1,4 +1,4 @@
-import { tryCatch } from "@blinkdisk/utils/try-catch";
+import { tryCatch } from "@diskpond/utils/try-catch";
 import { log } from "@electron/log";
 import { migrateStoreV1 } from "@electron/migrations/store_v1";
 import { migrateWorkspaceV1 } from "@electron/migrations/workspace-v1";

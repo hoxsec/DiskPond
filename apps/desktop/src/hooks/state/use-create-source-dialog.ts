@@ -1,4 +1,4 @@
-import type { ZCreateSourceFormType } from "@blinkdisk/schemas/source";
+import type { ZCreateSourceFormType } from "@diskpond/schemas/source";
 import { Store, useStore } from "@tanstack/react-store";
 import { useCallback } from "react";
 

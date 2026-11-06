@@ -1,13 +1,13 @@
-import { useFieldContext, useStore } from "@blinkdisk/forms/use-app-form";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Switch } from "@blinkdisk/ui/switch";
-import { cn } from "@blinkdisk/utils/class";
 import { PolicyContext } from "@desktop/components/policy/context";
 import {
   getPolicyDefinedFieldPath,
   type PolicyDefinedFields,
   setPolicyFieldDefined,
 } from "@desktop/hooks/forms/use-policy-form";
+import { useFieldContext, useStore } from "@diskpond/forms/use-app-form";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Switch } from "@diskpond/ui/switch";
+import { cn } from "@diskpond/utils/class";
 import { useContext } from "react";
 
 type PolicyFieldProps = {

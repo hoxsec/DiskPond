@@ -4,7 +4,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@blinkdisk/ui/select";
+} from "@diskpond/ui/select";
 import { useId } from "react";
 
 export function HistorySelect({

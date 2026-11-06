@@ -1,7 +1,7 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Button } from "@blinkdisk/ui/button";
 import { useUpdateStatus } from "@desktop/hooks/state/use-update-status";
 import { formatSize } from "@desktop/lib/number";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Button } from "@diskpond/ui/button";
 import { useState } from "react";
 
 export function UpdateAction({ compact = false }: { compact?: boolean }) {

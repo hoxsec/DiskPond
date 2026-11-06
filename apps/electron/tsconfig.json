@@ -1,5 +1,5 @@
 {
-  "extends": "@blinkdisk/typescript/base.json",
+  "extends": "@diskpond/typescript/base.json",
   "compilerOptions": {
     "outDir": "./dist",
     "module": "ESNext",
@@ -7,7 +7,7 @@
     "target": "ESNext",
     "jsx": "react-jsx",
     "sourceMap": false,
-    "types": ["../api/worker-configuration.d.ts", "node", "vitest/globals"]
+    "types": ["node", "vitest/globals"]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]

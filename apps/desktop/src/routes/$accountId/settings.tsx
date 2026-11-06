@@ -1,8 +1,3 @@
-import { Logo } from "@blinkdisk/components/logo";
-import { SOURCE_URL } from "@blinkdisk/constants/app";
-import { LANGUAGE_CODES, LANGUAGE_NAMES } from "@blinkdisk/constants/language";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Button } from "@blinkdisk/ui/button";
 import {
   SettingsGroup,
   SettingsPanel,
@@ -12,6 +7,11 @@ import { CheckForUpdates } from "@desktop/components/settings/check-for-updates"
 import { PasswordStorageNotice } from "@desktop/components/vaults/password-storage-notice";
 import { useUpdatePreferencesForm } from "@desktop/hooks/forms/use-update-preferences-form";
 import { useAppVersion } from "@desktop/hooks/queries/use-app-version";
+import { Logo } from "@diskpond/components/logo";
+import { SOURCE_URL } from "@diskpond/constants/app";
+import { LANGUAGE_CODES, LANGUAGE_NAMES } from "@diskpond/constants/language";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Button } from "@diskpond/ui/button";
 import { createFileRoute } from "@tanstack/react-router";
 import { MonitorIcon, MoonIcon, SunIcon } from "lucide-react";
 

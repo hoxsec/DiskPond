@@ -1,6 +1,6 @@
-import type { ZPolicyType } from "@blinkdisk/schemas/policy";
-import type { SourceType } from "@blinkdisk/schemas/source";
 import { fromBytes, toBytes } from "@desktop/lib/filesize";
+import type { ZPolicyType } from "@diskpond/schemas/policy";
+import type { SourceType } from "@diskpond/schemas/source";
 
 export type CorePolicy = {
   name?: string;
@@ -398,7 +398,7 @@ export const defaultVaultPolicy: ZPolicyType = {
   files: {
     exclusionRuleFiles: [
       {
-        filename: ".blinkdiskignore",
+        filename: ".diskpondignore",
       },
     ],
     excludeCacheDirs: false,

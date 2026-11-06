@@ -1,8 +1,8 @@
 import {
   DynamicField,
   type DynamicFieldProps,
-} from "@blinkdisk/components/dynamic-field";
-import { Input, type InputProps } from "@blinkdisk/ui/input";
+} from "@diskpond/components/dynamic-field";
+import { Input, type InputProps } from "@diskpond/ui/input";
 import { FormDisabledContext, useFieldContext } from "@forms/use-app-form";
 import React, { useContext } from "react";
 

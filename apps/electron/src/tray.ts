@@ -1,6 +1,6 @@
 import { join } from "node:path";
-import { APP_NAME } from "@blinkdisk/constants/app";
-import type { LanguageCode } from "@blinkdisk/constants/language";
+import { APP_NAME } from "@diskpond/constants/app";
+import type { LanguageCode } from "@diskpond/constants/language";
 import { platform } from "@electron/path";
 import { store } from "@electron/store";
 import { focusWindow } from "@electron/window";

@@ -1,10 +1,10 @@
-import type { StorageProviderType } from "@blinkdisk/constants/providers";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import type { ProviderConfig } from "@blinkdisk/schemas/providers";
 import { useAccountId } from "@desktop/hooks/use-account-id";
 import { getVaultCollection } from "@desktop/lib/db";
 import { getMissingRcloneRemote } from "@desktop/lib/rclone-validation";
 import { connectionErrorKey } from "@desktop/lib/vault-connection";
+import type { StorageProviderType } from "@diskpond/constants/providers";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import type { ProviderConfig } from "@diskpond/schemas/providers";
 import { createContext, useCallback, useContext } from "react";
 
 export type VaultAction = "CREATE" | "CONNECT" | "SETUP" | "UPDATE";

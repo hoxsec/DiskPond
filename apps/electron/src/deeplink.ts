@@ -1,4 +1,4 @@
-import { APP_SCHEME, APP_SCHEME_PROTOCOL } from "@blinkdisk/constants/app";
+import { APP_SCHEME, APP_SCHEME_PROTOCOL } from "@diskpond/constants/app";
 import { focusWindow, sendWindow } from "@electron/window";
 import { app } from "electron";
 

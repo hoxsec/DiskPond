@@ -73,7 +73,7 @@ try {
     );
   } else {
     await completed(
-      pnpm(["--filter", "@blinkdisk/electron", "exec", "install-electron"]),
+      pnpm(["--filter", "@diskpond/electron", "exec", "install-electron"]),
     );
     const require = createRequire(resolve(electronDirectory, "package.json"));
     await run(require("electron"), [entry], options);

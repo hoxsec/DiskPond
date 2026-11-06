@@ -1,8 +1,8 @@
-import { useAppForm } from "@blinkdisk/forms/use-app-form";
+import { useAppForm } from "@diskpond/forms/use-app-form";
 import {
   ZCreateSourceForm,
   type ZCreateSourceFormType,
-} from "@blinkdisk/schemas/source";
+} from "@diskpond/schemas/source";
 
 export function useCreateSourceForm({
   onSubmit,

@@ -1,5 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
-import type { VaultStorageSpace } from "@blinkdisk/schemas/storage";
+import type { VaultStorageSpace } from "@diskpond/schemas/storage";
 import { Client } from "ssh2";
 import { z } from "zod";
 

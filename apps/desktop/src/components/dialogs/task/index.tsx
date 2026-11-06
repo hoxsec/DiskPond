@@ -1,14 +1,3 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Badge } from "@blinkdisk/ui/badge";
-import { Button } from "@blinkdisk/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@blinkdisk/ui/dialog";
 import { useCancelTask } from "@desktop/hooks/mutations/core/use-cancel-task";
 import { useTask } from "@desktop/hooks/queries/core/use-task";
 import {
@@ -16,6 +5,17 @@ import {
   useTaskLogs,
 } from "@desktop/hooks/queries/core/use-task-logs";
 import { useTaskDialog } from "@desktop/hooks/state/use-task-dialog";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Badge } from "@diskpond/ui/badge";
+import { Button } from "@diskpond/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@diskpond/ui/dialog";
 import { LoaderCircleIcon } from "lucide-react";
 import { memo } from "react";
 

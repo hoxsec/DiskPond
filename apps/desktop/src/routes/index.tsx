@@ -1,4 +1,4 @@
-import { LOCAL_ACCOUNT_ID } from "@blinkdisk/constants/account";
+import { LOCAL_ACCOUNT_ID } from "@diskpond/constants/account";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({

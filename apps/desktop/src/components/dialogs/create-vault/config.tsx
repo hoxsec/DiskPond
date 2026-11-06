@@ -1,6 +1,6 @@
-import type { StorageProviderType } from "@blinkdisk/constants/providers";
-import type { ProviderConfig } from "@blinkdisk/schemas/providers";
 import { providerForms } from "@desktop/components/forms/providers";
+import type { StorageProviderType } from "@diskpond/constants/providers";
+import type { ProviderConfig } from "@diskpond/schemas/providers";
 import { useMemo } from "react";
 
 export type CreateVaultConfigProps = {

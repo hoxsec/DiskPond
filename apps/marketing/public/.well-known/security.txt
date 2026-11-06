@@ -1,3 +1,0 @@
-Contact: mailto:security@blinkdisk.com
-Expires: 2027-02-05T00:00:00.000Z
-Preferred-Languages: en

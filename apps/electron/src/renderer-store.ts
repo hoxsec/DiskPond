@@ -1,5 +1,5 @@
-import { LANGUAGE_CODES } from "@blinkdisk/constants/language";
-import { VAULT_COLORS } from "@blinkdisk/constants/vault-color";
+import { LANGUAGE_CODES } from "@diskpond/constants/language";
+import { VAULT_COLORS } from "@diskpond/constants/vault-color";
 import { store } from "@electron/store";
 import { z } from "zod";
 

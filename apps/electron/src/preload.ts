@@ -1,5 +1,5 @@
-import type { PasswordStorageStatus } from "@blinkdisk/schemas/password";
 import { setupSignalDBPreload } from "@blinkdisk/signaldb-electron/preload";
+import type { PasswordStorageStatus } from "@diskpond/schemas/password";
 import type {
   getConnectionSummary,
   getVaultStorageSpace,

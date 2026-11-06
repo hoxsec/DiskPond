@@ -1,15 +1,15 @@
-import { DynamicField } from "@blinkdisk/components/dynamic-field";
-import {
-  FormDisabledContext,
-  useFieldContext,
-  useStore,
-} from "@blinkdisk/forms/use-app-form";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Button } from "@blinkdisk/ui/button";
 import { Cron } from "@desktop/components/cron";
 import { SettingsCategory } from "@desktop/components/policy/category";
 import { PolicyField } from "@desktop/components/policy/field";
 import type { PolicyForm } from "@desktop/hooks/forms/use-policy-form";
+import { DynamicField } from "@diskpond/components/dynamic-field";
+import {
+  FormDisabledContext,
+  useFieldContext,
+  useStore,
+} from "@diskpond/forms/use-app-form";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Button } from "@diskpond/ui/button";
 import { PlusIcon, TrashIcon } from "lucide-react";
 import { useContext } from "react";
 

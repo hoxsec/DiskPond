@@ -1,6 +1,6 @@
 import { Radio as RadioPrimitive } from "@base-ui/react/radio";
 import { RadioGroup as RadioGroupPrimitive } from "@base-ui/react/radio-group";
-import { cn } from "@blinkdisk/utils/class";
+import { cn } from "@diskpond/utils/class";
 
 function RadioGroup({ className, ...props }: RadioGroupPrimitive.Props) {
   return (

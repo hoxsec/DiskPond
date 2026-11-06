@@ -1,4 +1,6 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
+import { useBackup } from "@desktop/hooks/use-backup";
+import { useSource } from "@desktop/hooks/use-source";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,11 +8,9 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@blinkdisk/ui/breadcrumb";
-import { Button } from "@blinkdisk/ui/button";
-import { Skeleton } from "@blinkdisk/ui/skeleton";
-import { useBackup } from "@desktop/hooks/use-backup";
-import { useSource } from "@desktop/hooks/use-source";
+} from "@diskpond/ui/breadcrumb";
+import { Button } from "@diskpond/ui/button";
+import { Skeleton } from "@diskpond/ui/skeleton";
 import { Link, useSearch } from "@tanstack/react-router";
 import { ArrowLeftIcon } from "lucide-react";
 import { Fragment } from "react/jsx-runtime";

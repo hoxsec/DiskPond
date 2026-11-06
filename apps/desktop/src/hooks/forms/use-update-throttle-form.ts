@@ -1,11 +1,11 @@
-import { useAppForm } from "@blinkdisk/forms/use-app-form";
-import {
-  ZVaultThrottle,
-  type ZVaultThrottleType,
-} from "@blinkdisk/schemas/vault";
 import { useUpdateThrottle } from "@desktop/hooks/mutations/core/use-update-throttle";
 import { useVaultThrottle } from "@desktop/hooks/queries/core/use-vault-throttle";
 import { DEFAULT_THROTTLE_LIMIT } from "@desktop/lib/throttle";
+import { useAppForm } from "@diskpond/forms/use-app-form";
+import {
+  ZVaultThrottle,
+  type ZVaultThrottleType,
+} from "@diskpond/schemas/vault";
 
 export function useUpdateThrottleForm() {
   const { data: throttle } = useVaultThrottle();

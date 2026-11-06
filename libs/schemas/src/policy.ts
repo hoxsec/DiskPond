@@ -1,4 +1,4 @@
-import { COMPRESSION_ALGORITHMS } from "@blinkdisk/constants/algorithms";
+import { COMPRESSION_ALGORITHMS } from "@diskpond/constants/algorithms";
 import { z } from "zod";
 import { ZSourceType } from "./source";
 

@@ -1,5 +1,5 @@
-import { useMediaQuery } from "@blinkdisk/hooks/use-media-query";
 import { useAppStorage } from "@desktop/hooks/use-app-storage";
+import { useMediaQuery } from "@diskpond/hooks/use-media-query";
 import { useMemo } from "react";
 
 export function useTheme() {

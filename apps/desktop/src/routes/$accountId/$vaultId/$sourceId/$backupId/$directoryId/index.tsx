@@ -1,5 +1,3 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Button } from "@blinkdisk/ui/button";
 import { BackupPreview } from "@desktop/components/backups/preview";
 import {
   DirectoryTable,
@@ -15,6 +13,8 @@ import { useRestoreDirectoryDialog } from "@desktop/hooks/state/use-restore-dire
 import { useBackup } from "@desktop/hooks/use-backup";
 import { useDirectoryId } from "@desktop/hooks/use-directory-id";
 import { useSource } from "@desktop/hooks/use-source";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Button } from "@diskpond/ui/button";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowLeftIcon,

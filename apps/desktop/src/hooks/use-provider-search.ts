@@ -1,5 +1,5 @@
-import { STORAGE_PROVIDERS } from "@blinkdisk/constants/providers";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
+import { STORAGE_PROVIDERS } from "@diskpond/constants/providers";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
 import { useMemo, useState } from "react";
 
 export function useProviderSearch() {

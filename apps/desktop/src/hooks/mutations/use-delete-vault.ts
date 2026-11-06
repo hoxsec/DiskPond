@@ -1,7 +1,7 @@
-import { CustomError } from "@blinkdisk/utils/error";
-import { showErrorToast } from "@blinkdisk/utils/error-toast";
 import { useAccountId } from "@desktop/hooks/use-account-id";
 import { getVaultCollection } from "@desktop/lib/db";
+import { CustomError } from "@diskpond/utils/error";
+import { showErrorToast } from "@diskpond/utils/error-toast";
 import { useMutation } from "@tanstack/react-query";
 
 export function useDeleteVault({ onSuccess }: { onSuccess?: () => void }) {

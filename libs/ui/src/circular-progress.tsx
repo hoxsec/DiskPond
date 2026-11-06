@@ -1,4 +1,4 @@
-import { cn } from "@blinkdisk/utils/class";
+import { cn } from "@diskpond/utils/class";
 
 type CircularProgressProps = {
   value: number;

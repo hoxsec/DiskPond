@@ -1,18 +1,18 @@
 import { existsSync, lstatSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { ZConfig } from "@blinkdisk/schemas/config";
+import { ZConfig } from "@diskpond/schemas/config";
 import {
   type ConnectionSummary,
   type ManagedStorage,
   ZManagedStorage,
   ZProviderConnection,
-} from "@blinkdisk/schemas/connection";
+} from "@diskpond/schemas/connection";
 import {
   type PasswordStorageStatus,
   ZPasswordVault,
   ZStoredPassword,
-} from "@blinkdisk/schemas/password";
-import type { VaultStorageSpace } from "@blinkdisk/schemas/storage";
+} from "@diskpond/schemas/password";
+import type { VaultStorageSpace } from "@diskpond/schemas/storage";
 import { writeAtomicJson } from "@electron/atomic-json";
 import { collections } from "@electron/db";
 import {

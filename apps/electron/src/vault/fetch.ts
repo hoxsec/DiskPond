@@ -1,8 +1,8 @@
 import { createWriteStream } from "node:fs";
 import { rename } from "node:fs/promises";
 import https from "node:https";
-import { VAULT_REQUEST_TIMEOUT_MS } from "@blinkdisk/constants/vault";
-import { VAULT_REQUEST_TIMEOUT_MARKER } from "@blinkdisk/utils/error";
+import { VAULT_REQUEST_TIMEOUT_MS } from "@diskpond/constants/vault";
+import { VAULT_REQUEST_TIMEOUT_MARKER } from "@diskpond/utils/error";
 import { redactConnectionError } from "@electron/vault/connection";
 import type { VaultInstance } from "@electron/vault/types";
 import { Cookie } from "tough-cookie";

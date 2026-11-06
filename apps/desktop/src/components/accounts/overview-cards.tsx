@@ -1,8 +1,8 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import type { ZVaultType } from "@blinkdisk/schemas/vault";
 import { VaultStatCard } from "@desktop/components/vaults/stat-card";
 import { useAccountStats } from "@desktop/hooks/queries/use-account-stats";
 import { formatInt, formatSize } from "@desktop/lib/number";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import type { ZVaultType } from "@diskpond/schemas/vault";
 import {
   FilesIcon,
   HardDriveIcon,

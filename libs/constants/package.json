@@ -1,5 +1,5 @@
 {
-  "name": "@blinkdisk/constants",
+  "name": "@diskpond/constants",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
     "./*": "./src/*.ts"
   },
   "devDependencies": {
-    "@blinkdisk/typescript": "workspace:*",
+    "@diskpond/typescript": "workspace:*",
     "@types/node": "catalog:",
     "typescript": "catalog:"
   }

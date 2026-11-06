@@ -1,17 +1,17 @@
 import {
-  resolveStorageProviderType,
-  type StorageProviderType,
-} from "@blinkdisk/constants/providers";
-import { useAppForm } from "@blinkdisk/forms/use-app-form";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import type { ProviderConfig } from "@blinkdisk/schemas/providers";
-import { ZCreateVaultDetails } from "@blinkdisk/schemas/vault";
-import { getErrorCode } from "@blinkdisk/utils/error";
-import {
   type CreateVaultResponse,
   useAddVault,
 } from "@desktop/hooks/mutations/use-add-vault";
 import { connectionErrorKey } from "@desktop/lib/vault-connection";
+import {
+  resolveStorageProviderType,
+  type StorageProviderType,
+} from "@diskpond/constants/providers";
+import { useAppForm } from "@diskpond/forms/use-app-form";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import type { ProviderConfig } from "@diskpond/schemas/providers";
+import { ZCreateVaultDetails } from "@diskpond/schemas/vault";
+import { getErrorCode } from "@diskpond/utils/error";
 import { useState } from "react";
 import { z } from "zod";
 

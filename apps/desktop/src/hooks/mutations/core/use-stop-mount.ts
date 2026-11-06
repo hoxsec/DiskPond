@@ -1,11 +1,11 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { CustomError } from "@blinkdisk/utils/error";
-import { showErrorToast } from "@blinkdisk/utils/error-toast";
-import { tryCatch } from "@blinkdisk/utils/try-catch";
 import { useBackup } from "@desktop/hooks/use-backup";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
 import { useVaultId } from "@desktop/hooks/use-vault-id";
 import { vaultApi } from "@desktop/lib/vault";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { CustomError } from "@diskpond/utils/error";
+import { showErrorToast } from "@diskpond/utils/error-toast";
+import { tryCatch } from "@diskpond/utils/try-catch";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 

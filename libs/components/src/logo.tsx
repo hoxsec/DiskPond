@@ -1,6 +1,6 @@
-import lightLogo from "@blinkdisk/assets/brand/diskpond-logo.svg";
-import darkLogo from "@blinkdisk/assets/brand/diskpond-logo-dark.svg";
-import { cn } from "@blinkdisk/utils/class";
+import lightLogo from "@diskpond/assets/brand/diskpond-logo.svg";
+import darkLogo from "@diskpond/assets/brand/diskpond-logo-dark.svg";
+import { cn } from "@diskpond/utils/class";
 
 type LogoProps = {
   className?: string;

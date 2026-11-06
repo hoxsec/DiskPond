@@ -1,5 +1,5 @@
 import { Button as ButtonPrimitive } from "@base-ui/react/button";
-import { cn } from "@blinkdisk/utils/class";
+import { cn } from "@diskpond/utils/class";
 import { Loader } from "@ui/loader";
 import { cva, type VariantProps } from "class-variance-authority";
 

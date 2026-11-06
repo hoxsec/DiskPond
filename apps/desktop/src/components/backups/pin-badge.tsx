@@ -1,6 +1,6 @@
-import { cn } from "@blinkdisk/utils/class";
 import { useTheme } from "@desktop/hooks/use-theme";
 import { getStringHue } from "@desktop/lib/color";
+import { cn } from "@diskpond/utils/class";
 import { PinIcon, XIcon } from "lucide-react";
 
 function getPinHue(pin: string) {

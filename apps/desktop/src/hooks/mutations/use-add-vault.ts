@@ -1,16 +1,16 @@
-import { getStorageProvider } from "@blinkdisk/constants/providers";
-import {
-  DEFAULT_VAULT_OPTIONS,
-  LATEST_VAULT_VERSION,
-} from "@blinkdisk/constants/vault";
-import type { ProviderConfig } from "@blinkdisk/schemas/providers";
-import type { ZCreateVaultType } from "@blinkdisk/schemas/vault";
-import { CoreError } from "@blinkdisk/utils/error";
-import { generateId } from "@blinkdisk/utils/id";
 import { useAccountId } from "@desktop/hooks/use-account-id";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
 import { getVaultCollection } from "@desktop/lib/db";
 import { convertPolicyToCore, defaultVaultPolicy } from "@desktop/lib/policy";
+import { getStorageProvider } from "@diskpond/constants/providers";
+import {
+  DEFAULT_VAULT_OPTIONS,
+  LATEST_VAULT_VERSION,
+} from "@diskpond/constants/vault";
+import type { ProviderConfig } from "@diskpond/schemas/providers";
+import type { ZCreateVaultType } from "@diskpond/schemas/vault";
+import { CoreError } from "@diskpond/utils/error";
+import { generateId } from "@diskpond/utils/id";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export type CreateVaultResponse = {

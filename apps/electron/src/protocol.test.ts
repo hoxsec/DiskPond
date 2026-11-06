@@ -1,4 +1,4 @@
-vi.mock("@blinkdisk/constants/app", () => ({
+vi.mock("@diskpond/constants/app", () => ({
   INTERNAL_SCHEME: "app",
   PROTOCOL_API_NS: "api",
   PROTOCOL_FRONTEND_NS: "frontend",
@@ -15,7 +15,7 @@ vi.mock("electron", () => ({
 }));
 
 import path from "node:path";
-import { INTERNAL_SCHEME } from "@blinkdisk/constants/app";
+import { INTERNAL_SCHEME } from "@diskpond/constants/app";
 import {
   isPathSafe,
   listenProtocol,

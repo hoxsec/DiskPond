@@ -1,7 +1,11 @@
-import { DynamicField } from "@blinkdisk/components/dynamic-field";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Alert, AlertDescription, AlertTitle } from "@blinkdisk/ui/alert";
-import { Button } from "@blinkdisk/ui/button";
+import { useDeleteVault } from "@desktop/hooks/mutations/use-delete-vault";
+import { useVault } from "@desktop/hooks/queries/use-vault";
+import { useDeleteVaultDialog } from "@desktop/hooks/state/use-delete-vault-dialog";
+import { useAccountId } from "@desktop/hooks/use-account-id";
+import { DynamicField } from "@diskpond/components/dynamic-field";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Alert, AlertDescription, AlertTitle } from "@diskpond/ui/alert";
+import { Button } from "@diskpond/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,12 +13,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@blinkdisk/ui/dialog";
-import { Input } from "@blinkdisk/ui/input";
-import { useDeleteVault } from "@desktop/hooks/mutations/use-delete-vault";
-import { useVault } from "@desktop/hooks/queries/use-vault";
-import { useDeleteVaultDialog } from "@desktop/hooks/state/use-delete-vault-dialog";
-import { useAccountId } from "@desktop/hooks/use-account-id";
+} from "@diskpond/ui/dialog";
+import { Input } from "@diskpond/ui/input";
 import { useNavigate } from "@tanstack/react-router";
 import { InfoIcon } from "lucide-react";
 import { useCallback, useState } from "react";

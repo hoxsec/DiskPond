@@ -1,8 +1,3 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { isFileLikeSource } from "@blinkdisk/schemas/source";
-import { Badge } from "@blinkdisk/ui/badge";
-import { Button } from "@blinkdisk/ui/button";
-import { cn } from "@blinkdisk/utils/class";
 import { BackupIssueDialog } from "@desktop/components/dialogs/backup-issue";
 import type { CoreSourceItem } from "@desktop/hooks/queries/core/use-source-list";
 import { useTaskDialog } from "@desktop/hooks/state/use-task-dialog";
@@ -11,6 +6,11 @@ import {
   type BackupIssueReason,
   getBackupIssue,
 } from "@desktop/lib/backup-issue";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { isFileLikeSource } from "@diskpond/schemas/source";
+import { Badge } from "@diskpond/ui/badge";
+import { Button } from "@diskpond/ui/button";
+import { cn } from "@diskpond/utils/class";
 import {
   ArrowRightIcon,
   CircleAlertIcon,

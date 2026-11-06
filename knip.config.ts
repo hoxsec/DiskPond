@@ -9,13 +9,11 @@ const commonProject = ["src/**/*.{ts,tsx}"];
 const config: KnipConfig = {
   compilers: {
     json: () => "",
-    mdx: true,
     grit: () => "",
   },
   workspaces: {
     ".": {
       entry: [
-        "turbo.json",
         "scripts/*.{mjs,cjs}",
         "scripts/lib/password-fixture.mjs",
         "scripts/lib/discovery-fixture.mjs",
@@ -26,6 +24,9 @@ const config: KnipConfig = {
         "scripts/lib/history-fixture.mjs",
         "scripts/lib/history-ui.tsx",
         "scripts/lib/history-ui-state.mjs",
+        "scripts/lib/cloud-provider-ui.tsx",
+        "scripts/lib/update-activity-fixture.mjs",
+        "scripts/lib/update-ui.tsx",
       ],
       project: ["scripts/**/*.{mjs,cjs,tsx}"],
       // Smoke/build runners resolve the pinned Electron/build tools from
@@ -46,16 +47,11 @@ const config: KnipConfig = {
         "reg",
         "icacls",
         "powershell.exe",
+        "pwsh",
         "subst",
         "lipo",
         "codesign",
       ],
-    },
-    "apps/api": {
-      project: commonProject,
-    },
-    "apps/cloud": {
-      project: commonProject,
     },
     "apps/desktop": {
       entry: ["vite.config.ts"],
@@ -66,35 +62,6 @@ const config: KnipConfig = {
       entry: ["electron.builder.ts"],
       project: commonProject,
       ignoreBinaries: ["ssh-keyscan"],
-    },
-    "apps/web": {
-      entry: ["vite.config.ts"],
-      project: commonProject,
-      vite: { config: [] },
-    },
-    "apps/marketing": {
-      entry: [
-        "site/pages/**/*.{astro,ts}",
-        "src/pages/**/*.{astro,ts}",
-        "src/content/**/*.mdx",
-        "src/content.config.ts",
-        "src/components/Callout.astro",
-      ],
-      project: ["site/**/*.{astro,ts}", "src/**/*.{astro,mdx,ts,tsx}"],
-      ignoreDependencies: [
-        // Retain the inherited site's compiler integrations with its reference
-        // sources; the active static DiskPond site does not load these plugins.
-        "@astrojs/mdx",
-        "@astrojs/react",
-        "astro-mermaid",
-        "vite-plugin-static-copy",
-        // Imported from an Astro client script that Knip does not resolve.
-        "country-flag-emoji-polyfill",
-        // Used in CSS url() imports which knip doesn't detect
-        "@fontsource/space-mono",
-        // Used in CSS
-        "@tailwindcss/typography",
-      ],
     },
     "libs/*": {
       includeEntryExports: true,
@@ -122,12 +89,8 @@ const config: KnipConfig = {
     "libs/ui/src/{avatar,card,carousel,radio-group}.tsx": ["exports", "types"],
     // The OS application ID and URI scheme intentionally share a value.
     "libs/constants/src/app.ts": ["duplicates"],
-    // The inherited comparison sitemap API remains available to reference code.
-    "libs/constants/src/comparison.ts": ["exports"],
-    "libs/db/src/schema.ts": ["exports", "types"],
-    "apps/marketing/src/components/react/**": ["exports"],
   },
-  ignoreDependencies: ["@blinkdisk/.+", "cloudflare"],
+  ignoreDependencies: ["@diskpond/.+"],
   paths: tsconfig.compilerOptions.paths,
 };
 

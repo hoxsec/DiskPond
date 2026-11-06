@@ -4,7 +4,7 @@ import {
   INTERNAL_SCHEME,
   PROTOCOL_FRONTEND_NS,
   PROTOCOL_VAULT_NS,
-} from "@blinkdisk/constants/app";
+} from "@diskpond/constants/app";
 import { fetchVaultRaw } from "@electron/vault/fetch";
 import { getVault } from "@electron/vault/manage";
 import { app, net, protocol } from "electron";

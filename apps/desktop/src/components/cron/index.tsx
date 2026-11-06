@@ -2,8 +2,6 @@
 // Original copyright (c) 2021 Xavier Rutayisire
 // https://github.com/xrutayisire/react-js-cron
 
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { cn } from "@blinkdisk/utils/class";
 import {
   getCronStringFromValues,
   setValuesFromCronString,
@@ -20,6 +18,8 @@ import type {
   PeriodType,
 } from "@desktop/components/cron/types";
 import { usePrevious } from "@desktop/components/cron/utils";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { cn } from "@diskpond/utils/class";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 export function Cron(props: CronProps) {

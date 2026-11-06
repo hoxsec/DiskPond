@@ -1,4 +1,3 @@
-import type { ZPolicyLevelType } from "@blinkdisk/schemas/policy";
 import { useUpdatePolicy } from "@desktop/hooks/mutations/core/use-update-policy";
 import { usePolicy } from "@desktop/hooks/queries/core/use-policy";
 import type { SelectedProfile } from "@desktop/hooks/use-profile";
@@ -7,6 +6,7 @@ import {
   createDraftPolicyTarget,
   type PolicyTarget,
 } from "@desktop/lib/policy-target";
+import type { ZPolicyLevelType } from "@diskpond/schemas/policy";
 import { createContext, useMemo } from "react";
 
 function usePolicyContext({

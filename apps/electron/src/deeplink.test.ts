@@ -13,7 +13,7 @@ vi.mock("electron", () => ({
   app: mockApp,
 }));
 
-import { APP_SCHEME } from "@blinkdisk/constants/app";
+import { APP_SCHEME } from "@diskpond/constants/app";
 import { onDeeplinkOpen } from "@electron/deeplink";
 import { sendWindow } from "@electron/window";
 

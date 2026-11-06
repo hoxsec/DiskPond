@@ -1,13 +1,3 @@
-import { useStore } from "@blinkdisk/forms/use-app-form";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Button } from "@blinkdisk/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@blinkdisk/ui/dialog";
 import { useEditExclusionForm } from "@desktop/hooks/forms/use-edit-exclusion-form";
 import { useEditExclusionDialog } from "@desktop/hooks/state/use-edit-exclusion-dialog";
 import {
@@ -17,6 +7,16 @@ import {
   looksLikePath,
   toExclusionPath,
 } from "@desktop/lib/exclusion";
+import { useStore } from "@diskpond/forms/use-app-form";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Button } from "@diskpond/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@diskpond/ui/dialog";
 import { FileIcon, FolderIcon, InfoIcon } from "lucide-react";
 
 export function EditExclusionDialog() {

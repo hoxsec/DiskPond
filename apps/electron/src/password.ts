@@ -5,7 +5,7 @@ import {
   ZPasswordVault,
   ZSetVaultPassword,
   ZStoredPassword,
-} from "@blinkdisk/schemas/password";
+} from "@diskpond/schemas/password";
 import {
   decryptString,
   encryptString,

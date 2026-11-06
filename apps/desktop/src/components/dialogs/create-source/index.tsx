@@ -1,17 +1,17 @@
-import { useStore } from "@blinkdisk/forms/use-app-form";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from "@blinkdisk/ui/dialog";
 import { CreateSourceGeneral } from "@desktop/components/dialogs/create-source/general";
 import { useCreateSourceForm } from "@desktop/hooks/forms/use-create-source-form";
 import { useCreateSource } from "@desktop/hooks/mutations/core/use-create-source";
 import { useCreateSourceDraftPolicy } from "@desktop/hooks/mutations/core/use-create-source-draft-policy";
 import { useCreateSourceDialog } from "@desktop/hooks/state/use-create-source-dialog";
 import { useLocalProfile } from "@desktop/hooks/use-local-profile";
+import { useStore } from "@diskpond/forms/use-app-form";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@diskpond/ui/dialog";
 import { useCallback, useRef } from "react";
 
 type CreateSourceAction = "CREATE" | "POLICY";

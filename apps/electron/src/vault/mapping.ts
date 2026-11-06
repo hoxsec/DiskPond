@@ -1,5 +1,5 @@
-import { getStorageProvider } from "@blinkdisk/constants/providers";
-import { ZDiskPondCloudConfig } from "@blinkdisk/schemas/providers";
+import { getStorageProvider } from "@diskpond/constants/providers";
+import { ZDiskPondCloudConfig } from "@diskpond/schemas/providers";
 
 export function mapProviderType(providerType: string) {
   const provider = getStorageProvider(providerType);

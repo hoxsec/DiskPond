@@ -1,5 +1,5 @@
-import { CoreError } from "@blinkdisk/utils/error";
 import { vaultApi } from "@desktop/lib/vault";
+import { CoreError } from "@diskpond/utils/error";
 
 describe("vaultApi", () => {
   const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});

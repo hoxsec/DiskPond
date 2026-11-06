@@ -1,4 +1,4 @@
-import { cn } from "@blinkdisk/utils/class";
+import { cn } from "@diskpond/utils/class";
 import { Label } from "@ui/label";
 import { cva, type VariantProps } from "class-variance-authority";
 import { TriangleAlertIcon } from "lucide-react";

@@ -1,4 +1,4 @@
-import { ZPasswordVault, ZSetVaultPassword } from "@blinkdisk/schemas/password";
+import { ZPasswordVault, ZSetVaultPassword } from "@diskpond/schemas/password";
 import { collections } from "@electron/db";
 import { requireMainWindow } from "@electron/ipc-context";
 import {

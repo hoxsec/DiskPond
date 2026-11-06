@@ -1,11 +1,11 @@
-import type {
-  ZHistoryEntryType,
-  ZHistorySnapshotType,
-} from "@blinkdisk/schemas/history";
 import {
   compareSnapshots,
   comparisonSize,
 } from "@desktop/lib/snapshot-comparison";
+import type {
+  ZHistoryEntryType,
+  ZHistorySnapshotType,
+} from "@diskpond/schemas/history";
 
 const time = "2026-11-03T12:00:00Z";
 const summary = {

@@ -1,4 +1,4 @@
-import { Button } from "@blinkdisk/ui/button";
+import { Button } from "@diskpond/ui/button";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 

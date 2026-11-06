@@ -1,4 +1,8 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
+import { VaultPreview } from "@desktop/components/vaults/preview";
+import { useVaultList } from "@desktop/hooks/queries/use-vault-list";
+import { useCreateVaultDialog } from "@desktop/hooks/state/use-create-vault-dialog";
+import { useVaultId } from "@desktop/hooks/use-vault-id";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,11 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@blinkdisk/ui/dropdown-menu";
-import { VaultPreview } from "@desktop/components/vaults/preview";
-import { useVaultList } from "@desktop/hooks/queries/use-vault-list";
-import { useCreateVaultDialog } from "@desktop/hooks/state/use-create-vault-dialog";
-import { useVaultId } from "@desktop/hooks/use-vault-id";
+} from "@diskpond/ui/dropdown-menu";
 import { LinkIcon, PlusIcon } from "lucide-react";
 import type { ReactElement } from "react";
 

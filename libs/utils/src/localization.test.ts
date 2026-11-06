@@ -2,8 +2,8 @@ import { readFileSync } from "node:fs";
 import {
   DEFAULT_LANGUAGE_CODE,
   LANGUAGE_CODES,
-} from "@blinkdisk/constants/language";
-import { DESKTOP_NAMESPACES } from "@blinkdisk/constants/localization";
+} from "@diskpond/constants/language";
+import { DESKTOP_NAMESPACES } from "@diskpond/constants/localization";
 import { createInstance } from "i18next";
 
 function readLocale(language: string, namespace: string) {

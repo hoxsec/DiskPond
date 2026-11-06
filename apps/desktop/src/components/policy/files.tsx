@@ -1,13 +1,3 @@
-import { DynamicField } from "@blinkdisk/components/dynamic-field";
-import {
-  FormDisabledContext,
-  useFieldContext,
-  useStore,
-} from "@blinkdisk/forms/use-app-form";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Alert, AlertDescription, AlertTitle } from "@blinkdisk/ui/alert";
-import { Button } from "@blinkdisk/ui/button";
-import { Input } from "@blinkdisk/ui/input";
 import { SettingsCategory } from "@desktop/components/policy/category";
 import { PolicyContext } from "@desktop/components/policy/context";
 import { PolicyField } from "@desktop/components/policy/field";
@@ -19,6 +9,16 @@ import {
   getBrokenExclusionRule,
   parseExclusionRule,
 } from "@desktop/lib/exclusion";
+import { DynamicField } from "@diskpond/components/dynamic-field";
+import {
+  FormDisabledContext,
+  useFieldContext,
+  useStore,
+} from "@diskpond/forms/use-app-form";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Alert, AlertDescription, AlertTitle } from "@diskpond/ui/alert";
+import { Button } from "@diskpond/ui/button";
+import { Input } from "@diskpond/ui/input";
 import {
   EditIcon,
   PlusIcon,

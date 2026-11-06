@@ -1,6 +1,5 @@
 import { Bandwith } from "@forms/components/bandwith";
 import { Checkbox } from "@forms/components/checkbox";
-import { Code } from "@forms/components/code";
 import { Counter } from "@forms/components/counter";
 import { Filesize } from "@forms/components/filesize";
 import { Password } from "@forms/components/password";
@@ -27,7 +26,6 @@ const { useAppForm } = createFormHook({
     Text,
     Password,
     Path,
-    Code,
     Select,
     Tabs,
     Switch,

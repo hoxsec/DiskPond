@@ -1,10 +1,10 @@
+import type { inspectBackupHealth } from "@desktop/lib/backup-health";
 import {
   getStorageProvider,
   type StorageProviderType,
-} from "@blinkdisk/constants/providers";
-import type { VaultColor } from "@blinkdisk/constants/vault-color";
-import type { ConnectionSummary } from "@blinkdisk/schemas/connection";
-import type { inspectBackupHealth } from "@desktop/lib/backup-health";
+} from "@diskpond/constants/providers";
+import type { VaultColor } from "@diskpond/constants/vault-color";
+import type { ConnectionSummary } from "@diskpond/schemas/connection";
 
 export const vaultColorClasses: Record<VaultColor, string> = {
   blue: "[--vault-color:#1d4ed8] [--vault-bg:#e8efff] dark:[--vault-color:#93baff] dark:[--vault-bg:#25334d]",

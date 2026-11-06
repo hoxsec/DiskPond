@@ -1,5 +1,5 @@
 {
-  "name": "@blinkdisk/components",
+  "name": "@diskpond/components",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
     "./*": "./src/*.tsx"
   },
   "devDependencies": {
-    "@blinkdisk/typescript": "workspace:*",
+    "@diskpond/typescript": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
@@ -17,11 +17,11 @@
     "vite": "catalog:"
   },
   "dependencies": {
-    "@blinkdisk/assets": "workspace:*",
-    "@blinkdisk/utils": "workspace:*",
-    "@blinkdisk/hooks": "workspace:*",
-    "@blinkdisk/constants": "workspace:*",
-    "@blinkdisk/ui": "workspace:*",
+    "@diskpond/assets": "workspace:*",
+    "@diskpond/utils": "workspace:*",
+    "@diskpond/hooks": "workspace:*",
+    "@diskpond/constants": "workspace:*",
+    "@diskpond/ui": "workspace:*",
     "@types/twemoji-parser": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",

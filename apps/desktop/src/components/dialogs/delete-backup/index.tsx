@@ -1,6 +1,8 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Alert, AlertDescription, AlertTitle } from "@blinkdisk/ui/alert";
-import { Button } from "@blinkdisk/ui/button";
+import { useDeleteBackup } from "@desktop/hooks/mutations/core/use-delete-backup";
+import { useDeleteBackupDialog } from "@desktop/hooks/state/use-delete-backup-dialog";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Alert, AlertDescription, AlertTitle } from "@diskpond/ui/alert";
+import { Button } from "@diskpond/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,9 +10,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@blinkdisk/ui/dialog";
-import { useDeleteBackup } from "@desktop/hooks/mutations/core/use-delete-backup";
-import { useDeleteBackupDialog } from "@desktop/hooks/state/use-delete-backup-dialog";
+} from "@diskpond/ui/dialog";
 import { InfoIcon } from "lucide-react";
 
 export function DeleteBackupDialog() {

@@ -1,7 +1,7 @@
-import { resolveStorageProviderType } from "@blinkdisk/constants/providers";
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import type { ZVaultType } from "@blinkdisk/schemas/vault";
 import { providerIcons } from "@desktop/components/icons/providers/index";
+import { resolveStorageProviderType } from "@diskpond/constants/providers";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import type { ZVaultType } from "@diskpond/schemas/vault";
 
 type VaultPreviewProps = {
   vault: ZVaultType;

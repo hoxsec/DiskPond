@@ -1,5 +1,5 @@
 {
-  "name": "@blinkdisk/electron",
+  "name": "@diskpond/electron",
   "description": "DiskPond desktop backup application.",
   "repository": "https://github.com/hoxsec/DiskPond",
   "author": {
@@ -21,16 +21,16 @@
     "compile:once": "node esbuild.config.mjs development once",
     "compile:prod": "node esbuild.config.mjs production",
     "prebuild": "pnpm build:frontend && tsc --noEmit && pnpm compile:prod",
-    "build:frontend": "pnpm --filter @blinkdisk/desktop build && node ../../scripts/copy-frontend.mjs",
+    "build:frontend": "pnpm --filter @diskpond/desktop build && node ../../scripts/copy-frontend.mjs",
     "build:linux": "electron-builder -c electron.builder.ts --linux",
     "build:windows": "electron-builder -c electron.builder.ts --windows",
     "build:macos": "electron-builder -c electron.builder.ts --macos"
   },
   "dependencies": {
-    "@blinkdisk/constants": "workspace:*",
-    "@blinkdisk/schemas": "workspace:*",
     "@blinkdisk/signaldb-electron": "catalog:",
-    "@blinkdisk/utils": "workspace:*",
+    "@diskpond/constants": "workspace:*",
+    "@diskpond/schemas": "workspace:*",
+    "@diskpond/utils": "workspace:*",
     "@esbuild-plugins/tsconfig-paths": "catalog:",
     "@signaldb/core": "catalog:",
     "@signaldb/fs": "catalog:",
@@ -47,7 +47,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@blinkdisk/typescript": "workspace:*",
+    "@diskpond/typescript": "workspace:*",
     "@types/auto-launch": "catalog:",
     "@types/aws4": "1.11.6",
     "@types/node": "catalog:",

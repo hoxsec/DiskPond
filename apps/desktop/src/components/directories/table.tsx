@@ -1,23 +1,3 @@
-import { useAppTranslation } from "@blinkdisk/hooks/use-app-translation";
-import { Button } from "@blinkdisk/ui/button";
-import { Checkbox } from "@blinkdisk/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuTrigger,
-} from "@blinkdisk/ui/dropdown-menu";
-import { Input } from "@blinkdisk/ui/input";
-import { Skeleton } from "@blinkdisk/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@blinkdisk/ui/table";
-import { cn } from "@blinkdisk/utils/class";
 import {
   DirectoryBreadcrumb,
   useDirectoryBreadcrumbPath,
@@ -29,6 +9,26 @@ import { Empty } from "@desktop/components/empty";
 import type { DirectoryItem as DirectoryItemType } from "@desktop/hooks/queries/core/use-directory";
 import { useTheme } from "@desktop/hooks/use-theme";
 import { formatSize } from "@desktop/lib/number";
+import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
+import { Button } from "@diskpond/ui/button";
+import { Checkbox } from "@diskpond/ui/checkbox";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuTrigger,
+} from "@diskpond/ui/dropdown-menu";
+import { Input } from "@diskpond/ui/input";
+import { Skeleton } from "@diskpond/ui/skeleton";
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@diskpond/ui/table";
+import { cn } from "@diskpond/utils/class";
 import {
   type ColumnFiltersState,
   createColumnHelper,

@@ -1,6 +1,6 @@
 import { opendir, stat } from "node:fs/promises";
-import type { StorageProviderType } from "@blinkdisk/constants/providers";
-import type { ProviderConfig } from "@blinkdisk/schemas/providers";
+import type { StorageProviderType } from "@diskpond/constants/providers";
+import type { ProviderConfig } from "@diskpond/schemas/providers";
 import {
   connectionFromProvider,
   rememberConnectionSecrets,

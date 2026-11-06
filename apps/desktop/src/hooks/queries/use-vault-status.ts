@@ -1,6 +1,6 @@
-import { CustomError } from "@blinkdisk/utils/error";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
 import { useVaultId } from "@desktop/hooks/use-vault-id";
+import { CustomError } from "@diskpond/utils/error";
 import { useQuery } from "@tanstack/react-query";
 
 export function useVaultStatus(vaultIdOverride?: string) {
