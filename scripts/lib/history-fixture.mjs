@@ -19,6 +19,10 @@ import {
   readHistoryDirectory,
   readSnapshotHistory,
 } from "../../apps/desktop/src/lib/history.ts";
+import {
+  latestSourceSuccess,
+  summarizeProtection,
+} from "../../apps/desktop/src/lib/protection-status.ts";
 import { compareSnapshots } from "../../apps/desktop/src/lib/snapshot-comparison.ts";
 import {
   corePath,
@@ -34,7 +38,7 @@ import { startVaultServer } from "../../apps/electron/src/vault/server.ts";
 
 const directory = globalConfigDirectory();
 const password = "Disposable-history-fixture-only-雪";
-const pin = "0f31eefe409cb4f0571baf65abd7d063784598cd";
+const pin = process.env.DISKPOND_CORE_REVISION;
 const source = join(directory, "source");
 const rootFile = join(directory, "single.txt");
 const signal = new AbortController().signal;
@@ -117,7 +121,7 @@ void app.whenReady().then(async () => {
     const version = execFileSync(corePath(), ["--version"], {
       encoding: "utf8",
     }).trim();
-    assert.ok(version.includes(pin), version);
+    assert.ok(pin && version.includes(pin), version);
     const evidence = { version, vaults: [], symlink: "pending" };
     for (const index of [0, 1]) {
       const id = `vlt_history_fixture_${index}`;
@@ -348,6 +352,7 @@ void app.whenReady().then(async () => {
         (await request(id, "sources")).sources.find(
           (item) =>
             item.source.path === missing &&
+            item.status === "IDLE" &&
             item.lastBackupOutcome?.status === "FAILED",
         ),
       );
@@ -358,6 +363,60 @@ void app.whenReady().then(async () => {
         ),
       );
       assert.equal(withFailure.records.length, 6);
+      const protection = (item) =>
+        summarizeProtection([
+          {
+            id,
+            name: "Disposable backup",
+            status: "RUNNING",
+            pending: false,
+            unavailable: false,
+            sources: [{ ...item, id: "local-source", type: "directory" }],
+          },
+        ]);
+      assert.equal(protection(failed).state, "failed");
+      assert.equal(latestSourceSuccess(failed), 0);
+      await mkdir(missing);
+      await writeFile(
+        join(missing, "recover.txt"),
+        "Protection action recovery",
+      );
+      const params = new URLSearchParams(failed.source);
+      await request(id, `sources/upload?${params}`, {});
+      const successful = await wait(async () => {
+        const item = (await request(id, "sources")).sources.find(
+          (item) => item.source.path === missing,
+        );
+        return item?.status === "IDLE" &&
+          item.lastBackupOutcome?.status === "SUCCESS"
+          ? item
+          : null;
+      });
+      assert.equal(protection(successful).state, "manual");
+      assert.ok(latestSourceSuccess(successful) > 0);
+      const restored = join(directory, `protection-restore-${index}`);
+      cli(name, ["snapshot", "restore", successful.lastSnapshot.id, restored]);
+      assert.equal(
+        await readFile(join(restored, "recover.txt"), "utf8"),
+        "Protection action recovery",
+      );
+      const policyResult = await fetchVaultRaw(vaults[id], {
+        method: "PUT",
+        path: `/api/v1/policy?${params}`,
+        data: JSON.stringify({ scheduling: { intervalSeconds: 86400 } }),
+      });
+      assert.ok(!policyResult?.error);
+      const scheduled = await wait(async () => {
+        const item = (await request(id, "sources")).sources.find(
+          (item) => item.source.path === missing,
+        );
+        return item?.nextSnapshotTime ? item : null;
+      });
+      assert.equal(protection(scheduled).state, "current");
+      assert.equal(
+        protection(scheduled).nextBackup,
+        Date.parse(scheduled.nextSnapshotTime),
+      );
       evidence.vaults.push({
         id,
         retainedSnapshots: activity.records.length,
@@ -365,6 +424,7 @@ void app.whenReady().then(async () => {
         restart: "passed",
         failedWithoutSnapshot: "passed",
         twoVersionRecovery: "passed",
+        protectionStatusAndRecovery: "passed",
       });
     }
     await writeFile(

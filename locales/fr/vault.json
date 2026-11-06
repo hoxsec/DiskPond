@@ -13,6 +13,33 @@
     "count_other": "{{count}} coffres trouvés",
     "count_many": "{{count}} coffres trouvés"
   },
+  "protection": {
+    "title": "État de la protection",
+    "lastBackup": "Dernière sauvegarde réussie",
+    "nextBackup": "Prochaine sauvegarde prévue",
+    "states": { "current": "À jour", "overdue": "Sauvegarde en retard", "unavailable": "Coffre indisponible", "partial": "Sauvegarde partielle", "failed": "Sauvegarde échouée", "incomplete": "Sauvegarde incomplète", "checking": "Vérification des sauvegardes", "empty": "Aucune sauvegarde", "setup": "Terminer la configuration", "unprotected": "Pas encore sauvegardé", "running": "Sauvegarde en cours", "queued": "Sauvegarde en attente", "paused": "Sauvegardes en pause", "unknown": "État à vérifier", "remote": "Sauvegardes d’un autre appareil", "manual": "Sauvegardes enregistrées" },
+    "actions": { "viewBackups": "Voir les sauvegardes", "backUpNow": "Sauvegarder", "checkAgain": "Vérifier à nouveau", "viewFiles": "Voir les fichiers", "checking": "Vérification…", "openVault": "Ouvrir le coffre", "createVault": "Créer un coffre", "viewDetails": "Voir les détails", "viewSchedule": "Voir les paramètres", "viewProgress": "Voir la progression" },
+    "times": { "checking": "Vérification…", "unavailable": "Indisponible", "never": "Aucune sauvegarde réussie", "inProgress": "Après la sauvegarde en cours", "paused": "En pause", "remote": "Sur l’appareil source", "waiting": "En attente d’exécution", "manual": "Aucune planification automatique" },
+    "summary": {
+      "current": "Éléments de cet ordinateur sauvegardés comme prévu : {{count}}.",
+      "overdue": "La sauvegarde prévue de {{name}} n’a pas eu lieu.",
+      "unavailable": "Vérifiez le stockage et la connexion de {{vault}}.",
+      "partial": "Certains fichiers de {{name}} n’ont pas pu être sauvegardés.",
+      "failed": "Impossible de sauvegarder {{name}} dans {{vault}}.",
+      "incomplete": "La dernière sauvegarde de {{name}} ne s’est pas terminée correctement.",
+      "checking": "Lecture des connexions, des résultats et des planifications.",
+      "empty": "Créez un coffre pour commencer à protéger vos fichiers.",
+      "emptyVault": "Ajoutez des fichiers ou dossiers à {{vault}} pour commencer.",
+      "setup": "Terminez la configuration de {{vault}} pour vérifier ses sauvegardes.",
+      "unprotected": "Aucune sauvegarde enregistrée pour {{name}}.",
+      "running": "Sauvegarde de {{name}} dans {{vault}}.",
+      "queued": "{{name}} attend le démarrage de sa sauvegarde.",
+      "paused": "Les sauvegardes de {{name}} sont en pause.",
+      "unknown": "Vérifiez les paramètres de sauvegarde de {{name}}.",
+      "remote": "Ces sauvegardes sont gérées sur un autre ordinateur.",
+      "manual": "Les sauvegardes sont enregistrées. Certains éléments sont sauvegardés manuellement."
+    }
+  },
   "card": {
     "open": "Ouvrir le coffre",
     "reconnect": "Reconnecter",

@@ -6,6 +6,7 @@ import { PlusIcon } from "lucide-react";
 import { VaultCard } from "../vaults/card";
 import { HealthCard } from "./health-card";
 import { AccountOverviewCards } from "./overview-cards";
+import { ProtectionOverview } from "./protection-overview";
 
 export function AccountHome() {
   const { t } = useAppTranslation("vault.home");
@@ -13,6 +14,7 @@ export function AccountHome() {
   const { data: vaults } = useVaultList();
   return (
     <div className="@container flex min-h-full flex-col overflow-y-auto p-6">
+      <ProtectionOverview vaults={vaults} />
       <div className="mb-8 flex flex-row gap-6">
         <HealthCard isLoading={vaults === undefined} vaults={vaults} />
       </div>

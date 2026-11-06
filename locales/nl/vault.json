@@ -12,6 +12,33 @@
     "count_one": "{{count}} kluis gevonden",
     "count_other": "{{count}} kluizen gevonden"
   },
+  "protection": {
+    "title": "Beschermingsstatus",
+    "lastBackup": "Laatste geslaagde back-up",
+    "nextBackup": "Volgende geplande back-up",
+    "states": { "current": "Bijgewerkt", "overdue": "Back-up te laat", "unavailable": "Kluis niet beschikbaar", "partial": "Gedeeltelijk geback-upt", "failed": "Back-up mislukt", "incomplete": "Back-up onvolledig", "checking": "Back-ups controleren", "empty": "Nog geen back-ups", "setup": "Kluis instellen afronden", "unprotected": "Nog niet geback-upt", "running": "Back-up wordt gemaakt", "queued": "Back-up in wachtrij", "paused": "Back-ups gepauzeerd", "unknown": "Status controleren", "remote": "Back-ups van ander apparaat", "manual": "Back-ups opgeslagen" },
+    "actions": { "viewBackups": "Back-ups bekijken", "backUpNow": "Nu back-uppen", "checkAgain": "Opnieuw controleren", "viewFiles": "Bestanden bekijken", "checking": "Controleren…", "openVault": "Kluis openen", "createVault": "Kluis maken", "viewDetails": "Details bekijken", "viewSchedule": "Instellingen bekijken", "viewProgress": "Voortgang bekijken" },
+    "times": { "checking": "Controleren…", "unavailable": "Niet beschikbaar", "never": "Nog geen geslaagde back-up", "inProgress": "Na de huidige back-up", "paused": "Gepauzeerd", "remote": "Op het bronapparaat", "waiting": "Wachten op uitvoering", "manual": "Geen automatisch schema" },
+    "summary": {
+      "current": "Items op deze computer volgens schema geback-upt: {{count}}.",
+      "overdue": "De geplande back-up van {{name}} is gemist.",
+      "unavailable": "Controleer de opslag en verbinding van {{vault}}.",
+      "partial": "Sommige bestanden in {{name}} konden niet worden geback-upt.",
+      "failed": "{{name}} kon niet worden geback-upt in {{vault}}.",
+      "incomplete": "De laatste back-up van {{name}} is niet succesvol afgerond.",
+      "checking": "Kluisverbindingen, back-upresultaten en schema’s worden gelezen.",
+      "empty": "Maak een kluis om je bestanden te beschermen.",
+      "emptyVault": "Voeg bestanden of mappen toe aan {{vault}} om te beginnen.",
+      "setup": "Rond het instellen van {{vault}} af om de back-ups te controleren.",
+      "unprotected": "Geen opgeslagen back-up van {{name}}.",
+      "running": "Back-up van {{name}} naar {{vault}} wordt gemaakt.",
+      "queued": "{{name}} wacht tot de back-up kan starten.",
+      "paused": "Back-ups van {{name}} zijn gepauzeerd.",
+      "unknown": "Controleer de back-upinstellingen van {{name}}.",
+      "remote": "Deze back-ups worden op een andere computer beheerd.",
+      "manual": "Back-ups zijn opgeslagen. Sommige items worden handmatig geback-upt."
+    }
+  },
   "card": {
     "open": "Kluis openen",
     "reconnect": "Opnieuw verbinden",

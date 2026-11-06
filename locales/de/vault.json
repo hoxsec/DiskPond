@@ -12,6 +12,33 @@
     "count_one": "{{count}} Tresor gefunden",
     "count_other": "{{count}} Tresore gefunden"
   },
+  "protection": {
+    "title": "Sicherungsstatus",
+    "lastBackup": "Letztes erfolgreiches Backup",
+    "nextBackup": "Nächstes geplantes Backup",
+    "states": { "current": "Auf dem neuesten Stand", "overdue": "Backup überfällig", "unavailable": "Tresor nicht verfügbar", "partial": "Teilweise gesichert", "failed": "Backup fehlgeschlagen", "incomplete": "Backup unvollständig", "checking": "Backups werden geprüft", "empty": "Noch keine Backups", "setup": "Tresor-Einrichtung abschließen", "unprotected": "Noch nicht gesichert", "running": "Backup läuft", "queued": "Backup in Warteschlange", "paused": "Backups pausiert", "unknown": "Status prüfen", "remote": "Backups von anderem Gerät", "manual": "Backups gespeichert" },
+    "actions": { "viewBackups": "Backups ansehen", "backUpNow": "Jetzt sichern", "checkAgain": "Erneut prüfen", "viewFiles": "Dateien ansehen", "checking": "Wird geprüft…", "openVault": "Tresor öffnen", "createVault": "Tresor erstellen", "viewDetails": "Details ansehen", "viewSchedule": "Einstellungen ansehen", "viewProgress": "Fortschritt ansehen" },
+    "times": { "checking": "Wird geprüft…", "unavailable": "Nicht verfügbar", "never": "Noch kein erfolgreiches Backup", "inProgress": "Nach dem laufenden Backup", "paused": "Pausiert", "remote": "Auf dem Quellgerät", "waiting": "Wartet auf Ausführung", "manual": "Kein automatischer Zeitplan" },
+    "summary": {
+      "current": "Planmäßig gesicherte Elemente auf diesem Computer: {{count}}.",
+      "overdue": "Das geplante Backup von {{name}} wurde verpasst.",
+      "unavailable": "Prüfe Speicher und Verbindung für {{vault}}.",
+      "partial": "Einige Dateien in {{name}} konnten nicht gesichert werden.",
+      "failed": "{{name}} in {{vault}} konnte nicht gesichert werden.",
+      "incomplete": "Das letzte Backup von {{name}} wurde nicht erfolgreich abgeschlossen.",
+      "checking": "Tresorverbindungen, Backup-Ergebnisse und Zeitpläne werden gelesen.",
+      "empty": "Erstelle einen Tresor, um deine Dateien zu sichern.",
+      "emptyVault": "Füge Dateien oder Ordner zu {{vault}} hinzu, um Backups zu erstellen.",
+      "setup": "Schließe die Einrichtung von {{vault}} ab, um die Backups zu prüfen.",
+      "unprotected": "Kein gespeichertes Backup für {{name}}.",
+      "running": "{{name}} wird in {{vault}} gesichert.",
+      "queued": "{{name}} wartet auf den Start des Backups.",
+      "paused": "Backups von {{name}} sind pausiert.",
+      "unknown": "Prüfe die Backup-Einstellungen für {{name}}.",
+      "remote": "Diese Backups werden auf einem anderen Computer verwaltet.",
+      "manual": "Backups sind gespeichert. Einige Elemente werden manuell gesichert."
+    }
+  },
   "card": {
     "open": "Tresor öffnen",
     "reconnect": "Neu verbinden",

@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { mkdir, mkdtemp, rm } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
@@ -20,14 +21,18 @@ await require("esbuild").build({
   bundle: true,
   platform: "node",
   format: "esm",
-  external: ["electron"],
+  external: [
+    "electron",
+    "cpu-features",
+    "./crypto/build/Release/sshcrypto.node",
+  ],
   plugins: [
     require("@esbuild-plugins/tsconfig-paths").TsconfigPathsPlugin({
       tsconfig: resolve(electronDirectory, "tsconfig.json"),
     }),
   ],
   banner: {
-    js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
+    js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url); const __dirname = import.meta.dirname;",
   },
 });
 console.info(`Disposable history fixture and evidence: ${directory}`);
@@ -38,6 +43,14 @@ try {
     env: {
       ...process.env,
       DISKPOND_DATA_DIR: directory,
+      DISKPOND_CORE_REVISION: execFileSync(
+        "git",
+        ["rev-parse", "HEAD:apps/core"],
+        {
+          cwd: root,
+          encoding: "utf8",
+        },
+      ).trim(),
       KOPIA_LOG_DIR: join(directory, "logs"),
       KOPIA_CHECK_FOR_UPDATES: "false",
     },

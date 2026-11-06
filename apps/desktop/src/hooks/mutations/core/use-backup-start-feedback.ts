@@ -14,6 +14,7 @@ import { useEffect, useMemo } from "react";
 import { toast } from "sonner";
 
 type Options = {
+  vaultId?: string;
   profile?: SelectedProfile;
   isRunning?: boolean;
   source?: CoreSourceItem;
@@ -21,6 +22,7 @@ type Options = {
 };
 
 export function useBackupStartFeedback({
+  vaultId: vaultIdOverride,
   profile,
   isRunning = false,
   source,
@@ -28,7 +30,8 @@ export function useBackupStartFeedback({
 }: Options) {
   const { t } = useAppTranslation("folder.backupError");
   const getIssueText = useBackupIssueText();
-  const { vaultId } = useVaultId();
+  const { vaultId: routeVaultId } = useVaultId();
+  const vaultId = vaultIdOverride ?? routeVaultId;
   const resultTracker = useMemo(() => createBackupResultTracker(), [vaultId]);
   const coordinator = useMemo(
     () => getBackupStartCoordinator(vaultId || ""),
@@ -40,6 +43,7 @@ export function useBackupStartFeedback({
     [sources, source],
   );
   const { mutate, isPending } = useStartBackup({
+    vaultId,
     profile,
     onSuccess: coordinator.settle,
     onError: () => {

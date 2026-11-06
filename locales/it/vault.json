@@ -13,6 +13,33 @@
     "count_other": "{{count}} casseforti trovate",
     "count_many": "{{count}} casseforti trovate"
   },
+  "protection": {
+    "title": "Stato della protezione",
+    "lastBackup": "Ultimo backup riuscito",
+    "nextBackup": "Prossimo backup pianificato",
+    "states": { "current": "Aggiornato", "overdue": "Backup in ritardo", "unavailable": "Archivio non disponibile", "partial": "Backup parziale", "failed": "Backup non riuscito", "incomplete": "Backup incompleto", "checking": "Verifica dei backup", "empty": "Nessun backup", "setup": "Completa la configurazione", "unprotected": "Non ancora salvato", "running": "Backup in corso", "queued": "Backup in coda", "paused": "Backup in pausa", "unknown": "Stato da verificare", "remote": "Backup da un altro dispositivo", "manual": "Backup salvati" },
+    "actions": { "viewBackups": "Vedi backup", "backUpNow": "Esegui backup", "checkAgain": "Ricontrolla", "viewFiles": "Vedi file", "checking": "Verifica…", "openVault": "Apri archivio", "createVault": "Crea archivio", "viewDetails": "Vedi dettagli", "viewSchedule": "Vedi impostazioni", "viewProgress": "Vedi avanzamento" },
+    "times": { "checking": "Verifica…", "unavailable": "Non disponibile", "never": "Nessun backup riuscito", "inProgress": "Dopo il backup in corso", "paused": "In pausa", "remote": "Sul dispositivo di origine", "waiting": "In attesa di esecuzione", "manual": "Nessuna pianificazione automatica" },
+    "summary": {
+      "current": "Elementi di questo computer salvati come pianificato: {{count}}.",
+      "overdue": "Il backup pianificato di {{name}} non è stato eseguito.",
+      "unavailable": "Controlla l’archiviazione e la connessione di {{vault}}.",
+      "partial": "Impossibile salvare alcuni file in {{name}}.",
+      "failed": "Impossibile salvare {{name}} in {{vault}}.",
+      "incomplete": "L’ultimo backup di {{name}} non è terminato correttamente.",
+      "checking": "Lettura delle connessioni, dei risultati e delle pianificazioni.",
+      "empty": "Crea un archivio per iniziare a proteggere i tuoi file.",
+      "emptyVault": "Aggiungi file o cartelle a {{vault}} per iniziare.",
+      "setup": "Completa la configurazione di {{vault}} per verificare i backup.",
+      "unprotected": "Nessun backup salvato per {{name}}.",
+      "running": "Backup di {{name}} in {{vault}}.",
+      "queued": "{{name}} è in attesa di avviare il backup.",
+      "paused": "I backup di {{name}} sono in pausa.",
+      "unknown": "Controlla le impostazioni di backup di {{name}}.",
+      "remote": "Questi backup sono gestiti su un altro computer.",
+      "manual": "I backup sono salvati. Alcuni elementi vengono salvati manualmente."
+    }
+  },
   "card": {
     "open": "Apri archivio",
     "reconnect": "Riconnetti",

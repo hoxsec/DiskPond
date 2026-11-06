@@ -12,6 +12,33 @@
     "count_one": "{{count}} vault found",
     "count_other": "{{count}} vaults found"
   },
+  "protection": {
+    "title": "Protection status",
+    "lastBackup": "Last successful backup",
+    "nextBackup": "Next scheduled backup",
+    "states": { "current": "Up to date", "overdue": "Backup overdue", "unavailable": "Vault unavailable", "partial": "Partially backed up", "failed": "Backup failed", "incomplete": "Backup incomplete", "checking": "Checking backups", "empty": "No backups yet", "setup": "Finish vault setup", "unprotected": "Not backed up yet", "running": "Backing up", "queued": "Backup queued", "paused": "Backups paused", "unknown": "Status needs checking", "remote": "Backups from another device", "manual": "Backups saved" },
+    "actions": { "viewBackups": "View backups", "backUpNow": "Back up now", "checkAgain": "Check again", "viewFiles": "View files", "checking": "Checking…", "openVault": "Open vault", "createVault": "Create vault", "viewDetails": "View details", "viewSchedule": "View settings", "viewProgress": "View progress" },
+    "times": { "checking": "Checking…", "unavailable": "Unavailable", "never": "No successful backup yet", "inProgress": "After the current backup", "paused": "Paused", "remote": "On the source device", "waiting": "Waiting to run", "manual": "No automatic schedule" },
+    "summary": {
+      "current": "Items on this computer backed up on schedule: {{count}}.",
+      "overdue": "{{name}} missed its scheduled backup.",
+      "unavailable": "Check the storage and connection for {{vault}}.",
+      "partial": "Some files in {{name}} couldn’t be backed up.",
+      "failed": "{{name}} in {{vault}} couldn’t be backed up.",
+      "incomplete": "The last backup of {{name}} did not finish successfully.",
+      "checking": "Reading vault connections, backup results and schedules.",
+      "empty": "Create a vault to start protecting your files.",
+      "emptyVault": "Add files or folders to {{vault}} to start backing up.",
+      "setup": "Complete the setup for {{vault}} to check its backups.",
+      "unprotected": "No saved backup for {{name}}.",
+      "running": "Backing up {{name}} to {{vault}}.",
+      "queued": "{{name}} is waiting to start its backup.",
+      "paused": "Backups of {{name}} are paused.",
+      "unknown": "Check the backup settings for {{name}}.",
+      "remote": "These backups are managed on another computer.",
+      "manual": "Backups are saved. Some items are backed up manually."
+    }
+  },
   "card": {
     "open": "Open vault",
     "reconnect": "Reconnect",

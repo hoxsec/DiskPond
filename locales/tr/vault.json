@@ -12,6 +12,33 @@
     "count_one": "{{count}} kasa bulundu",
     "count_other": "{{count}} kasa bulundu"
   },
+  "protection": {
+    "title": "Koruma durumu",
+    "lastBackup": "Son başarılı yedekleme",
+    "nextBackup": "Sonraki planlı yedekleme",
+    "states": { "current": "Güncel", "overdue": "Yedekleme gecikti", "unavailable": "Kasaya erişilemiyor", "partial": "Kısmen yedeklendi", "failed": "Yedekleme başarısız", "incomplete": "Yedekleme tamamlanmadı", "checking": "Yedekler kontrol ediliyor", "empty": "Henüz yedek yok", "setup": "Kasa kurulumunu tamamlayın", "unprotected": "Henüz yedeklenmedi", "running": "Yedekleniyor", "queued": "Yedekleme sırada", "paused": "Yedeklemeler duraklatıldı", "unknown": "Durum kontrol edilmeli", "remote": "Başka cihazdan yedekler", "manual": "Yedekler kaydedildi" },
+    "actions": { "viewBackups": "Yedekleri görüntüle", "backUpNow": "Şimdi yedekle", "checkAgain": "Tekrar kontrol et", "viewFiles": "Dosyaları görüntüle", "checking": "Kontrol ediliyor…", "openVault": "Kasayı aç", "createVault": "Kasa oluştur", "viewDetails": "Ayrıntıları görüntüle", "viewSchedule": "Ayarları görüntüle", "viewProgress": "İlerlemeyi görüntüle" },
+    "times": { "checking": "Kontrol ediliyor…", "unavailable": "Kullanılamıyor", "never": "Henüz başarılı yedekleme yok", "inProgress": "Mevcut yedeklemeden sonra", "paused": "Duraklatıldı", "remote": "Kaynak cihazda", "waiting": "Çalıştırılmayı bekliyor", "manual": "Otomatik zamanlama yok" },
+    "summary": {
+      "current": "Bu bilgisayarda zamanında yedeklenen öğeler: {{count}}.",
+      "overdue": "{{name}} için planlı yedekleme kaçırıldı.",
+      "unavailable": "{{vault}} için depolamayı ve bağlantıyı kontrol edin.",
+      "partial": "{{name}} içindeki bazı dosyalar yedeklenemedi.",
+      "failed": "{{name}}, {{vault}} kasasına yedeklenemedi.",
+      "incomplete": "{{name}} için son yedekleme başarıyla tamamlanmadı.",
+      "checking": "Kasa bağlantıları, yedekleme sonuçları ve zamanlamalar okunuyor.",
+      "empty": "Dosyalarınızı korumaya başlamak için bir kasa oluşturun.",
+      "emptyVault": "Başlamak için {{vault}} kasasına dosya veya klasör ekleyin.",
+      "setup": "Yedekleri kontrol etmek için {{vault}} kurulumunu tamamlayın.",
+      "unprotected": "{{name}} için kayıtlı yedek yok.",
+      "running": "{{name}}, {{vault}} kasasına yedekleniyor.",
+      "queued": "{{name}} yedeklemenin başlamasını bekliyor.",
+      "paused": "{{name}} yedeklemeleri duraklatıldı.",
+      "unknown": "{{name}} için yedekleme ayarlarını kontrol edin.",
+      "remote": "Bu yedekler başka bir bilgisayarda yönetiliyor.",
+      "manual": "Yedekler kaydedildi. Bazı öğeler elle yedeklenir."
+    }
+  },
   "card": {
     "open": "Kasayı aç",
     "reconnect": "Yeniden bağlan",

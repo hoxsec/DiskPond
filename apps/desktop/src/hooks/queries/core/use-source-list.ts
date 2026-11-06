@@ -17,7 +17,15 @@ import {
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 
-type SourceStatus = "IDLE" | "PENDING" | "UPLOADING" | "REMOTE";
+type SourceStatus =
+  | "IDLE"
+  | "PENDING"
+  | "UPLOADING"
+  | "REMOTE"
+  | "PAUSED"
+  | "INITIALIZING"
+  | "STOPPED"
+  | "FAILED";
 
 export type CoreSourceItem = {
   id: string;
@@ -41,8 +49,13 @@ export type CoreSourceItem = {
     errorCount?: number;
   };
   schedule: {
-    runMissed: boolean;
+    runMissed?: boolean;
+    manual?: boolean;
+    intervalSeconds?: number;
+    timeOfDay?: { hour: number; min: number }[];
+    cron?: string[];
   };
+  nextSnapshotTime?: string;
   lastSnapshot?: {
     id: string;
     incomplete?: CoreBackupIncompleteReason;

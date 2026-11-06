@@ -14,6 +14,33 @@
     "count_many": "Znaleziono {{count}} sejfów",
     "count_other": "Znaleziono {{count}} sejfu"
   },
+  "protection": {
+    "title": "Stan ochrony",
+    "lastBackup": "Ostatnia udana kopia",
+    "nextBackup": "Następna zaplanowana kopia",
+    "states": { "current": "Aktualne kopie", "overdue": "Zaległa kopia zapasowa", "unavailable": "Sejf niedostępny", "partial": "Częściowa kopia zapasowa", "failed": "Kopia nieudana", "incomplete": "Kopia niekompletna", "checking": "Sprawdzanie kopii", "empty": "Brak kopii zapasowych", "setup": "Dokończ konfigurację sejfu", "unprotected": "Brak udanej kopii", "running": "Tworzenie kopii", "queued": "Kopia w kolejce", "paused": "Kopie wstrzymane", "unknown": "Stan wymaga sprawdzenia", "remote": "Kopie z innego urządzenia", "manual": "Kopie zapisane" },
+    "actions": { "viewBackups": "Zobacz kopie", "backUpNow": "Utwórz kopię", "checkAgain": "Sprawdź ponownie", "viewFiles": "Zobacz pliki", "checking": "Sprawdzanie…", "openVault": "Otwórz sejf", "createVault": "Utwórz sejf", "viewDetails": "Zobacz szczegóły", "viewSchedule": "Zobacz ustawienia", "viewProgress": "Zobacz postęp" },
+    "times": { "checking": "Sprawdzanie…", "unavailable": "Niedostępne", "never": "Brak udanej kopii", "inProgress": "Po bieżącej kopii", "paused": "Wstrzymane", "remote": "Na urządzeniu źródłowym", "waiting": "Oczekiwanie na uruchomienie", "manual": "Brak automatycznego harmonogramu" },
+    "summary": {
+      "current": "Elementy tego komputera z kopią zgodną z harmonogramem: {{count}}.",
+      "overdue": "Pominięto zaplanowaną kopię {{name}}.",
+      "unavailable": "Sprawdź pamięć i połączenie sejfu {{vault}}.",
+      "partial": "Nie udało się skopiować niektórych plików w {{name}}.",
+      "failed": "Nie udało się utworzyć kopii {{name}} w {{vault}}.",
+      "incomplete": "Ostatnia kopia {{name}} nie zakończyła się pomyślnie.",
+      "checking": "Odczytywanie połączeń sejfów, wyników kopii i harmonogramów.",
+      "empty": "Utwórz sejf, aby zacząć chronić pliki.",
+      "emptyVault": "Dodaj pliki lub foldery do {{vault}}, aby rozpocząć.",
+      "setup": "Dokończ konfigurację {{vault}}, aby sprawdzić kopie.",
+      "unprotected": "Brak zapisanej kopii {{name}}.",
+      "running": "Tworzenie kopii {{name}} w {{vault}}.",
+      "queued": "{{name}} czeka na rozpoczęcie tworzenia kopii.",
+      "paused": "Kopie {{name}} są wstrzymane.",
+      "unknown": "Sprawdź ustawienia kopii {{name}}.",
+      "remote": "Te kopie są zarządzane na innym komputerze.",
+      "manual": "Kopie są zapisane. Niektóre elementy są kopiowane ręcznie."
+    }
+  },
   "card": {
     "open": "Otwórz sejf",
     "reconnect": "Połącz ponownie",

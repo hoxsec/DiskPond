@@ -1,0 +1,41 @@
+# Home protection status
+
+The compact Home panel now uses live vault connections, source results and
+engine-reported nextSnapshotTime values. The design-preview controls and sample
+data have been removed. Backup setup remains beneath the panel.
+
+Behavior
+- Initial checks, empty/setup vaults and unavailable reads cannot appear healthy.
+- Pending/uploading sources show progress; errors elsewhere still take priority.
+- Manual backups and archives from other devices have distinct status labels.
+- Last successful backup excludes failed, partial, incomplete and ignored-error
+  runs. Older snapshot metadata is fetched only when the latest source data
+  cannot supply a successful time, with caching keyed to backup-result identity.
+- Overdue checks use intervals, daily times and standard five-field cron in the
+  local timezone, with a one-minute scheduling grace period. Unsupported imported
+  cron forms (including the engine's six/seven-field year syntax) show a status
+  requiring review rather than guessing. Next-run times always come from core.
+- Back up now targets one local source with its vault, host, user and path, using
+  the existing shared start latch and result feedback. Remote sources only offer
+  navigation. View backups opens Activity; issue actions open the file-error
+  dialog, and log navigation first establishes the correct vault/source context.
+- Check again retries failed vault startup and refreshes connection/status reads.
+
+Verification
+- Desktop unit suite: schedule-aware overdue cases, weekly schedules older than
+  24 hours, daylight saving, mixed schedules, missing/failed/partial results,
+  cached connection errors, manual/remote sources and action targeting.
+- Translation completeness and placeholder checks cover all eight languages.
+- Isolated Electron UI fixture exercised the actual live query/mutation hooks
+  against controlled IPC/HTTP responses: targeted upload, duplicate-click latch,
+  progress navigation, historical successful time, file details, log context,
+  reconnect, read failures, manual/remote states, light/dark and narrow layouts.
+  Local captures: $LOCALAPPDATA/Temp/opencode/diskpond-protection-live-check/.
+- node scripts/smoke-history.mjs now also checks protection states using the
+  pinned native core: failure without a snapshot, successful API upload after
+  recovery, restored file contents, and a real scheduled next-run timestamp.
+  Passed for two repositories using core 4e882d186b45ed6a4d152ff89d3e15b44fe20ac5.
+  Local evidence: $LOCALAPPDATA/Temp/opencode/diskpond-history-WUYomr/evidence.json.
+
+The native runner derives its expected engine revision from the repository's
+gitlink and externalizes the same optional native modules as other fixtures.

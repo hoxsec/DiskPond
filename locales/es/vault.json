@@ -13,6 +13,33 @@
     "count_other": "{{count}} bóvedas encontradas",
     "count_many": "{{count}} bóvedas encontradas"
   },
+  "protection": {
+    "title": "Estado de protección",
+    "lastBackup": "Última copia correcta",
+    "nextBackup": "Próxima copia programada",
+    "states": { "current": "Al día", "overdue": "Copia atrasada", "unavailable": "Bóveda no disponible", "partial": "Copia parcial", "failed": "Copia fallida", "incomplete": "Copia incompleta", "checking": "Comprobando copias", "empty": "Aún no hay copias", "setup": "Completa la configuración", "unprotected": "Sin copia todavía", "running": "Creando copia", "queued": "Copia en cola", "paused": "Copias en pausa", "unknown": "Revisar estado", "remote": "Copias de otro dispositivo", "manual": "Copias guardadas" },
+    "actions": { "viewBackups": "Ver copias", "backUpNow": "Hacer copia ahora", "checkAgain": "Comprobar de nuevo", "viewFiles": "Ver archivos", "checking": "Comprobando…", "openVault": "Abrir bóveda", "createVault": "Crear bóveda", "viewDetails": "Ver detalles", "viewSchedule": "Ver ajustes", "viewProgress": "Ver progreso" },
+    "times": { "checking": "Comprobando…", "unavailable": "No disponible", "never": "Aún no hay copia correcta", "inProgress": "Después de la copia actual", "paused": "En pausa", "remote": "En el dispositivo de origen", "waiting": "Esperando ejecución", "manual": "Sin programación automática" },
+    "summary": {
+      "current": "Elementos de este equipo copiados según lo programado: {{count}}.",
+      "overdue": "No se realizó la copia programada de {{name}}.",
+      "unavailable": "Comprueba el almacenamiento y la conexión de {{vault}}.",
+      "partial": "No se pudieron copiar algunos archivos de {{name}}.",
+      "failed": "No se pudo copiar {{name}} en {{vault}}.",
+      "incomplete": "La última copia de {{name}} no terminó correctamente.",
+      "checking": "Leyendo conexiones, resultados de copias y horarios.",
+      "empty": "Crea una bóveda para empezar a proteger tus archivos.",
+      "emptyVault": "Añade archivos o carpetas a {{vault}} para empezar.",
+      "setup": "Completa la configuración de {{vault}} para comprobar sus copias.",
+      "unprotected": "No hay una copia guardada de {{name}}.",
+      "running": "Copiando {{name}} en {{vault}}.",
+      "queued": "{{name}} está esperando para iniciar su copia.",
+      "paused": "Las copias de {{name}} están en pausa.",
+      "unknown": "Revisa los ajustes de copia de {{name}}.",
+      "remote": "Estas copias se gestionan en otro equipo.",
+      "manual": "Las copias están guardadas. Algunos elementos se copian manualmente."
+    }
+  },
   "card": {
     "open": "Abrir bóveda",
     "reconnect": "Reconectar",

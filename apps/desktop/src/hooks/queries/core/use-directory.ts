@@ -6,6 +6,7 @@ import { readHistoryDirectory } from "@desktop/lib/history";
 import { useQuery } from "@tanstack/react-query";
 
 export type CoreDirectorySummary = {
+  incomplete?: string;
   size: number;
   files: number;
   symlinks: number;

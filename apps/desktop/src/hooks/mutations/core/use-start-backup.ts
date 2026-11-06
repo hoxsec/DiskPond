@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useStartBackup(
   options: {
+    vaultId?: string;
     profile?: SelectedProfile;
     onSuccess?: () => void;
     onError?: () => void;
@@ -16,7 +17,8 @@ export function useStartBackup(
 ) {
   const queryClient = useQueryClient();
 
-  const { vaultId } = useVaultId();
+  const { vaultId: routeVaultId } = useVaultId();
+  const vaultId = options.vaultId ?? routeVaultId;
   const { profile: routeSelectedProfile } = useProfile();
   const { queryKeys } = useQueryKey();
   const profile =
@@ -46,7 +48,7 @@ export function useStartBackup(
       options.onSuccess?.();
 
       await queryClient.invalidateQueries({
-        queryKey: queryKeys.source.list(vaultId, profile),
+        queryKey: queryKeys.source.all,
       });
     },
   });
