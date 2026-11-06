@@ -63,6 +63,7 @@ function listener<Payload>(event: string) {
 const api = {
   app: {
     version: () => ipcRenderer.invoke("app.version") as Promise<string>,
+    isPackaged: () => ipcRenderer.sendSync("app.isPackaged") as boolean,
   },
   workspace: {
     open: () => ipcRenderer.invoke("workspace.open") as Promise<void>,

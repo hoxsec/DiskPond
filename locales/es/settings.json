@@ -3,6 +3,35 @@
     "preferences": {
       "checkForUpdates": "Buscar actualizaciones automáticamente",
       "title": "Preferencias",
+      "savedAutomatically": "Los cambios se guardan automáticamente en este equipo.",
+      "startup": { "title": "Inicio y segundo plano" },
+      "backups": { "title": "Preferencias de copia de seguridad" },
+      "updates": {
+        "title": "Actualizaciones",
+        "description": "Busca nuevas versiones en segundo plano. Tú decides cuándo descargar e instalar."
+      },
+      "launchAtLogin": {
+        "label": "Abrir al iniciar sesión",
+        "description": "Inicia DiskPond en la bandeja al iniciar sesión para ejecutar las copias programadas.",
+        "unavailable": "Disponible en las versiones instaladas de DiskPond."
+      },
+      "keepRunningInBackground": {
+        "label": "Seguir ejecutándose al cerrar la ventana",
+        "description": "Continúa las copias en la bandeja. Si se desactiva, cerrar la ventana cierra DiskPond y detiene las tareas de copia y restauración."
+      },
+      "interfaceScale": {
+        "label": "Tamaño de la interfaz",
+        "description": "Ajusta el tamaño del texto y los controles en toda la aplicación."
+      },
+      "reduceMotion": {
+        "label": "Reducir el movimiento",
+        "description": "Limita las animaciones y transiciones de la interfaz. También se respeta la preferencia de movimiento reducido del sistema."
+      },
+      "mode": {
+        "label": "Vista de la política de copias",
+        "description": "Elige la vista del editor de políticas. La vista avanzada añade controles de compresión, retención y programación detallada.",
+        "items": { "basic": "Básica", "advanced": "Avanzada" }
+      },
       "theme": {
         "label": "Tema",
         "description": "Selecciona el tema que prefieras.",

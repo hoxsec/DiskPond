@@ -3,6 +3,35 @@
     "preferences": {
       "checkForUpdates": "Rechercher automatiquement des mises à jour",
       "title": "Préférences",
+      "savedAutomatically": "Les modifications sont enregistrées automatiquement sur cet ordinateur.",
+      "startup": { "title": "Démarrage et arrière-plan" },
+      "backups": { "title": "Préférences de sauvegarde" },
+      "updates": {
+        "title": "Mises à jour",
+        "description": "Recherche les nouvelles versions en arrière-plan. Vous choisissez quand télécharger et installer."
+      },
+      "launchAtLogin": {
+        "label": "Lancer à l'ouverture de session",
+        "description": "Démarre DiskPond dans la zone de notification à l'ouverture de session pour exécuter les sauvegardes planifiées.",
+        "unavailable": "Disponible dans les versions installées de DiskPond."
+      },
+      "keepRunningInBackground": {
+        "label": "Continuer après la fermeture de la fenêtre",
+        "description": "Poursuit les sauvegardes dans la zone de notification. Si désactivé, fermer la fenêtre quitte DiskPond et arrête les sauvegardes et restaurations."
+      },
+      "interfaceScale": {
+        "label": "Taille de l'interface",
+        "description": "Ajuste la taille du texte et des commandes dans toute l'application."
+      },
+      "reduceMotion": {
+        "label": "Réduire les animations",
+        "description": "Limite les animations et transitions de l'interface. La préférence de réduction des animations du système est également respectée."
+      },
+      "mode": {
+        "label": "Vue des règles de sauvegarde",
+        "description": "Choisissez la vue de l'éditeur de règles. La vue avancée ajoute la compression, la rétention et la planification détaillée.",
+        "items": { "basic": "Simple", "advanced": "Avancée" }
+      },
       "theme": {
         "label": "Thème",
         "description": "Choisissez votre thème préféré.",

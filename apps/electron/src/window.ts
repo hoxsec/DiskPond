@@ -5,10 +5,15 @@ import {
   PROTOCOL_FRONTEND_URL,
 } from "@diskpond/constants/app";
 import { openBrowser } from "@electron/shell";
+import { store } from "@electron/store";
 import { getTheme } from "@electron/theme";
 import { app, BrowserWindow } from "electron";
 
 export let window: BrowserWindow | null = null;
+
+export function onAllWindowsClosed() {
+  if (store.get("preferences.keepRunningInBackground") === false) app.quit();
+}
 
 export function createWindow() {
   window = new BrowserWindow({

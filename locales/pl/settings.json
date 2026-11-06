@@ -3,6 +3,35 @@
     "preferences": {
       "checkForUpdates": "Automatycznie sprawdzaj aktualizacje",
       "title": "Preferencje",
+      "savedAutomatically": "Zmiany są automatycznie zapisywane na tym komputerze.",
+      "startup": { "title": "Uruchamianie i praca w tle" },
+      "backups": { "title": "Preferencje kopii zapasowych" },
+      "updates": {
+        "title": "Aktualizacje",
+        "description": "Sprawdzaj nowe wersje w tle. Ty decydujesz, kiedy pobrać i zainstalować aktualizacje."
+      },
+      "launchAtLogin": {
+        "label": "Uruchamiaj po zalogowaniu",
+        "description": "Uruchamiaj DiskPond w zasobniku po zalogowaniu, aby mogły działać zaplanowane kopie zapasowe.",
+        "unavailable": "Dostępne w zainstalowanych wersjach DiskPond."
+      },
+      "keepRunningInBackground": {
+        "label": "Kontynuuj pracę po zamknięciu okna",
+        "description": "Kontynuuj kopie zapasowe w zasobniku. Po wyłączeniu zamknięcie okna kończy DiskPond i zatrzymuje zadania tworzenia kopii i przywracania."
+      },
+      "interfaceScale": {
+        "label": "Rozmiar interfejsu",
+        "description": "Dostosuj rozmiar tekstu i elementów sterujących w całej aplikacji."
+      },
+      "reduceMotion": {
+        "label": "Ogranicz ruch",
+        "description": "Ogranicz animacje i przejścia interfejsu. Systemowe ustawienie ograniczenia ruchu również jest uwzględniane."
+      },
+      "mode": {
+        "label": "Widok zasad kopii zapasowych",
+        "description": "Wybierz widok edytora zasad. Widok zaawansowany dodaje kompresję, retencję i szczegółowe harmonogramy.",
+        "items": { "basic": "Podstawowy", "advanced": "Zaawansowany" }
+      },
       "theme": {
         "label": "Motyw",
         "description": "Wybierz preferowany motyw.",

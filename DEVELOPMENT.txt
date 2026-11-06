@@ -130,6 +130,14 @@ is saved on this computer. On first
 launch, the app detects a supported system/browser language and falls back to English.
 All desktop translations are bundled for offline use.
 
+Settings also includes interface scaling (75–200%), reduced motion, launch at
+sign-in, background operation after closing the window, and the basic/advanced
+backup-policy view. Changes save locally and apply immediately. Launch at sign-in
+is available in packaged builds and opens in the tray; it is disabled in development
+builds. Turning off background operation makes closing the window quit DiskPond,
+stopping backup and restore tasks. System reduced-motion preferences are respected
+even when the app's reduced-motion toggle is off.
+
 Translation JSON lives in locales/<language>/. The shared language registry is
 libs/constants/src/language.ts; libs/constants/src/localization.ts lists the desktop
 namespaces used by both startup and packaging. When adding a language, translate each

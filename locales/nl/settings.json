@@ -3,6 +3,35 @@
     "preferences": {
       "checkForUpdates": "Automatisch op updates controleren",
       "title": "Voorkeuren",
+      "savedAutomatically": "Wijzigingen worden automatisch op deze computer opgeslagen.",
+      "startup": { "title": "Opstarten en achtergrond" },
+      "backups": { "title": "Back-upvoorkeuren" },
+      "updates": {
+        "title": "Updates",
+        "description": "Controleert op de achtergrond op nieuwe versies. Jij bepaalt wanneer je downloadt en installeert."
+      },
+      "launchAtLogin": {
+        "label": "Starten bij aanmelden",
+        "description": "Start DiskPond in het systeemvak wanneer je je aanmeldt, zodat geplande back-ups kunnen worden uitgevoerd.",
+        "unavailable": "Beschikbaar in geïnstalleerde versies van DiskPond."
+      },
+      "keepRunningInBackground": {
+        "label": "Blijven draaien na het sluiten van het venster",
+        "description": "Zet back-ups voort in het systeemvak. Indien uitgeschakeld, sluit het venster DiskPond af en stoppen back-up- en hersteltaken."
+      },
+      "interfaceScale": {
+        "label": "Interfacegrootte",
+        "description": "Pas de grootte van tekst en bedieningselementen in de hele app aan."
+      },
+      "reduceMotion": {
+        "label": "Beweging verminderen",
+        "description": "Beperkt animaties en overgangen van de interface. De systeemvoorkeur voor minder beweging wordt ook gerespecteerd."
+      },
+      "mode": {
+        "label": "Weergave back-upbeleid",
+        "description": "Kies de weergave van de beleidseditor. Geavanceerd voegt compressie, bewaartermijnen en gedetailleerde planning toe.",
+        "items": { "basic": "Basis", "advanced": "Geavanceerd" }
+      },
       "theme": {
         "label": "Thema",
         "description": "Kies je voorkeursthema.",

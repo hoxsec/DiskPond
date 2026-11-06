@@ -3,6 +3,35 @@
     "preferences": {
       "checkForUpdates": "Automatisch nach Updates suchen",
       "title": "Voreinstellungen",
+      "savedAutomatically": "Änderungen werden automatisch auf diesem Computer gespeichert.",
+      "startup": { "title": "Start und Hintergrundbetrieb" },
+      "backups": { "title": "Backup-Voreinstellungen" },
+      "updates": {
+        "title": "Updates",
+        "description": "Sucht im Hintergrund nach neuen Versionen. Du entscheidest, wann sie heruntergeladen und installiert werden."
+      },
+      "launchAtLogin": {
+        "label": "Bei der Anmeldung starten",
+        "description": "Startet DiskPond bei der Anmeldung im Infobereich, damit geplante Backups ausgeführt werden können.",
+        "unavailable": "In installierten Versionen von DiskPond verfügbar."
+      },
+      "keepRunningInBackground": {
+        "label": "Nach dem Schließen des Fensters weiterlaufen",
+        "description": "Setzt Backups im Infobereich fort. Wenn deaktiviert, beendet das Schließen des Fensters DiskPond und stoppt Backups und Wiederherstellungen."
+      },
+      "interfaceScale": {
+        "label": "Oberflächengröße",
+        "description": "Passt die Größe von Text und Bedienelementen in der gesamten App an."
+      },
+      "reduceMotion": {
+        "label": "Bewegung reduzieren",
+        "description": "Begrenzt Animationen und Übergänge der Oberfläche. Die Systemeinstellung für reduzierte Bewegung wird ebenfalls berücksichtigt."
+      },
+      "mode": {
+        "label": "Ansicht der Backup-Richtlinien",
+        "description": "Wähle die Ansicht im Richtlinieneditor. Die erweiterte Ansicht bietet Komprimierung, Aufbewahrung und detaillierte Zeitplanung.",
+        "items": { "basic": "Einfach", "advanced": "Erweitert" }
+      },
       "theme": {
         "label": "Design",
         "description": "Wähle dein bevorzugtes Design.",

@@ -1,10 +1,17 @@
 import { LANGUAGE_CODES } from "@diskpond/constants/language";
 import { VAULT_COLORS } from "@diskpond/constants/vault-color";
+import { ZUpdatePreferences } from "@diskpond/schemas/settings";
+import { setLaunchAtLogin } from "@electron/startup";
 import { store } from "@electron/store";
 import { z } from "zod";
 
 const writable = {
   "preferences.checkForUpdates": z.boolean(),
+  "preferences.launchAtLogin": ZUpdatePreferences.shape.launchAtLogin,
+  "preferences.keepRunningInBackground":
+    ZUpdatePreferences.shape.keepRunningInBackground,
+  "preferences.interfaceScale": ZUpdatePreferences.shape.interfaceScale,
+  "preferences.reduceMotion": ZUpdatePreferences.shape.reduceMotion,
   "preferences.theme": z.enum(["system", "light", "dark"]),
   "preferences.language": z.enum(LANGUAGE_CODES),
   "preferences.mode": z.enum(["basic", "advanced"]),
@@ -23,6 +30,10 @@ export function readRendererStore(key?: unknown): unknown {
     workspaceReady: store.get("workspaceReady"),
     preferences: {
       checkForUpdates: store.get("preferences.checkForUpdates"),
+      launchAtLogin: store.get("preferences.launchAtLogin"),
+      keepRunningInBackground: store.get("preferences.keepRunningInBackground"),
+      interfaceScale: store.get("preferences.interfaceScale"),
+      reduceMotion: store.get("preferences.reduceMotion"),
       theme: store.get("preferences.theme"),
       language: store.get("preferences.language"),
       mode: store.get("preferences.mode"),
@@ -52,5 +63,7 @@ export function writeRendererStore(key: unknown, value: unknown) {
   const schema = writable[key as keyof typeof writable];
   const parsed = schema.safeParse(value);
   if (!parsed.success) throw new Error("Invalid preference value");
+  if (key === "preferences.launchAtLogin")
+    return setLaunchAtLogin(parsed.data as boolean);
   store.set(key, parsed.data);
 }

@@ -3,6 +3,35 @@
     "preferences": {
       "checkForUpdates": "Güncellemeleri otomatik denetle",
       "title": "Tercihler",
+      "savedAutomatically": "Değişiklikler bu bilgisayara otomatik olarak kaydedilir.",
+      "startup": { "title": "Başlangıç ve arka plan" },
+      "backups": { "title": "Yedekleme tercihleri" },
+      "updates": {
+        "title": "Güncellemeler",
+        "description": "Arka planda yeni sürümleri denetler. İndirme ve yükleme zamanına siz karar verirsiniz."
+      },
+      "launchAtLogin": {
+        "label": "Oturum açıldığında başlat",
+        "description": "Zamanlanmış yedeklemelerin çalışabilmesi için oturum açıldığında DiskPond'u sistem tepsisinde başlatır.",
+        "unavailable": "DiskPond'un kurulu sürümlerinde kullanılabilir."
+      },
+      "keepRunningInBackground": {
+        "label": "Pencere kapatıldığında çalışmaya devam et",
+        "description": "Yedeklemeleri sistem tepsisinde sürdürür. Kapalıyken pencereyi kapatmak DiskPond'dan çıkar ve yedekleme ile geri yükleme görevlerini durdurur."
+      },
+      "interfaceScale": {
+        "label": "Arayüz boyutu",
+        "description": "Uygulama genelinde metin ve denetimlerin boyutunu ayarlar."
+      },
+      "reduceMotion": {
+        "label": "Hareketi azalt",
+        "description": "Arayüz animasyonlarını ve geçişlerini sınırlar. Sistemin hareketi azaltma tercihi de dikkate alınır."
+      },
+      "mode": {
+        "label": "Yedekleme ilkesi görünümü",
+        "description": "İlke düzenleyicisinde kullanılacak görünümü seçin. Gelişmiş görünüm sıkıştırma, saklama ve ayrıntılı zamanlama denetimleri ekler.",
+        "items": { "basic": "Temel", "advanced": "Gelişmiş" }
+      },
       "theme": {
         "label": "Tema",
         "description": "Tercih ettiğiniz temayı seçin.",

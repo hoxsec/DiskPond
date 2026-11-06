@@ -3,6 +3,35 @@
     "preferences": {
       "checkForUpdates": "Automatically check for updates",
       "title": "Preferences",
+      "savedAutomatically": "Changes are saved automatically on this computer.",
+      "startup": { "title": "Startup & background" },
+      "backups": { "title": "Backup preferences" },
+      "updates": {
+        "title": "Updates",
+        "description": "Check for new releases in the background. Downloads and installation stay under your control."
+      },
+      "launchAtLogin": {
+        "label": "Launch at sign-in",
+        "description": "Start DiskPond in the tray when you sign in so scheduled backups can run.",
+        "unavailable": "Available in installed builds of DiskPond."
+      },
+      "keepRunningInBackground": {
+        "label": "Keep running when the window closes",
+        "description": "Continue backups in the tray. When off, closing the window quits DiskPond and stops backup and restore tasks."
+      },
+      "interfaceScale": {
+        "label": "Interface size",
+        "description": "Adjust the size of text and controls throughout the app."
+      },
+      "reduceMotion": {
+        "label": "Reduce motion",
+        "description": "Limit interface animations and transitions. Your system's reduced-motion preference is also respected."
+      },
+      "mode": {
+        "label": "Backup policy view",
+        "description": "Choose the view used in the policy editor. Advanced adds compression, retention and detailed scheduling controls.",
+        "items": { "basic": "Basic", "advanced": "Advanced" }
+      },
       "theme": {
         "label": "Theme",
         "description": "Select your theme preference.",

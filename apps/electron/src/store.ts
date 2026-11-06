@@ -1,4 +1,5 @@
 import type { VaultColor } from "@diskpond/constants/vault-color";
+import type { ZUpdatePreferencesType } from "@diskpond/schemas/settings";
 import type { EncryptedString } from "@electron/encryption";
 import { globalConfigDirectory } from "@electron/path";
 import type { UpdateLocalState } from "@electron/update-history";
@@ -19,6 +20,10 @@ export type GlobalStorageType = {
   };
   preferences: {
     checkForUpdates?: boolean;
+    launchAtLogin?: boolean;
+    keepRunningInBackground?: boolean;
+    interfaceScale?: ZUpdatePreferencesType["interfaceScale"];
+    reduceMotion?: boolean;
     theme: "system" | "dark" | "light";
     mode?: "basic" | "advanced";
     language?: string;

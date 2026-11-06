@@ -36,7 +36,7 @@ export function useAppStorage<K extends keyof GlobalStorageSchema>(
     await window.electron.store.set(key, value);
   }
 
-  return [state || defaultValue, setValue];
+  return [state ?? defaultValue, setValue];
 }
 
 export function useStorageListener() {

@@ -35,6 +35,9 @@ import { openWorkspace } from "@electron/workspace";
 import { app, dialog, ipcMain, shell } from "electron";
 
 ipcMain.handle("app.version", () => app.getVersion());
+ipcMain.on("app.isPackaged", (event) => {
+  event.returnValue = app.isPackaged;
+});
 ipcMain.handle("workspace.open", (event, ...args: unknown[]) => {
   if (
     !window ||
@@ -71,7 +74,7 @@ ipcMain.on("os.platform", (e) => (e.returnValue = platform()));
 
 ipcMain.handle("store.set", (event, key, value) => {
   requireMainWindow(event);
-  writeRendererStore(key, value);
+  return writeRendererStore(key, value);
 });
 ipcMain.handle("path.basename", (_, path) => basename(path));
 ipcMain.handle("path.dirname", (_, path) => dirname(path));

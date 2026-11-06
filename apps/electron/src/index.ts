@@ -10,20 +10,21 @@ import "@electron/deeplink";
 import "@electron/instance";
 import "@electron/ipc";
 import "@electron/log";
-import "@electron/startup";
 import "@electron/updater";
 
 import { setupCollections } from "@electron/db";
 import { checkDeepLink } from "@electron/deeplink";
 import { runMigrations } from "@electron/migrate";
+import { initializeStartup } from "@electron/startup";
 import { createTray } from "@electron/tray";
 import { initVaults, stopAllVaults } from "@electron/vault/manage";
-import { createWindow } from "@electron/window";
+import { createWindow, onAllWindowsClosed } from "@electron/window";
 
 app.on("ready", async () => {
   await runMigrations();
   await setupCollections();
 
+  void initializeStartup();
   listenProtocol();
   createTray();
   initVaults();
@@ -39,5 +40,4 @@ app.on("will-quit", () => {
   stopAllVaults();
 });
 
-// Prevents the app from quitting when all windows are closed
-app.on("window-all-closed", () => null);
+app.on("window-all-closed", onAllWindowsClosed);

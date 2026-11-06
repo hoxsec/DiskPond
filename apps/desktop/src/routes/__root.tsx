@@ -1,3 +1,4 @@
+import { useAccessibilityPreferences } from "@desktop/hooks/use-accessibility-preferences";
 import { useStorageListener } from "@desktop/hooks/use-app-storage";
 import { useDeeplinkListener } from "@desktop/hooks/use-deeplink-listener";
 import { useShortcutListener } from "@desktop/hooks/use-shortcut-listener";
@@ -24,6 +25,7 @@ function RootComponent() {
   useShortcutListener();
   useDeeplinkListener();
   useStorageListener();
+  useAccessibilityPreferences();
   useUpdateListener();
 
   return (

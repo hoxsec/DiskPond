@@ -6,9 +6,13 @@ const mocks = vi.hoisted(() => ({
     ["accounts.hosted", { secret: "hosted-secret" }],
   ]),
   set: vi.fn(),
+  setLaunchAtLogin: vi.fn(),
 }));
 vi.mock("@electron/store", () => ({
   store: { get: (key: string) => mocks.values.get(key), set: mocks.set },
+}));
+vi.mock("@electron/startup", () => ({
+  setLaunchAtLogin: mocks.setLaunchAtLogin,
 }));
 
 import {
@@ -16,7 +20,7 @@ import {
   writeRendererStore,
 } from "@electron/renderer-store";
 
-it("exposes only presentation preferences in snapshots and key reads", () => {
+it("exposes only allowed preferences in snapshots and key reads", () => {
   expect(readRendererStore("preferences.theme")).toBe("dark");
   expect(readRendererStore("workspaceReady")).toBe(true);
   expect(JSON.stringify(readRendererStore())).not.toContain("secret");
@@ -79,4 +83,30 @@ it("persists only supported vault colors through the preference bridge", () => {
       "vault-a": "url(file://private)",
     }),
   ).toThrow("Invalid preference value");
+});
+
+it("validates desktop controls before allowing startup or preference changes", async () => {
+  for (const key of [
+    "preferences.launchAtLogin",
+    "preferences.keepRunningInBackground",
+    "preferences.reduceMotion",
+  ]) {
+    expect(() => writeRendererStore(key, "false")).toThrow(
+      "Invalid preference value",
+    );
+  }
+  for (const scale of [0, 100, "0", "100", "NaN", null])
+    expect(() =>
+      writeRendererStore("preferences.interfaceScale", scale),
+    ).toThrow("Invalid preference value");
+  expect(mocks.setLaunchAtLogin).not.toHaveBeenCalled();
+
+  mocks.setLaunchAtLogin.mockRejectedValueOnce(new Error("OS failure"));
+  await expect(
+    writeRendererStore("preferences.launchAtLogin", false),
+  ).rejects.toThrow("OS failure");
+  expect(mocks.set).not.toHaveBeenCalledWith(
+    "preferences.launchAtLogin",
+    false,
+  );
 });

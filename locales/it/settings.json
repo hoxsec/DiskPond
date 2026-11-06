@@ -3,6 +3,35 @@
     "preferences": {
       "checkForUpdates": "Verifica automaticamente gli aggiornamenti",
       "title": "Preferenze",
+      "savedAutomatically": "Le modifiche vengono salvate automaticamente su questo computer.",
+      "startup": { "title": "Avvio e attività in background" },
+      "backups": { "title": "Preferenze di backup" },
+      "updates": {
+        "title": "Aggiornamenti",
+        "description": "Cerca nuove versioni in background. Decidi tu quando scaricare e installare."
+      },
+      "launchAtLogin": {
+        "label": "Avvia all'accesso",
+        "description": "Avvia DiskPond nell'area di notifica quando accedi, così da eseguire i backup pianificati.",
+        "unavailable": "Disponibile nelle versioni installate di DiskPond."
+      },
+      "keepRunningInBackground": {
+        "label": "Continua dopo la chiusura della finestra",
+        "description": "Continua i backup nell'area di notifica. Se disattivato, chiudere la finestra termina DiskPond e interrompe backup e ripristini."
+      },
+      "interfaceScale": {
+        "label": "Dimensioni dell'interfaccia",
+        "description": "Regola le dimensioni del testo e dei controlli in tutta l'app."
+      },
+      "reduceMotion": {
+        "label": "Riduci il movimento",
+        "description": "Limita animazioni e transizioni dell'interfaccia. Viene rispettata anche la preferenza di movimento ridotto del sistema."
+      },
+      "mode": {
+        "label": "Vista dei criteri di backup",
+        "description": "Scegli la vista dell'editor dei criteri. La vista avanzata aggiunge compressione, conservazione e pianificazione dettagliata.",
+        "items": { "basic": "Base", "advanced": "Avanzata" }
+      },
       "theme": {
         "label": "Tema",
         "description": "Seleziona il tema che preferisci.",

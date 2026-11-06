@@ -101,6 +101,10 @@ function waitFor(contents, expression) {
 }
 
 async function selectTheme(contents, theme) {
+  await waitFor(
+    contents,
+    "document.querySelector('[data-slot=select-trigger]')?.disabled === false",
+  );
   await contents.executeJavaScript(
     "document.querySelector('[data-slot=select-trigger]').click()",
   );
@@ -112,11 +116,15 @@ async function selectTheme(contents, theme) {
   })()`);
   await waitFor(
     contents,
-    `window.electron.store.get('preferences.theme') === ${JSON.stringify(theme)}`,
+    `window.electron.store.get('preferences.theme') === ${JSON.stringify(theme)} && document.querySelector('form[aria-busy=false]')`,
   );
 }
 
 async function selectLanguage(contents, code, name, title) {
+  await waitFor(
+    contents,
+    "document.querySelectorAll('[data-slot=select-trigger]')[1]?.disabled === false",
+  );
   await contents.executeJavaScript(
     "document.querySelectorAll('[data-slot=select-trigger]')[1].click()",
   );
@@ -136,7 +144,44 @@ async function selectLanguage(contents, code, name, title) {
   await waitForText(contents, title);
   await waitFor(
     contents,
-    `document.documentElement.lang === ${JSON.stringify(code)} && window.electron.store.get('preferences.language') === ${JSON.stringify(code)}`,
+    `document.documentElement.lang === ${JSON.stringify(code)} && window.electron.store.get('preferences.language') === ${JSON.stringify(code)} && document.querySelector('form[aria-busy=false]')`,
+  );
+}
+
+async function selectPreference(contents, index, label, key, value) {
+  await waitFor(
+    contents,
+    `document.querySelectorAll('[data-slot=select-trigger]')[${index}]?.disabled === false`,
+  );
+  await contents.executeJavaScript(
+    `document.querySelectorAll('[data-slot=select-trigger]')[${index}].click()`,
+  );
+  await waitFor(
+    contents,
+    "[...document.querySelectorAll('[role=option]')].some(element => element.checkVisibility())",
+  );
+  await contents.executeJavaScript(`(() => {
+    const option = [...document.querySelectorAll('[role=option]')].find(element => element.checkVisibility() && element.textContent.trim() === ${JSON.stringify(label)});
+    if (!option) throw new Error('Preference option not found');
+    option.click();
+  })()`);
+  await waitFor(
+    contents,
+    `window.electron.store.get(${JSON.stringify(key)}) === ${JSON.stringify(value)} && document.querySelector('form[aria-busy=false]')`,
+  );
+}
+
+async function togglePreference(contents, name, expected) {
+  await waitFor(
+    contents,
+    `document.getElementById('${name}')?.disabled === false`,
+  );
+  await contents.executeJavaScript(
+    `document.getElementById('${name}').closest('[data-slot=field]').querySelector('[role=switch]').click()`,
+  );
+  await waitFor(
+    contents,
+    `window.electron.store.get('preferences.${name}') === ${expected} && document.getElementById('${name}')?.checked === ${expected} && document.querySelector('form[aria-busy=false]')`,
   );
 }
 
@@ -305,8 +350,67 @@ app.on("browser-window-created", (_, window) => {
         await capture(contents, `settings-${code}`);
       }
       await selectLanguage(contents, "en", "English", "Preferences");
-      await contents.executeJavaScript("window.electron.zoom(2)");
+      assert.equal(
+        await contents.executeJavaScript(
+          "document.getElementById('launchAtLogin').disabled",
+        ),
+        true,
+      );
+      assert.equal(
+        await contents.executeJavaScript(
+          "window.electron.store.set('preferences.launchAtLogin', true).then(() => false, () => true)",
+        ),
+        true,
+      );
+      await togglePreference(contents, "keepRunningInBackground", false);
+      await togglePreference(contents, "reduceMotion", true);
+      await waitFor(
+        contents,
+        "document.documentElement.dataset.reduceMotion === 'true'",
+      );
+      await selectPreference(
+        contents,
+        3,
+        "Advanced",
+        "preferences.mode",
+        "advanced",
+      );
+      await selectPreference(
+        contents,
+        2,
+        "200%",
+        "preferences.interfaceScale",
+        "2",
+      );
       await waitFor(contents, "window.innerWidth < 768");
+      const preferencesReloaded = new Promise((resolve) =>
+        contents.once("did-finish-load", resolve),
+      );
+      contents.reload();
+      await preferencesReloaded;
+      await waitForText(contents, "Preferences");
+      await waitFor(
+        contents,
+        "window.innerWidth < 768 && document.documentElement.dataset.reduceMotion === 'true'",
+      );
+      assert.equal(
+        await contents.executeJavaScript(
+          "document.getElementById('keepRunningInBackground').checked",
+        ),
+        false,
+      );
+      assert.equal(
+        await contents.executeJavaScript(
+          "document.querySelectorAll('[data-slot=select-trigger]')[3].querySelector('[data-slot=select-value]').textContent.trim()",
+        ),
+        "Advanced",
+      );
+      await togglePreference(contents, "keepRunningInBackground", true);
+      await togglePreference(contents, "reduceMotion", false);
+      await waitFor(
+        contents,
+        "document.documentElement.dataset.reduceMotion === 'false'",
+      );
       await capture(contents, "settings-200-percent");
       await clickButton(contents, "Menu");
       await waitFor(contents, "document.querySelector('[role=menuitem]')");
@@ -332,7 +436,13 @@ app.on("browser-window-created", (_, window) => {
         "[...document.querySelectorAll('button')].find(element => element.textContent.trim() === 'Report an issue').scrollIntoView()",
       );
       await capture(contents, "about-200-percent");
-      await contents.executeJavaScript("window.electron.zoom(1)");
+      await selectPreference(
+        contents,
+        2,
+        "100%",
+        "preferences.interfaceScale",
+        "1",
+      );
       const loaded = new Promise((resolve) =>
         contents.once("did-finish-load", resolve),
       );
