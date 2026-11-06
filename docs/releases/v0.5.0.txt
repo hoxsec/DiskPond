@@ -1,0 +1,24 @@
+## A clearer Home overview
+
+- Added global cards for protected data, protected files, retained snapshots, and estimated storage saved.
+- Added a 0–100 backup setup meter with four checks worth 25 points each: multiple destinations, storage variety, remote storage, and recent healthy backups.
+- Completed checks show green points; incomplete checks show orange points.
+- Storage savings use the backup engine's indexed packed data and retained snapshots. Estimates exclude storage-provider overhead.
+
+## More useful vault cards
+
+- Added destination details, latest-backup times, folder/source counts, and clear backup-status indicators.
+- Added destination storage meters using reported drive usage, SFTP capacity, or supported S3 bucket quotas.
+- Added selectable icon colors that are saved on this computer.
+- Added direct Open vault and Reconnect actions, with explicit unavailable and unreported-capacity states.
+
+## Redesigned Activity
+
+- Added vault summary cards with snapshot counts and concise latest-backup timestamps.
+- Select a vault card to filter the calendar and backup history.
+- Backup and issue cards expand to show details and links to their history.
+- Updated all eight desktop languages, keyboard navigation, light/dark styling, and zoom layouts.
+
+## Release downloads
+
+- Removed redundant text-file attachments from release downloads. Release notes and installation links remain on the release page.
