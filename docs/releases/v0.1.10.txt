@@ -1,0 +1,18 @@
+## Desktop-focused cleanup
+
+- Removed duplicated website, customer-portal and hosted-service code from the desktop repository. These services are maintained in hoxsec/diskpond-vault.
+- Renamed all 13 internal workspace packages to @diskpond and removed unused helpers, artwork and dependencies.
+- Reduced the workspace lockfile from 1,626 to 871 package versions without upgrading the retained dependencies.
+- Removed the retired CloudBlink-specific backup-engine backend. DiskPond Cloud continues to use the standard S3 backend.
+
+## Exclusion files and compatibility
+
+- New vault policies use .diskpondignore for gitignore-style backup exclusions.
+- Existing policies retain .blinkdiskignore and custom exclusion filenames when loaded or edited.
+- Preserved existing ID validation, saved-password migration and legacy repository recovery.
+- Verified real snapshot/restore behavior for new and legacy exclusion rules, plus recovery of baseline backups with both current and original engines.
+
+## Build maintenance
+
+- Updated desktop build instructions, workspace configuration and engine provenance.
+- Fixed the legacy-repository smoke runner's handling of optional native SSH accelerators to match the production build.
