@@ -11,20 +11,7 @@ function Card({
       data-slot="card"
       data-size={size}
       className={cn(
-        "ring-border bg-card text-card-foreground has-data-[slot=card-footer]:pb-0 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl group/card flex flex-col overflow-hidden rounded-xl py-4 text-sm ring-1 has-[>img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3",
-        className,
-      )}
-      {...props}
-    />
-  );
-}
-
-function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-header"
-      className={cn(
-        "[.border-b]:pb-4 group-data-[size=sm]/card:[.border-b]:pb-3 group/card-header @container/card-header has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto] grid auto-rows-min items-start rounded-t-xl px-6 group-data-[size=sm]/card:px-3",
+        "ring-border bg-card text-card-foreground *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl group/card flex flex-col overflow-hidden rounded-xl py-4 text-sm ring-1 has-[>img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3",
         className,
       )}
       {...props}
@@ -55,17 +42,4 @@ function CardContent({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-footer"
-      className={cn(
-        "flex items-center rounded-b-xl p-6 pt-0 group-data-[size=sm]/card:p-3",
-        className,
-      )}
-      {...props}
-    />
-  );
-}
-
-export { Card, CardContent, CardFooter, CardHeader, CardTitle };
+export { Card, CardContent, CardTitle };

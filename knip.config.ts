@@ -85,8 +85,6 @@ const config: KnipConfig = {
     },
   },
   ignoreIssues: {
-    // Reusable UI primitives retain their shared library API after account UI removal.
-    "libs/ui/src/{avatar,card,carousel,radio-group}.tsx": ["exports", "types"],
     // The OS application ID and URI scheme intentionally share a value.
     "libs/constants/src/app.ts": ["duplicates"],
   },

@@ -59,7 +59,7 @@ Installation uses the pinned desktop-workspace lockfile and approved dependency 
 Electron 42 exposes `install-electron`; its binary is not downloaded by this dependency's ordinary installation script. The dev/preview/smoke runners call it explicitly. To download it separately:
 
 ```powershell
-pnpm --filter @blinkdisk/electron exec install-electron
+pnpm --filter @diskpond/electron exec install-electron
 ```
 
 First setup/build needs network access for package/Go modules, Electron and packager tools. Normal desktop startup needs no API or database service.
@@ -98,7 +98,7 @@ The create/connect slice adds a core initialization guard included in the publis
 | `pnpm test` / `pnpm test:desktop` | Existing Electron, renderer, schema and utility Vitest suites. |
 | `node --test scripts/lib/process.test.mjs` | Desktop process-launcher regressions for JavaScript pnpm, standalone executables and nested command names; checks argument, working-directory and environment forwarding. |
 | `node --test scripts/lib/*.test.mjs` | Process-launcher and release asset integrity tests, including OS metadata, missing/tampered packages and version mismatch rejection. |
-| `pnpm unused` | Desktop workspace dependency/export analysis. |
+| `pnpm unused` | Checks for unused files, dependencies and exports; also runs in CI. |
 
 `pnpm dev` and `pnpm build` alias the desktop commands. They no longer launch the upstream hosted stack. Use the root packaging wrappers: package-level `build:windows`, `build:linux` and `build:macos` invoke the packager without building their inputs.
 
@@ -137,7 +137,7 @@ desktop namespace, preserve {{placeholders}} and <0>markup</0>, provide its plur
 forms, register its native name in the language registry, and add its tray messages
 to apps/electron/src/tray.ts.
 The utility tests check completeness, placeholders, plural resolution and regional
-fallback: pnpm --filter @blinkdisk/utils test.
+fallback: pnpm --filter @diskpond/utils test.
 
 ## Development runtime
 
