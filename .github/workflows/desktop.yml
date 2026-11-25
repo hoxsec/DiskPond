@@ -65,6 +65,10 @@ jobs:
         env:
           DISKPOND_TEST_TMP: ${{ runner.temp }}
       - run: pnpm build:${{ matrix.platform }}
+        env:
+          # The macOS package check verifies the configured ad-hoc identity ("-").
+          # Electron Builder otherwise skips even this secret-free signature on PRs.
+          CSC_FOR_PULL_REQUEST: ${{ runner.os == 'macOS' && github.event_name == 'pull_request' }}
       - run: pnpm smoke:package
         env:
           DISKPOND_TEST_TMP: ${{ runner.temp }}
