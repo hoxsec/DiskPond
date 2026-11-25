@@ -34,22 +34,38 @@ exports.verifyBackupSetup = async ({
 }) => {
   const run = (code) => contents.executeJavaScript(code);
   await text(contents, "2 folders selected");
-  const id = await run("location.hash.split('/').at(-1)");
+  const id = await run("location.hash.split('?')[0].split('/').at(-1)");
   const api = (resource) =>
     run(
       `fetch('diskpondapp://vault/api/v1/${resource}', {headers:{'vault-id': ${JSON.stringify(id)}}}).then(r=>r.json())`,
     );
   const boxes =
-    "Array.from(document.querySelectorAll('main input[type=checkbox]'))";
+    "Array.from(document.querySelectorAll('[role=dialog] [role=checkbox]'))";
   const box = (label) =>
     `${boxes}.find(el=>document.getElementById(el.getAttribute('aria-labelledby')).textContent === ${JSON.stringify(label)})`;
   const toggle = async (name) => {
     await tabTo(contents, `document.activeElement === ${box(name)}`);
     await key(contents, "Space");
   };
+  // Compare the actual vault page before opening the dialog, during selection,
+  // and on review. The sidebar, inset and first stat card must stay in place.
+  const shell = `['[data-slot=sidebar-container]', '[data-slot=sidebar-inset]', 'main [data-slot=card]'].map(selector => {
+    const {x, y, width, height} = document.querySelector(selector).getBoundingClientRect();
+    return [x, y, width, height];
+  })`;
+  await key(contents, "Escape");
+  await waitFor(
+    contents,
+    "!document.querySelector('[role=dialog]') && document.activeElement?.textContent.trim() === 'Suggested folders'",
+  );
+  assert.equal(await run("location.hash"), `#/local/${id}`);
+  const before = await run(shell);
+  await activate(contents, "Suggested folders");
+  await text(contents, "2 folders selected");
+  assert.deepEqual(await run(shell), before);
   assert.deepEqual(
     await run(
-      `${boxes}.map(el=>[document.getElementById(el.getAttribute('aria-labelledby')).textContent, el.checked])`,
+      `${boxes}.map(el=>[document.getElementById(el.getAttribute('aria-labelledby')).textContent, el.getAttribute('aria-checked') === 'true'])`,
     ),
     [
       ["Documents", true],
@@ -62,17 +78,17 @@ exports.verifyBackupSetup = async ({
   );
   assert.equal(
     await run(
-      `${box("Pictures")}.closest('label').querySelector('[title]').title`,
+      `document.getElementById(${box("Pictures")}.getAttribute('aria-describedby')).textContent`,
     ),
     app.getPath("pictures"),
   );
   await capture(contents, "suggested-folders-light");
   await toggle("Documents");
-  await toggle("Pictures");
+  await run(`${box("Pictures")}.closest('label').click()`);
   await text(contents, "0 folders selected");
   assert(
     await run(
-      "Array.from(document.querySelectorAll('button')).find(b=>b.textContent.includes('Review backup')).disabled",
+      "Array.from(document.querySelectorAll('[role=dialog] button')).find(b=>b.textContent.includes('Review backup')).disabled",
     ),
   );
   await toggle("Documents");
@@ -96,9 +112,10 @@ exports.verifyBackupSetup = async ({
   await activate(contents, "Review backup");
   await text(contents, "Step 3 of 3");
   await text(contents, custom);
+  assert.deepEqual(await run(shell), before);
   assert(
     !(await run(
-      "document.querySelector('main').innerText.includes('Pictures')",
+      "document.querySelector('[role=dialog]').innerText.includes('Pictures')",
     )),
   );
   assert.equal((await api("sources")).sources.length, 0);
@@ -114,7 +131,7 @@ exports.verifyBackupSetup = async ({
   assert.equal((await api("sources")).sources.length, 1);
   await rename(`${custom}-offline`, custom);
   await activate(contents, "Start backup");
-  await text(contents, "Add file/folder");
+  await waitFor(contents, "!document.querySelector('[role=dialog]')");
   const state = await api("sources");
   const sources = state.sources.map((item) => item.source.path).sort();
   assert.deepEqual(sources, [app.getPath("documents"), custom].sort());
@@ -138,6 +155,7 @@ exports.verifyBackupSetup = async ({
   }
   await activate(contents, "Suggested folders");
   await text(contents, "Already in this vault");
-  assert(await run(`${box("Documents")}.disabled`));
+  assert(await run(`${box("Documents")}.hasAttribute('data-disabled')`));
   await activate(contents, "Skip for now");
+  await waitFor(contents, "!document.querySelector('[role=dialog]')");
 };

@@ -227,6 +227,25 @@ async function verifyDisconnect(contents, locked) {
     locked ? ["Created 1"] : ["Connected existing", "Created 0", "Created 1"],
   );
   await home(contents);
+  const cardFor = (id) => `document.querySelector('[data-vault-id="${id}"]')`;
+  if (!locked) {
+    // One vault stays connected while the other two destinations are detached.
+    const healthy = active.find((vault) => vault.name === "Created 1");
+    const card = cardFor(healthy.id);
+    await waitFor(contents, `${card}?.innerText.includes('Not backed up')`);
+    assert.doesNotMatch(
+      await contents.executeJavaScript(`${card}.innerText`),
+      /Disconnect vault/,
+    );
+    await contents.executeJavaScript(
+      `location.hash = '#/local/${healthy.id}/settings'`,
+    );
+    await text(contents, "Disconnect this vault");
+    await activate(contents, "Disconnect vault");
+    await text(contents, `To confirm, type "${healthy.name}" below:`);
+    await close(contents);
+    await home(contents);
+  }
   // Exercise the renderer's offline mode as well as the detached storage.
   await contents.executeJavaScript(
     "window.dispatchEvent(new Event('offline'))",
@@ -236,9 +255,16 @@ async function verifyDisconnect(contents, locked) {
     ? ["Created 1"]
     : ["Connected existing", "Created 0"]) {
     const { id } = active.find((vault) => vault.name === name);
-    const card = `document.querySelector('[data-vault-id="${id}"]')`;
+    const card = cardFor(id);
+    await waitFor(
+      contents,
+      `${card}?.innerText.includes('${locked ? "Setup required" : "Offline"}')`,
+    );
+    assert.match(
+      await contents.executeJavaScript(`${card}.innerText`),
+      /Disconnect vault/,
+    );
     if (name === "Connected existing") {
-      await waitFor(contents, `${card}?.innerText.includes('Offline')`);
       const openFromCard = async () => {
         await tabTo(
           contents,
@@ -541,7 +567,6 @@ app.on("browser-window-created", (_, window) => {
           await rm(sentinel);
         }
         await activate(contents, "Create vault");
-        await waitFor(contents, "!document.querySelector('[role=dialog]')");
         await text(contents, "What would you like to back up?");
         if (index === 0) {
           await verifyBackupSetup({
@@ -561,7 +586,7 @@ app.on("browser-window-created", (_, window) => {
           await text(contents, "2 folders selected");
           await capture(contents, "suggested-folders-dark");
           await activate(contents, "Skip for now");
-          await text(contents, "Add file/folder");
+          await waitFor(contents, "!document.querySelector('[role=dialog]')");
           const { sources } = await contents.executeJavaScript(
             "fetch('diskpondapp://vault/api/v1/sources', {headers:{'vault-id':location.hash.split('/')[2]}}).then(r=>r.json())",
           );
@@ -600,14 +625,18 @@ app.on("browser-window-created", (_, window) => {
       await capture(contents, "connect-error-200-percent");
       await fill(contents, "password", "existing-fixture-password");
       await activate(contents, "Connect vault");
-      await waitFor(contents, "!document.querySelector('[role=dialog]')");
       await text(contents, "2 folders selected");
       assert(
         await contents.executeJavaScript(
-          "document.documentElement.scrollWidth <= window.innerWidth",
+          `(() => {
+            const dialog = document.querySelector('[role=dialog]');
+            const rect = dialog.getBoundingClientRect();
+            return rect.left >= 0 && rect.right <= innerWidth && dialog.scrollWidth <= dialog.clientWidth;
+          })()`,
         ),
       );
       await activate(contents, "Skip for now");
+      await waitFor(contents, "!document.querySelector('[role=dialog]')");
       await contents.executeJavaScript("window.electron.zoom(1)");
       await text(contents, "Add file/folder");
       await verifyStorageSpace(contents);

@@ -1,3 +1,4 @@
+import { SuggestedFoldersDialog } from "@desktop/components/dialogs/suggested-folders";
 import { Empty } from "@desktop/components/empty";
 import { SourceList } from "@desktop/components/sources/list";
 import { VaultStatCard } from "@desktop/components/vaults/stat-card";
@@ -59,15 +60,24 @@ type VaultOverviewProps = {
 export function VaultOverview({ vault }: VaultOverviewProps) {
   const { t, language } = useAppTranslation("vault.overview");
   const profileSelectRef = useRef<HTMLButtonElement>(null);
+  const suggestedFoldersRef = useRef<HTMLButtonElement>(null);
 
   const navigate = useNavigate({ from: "/$accountId/$vaultId" });
-  const { otherHostName, otherUserName } =
+  const { otherHostName, otherUserName, suggestedFolders } =
     useSearch({
-      from: "/$accountId/$vaultId",
+      from: "/$accountId/$vaultId/",
       shouldThrow: false,
     }) ?? {};
   const { openCreateSource } = useCreateSourceDialog();
   const { localHostName, localUserName } = useLocalProfile();
+
+  const setSuggestedFolders = (open: boolean) =>
+    navigate({
+      to: "/$accountId/$vaultId",
+      search: (search) => ({ ...search, suggestedFolders: open || undefined }),
+      replace: true,
+      resetScroll: false,
+    });
 
   const localProfile = useMemo(
     () =>
@@ -270,11 +280,11 @@ export function VaultOverview({ vault }: VaultOverviewProps) {
                 </Button>
               ) : null}
               <Button
+                ref={suggestedFoldersRef}
+                aria-haspopup="dialog"
                 variant="secondary"
                 disabled={!vault}
-                onClick={() =>
-                  navigate({ to: "/$accountId/backup-setup/$vaultId" })
-                }
+                onClick={() => setSuggestedFolders(true)}
               >
                 <FolderPlusIcon aria-hidden="true" />
                 {t("folder:setup.suggested")}
@@ -330,6 +340,14 @@ export function VaultOverview({ vault }: VaultOverviewProps) {
           }
         />
       ) : null}
+      {vault && suggestedFolders && (
+        <SuggestedFoldersDialog
+          key={vault.id}
+          vault={vault}
+          finalFocus={suggestedFoldersRef}
+          onClose={() => setSuggestedFolders(false)}
+        />
+      )}
     </div>
   );
 }
