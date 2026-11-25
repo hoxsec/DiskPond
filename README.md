@@ -13,7 +13,7 @@ DiskPond is a free, open-source desktop backup app for **Windows, Linux and macO
 
 ## Downloads
 
-Current release: **[v0.1.12](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.12)**.
+Current release: **[v0.1.13](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.13)**.
 
 | Platform | Download |
 | --- | --- |
