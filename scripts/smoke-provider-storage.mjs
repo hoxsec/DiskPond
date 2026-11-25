@@ -67,14 +67,18 @@ try {
     bundle: true,
     platform: "node",
     format: "esm",
-    external: ["electron"],
+    external: [
+      "electron",
+      "cpu-features",
+      "./crypto/build/Release/sshcrypto.node",
+    ],
     plugins: [
       TsconfigPathsPlugin({
         tsconfig: resolve(electronDirectory, "tsconfig.json"),
       }),
     ],
     banner: {
-      js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
+      js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url); const __dirname = import.meta.dirname;",
     },
   });
   async function phase(mode, phase, profile = mode) {

@@ -1,4 +1,5 @@
 import { backupHealthOptions } from "@desktop/hooks/queries/use-backup-health";
+import { vaultStatusOptions } from "@desktop/hooks/queries/use-vault-status";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
 import { readSnapshotHistory, snapshotOutcome } from "@desktop/lib/history";
 import {
@@ -20,12 +21,9 @@ export function useProtectionStatus(vaults?: ZVaultType[]) {
   }, []);
 
   const connections = useQueries({
-    queries: (vaults ?? []).map((vault) => ({
-      queryKey: queryKeys.vault.status(vault.id),
-      queryFn: () => window.electron.vault.status(vault.id),
-      refetchInterval: 1000,
-      retry: false,
-    })),
+    queries: (vaults ?? []).map((vault) =>
+      vaultStatusOptions(queryKeys.vault.status(vault.id), vault.id),
+    ),
   });
   const health = useQueries({
     queries: (vaults ?? []).map((vault) =>

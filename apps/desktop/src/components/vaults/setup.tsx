@@ -1,4 +1,5 @@
 import { providerForms } from "@desktop/components/forms/providers";
+import { DisconnectVaultButton } from "@desktop/components/vaults/disconnect-button";
 import { useSetupPasswordForm } from "@desktop/hooks/forms/use-setup-password-form";
 import { useSetupVault } from "@desktop/hooks/mutations/use-setup-vault";
 import { useVault } from "@desktop/hooks/queries/use-vault";
@@ -106,6 +107,7 @@ export function Setup() {
             )}
           </div>
         ) : null}
+        <DisconnectVaultButton vaultId={vault?.id} className="mt-4" />
       </div>
       <div className="mb-auto"></div>
     </div>

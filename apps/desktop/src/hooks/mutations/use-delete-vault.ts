@@ -9,20 +9,13 @@ export function useDeleteVault({ onSuccess }: { onSuccess?: () => void }) {
 
   return useMutation({
     mutationKey: ["vault", "delete"],
+    networkMode: "always",
     mutationFn: async ({ vaultId }: { vaultId: string }) => {
-      const vault = getVaultCollection(accountId).findOne({ id: vaultId });
-      if (!vault) throw new CustomError("VAULT_NOT_FOUND");
-
-      getVaultCollection(accountId).updateOne(
-        {
-          id: vaultId,
-        },
-        {
-          $set: {
-            status: "DELETED",
-          },
-        },
+      const updated = getVaultCollection(accountId).updateOne(
+        { id: vaultId, status: "ACTIVE" },
+        { $set: { status: "DELETED" } },
       );
+      if (!updated) throw new CustomError("VAULT_NOT_FOUND");
     },
     onError: showErrorToast,
     onSuccess,

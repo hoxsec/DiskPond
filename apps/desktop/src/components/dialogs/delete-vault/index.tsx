@@ -1,7 +1,6 @@
 import { useDeleteVault } from "@desktop/hooks/mutations/use-delete-vault";
 import { useVault } from "@desktop/hooks/queries/use-vault";
 import { useDeleteVaultDialog } from "@desktop/hooks/state/use-delete-vault-dialog";
-import { useAccountId } from "@desktop/hooks/use-account-id";
 import { DynamicField } from "@diskpond/components/dynamic-field";
 import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
 import { Alert, AlertDescription, AlertTitle } from "@diskpond/ui/alert";
@@ -15,16 +14,10 @@ import {
   DialogTitle,
 } from "@diskpond/ui/dialog";
 import { Input } from "@diskpond/ui/input";
-import { useNavigate } from "@tanstack/react-router";
 import { InfoIcon } from "lucide-react";
 import { useCallback, useState } from "react";
 
 export function DeleteVaultDialog() {
-  const navigate = useNavigate({
-    from: "/$accountId/$vaultId",
-  });
-  const { accountId } = useAccountId();
-
   const { t } = useAppTranslation("vault.deleteDialog");
 
   const { isOpen, setIsOpen, options } = useDeleteVaultDialog();
@@ -34,28 +27,19 @@ export function DeleteVaultDialog() {
   const [confirmName, setConfirmName] = useState("");
   const [showError, setShowError] = useState(false);
 
-  const isConfirmed = vault
-    ? confirmName.replace(/\s/g, "").toLowerCase() ===
-      vault.name.replace(/\s/g, "").toLowerCase()
-    : false;
+  const isConfirmed =
+    vault?.status === "ACTIVE" &&
+    confirmName.length > 0 &&
+    confirmName.replace(/\s/g, "").toLowerCase() ===
+      vault.name.replace(/\s/g, "").toLowerCase();
 
-  const reset = useCallback(async () => {
+  const reset = useCallback(() => {
     setConfirmName("");
     setShowError(false);
   }, []);
 
-  const onSuccess = useCallback(async () => {
-    setIsOpen(false);
-
-    if (!accountId) return;
-
-    await navigate({
-      to: "/$accountId",
-    });
-  }, [navigate, setIsOpen, accountId]);
-
   const { mutate: mutateDelete, isPending: isDeletePending } = useDeleteVault({
-    onSuccess,
+    onSuccess: () => setIsOpen(false),
   });
 
   return (
@@ -112,6 +96,7 @@ export function DeleteVaultDialog() {
             {t("cancel")}
           </Button>
           <Button
+            disabled={vault?.status !== "ACTIVE"}
             loading={isDeletePending}
             onClick={() => {
               if (!isConfirmed) return setShowError(true);

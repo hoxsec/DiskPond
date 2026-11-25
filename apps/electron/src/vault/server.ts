@@ -25,20 +25,34 @@ import { sendWindow } from "@electron/window";
 import { app } from "electron";
 import { CookieJar } from "tough-cookie";
 
-const startingServers = new Map<string, Promise<VaultServer>>();
+const startingServers = new Map<
+  string,
+  { promise: Promise<VaultServer>; controller: AbortController }
+>();
+
+export function cancelVaultServerStart(id: string) {
+  startingServers.get(id)?.controller.abort();
+}
+
 export function startVaultServer(id: string, pollStatus = true) {
   const existing = startingServers.get(id);
-  if (existing) return existing;
-  const promise = startManagedServer(id, pollStatus).finally(() =>
-    startingServers.delete(id),
+  if (existing) return existing.promise;
+  const controller = new AbortController();
+  const promise = startManagedServer(id, pollStatus, controller.signal).finally(
+    () => startingServers.delete(id),
   );
-  startingServers.set(id, promise);
+  startingServers.set(id, { promise, controller });
   return promise;
 }
 
-async function startManagedServer(id: string, pollStatus: boolean) {
+async function startManagedServer(
+  id: string,
+  pollStatus: boolean,
+  signal: AbortSignal,
+) {
   const cachedPassword = getPasswordCache({ vaultId: id });
   const connection = await prepareConnection(id, cachedPassword);
+  signal.throwIfAborted();
   if (connection)
     rememberConnectionSecrets(id, connection, cachedPassword || undefined);
   return new Promise<VaultServer>((res, rej) => {
@@ -83,6 +97,7 @@ async function startManagedServer(id: string, pollStatus: boolean) {
     ];
 
     const process = spawn(corePath(), args, {
+      signal,
       // Managed mode starts disconnected. Exact passwords and provider data
       // travel over the certificate-verified loopback API, never argv/files.
       env: { ...env, KOPIA_PASSWORD: "", KOPIA_CHECK_FOR_UPDATES: "false" },

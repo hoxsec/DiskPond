@@ -17,7 +17,7 @@ import { checkDeepLink } from "@electron/deeplink";
 import { runMigrations } from "@electron/migrate";
 import { initializeStartup } from "@electron/startup";
 import { createTray } from "@electron/tray";
-import { initVaults, stopAllVaults } from "@electron/vault/manage";
+import { stopAllVaults } from "@electron/vault/manage";
 import { createWindow, onAllWindowsClosed } from "@electron/window";
 
 app.on("ready", async () => {
@@ -27,7 +27,6 @@ app.on("ready", async () => {
   void initializeStartup();
   listenProtocol();
   createTray();
-  initVaults();
 
   if (!process.argv.includes("--hidden")) createWindow();
 

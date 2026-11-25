@@ -28,7 +28,7 @@ Installation instructions and checksums are available on the release page. Windo
 - **Encrypted, versioned backups** with incremental storage, deduplication and compression, powered by the Kopia-derived engine.
 - **Your choice of storage**, with multiple independent vaults and separate create/connect flows.
 - **Home overview** with protected data, file and snapshot counts, estimated storage savings, and a backup setup meter.
-- **Detailed vault cards** with destination information, latest-backup times, status, storage capacity where supported, and Open vault/Reconnect actions.
+- **Detailed vault cards** show the destination, latest backup, status and available space where supported. Choose **Disconnect vault** on Home to remove a connection even when storage is offline. Stored backups stay in place.
 - **Manual or scheduled backups**, retention rules, pinned backups, file exclusions and per-folder policies.
 - **Browse and restore** individual files, selected items or whole folders; export a folder as a ZIP.
 - **Compare backups** to inspect added, changed and deleted paths, including sizes and modification times.

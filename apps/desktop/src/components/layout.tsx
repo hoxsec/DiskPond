@@ -1,4 +1,5 @@
 import { CreateVaultDialog } from "@desktop/components/dialogs/create-vault/index";
+import { DeleteVaultDialog } from "@desktop/components/dialogs/delete-vault";
 import { CompactNavigation } from "@desktop/components/sidebar/compact-navigation";
 import { Sidebar } from "@desktop/components/sidebar/index";
 import { PasswordStorageNotice } from "@desktop/components/vaults/password-storage-notice";
@@ -19,6 +20,7 @@ export function Layout({ children }: LayoutProps) {
     <>
       <Sidebar />
       <CreateVaultDialog />
+      <DeleteVaultDialog />
       <SidebarInset className="!overflow-hidden max-md:h-svh">
         <CompactNavigation />
         <div className="flex min-h-0 flex-1 flex-col overflow-auto">
