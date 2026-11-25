@@ -242,12 +242,14 @@ export function VaultCard({ vault }: VaultCardProps) {
           />
           {t(`card.status.${state}`)}
         </span>
-        <DisconnectVaultButton
-          vaultId={vault.id}
-          aria-describedby={titleId}
-          variant="ghost"
-          className="h-auto px-1 py-1 text-xs text-muted-foreground hover:text-destructive"
-        />
+        {(state === "offline" || state === "setup") && !reconnect.isPending && (
+          <DisconnectVaultButton
+            vaultId={vault.id}
+            aria-describedby={titleId}
+            variant="ghost"
+            className="h-auto px-1 py-1 text-xs text-muted-foreground hover:text-destructive"
+          />
+        )}
         {connection.status === "FAILED" ? (
           <Button
             variant="ghost"

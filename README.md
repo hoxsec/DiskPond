@@ -13,7 +13,7 @@ DiskPond is a free, open-source desktop backup app for **Windows, Linux and macO
 
 ## Downloads
 
-Current release: **[v0.1.12](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.12)**.
+Current release: **[v0.1.13](https://github.com/hoxsec/DiskPond/releases/tag/v0.1.13)**.
 
 | Platform | Download |
 | --- | --- |
@@ -29,7 +29,7 @@ Installation instructions and checksums are available on the release page. Windo
 - **Your choice of storage**, with multiple independent vaults and separate create/connect flows.
 - **Suggested folders** show where Documents, Pictures, Desktop, Downloads, Music and Videos live on this computer, including moved folders. Choose your own folders or skip and come back from the vault overview.
 - **Home overview** with protected data, file and snapshot counts, estimated storage savings, and a backup setup meter.
-- **Detailed vault cards** show the destination, latest backup, status and available space where supported. Choose **Disconnect vault** on Home to remove a connection even when storage is offline. Stored backups stay in place.
+- **Detailed vault cards** show the destination, latest backup, status and available space where supported. For a connected vault, **Disconnect vault** is in vault Settings. For an offline or locked vault, it’s also on the Home card and recovery screen. Disconnecting keeps stored backups in place.
 - **Manual or scheduled backups**, retention rules, pinned backups, file exclusions and per-folder policies.
 - **Browse and restore** individual files, selected items or whole folders; export a folder as a ZIP.
 - **Compare backups** to inspect added, changed and deleted paths, including sizes and modification times.
@@ -50,11 +50,11 @@ These screenshots show the Windows app with disposable demo files and real backu
 
 ### Choose your first folders
 
-After connecting a vault, review the suggested folder paths and add any other folders you want. DiskPond starts backing up your new selections when you choose **Start backup** on the review screen.
+After connecting a vault, the **Suggested folders** dialog opens over the vault overview. Check the paths, add any other folders you want, then choose **Review backup**. Backups start when you choose **Start backup**.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/suggested-folders-dark.png">
-  <img alt="DiskPond backup setup with six folder suggestions, Documents and Pictures selected, and the Review backup button" src="docs/images/suggested-folders-light.png" width="1440">
+  <img alt="Suggested folders dialog over the vault overview, with Documents and Pictures selected for review" src="docs/images/suggested-folders-light.png" width="1440">
 </picture>
 
 ### Choose when and what to back up

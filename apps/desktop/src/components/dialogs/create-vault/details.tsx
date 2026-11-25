@@ -73,15 +73,15 @@ export function CreateVaultDetails({
     onSuccess: async (res) => {
       if (!accountId) return;
 
+      onSubmit?.();
       await navigate({
-        to: "/$accountId/backup-setup/$vaultId",
+        to: "/$accountId/$vaultId",
+        search: { suggestedFolders: true },
         params: (params) => ({
           ...params,
           vaultId: res.vaultId,
         }),
       });
-
-      onSubmit?.();
     },
   });
 

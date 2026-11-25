@@ -1,0 +1,9 @@
+## Choose folders in the vault overview
+
+- **Suggested folders** now opens in a standard dialog. The sidebar, overview cards and page margins stay in place while you choose folders and review their paths.
+- The same dialog opens after you create or connect a vault. Choose **Start backup** to confirm, or press **Esc** to return to the overview without starting a backup.
+
+## Disconnect vault
+
+- For a connected vault, **Disconnect vault** is in **Vault Settings**. For an offline or locked vault, it is also available on its Home card and recovery screen.
+- The shortcut stays hidden while DiskPond is connecting. Disconnecting removes the connection from this computer and keeps the stored backups.

@@ -184,9 +184,9 @@ async function recoverVault({
       ` exact recovery password 雪 ${vaultIndex} `,
     );
     await activate(contents, "Create vault");
-    await waitFor(contents, "!document.querySelector('[role=dialog]')");
     await text(contents, "Skip for now");
     await activate(contents, "Skip for now");
+    await waitFor(contents, "!document.querySelector('[role=dialog]')");
     await text(contents, "Add file/folder");
     await activate(contents, "Add file/folder");
     select(source);
