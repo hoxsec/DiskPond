@@ -1,4 +1,36 @@
 {
+  "setup": {
+    "label": "Yedekleme kurulumu",
+    "connect": "Kasa bağla",
+    "choose": "Klasörleri seç",
+    "review": "Yedeklemeyi gözden geçir",
+    "vault": "Seçili kasa",
+    "step": "Adım {{step}} / 3",
+    "title": "Neleri yedeklemek istersiniz?",
+    "description": "Kasanıza eklemek istediğiniz klasörleri bu bilgisayardan seçin.",
+    "suggested": "Önerilen klasörler",
+    "folders": {
+      "documents": "Belgeler",
+      "pictures": "Resimler",
+      "desktop": "Masaüstü",
+      "downloads": "İndirilenler",
+      "music": "Müzik",
+      "videos": "Videolar"
+    },
+    "another": "Başka bir klasör seç",
+    "skip": "Şimdilik atla",
+    "selected_one": "{{count}} klasör seçildi",
+    "selected_other": "{{count}} klasör seçildi",
+    "reviewDescription": "Bu klasörleri “{{vault}}” kasasına eklemek ve hemen yedeklemek için yedeklemeyi başlatın.",
+    "selectedTitle": "Seçili klasörler",
+    "start": "Yedeklemeyi başlat",
+    "alreadyAdded": "Bu kasada zaten var",
+    "loading": "Klasörleriniz aranıyor…",
+    "empty": "Önerilecek klasör bulunamadı. Kendiniz bir klasör seçebilirsiniz.",
+    "loadFailed": "Önerilen klasörler yüklenemedi.",
+    "unavailable": "Kasayı içermeyen ve kasanın içinde olmayan, erişilebilir bir klasör seçin.",
+    "failed": "Aşağıdaki klasörler için yedekleme başlatılamadı. Klasörlerin erişilebilir olduğunu kontrol edip yeniden deneyin."
+  },
   "createDialog": {
     "title": "Dosya/klasör ekle",
     "description": "Yedeklemek için bir dosya veya klasör seçin.",

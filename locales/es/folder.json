@@ -1,4 +1,37 @@
 {
+  "setup": {
+    "label": "Configurar copia de seguridad",
+    "connect": "Conectar una bóveda",
+    "choose": "Elegir carpetas",
+    "review": "Revisar copia",
+    "vault": "Bóveda seleccionada",
+    "step": "Paso {{step}} de 3",
+    "title": "¿Qué quieres incluir en la copia de seguridad?",
+    "description": "Elige las carpetas de este equipo que quieras añadir a tu bóveda.",
+    "suggested": "Carpetas sugeridas",
+    "folders": {
+      "documents": "Documentos",
+      "pictures": "Imágenes",
+      "desktop": "Escritorio",
+      "downloads": "Descargas",
+      "music": "Música",
+      "videos": "Vídeos"
+    },
+    "another": "Elegir otra carpeta",
+    "skip": "Omitir por ahora",
+    "selected_one": "{{count}} carpeta seleccionada",
+    "selected_other": "{{count}} carpetas seleccionadas",
+    "selected_many": "{{count}} carpetas seleccionadas",
+    "reviewDescription": "Inicia la copia de seguridad para añadir estas carpetas a «{{vault}}» y copiarlas ahora.",
+    "selectedTitle": "Carpetas seleccionadas",
+    "start": "Iniciar copia",
+    "alreadyAdded": "Ya está en esta bóveda",
+    "loading": "Buscando tus carpetas…",
+    "empty": "No se encontraron carpetas sugeridas. Puedes elegir una carpeta manualmente.",
+    "loadFailed": "No se pudieron cargar las carpetas sugeridas.",
+    "unavailable": "Elige una carpeta accesible que no contenga la bóveda ni esté dentro de ella.",
+    "failed": "No se pudo iniciar la copia de las carpetas que aparecen a continuación. Comprueba que sean accesibles y vuelve a intentarlo."
+  },
   "createDialog": {
     "title": "Añadir archivo/carpeta",
     "description": "Elige un archivo o una carpeta para crear copias de seguridad.",

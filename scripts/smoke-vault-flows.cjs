@@ -462,6 +462,11 @@ app.on("browser-window-created", (_, window) => {
         return finish();
       }
       await text(contents, "Open DiskPond");
+      const {
+        prepareFolders,
+        verifyBackupSetup,
+      } = require("./lib/backup-setup-smoke.cjs");
+      await prepareFolders(directory);
       await activate(contents, "Open DiskPond");
       await text(contents, "Back up and recover your files");
 
@@ -537,6 +542,31 @@ app.on("browser-window-created", (_, window) => {
         }
         await activate(contents, "Create vault");
         await waitFor(contents, "!document.querySelector('[role=dialog]')");
+        await text(contents, "What would you like to back up?");
+        if (index === 0) {
+          await verifyBackupSetup({
+            contents,
+            directory,
+            text,
+            activate,
+            key,
+            tabTo,
+            waitFor,
+            capture,
+            select: (path) => {
+              selected = path;
+            },
+          });
+        } else {
+          await text(contents, "2 folders selected");
+          await capture(contents, "suggested-folders-dark");
+          await activate(contents, "Skip for now");
+          await text(contents, "Add file/folder");
+          const { sources } = await contents.executeJavaScript(
+            "fetch('diskpondapp://vault/api/v1/sources', {headers:{'vault-id':location.hash.split('/')[2]}}).then(r=>r.json())",
+          );
+          assert.equal(sources.length, 0);
+        }
         await text(contents, "Add file/folder");
         await verifyStorageSpace(contents);
         await capture(contents, `vault-storage-${index ? "dark" : "light"}`);
@@ -571,6 +601,13 @@ app.on("browser-window-created", (_, window) => {
       await fill(contents, "password", "existing-fixture-password");
       await activate(contents, "Connect vault");
       await waitFor(contents, "!document.querySelector('[role=dialog]')");
+      await text(contents, "2 folders selected");
+      assert(
+        await contents.executeJavaScript(
+          "document.documentElement.scrollWidth <= window.innerWidth",
+        ),
+      );
+      await activate(contents, "Skip for now");
       await contents.executeJavaScript("window.electron.zoom(1)");
       await text(contents, "Add file/folder");
       await verifyStorageSpace(contents);

@@ -185,6 +185,8 @@ async function recoverVault({
     );
     await activate(contents, "Create vault");
     await waitFor(contents, "!document.querySelector('[role=dialog]')");
+    await text(contents, "Skip for now");
+    await activate(contents, "Skip for now");
     await text(contents, "Add file/folder");
     await activate(contents, "Add file/folder");
     select(source);

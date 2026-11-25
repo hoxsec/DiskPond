@@ -1,4 +1,38 @@
 {
+  "setup": {
+    "label": "Konfiguracja kopii zapasowej",
+    "connect": "Podłącz sejf",
+    "choose": "Wybierz foldery",
+    "review": "Sprawdź kopię",
+    "vault": "Wybrany sejf",
+    "step": "Krok {{step}} z 3",
+    "title": "Co chcesz uwzględnić w kopii zapasowej?",
+    "description": "Wybierz foldery z tego komputera, które chcesz dodać do sejfu.",
+    "suggested": "Sugerowane foldery",
+    "folders": {
+      "documents": "Dokumenty",
+      "pictures": "Obrazy",
+      "desktop": "Pulpit",
+      "downloads": "Pobrane",
+      "music": "Muzyka",
+      "videos": "Wideo"
+    },
+    "another": "Wybierz inny folder",
+    "skip": "Na razie pomiń",
+    "selected_one": "Wybrano {{count}} folder",
+    "selected_few": "Wybrano {{count}} foldery",
+    "selected_many": "Wybrano {{count}} folderów",
+    "selected_other": "Wybrano {{count}} folderu",
+    "reviewDescription": "Rozpocznij tworzenie kopii, aby dodać te foldery do sejfu „{{vault}}” i od razu zapisać ich kopię.",
+    "selectedTitle": "Wybrane foldery",
+    "start": "Rozpocznij tworzenie kopii",
+    "alreadyAdded": "Już w tym sejfie",
+    "loading": "Wyszukiwanie folderów…",
+    "empty": "Nie znaleziono sugerowanych folderów. Możesz wybrać folder samodzielnie.",
+    "loadFailed": "Nie udało się wczytać sugerowanych folderów.",
+    "unavailable": "Wybierz dostępny folder, który nie zawiera sejfu ani nie znajduje się w jego obrębie.",
+    "failed": "Nie udało się rozpocząć tworzenia kopii poniższych folderów. Sprawdź, czy są dostępne, i spróbuj ponownie."
+  },
   "createDialog": {
     "title": "Dodaj plik/folder",
     "description": "Wybierz plik lub folder do utworzenia kopii zapasowej.",

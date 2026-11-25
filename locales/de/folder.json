@@ -1,4 +1,36 @@
 {
+  "setup": {
+    "label": "Sicherung einrichten",
+    "connect": "Tresor verbinden",
+    "choose": "Ordner auswählen",
+    "review": "Sicherung prüfen",
+    "vault": "Ausgewählter Tresor",
+    "step": "Schritt {{step}} von 3",
+    "title": "Was möchtest du sichern?",
+    "description": "Wähle Ordner auf diesem Computer aus, die du deinem Tresor hinzufügen möchtest.",
+    "suggested": "Vorgeschlagene Ordner",
+    "folders": {
+      "documents": "Dokumente",
+      "pictures": "Bilder",
+      "desktop": "Desktop",
+      "downloads": "Downloads",
+      "music": "Musik",
+      "videos": "Videos"
+    },
+    "another": "Anderen Ordner auswählen",
+    "skip": "Vorerst überspringen",
+    "selected_one": "{{count}} Ordner ausgewählt",
+    "selected_other": "{{count}} Ordner ausgewählt",
+    "reviewDescription": "Starte die Sicherung, um diese Ordner zu „{{vault}}“ hinzuzufügen und jetzt zu sichern.",
+    "selectedTitle": "Ausgewählte Ordner",
+    "start": "Sicherung starten",
+    "alreadyAdded": "Bereits in diesem Tresor",
+    "loading": "Deine Ordner werden gesucht…",
+    "empty": "Keine vorgeschlagenen Ordner gefunden. Du kannst selbst einen Ordner auswählen.",
+    "loadFailed": "Die vorgeschlagenen Ordner konnten nicht geladen werden.",
+    "unavailable": "Wähle einen zugänglichen Ordner, der den Tresor weder enthält noch darin liegt.",
+    "failed": "Die folgenden Ordner konnten nicht gesichert werden. Prüfe, ob sie zugänglich sind, und versuche es erneut."
+  },
   "createDialog": {
     "title": "Datei/Ordner hinzufügen",
     "description": "Wähle eine Datei oder einen Ordner zum Sichern aus.",

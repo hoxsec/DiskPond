@@ -1,3 +1,4 @@
+import { ZPasswordVault } from "@schemas/password";
 import { z } from "zod";
 
 export const ZSourceType = z.enum(["directory", "file", "symlink"]);
@@ -57,3 +58,34 @@ export const ZCreateSourceForm = z.object({
 });
 
 export type ZCreateSourceFormType = z.infer<typeof ZCreateSourceForm>;
+
+const ZFolderPath = z.string().min(1).max(32767);
+export const ZBackupFolderLookup = ZPasswordVault.extend({
+  path: ZFolderPath.optional(),
+});
+export const ZStartFolderBackups = ZPasswordVault.extend({
+  folders: z
+    .array(
+      z.strictObject({
+        path: ZFolderPath,
+        key: ZFolderPath,
+        name: ZSourceName,
+      }),
+    )
+    .min(1),
+});
+
+export type BackupFolder = {
+  kind:
+    | "documents"
+    | "pictures"
+    | "desktop"
+    | "downloads"
+    | "music"
+    | "videos"
+    | "custom";
+  path: string;
+  key: string;
+  name: string;
+  alreadyAdded: boolean;
+};

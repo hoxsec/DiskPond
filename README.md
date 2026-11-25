@@ -27,6 +27,7 @@ Installation instructions and checksums are available on the release page. Windo
 
 - **Encrypted, versioned backups** with incremental storage, deduplication and compression, powered by the Kopia-derived engine.
 - **Your choice of storage**, with multiple independent vaults and separate create/connect flows.
+- **Suggested folders** show where Documents, Pictures, Desktop, Downloads, Music and Videos live on this computer, including moved folders. Choose your own folders or skip and come back from the vault overview.
 - **Home overview** with protected data, file and snapshot counts, estimated storage savings, and a backup setup meter.
 - **Detailed vault cards** show the destination, latest backup, status and available space where supported. Choose **Disconnect vault** on Home to remove a connection even when storage is offline. Stored backups stay in place.
 - **Manual or scheduled backups**, retention rules, pinned backups, file exclusions and per-folder policies.
@@ -40,11 +41,20 @@ Installation instructions and checksums are available on the release page. Windo
 
 ## A look inside
 
-These screenshots show the Windows app with disposable demo files and real backups. They predate the v0.1.9 Home, vault-card and Activity redesign; images follow your light/dark theme.
+These screenshots show the Windows app with disposable demo files and real backups. Images follow your light/dark theme.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/vault-dark.png">
   <img alt="DiskPond vault overview showing backed-up folders and available storage" src="docs/images/vault-light.png" width="1440">
+</picture>
+
+### Choose your first folders
+
+After connecting a vault, review the suggested folder paths and add any other folders you want. DiskPond starts backing up your new selections when you choose **Start backup** on the review screen.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/suggested-folders-dark.png">
+  <img alt="DiskPond backup setup with six folder suggestions, Documents and Pictures selected, and the Review backup button" src="docs/images/suggested-folders-light.png" width="1440">
 </picture>
 
 ### Choose when and what to back up
@@ -87,8 +97,8 @@ NAS/network drives use an OS-mounted path or Windows share. Rclone uses remotes 
 ## Get started
 
 1. [Install DiskPond](docs/desktop-release.txt), then choose **Create a new vault** or **Connect an existing vault**.
-2. Choose your destination and encryption password, then add files or folders.
-3. Run a backup. Open its history to browse, compare or restore a saved version.
+2. Choose your destination and encryption password. On **Choose folders**, select the folders you want to protect.
+3. Choose **Review backup**, check the folders and vault, then **Start backup**. Open backup history to browse, compare or restore a saved version.
 
 Scheduled backups run while DiskPond is open or running in the tray. Keep your vault password somewhere recoverable.
 

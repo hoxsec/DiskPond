@@ -4,6 +4,7 @@ import {
   mkdir,
   mkdtemp,
   readFile,
+  realpath,
   rename,
   rm,
   writeFile,
@@ -20,8 +21,10 @@ import {
   run,
 } from "./lib/process.mjs";
 
-const directory = await mkdtemp(
-  join(process.env.DISKPOND_TEST_TMP || tmpdir(), "diskpond-vault-flows-"),
+const directory = await realpath(
+  await mkdtemp(
+    join(process.env.DISKPOND_TEST_TMP || tmpdir(), "diskpond-vault-flows-"),
+  ),
 );
 const require = createRequire(resolve(electronDirectory, "package.json"));
 const target = coreBuildTarget(process.platform, process.arch);
