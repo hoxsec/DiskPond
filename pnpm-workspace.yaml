@@ -54,7 +54,7 @@ catalog:
   filesize: '^11.0.19'
   frimousse: '^0.3.0'
   get-folder-size: '^5.0.0'
-  i18next: '^26.3.3'
+  i18next: '^26.3.4'
   i18next-browser-languagedetector: '^8.2.1'
   i18next-http-backend: '4.0.2'
   knip: '6.21.0'
