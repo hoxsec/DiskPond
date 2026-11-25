@@ -1,4 +1,37 @@
 {
+  "setup": {
+    "label": "Configurer la sauvegarde",
+    "connect": "Connecter un coffre",
+    "choose": "Choisir les dossiers",
+    "review": "Vérifier la sauvegarde",
+    "vault": "Coffre sélectionné",
+    "step": "Étape {{step}} sur 3",
+    "title": "Que souhaitez-vous sauvegarder ?",
+    "description": "Choisissez les dossiers de cet ordinateur à ajouter à votre coffre.",
+    "suggested": "Dossiers suggérés",
+    "folders": {
+      "documents": "Documents",
+      "pictures": "Images",
+      "desktop": "Bureau",
+      "downloads": "Téléchargements",
+      "music": "Musique",
+      "videos": "Vidéos"
+    },
+    "another": "Choisir un autre dossier",
+    "skip": "Ignorer pour le moment",
+    "selected_one": "{{count}} dossier sélectionné",
+    "selected_other": "{{count}} dossiers sélectionnés",
+    "selected_many": "{{count}} dossiers sélectionnés",
+    "reviewDescription": "Lancez la sauvegarde pour ajouter ces dossiers à « {{vault}} » et les sauvegarder maintenant.",
+    "selectedTitle": "Dossiers sélectionnés",
+    "start": "Lancer la sauvegarde",
+    "alreadyAdded": "Déjà dans ce coffre",
+    "loading": "Recherche de vos dossiers…",
+    "empty": "Aucun dossier suggéré. Vous pouvez choisir un dossier vous-même.",
+    "loadFailed": "Impossible de charger les dossiers suggérés.",
+    "unavailable": "Choisissez un dossier accessible qui ne contient pas le coffre et ne se trouve pas à l’intérieur.",
+    "failed": "La sauvegarde des dossiers ci-dessous n’a pas pu démarrer. Vérifiez qu’ils sont accessibles, puis réessayez."
+  },
   "createDialog": {
     "title": "Ajouter un fichier/dossier",
     "description": "Choisissez un fichier ou un dossier à sauvegarder.",

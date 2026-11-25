@@ -20,7 +20,10 @@ import {
   type ConnectionResult,
   connectRepository,
 } from "@electron/vault/reconnect";
-import { startVaultServer } from "@electron/vault/server";
+import {
+  cancelVaultServerStart,
+  startVaultServer,
+} from "@electron/vault/server";
 import type { VaultInstance } from "@electron/vault/types";
 import { validateVaultConfig, validationVault } from "@electron/vault/validate";
 import { z } from "zod";
@@ -228,23 +231,26 @@ export async function connectVault({
 
 export async function unlockVault(input: z.infer<typeof ZUnlockVaultRequest>) {
   const { vaultId, password, config } = ZUnlockVaultRequest.parse(input);
-  const descriptor = collections.local?.vault.findOne({
-    id: vaultId,
-    status: "ACTIVE",
-  });
+  const active = { id: vaultId, status: "ACTIVE" as const };
+  const descriptor = collections.local?.vault.findOne(active);
   if (!descriptor) throw new Error("Local vault not found");
   const storage = config
     ? connectionFromProvider(descriptor.provider, config)
     : await prepareConnection(vaultId, password);
   if (!storage) return { code: "CONNECTION_REQUIRED" };
   rememberConnectionSecrets(vaultId, storage, password);
-  const server = vaults[vaultId]?.server || (await startVaultServer(vaultId));
-  const vault = vaults[vaultId] || {
-    id: vaultId,
-    status: "STARTING" as const,
-    server,
-  };
-  vaults[vaultId] = vault;
+  let vault = vaults[vaultId];
+  if (!vault) {
+    // The user may have disconnected while the credentials were being unlocked.
+    if (!collections.local?.vault.findOne(active))
+      return { code: "VAULT_NOT_FOUND" };
+    vault = {
+      id: vaultId,
+      status: "STARTING",
+      server: await startVaultServer(vaultId),
+    };
+    vaults[vaultId] = vault;
+  }
   const checked = z
     .object({ uniqueID: z.string().optional(), code: z.string().optional() })
     .passthrough()
@@ -272,6 +278,7 @@ export async function unlockVault(input: z.infer<typeof ZUnlockVaultRequest>) {
   });
   if (result.code || result.error)
     return { code: result.code || "CONNECTION_FAILED" };
+  if (vaults[vaultId] !== vault) return { code: "VAULT_NOT_FOUND" };
   saveConnection(vaultId, storage);
   setPasswordCache({ vaultId, password });
   await completeConnectionMigration(vaultId);
@@ -303,63 +310,56 @@ export function vaultServerStopped(
 }
 
 async function reconcileVaults(vaultId?: string) {
-  const activeVaultIds: string[] = [];
-
-  for (const [accountId, collection] of Object.entries(collections)) {
-    if (accountId !== LOCAL_ACCOUNT_ID) continue;
-
-    const vaultCache = collection.vault.find({ status: "ACTIVE" }).fetch();
-
-    for (const vault of vaultCache) {
-      activeVaultIds.push(vault.id);
-      if (vaultId && vault.id !== vaultId) continue;
-
-      // Already running
-      if (vaults[vault.id]) {
-        vaultStartupStates.delete(vault.id);
+  const active = new Set(
+    collections[LOCAL_ACCOUNT_ID]?.vault
+      .find({ status: "ACTIVE" })
+      .fetch()
+      .map(({ id }) => id),
+  );
+  for (const id of managedVaultIds()) {
+    if (!active.has(id)) stopVault(id);
+  }
+  const pending = [...active].filter(
+    (id) => (!vaultId || id === vaultId) && !vaults[id],
+  );
+  // Home is already usable. A disconnect can cancel even a queued startup.
+  for (const id of pending) vaultStartupStates.set(id, "STARTING");
+  for (const id of pending) {
+    if (!vaultStartupStates.has(id)) continue;
+    try {
+      preparePasswordCache(id);
+      const server = await startVaultServer(id);
+      if (!vaultStartupStates.has(id)) {
+        server.process.kill();
         continue;
       }
-
-      vaultStartupStates.set(vault.id, "STARTING");
-      try {
-        preparePasswordCache(vault.id);
-        vaults[vault.id] = {
-          id: vault.id,
-          status: "STARTING",
-          server: await startVaultServer(vault.id),
-        };
-        vaultStartupStates.delete(vault.id);
-      } catch (error) {
-        vaultStartupStates.set(vault.id, "FAILED");
-        log.error(`Failed to start vault ${vault.id}`, error);
-      }
+      vaults[id] = { id, status: "STARTING", server };
+      vaultStartupStates.delete(id);
+    } catch (error) {
+      if (!vaultStartupStates.has(id)) continue;
+      vaultStartupStates.set(id, "FAILED");
+      log.error(`Failed to start vault ${id}`, error);
     }
-  }
-
-  for (const vaultId of Object.keys(vaults)) {
-    if (activeVaultIds.includes(vaultId)) continue;
-    stopVault(vaultId);
-  }
-
-  for (const vaultId of vaultStartupStates.keys()) {
-    if (!activeVaultIds.includes(vaultId)) vaultStartupStates.delete(vaultId);
   }
 }
 
+function managedVaultIds() {
+  return new Set([...Object.keys(vaults), ...vaultStartupStates.keys()]);
+}
+
 export function stopAllVaults() {
-  Object.keys(vaults).forEach(stopVault);
-  vaultStartupStates.clear();
+  for (const id of managedVaultIds()) stopVault(id);
   connectedIdentities.clear();
   if (validationVault) validationVault.server.process.kill();
 }
 
-function stopVault(id: string) {
+export function stopVault(id: string) {
+  vaultStartupStates.delete(id);
+  cancelVaultServerStart(id);
   const vault = vaults[id];
-  if (!vault) return log.warn(`Tried to stop vault ${id} but it doesn't exist`);
-
-  vault.server.process.kill();
   delete vaults[id];
   connectedIdentities.delete(id);
+  vault?.server.process.kill();
 }
 
 export function getVault(id: string) {
@@ -369,15 +369,7 @@ export function getVault(id: string) {
 }
 
 export function getVaultStatus(id: string) {
-  const startupStatus = vaultStartupStates.get(id);
-  if (!vaults[id] && startupStatus)
-    return { status: startupStatus, initTask: undefined };
-
-  try {
-    const vault = getVault(id);
-    return { status: vault.status, initTask: vault.initTask };
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
+  const vault = vaults[id];
+  const status = vault?.status ?? vaultStartupStates.get(id);
+  return status ? { status, initTask: vault?.initTask } : null;
 }

@@ -1,7 +1,12 @@
 const mocks = vi.hoisted(() => ({
   collections: {} as Record<
     string,
-    { vault: { find: ReturnType<typeof vi.fn> } }
+    {
+      vault: {
+        find: ReturnType<typeof vi.fn>;
+        findOne: ReturnType<typeof vi.fn>;
+      };
+    }
   >,
   fetchVault: vi.fn(
     async (_vault: unknown, _options: unknown): Promise<unknown> => undefined,
@@ -9,6 +14,7 @@ const mocks = vi.hoisted(() => ({
   getHostName: vi.fn((id: string) => `host-${id}`),
   getUserName: vi.fn((id: string) => `user-${id}`),
   killValidationVault: vi.fn(() => undefined),
+  cancelVaultServerStart: vi.fn(),
   preparePasswordCache: vi.fn(),
   validate: vi.fn(async (_input: { intent?: string }) => ({
     code: undefined as string | undefined,
@@ -82,6 +88,7 @@ vi.mock("@electron/vault/mapping", () => ({
 }));
 
 vi.mock("@electron/vault/server", () => ({
+  cancelVaultServerStart: mocks.cancelVaultServerStart,
   startVaultServer: (id: string) => mocks.startVaultServer(id),
 }));
 
@@ -97,6 +104,7 @@ vi.mock("@electron/vault/validate", () => ({
 }));
 
 import { DEFAULT_VAULT_OPTIONS } from "@diskpond/constants/vault";
+import { prepareConnection } from "@electron/vault/connection";
 import {
   connectVault,
   createVault,
@@ -104,6 +112,8 @@ import {
   initVaults,
   retryVault,
   stopAllVaults,
+  stopVault,
+  unlockVault,
   vaultServerStopped,
   vaults,
 } from "@electron/vault/manage";
@@ -111,6 +121,9 @@ import {
 function vaultCollection(ids: string[]) {
   return {
     vault: {
+      findOne: vi.fn(({ id }: { id: string }) =>
+        ids.includes(id) ? { id, status: "ACTIVE" } : undefined,
+      ),
       find: vi.fn(() => ({
         fetch: vi.fn(() =>
           ids.map((id) => ({
@@ -264,6 +277,7 @@ describe("vault management", () => {
   it("rejects the identity of a persisted vault even when its engine is stopped", async () => {
     mocks.collections.local = {
       vault: {
+        findOne: vi.fn(),
         find: vi.fn(() => ({
           fetch: () => [
             { id: "vlt_saved", coreId: "fixture-identity", status: "ACTIVE" },
@@ -461,11 +475,7 @@ describe("vault management", () => {
       status: "RUNNING",
       initTask: { id: "task_1" },
     });
-    const consoleError = vi
-      .spyOn(console, "error")
-      .mockImplementation(() => undefined);
     expect(getVaultStatus("missing")).toBeNull();
-    consoleError.mockRestore();
   });
 
   it("exposes a failed vault startup, continues other vaults, and retries on request", async () => {
@@ -568,14 +578,10 @@ describe("vault management", () => {
     );
     await initVaults();
 
-    const consoleError = vi
-      .spyOn(console, "error")
-      .mockImplementation(() => undefined);
     expect(getVaultStatus("removed")).toBeNull();
     expect(getVaultStatus("remaining")?.status).toBe("FAILED");
     stopAllVaults();
     expect(getVaultStatus("remaining")).toBeNull();
-    consoleError.mockRestore();
   });
 
   it("logs unexpected reconciliation errors and keeps the startup queue usable", async () => {
@@ -623,6 +629,34 @@ describe("vault management", () => {
     expect(server.process.kill).not.toHaveBeenCalled();
   });
 
+  it("disconnects starting and queued vaults without waiting for a provider or losing other vaults", async () => {
+    mocks.collections.local = vaultCollection(["slow", "queued", "other"]);
+    const late = {
+      address: "",
+      password: "",
+      controlPassword: "",
+      process: { kill: vi.fn() },
+    };
+    let finishStart!: (server: typeof late) => void;
+    mocks.startVaultServer.mockReturnValueOnce(
+      new Promise((resolve) => {
+        finishStart = resolve;
+      }),
+    );
+    const startup = initVaults();
+    await Promise.resolve();
+    expect(getVaultStatus("queued")?.status).toBe("STARTING");
+    stopVault("slow");
+    stopVault("queued");
+    expect(mocks.cancelVaultServerStart).toHaveBeenCalledWith("slow");
+    expect(getVaultStatus("slow")).toBeNull();
+    finishStart(late);
+    await startup;
+    expect(late.process.kill).toHaveBeenCalled();
+    expect(mocks.startVaultServer).not.toHaveBeenCalledWith("queued");
+    expect(Object.keys(vaults)).toEqual(["other"]);
+  });
+
   it("stops all running vaults and the validation vault", () => {
     const killA = vi.fn();
     const killB = vi.fn();
@@ -643,5 +677,21 @@ describe("vault management", () => {
     expect(killB).toHaveBeenCalled();
     expect(mocks.killValidationVault).toHaveBeenCalled();
     expect(vaults).toEqual({});
+  });
+
+  it("does not reopen a vault disconnected during credential preparation", async () => {
+    const ids = ["vlt_locked"];
+    mocks.collections.local = vaultCollection(ids);
+    await initVaults();
+    vi.mocked(prepareConnection).mockResolvedValueOnce({
+      type: "s3",
+      config: { bucket: "backups" },
+    });
+    const unlock = unlockVault({ vaultId: "vlt_locked", password: "fixture" });
+    ids.pop();
+    stopVault("vlt_locked");
+    await expect(unlock).resolves.toEqual({ code: "VAULT_NOT_FOUND" });
+    expect(mocks.startVaultServer).toHaveBeenCalledOnce();
+    expect(getVaultStatus("vlt_locked")).toBeNull();
   });
 });

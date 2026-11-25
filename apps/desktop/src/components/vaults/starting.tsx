@@ -1,11 +1,14 @@
+import { DisconnectVaultButton } from "@desktop/components/vaults/disconnect-button";
 import { useVaultStatus } from "@desktop/hooks/queries/use-vault-status";
 import { useTaskDialog } from "@desktop/hooks/state/use-task-dialog";
+import { useVaultId } from "@desktop/hooks/use-vault-id";
 import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
 import { Button } from "@diskpond/ui/button";
 import { VaultIcon } from "lucide-react";
 
 export function VaultStarting() {
   const { t } = useAppTranslation("vault.starting");
+  const { vaultId } = useVaultId();
   const { initTask } = useVaultStatus();
   const { openTaskDialog } = useTaskDialog();
 
@@ -29,6 +32,7 @@ export function VaultStarting() {
             Show Logs
           </Button>
         )}
+        <DisconnectVaultButton vaultId={vaultId} className="mt-4" />
       </div>
       <div className="mb-auto"></div>
     </div>

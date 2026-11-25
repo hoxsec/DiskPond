@@ -1,4 +1,5 @@
 import { CreateVaultDialog } from "@desktop/components/dialogs/create-vault/index";
+import { DeleteVaultDialog } from "@desktop/components/dialogs/delete-vault";
 import { CompactNavigation } from "@desktop/components/sidebar/compact-navigation";
 import { Sidebar } from "@desktop/components/sidebar/index";
 import { PasswordStorageNotice } from "@desktop/components/vaults/password-storage-notice";
@@ -11,25 +12,30 @@ export type LayoutProps = {
 };
 
 export function Layout({ children }: LayoutProps) {
-  const settingsPage = useRouterState({
-    select: (state) =>
-      state.matches.some((match) => match.routeId === "/$accountId/settings"),
+  const page = useRouterState({
+    select: (state) => state.matches.at(-1)?.routeId,
   });
+  const backupSetup = page === "/$accountId/backup-setup/$vaultId";
   return (
     <>
-      <Sidebar />
+      {!backupSetup && <Sidebar />}
       <CreateVaultDialog />
-      <SidebarInset className="!overflow-hidden max-md:h-svh">
-        <CompactNavigation />
-        <div className="flex min-h-0 flex-1 flex-col overflow-auto">
-          {!settingsPage ? (
-            <div className="empty:hidden px-6 pt-4">
-              <PasswordStorageNotice />
-            </div>
-          ) : null}
-          {children}
-        </div>
-      </SidebarInset>
+      <DeleteVaultDialog />
+      {backupSetup ? (
+        children
+      ) : (
+        <SidebarInset className="!overflow-hidden max-md:h-svh">
+          <CompactNavigation />
+          <div className="flex min-h-0 flex-1 flex-col overflow-auto">
+            {page !== "/$accountId/settings" ? (
+              <div className="empty:hidden px-6 pt-4">
+                <PasswordStorageNotice />
+              </div>
+            ) : null}
+            {children}
+          </div>
+        </SidebarInset>
+      )}
     </>
   );
 }

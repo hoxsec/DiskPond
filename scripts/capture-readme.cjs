@@ -125,6 +125,7 @@ module.exports = async function captureReadme({
   }
 
   await text(contents, "Open DiskPond");
+  await require("./lib/backup-setup-smoke.cjs").prepareFolders(directory);
   await activate(contents, "Open DiskPond");
   await contents.executeJavaScript(
     "window.electron.store.set('preferences.theme', 'dark')",
@@ -137,6 +138,10 @@ module.exports = async function captureReadme({
   await fill(contents, "confirmPassword", "disposable-readme-fixture");
   await activate(contents, "Create vault");
   await waitFor(contents, "!document.querySelector('[role=dialog]')");
+  await text(contents, "2 folders selected");
+  await capturePair("suggested-folders");
+  if (process.env.DISKPOND_CAPTURE_FOLDERS_ONLY === "1") return;
+  await activate(contents, "Skip for now");
   await text(contents, "Add file/folder");
   const vaultRoute = await contents.executeJavaScript("location.hash");
   const routes = [];

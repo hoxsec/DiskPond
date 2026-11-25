@@ -74,7 +74,7 @@ export function CreateVaultDetails({
       if (!accountId) return;
 
       await navigate({
-        to: "/$accountId/$vaultId",
+        to: "/$accountId/backup-setup/$vaultId",
         params: (params) => ({
           ...params,
           vaultId: res.vaultId,

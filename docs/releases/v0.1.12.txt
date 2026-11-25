@@ -1,0 +1,10 @@
+## Choose folders for your first backup
+
+- After creating or connecting a vault, see the actual locations of Documents, Pictures, Desktop, Downloads, Music and Videos, including folders that have moved. Documents and Pictures are selected when available and not already backed up.
+- Add another folder, or choose **Skip for now** and return to **Suggested folders** in the vault overview. Review your selections and destination before choosing **Start backup**.
+- If a folder becomes unavailable, you can retry it without repeating successful backups. Folders already in the vault keep their existing backup policies.
+
+## Disconnect an offline or locked vault
+
+- Choose **Disconnect vault** from Home or the vault's recovery screen, even when the storage is unplugged or the vault is locked.
+- Disconnecting removes the connection from this computer. Your stored backups stay in place and can be restored after you reconnect the vault.

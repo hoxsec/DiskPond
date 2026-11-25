@@ -1,5 +1,14 @@
+import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import {
+  mkdir,
+  mkdtemp,
+  readFile,
+  realpath,
+  rename,
+  rm,
+  writeFile,
+} from "node:fs/promises";
 import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -12,8 +21,10 @@ import {
   run,
 } from "./lib/process.mjs";
 
-const directory = await mkdtemp(
-  join(process.env.DISKPOND_TEST_TMP || tmpdir(), "diskpond-vault-flows-"),
+const directory = await realpath(
+  await mkdtemp(
+    join(process.env.DISKPOND_TEST_TMP || tmpdir(), "diskpond-vault-flows-"),
+  ),
 );
 const require = createRequire(resolve(electronDirectory, "package.json"));
 const target = coreBuildTarget(process.platform, process.arch);
@@ -44,35 +55,46 @@ try {
       { stdio: "pipe" },
     );
   }
-  execFileSync(
-    resolve(root, "apps/core/dist", target.directory, target.executable),
-    [
-      "--config-file",
-      join(directory, "seed.config"),
-      "--no-persist-credentials",
-      "--disable-repository-log",
-      "repo",
-      "create",
-      "filesystem",
-      "--path",
-      join(directory, "existing"),
-    ],
-    {
-      timeout: 60_000,
-      env: {
-        ...process.env,
-        KOPIA_PASSWORD: "existing-fixture-password",
-        KOPIA_CHECK_FOR_UPDATES: "false",
-        KOPIA_CACHE_DIRECTORY: join(directory, "cache"),
-        KOPIA_LOG_DIR: join(directory, "logs"),
+  const cli = (...args) =>
+    execFileSync(
+      resolve(root, "apps/core/dist", target.directory, target.executable),
+      [
+        "--config-file",
+        join(directory, "seed.config"),
+        "--no-persist-credentials",
+        "--disable-repository-log",
+        ...args,
+      ],
+      {
+        encoding: "utf8",
+        timeout: 60_000,
+        env: {
+          ...process.env,
+          KOPIA_PASSWORD: "existing-fixture-password",
+          KOPIA_CHECK_FOR_UPDATES: "false",
+          KOPIA_CACHE_DIRECTORY: join(directory, "cache"),
+          KOPIA_LOG_DIR: join(directory, "logs"),
+        },
+        stdio: "pipe",
       },
-      stdio: "pipe",
-    },
-  );
+    );
+  cli("repo", "create", "filesystem", "--path", join(directory, "existing"));
+  const source = join(directory, "source");
+  await mkdir(source);
+  await writeFile(join(source, "keep.txt"), "Before disconnect");
+  const snapshot = JSON.parse(cli("snapshot", "create", source, "--json"));
+  assert.ok(snapshot.id);
+  await rm(source, { recursive: true });
+
   await completed(
     pnpm(["--filter", "@diskpond/electron", "exec", "install-electron"]),
   );
-  for (const phase of ["setup", "restart"])
+  for (const phase of ["setup", "restart", "disconnect", "locked"]) {
+    for (const name of ["create-0", "existing"]) {
+      const path = join(directory, name);
+      if (phase === "disconnect") await rename(path, `${path}-detached`);
+      if (phase === "locked") await rename(`${path}-detached`, path);
+    }
     await run(
       require("electron"),
       [resolve(root, "scripts/smoke-vault-flows.cjs")],
@@ -88,6 +110,13 @@ try {
         timeout: 180_000,
       },
     );
+  }
+  const restored = join(directory, "restored");
+  cli("snapshot", "restore", snapshot.id, restored);
+  assert.equal(
+    await readFile(join(restored, "keep.txt"), "utf8"),
+    "Before disconnect",
+  );
 } finally {
   if (deniedSid)
     execFileSync(

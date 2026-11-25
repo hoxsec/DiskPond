@@ -1,6 +1,10 @@
 import { setupSignalDBPreload } from "@blinkdisk/signaldb-electron/preload";
 import type { PasswordStorageStatus } from "@diskpond/schemas/password";
 import type {
+  getBackupFolders,
+  startFolderBackups,
+} from "@electron/backup-folders";
+import type {
   getConnectionSummary,
   getVaultStorageSpace,
 } from "@electron/vault/connection";
@@ -129,6 +133,14 @@ const api = {
     getPathFromFile: (file: File) => webUtils.getPathForFile(file),
   },
   vault: {
+    backupFolders: (payload: Parameters<typeof getBackupFolders>[0]) =>
+      ipcRenderer.invoke("vault.backupFolders", payload) as ReturnType<
+        typeof getBackupFolders
+      >,
+    startFolderBackups: (payload: Parameters<typeof startFolderBackups>[0]) =>
+      ipcRenderer.invoke("vault.startFolderBackups", payload) as ReturnType<
+        typeof startFolderBackups
+      >,
     storageSpace: (payload: { vaultId: string }) =>
       ipcRenderer.invoke("vault.storageSpace", payload) as ReturnType<
         typeof getVaultStorageSpace

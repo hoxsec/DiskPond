@@ -34,6 +34,9 @@ try {
         DISKPOND_DATA_DIR: join(directory, "app-data"),
         DISKPOND_VAULT_FIXTURE: `${drive}\\`,
         DISKPOND_VAULT_PHASE: "screenshots",
+        DISKPOND_CAPTURE_FOLDERS_ONLY: process.argv.includes("--folders")
+          ? "1"
+          : "0",
         DISKPOND_SMOKE_CAPTURE_DIR: resolve(root, "docs/images"),
       },
     },

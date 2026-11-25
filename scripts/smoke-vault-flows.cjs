@@ -18,7 +18,10 @@ const {
   Tray,
 } = require("electron");
 
-if (process.env.DISKPOND_RECOVERY_SESSION_PASSWORDS === "1")
+if (
+  process.env.DISKPOND_RECOVERY_SESSION_PASSWORDS === "1" ||
+  process.env.DISKPOND_VAULT_PHASE === "locked"
+)
   safeStorage.isEncryptionAvailable = () => false;
 
 let recoveryStarted = false;
@@ -215,6 +218,70 @@ async function savedVaults() {
   );
 }
 
+async function verifyDisconnect(contents, locked) {
+  const active = (await savedVaults()).filter(
+    (vault) => vault.status === "ACTIVE",
+  );
+  assert.deepEqual(
+    active.map((vault) => vault.name).sort(),
+    locked ? ["Created 1"] : ["Connected existing", "Created 0", "Created 1"],
+  );
+  await home(contents);
+  // Exercise the renderer's offline mode as well as the detached storage.
+  await contents.executeJavaScript(
+    "window.dispatchEvent(new Event('offline'))",
+  );
+
+  for (const name of locked
+    ? ["Created 1"]
+    : ["Connected existing", "Created 0"]) {
+    const { id } = active.find((vault) => vault.name === name);
+    const card = `document.querySelector('[data-vault-id="${id}"]')`;
+    if (name === "Connected existing") {
+      await waitFor(contents, `${card}?.innerText.includes('Offline')`);
+      const openFromCard = async () => {
+        await tabTo(
+          contents,
+          `document.activeElement?.matches('button') && ${card}?.contains(document.activeElement) && document.activeElement.textContent.trim() === 'Disconnect vault'`,
+        );
+        await key(contents, "Return");
+        await text(contents, `To confirm, type "${name}" below:`);
+      };
+      await openFromCard();
+      await fill(contents, "confirm", "Created 0");
+      await activate(contents, "Disconnect vault");
+      await text(contents, "The vault name you entered does not match");
+      await activate(contents, "Cancel");
+      await waitFor(contents, "!document.querySelector('[role=dialog]')");
+      await openFromCard();
+      assert.equal(
+        await contents.executeJavaScript(
+          "document.querySelector('#confirm').value",
+        ),
+        "",
+      );
+    } else {
+      await contents.executeJavaScript(`location.hash = '#/local/${id}'`);
+      await text(contents, locked ? "Set up vault" : "Vault unavailable");
+      await activate(contents, "Disconnect vault");
+      await text(contents, `To confirm, type "${name}" below:`);
+    }
+    await fill(contents, "confirm", name);
+    await activate(contents, "Disconnect vault");
+    await waitFor(
+      contents,
+      `!document.querySelector('[role=dialog]') && location.hash === '#/local' && !${card}`,
+    );
+  }
+  await text(contents, locked ? "Back up and recover your files" : "Created 1");
+  assert.equal(
+    await contents.executeJavaScript(
+      "document.querySelectorAll('[data-slot=vault-card]').length",
+    ),
+    locked ? 0 : 1,
+  );
+}
+
 async function verifyStorageSpace(contents) {
   const stats = await statfs(directory, { bigint: true });
   const space = await contents.executeJavaScript(
@@ -363,6 +430,13 @@ app.on("browser-window-created", (_, window) => {
         }
         return finish();
       }
+      if (["disconnect", "locked"].includes(process.env.DISKPOND_VAULT_PHASE)) {
+        await verifyDisconnect(
+          contents,
+          process.env.DISKPOND_VAULT_PHASE === "locked",
+        );
+        return finish();
+      }
       if (process.env.DISKPOND_VAULT_PHASE === "restart") {
         await text(contents, "Vaults");
         const vaults = await savedVaults();
@@ -388,6 +462,11 @@ app.on("browser-window-created", (_, window) => {
         return finish();
       }
       await text(contents, "Open DiskPond");
+      const {
+        prepareFolders,
+        verifyBackupSetup,
+      } = require("./lib/backup-setup-smoke.cjs");
+      await prepareFolders(directory);
       await activate(contents, "Open DiskPond");
       await text(contents, "Back up and recover your files");
 
@@ -463,6 +542,31 @@ app.on("browser-window-created", (_, window) => {
         }
         await activate(contents, "Create vault");
         await waitFor(contents, "!document.querySelector('[role=dialog]')");
+        await text(contents, "What would you like to back up?");
+        if (index === 0) {
+          await verifyBackupSetup({
+            contents,
+            directory,
+            text,
+            activate,
+            key,
+            tabTo,
+            waitFor,
+            capture,
+            select: (path) => {
+              selected = path;
+            },
+          });
+        } else {
+          await text(contents, "2 folders selected");
+          await capture(contents, "suggested-folders-dark");
+          await activate(contents, "Skip for now");
+          await text(contents, "Add file/folder");
+          const { sources } = await contents.executeJavaScript(
+            "fetch('diskpondapp://vault/api/v1/sources', {headers:{'vault-id':location.hash.split('/')[2]}}).then(r=>r.json())",
+          );
+          assert.equal(sources.length, 0);
+        }
         await text(contents, "Add file/folder");
         await verifyStorageSpace(contents);
         await capture(contents, `vault-storage-${index ? "dark" : "light"}`);
@@ -497,6 +601,13 @@ app.on("browser-window-created", (_, window) => {
       await fill(contents, "password", "existing-fixture-password");
       await activate(contents, "Connect vault");
       await waitFor(contents, "!document.querySelector('[role=dialog]')");
+      await text(contents, "2 folders selected");
+      assert(
+        await contents.executeJavaScript(
+          "document.documentElement.scrollWidth <= window.innerWidth",
+        ),
+      );
+      await activate(contents, "Skip for now");
       await contents.executeJavaScript("window.electron.zoom(1)");
       await text(contents, "Add file/folder");
       await verifyStorageSpace(contents);

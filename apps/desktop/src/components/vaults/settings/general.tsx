@@ -3,20 +3,17 @@ import {
   SettingsPanel,
   SettingsRow,
 } from "@desktop/components/settings";
+import { DisconnectVaultButton } from "@desktop/components/vaults/disconnect-button";
 import { useUpdateVaultForm } from "@desktop/hooks/forms/use-update-vault-form";
-import { useDeleteVaultDialog } from "@desktop/hooks/state/use-delete-vault-dialog";
 import { useVaultId } from "@desktop/hooks/use-vault-id";
 import { FormDisabledContext, useStore } from "@diskpond/forms/use-app-form";
 import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
-import { Button } from "@diskpond/ui/button";
-import { TrashIcon } from "lucide-react";
 import { useContext } from "react";
 import { VaultConfigSettings } from "./config";
 import { VaultThrottleSettings } from "./throttle";
 
 export function VaultGeneralSettings() {
   const { t } = useAppTranslation("settings.vault.general");
-  const { openDeleteVaultDialog } = useDeleteVaultDialog();
   const { vaultId } = useVaultId();
 
   const form = useUpdateVaultForm();
@@ -69,14 +66,7 @@ export function VaultGeneralSettings() {
             title={t("delete.title")}
             description={t("delete.description")}
           >
-            <Button
-              disabled={disabled}
-              onClick={() => vaultId && openDeleteVaultDialog({ vaultId })}
-              variant="destructive-secondary"
-              size="sm"
-            >
-              <TrashIcon /> {t("delete.button")}
-            </Button>
+            <DisconnectVaultButton vaultId={vaultId} disabled={disabled} />
           </SettingsRow>
         </SettingsPanel>
       </SettingsGroup>

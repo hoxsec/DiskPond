@@ -1,5 +1,6 @@
 import { providerIcons } from "@desktop/components/icons/providers/index";
 import { VaultCardStorage } from "@desktop/components/vaults/card-storage";
+import { DisconnectVaultButton } from "@desktop/components/vaults/disconnect-button";
 import { useVaultHealth } from "@desktop/hooks/queries/use-backup-health";
 import { useVaultConfig } from "@desktop/hooks/queries/use-vault-config";
 import { useVaultStatus } from "@desktop/hooks/queries/use-vault-status";
@@ -222,9 +223,9 @@ export function VaultCard({ vault }: VaultCardProps) {
           </span>
         </div>
       </div>
-      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-t px-5 py-3 text-xs">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-t px-5 py-3 text-xs">
         <span
-          className={cn("inline-flex items-center gap-2", statusColor)}
+          className={cn("mr-auto inline-flex items-center gap-2", statusColor)}
           title={
             state === "stale" || state === "current"
               ? t("overview.score.hints.freshness")
@@ -241,6 +242,12 @@ export function VaultCard({ vault }: VaultCardProps) {
           />
           {t(`card.status.${state}`)}
         </span>
+        <DisconnectVaultButton
+          vaultId={vault.id}
+          aria-describedby={titleId}
+          variant="ghost"
+          className="h-auto px-1 py-1 text-xs text-muted-foreground hover:text-destructive"
+        />
         {connection.status === "FAILED" ? (
           <Button
             variant="ghost"

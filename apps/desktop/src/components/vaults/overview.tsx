@@ -269,6 +269,16 @@ export function VaultOverview({ vault }: VaultOverviewProps) {
                   {t("sources.backupAll")}
                 </Button>
               ) : null}
+              <Button
+                variant="secondary"
+                disabled={!vault}
+                onClick={() =>
+                  navigate({ to: "/$accountId/backup-setup/$vaultId" })
+                }
+              >
+                <FolderPlusIcon aria-hidden="true" />
+                {t("folder:setup.suggested")}
+              </Button>
               <Button onClick={() => openCreateSource()}>
                 <PlusIcon />
                 {t("sources.addSource")}

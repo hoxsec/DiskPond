@@ -1,4 +1,5 @@
 import { Empty } from "@desktop/components/empty";
+import { DisconnectVaultButton } from "@desktop/components/vaults/disconnect-button";
 import { useQueryKey } from "@desktop/hooks/use-query-key";
 import { useVaultId } from "@desktop/hooks/use-vault-id";
 import { useAppTranslation } from "@diskpond/hooks/use-app-translation";
@@ -30,9 +31,12 @@ export function VaultFailed() {
       description={t("error:VAULT_SERVER_UNAVAILABLE.description")}
       icon={<AlertTriangleIcon />}
     >
-      <Button onClick={() => mutate()} disabled={isPending} loading={isPending}>
-        {t("retry")}
-      </Button>
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <Button onClick={() => mutate()} loading={isPending}>
+          {t("retry")}
+        </Button>
+        <DisconnectVaultButton vaultId={vaultId} />
+      </div>
     </Empty>
   );
 }

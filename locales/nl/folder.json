@@ -1,4 +1,36 @@
 {
+  "setup": {
+    "label": "Back-up instellen",
+    "connect": "Een kluis verbinden",
+    "choose": "Mappen kiezen",
+    "review": "Back-up bekijken",
+    "vault": "Geselecteerde kluis",
+    "step": "Stap {{step}} van 3",
+    "title": "Waarvan wil je een back-up maken?",
+    "description": "Kies de mappen op deze computer die je aan je kluis wilt toevoegen.",
+    "suggested": "Voorgestelde mappen",
+    "folders": {
+      "documents": "Documenten",
+      "pictures": "Afbeeldingen",
+      "desktop": "Bureaublad",
+      "downloads": "Downloads",
+      "music": "Muziek",
+      "videos": "Video’s"
+    },
+    "another": "Een andere map kiezen",
+    "skip": "Voor nu overslaan",
+    "selected_one": "{{count}} map geselecteerd",
+    "selected_other": "{{count}} mappen geselecteerd",
+    "reviewDescription": "Start de back-up om deze mappen toe te voegen aan ‘{{vault}}’ en er nu een back-up van te maken.",
+    "selectedTitle": "Geselecteerde mappen",
+    "start": "Back-up starten",
+    "alreadyAdded": "Al in deze kluis",
+    "loading": "Je mappen worden gezocht…",
+    "empty": "Geen voorgestelde mappen gevonden. Je kunt zelf een map kiezen.",
+    "loadFailed": "De voorgestelde mappen konden niet worden geladen.",
+    "unavailable": "Kies een toegankelijke map die de kluis niet bevat en er ook niet in staat.",
+    "failed": "De back-up van de onderstaande mappen kon niet starten. Controleer of ze toegankelijk zijn en probeer het opnieuw."
+  },
   "createDialog": {
     "title": "Bestand/map toevoegen",
     "description": "Kies een bestand of map om te back-uppen.",

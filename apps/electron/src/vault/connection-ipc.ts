@@ -6,6 +6,11 @@ import {
   ZValidateConnection,
 } from "@diskpond/schemas/connection";
 import { ZPasswordVault } from "@diskpond/schemas/password";
+import {
+  ZBackupFolderLookup,
+  ZStartFolderBackups,
+} from "@diskpond/schemas/source";
+import { getBackupFolders, startFolderBackups } from "@electron/backup-folders";
 import { collections } from "@electron/db";
 import { requireMainWindow } from "@electron/ipc-context";
 import {
@@ -93,4 +98,16 @@ ipcMain.handle("vault.storageSpace", (event, ...args: unknown[]) => {
   const value = parse(ZPasswordVault, args);
   requireLocalVault(value.vaultId);
   return getVaultStorageSpace(value);
+});
+ipcMain.handle("vault.backupFolders", (event, ...args: unknown[]) => {
+  requireMainWindow(event);
+  const value = parse(ZBackupFolderLookup, args);
+  requireLocalVault(value.vaultId);
+  return getBackupFolders(value);
+});
+ipcMain.handle("vault.startFolderBackups", (event, ...args: unknown[]) => {
+  requireMainWindow(event);
+  const value = parse(ZStartFolderBackups, args);
+  requireLocalVault(value.vaultId);
+  return exclusive(value.vaultId, () => startFolderBackups(value));
 });

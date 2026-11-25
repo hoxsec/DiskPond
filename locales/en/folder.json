@@ -1,4 +1,36 @@
 {
+  "setup": {
+    "label": "Backup setup",
+    "connect": "Connect a vault",
+    "choose": "Choose folders",
+    "review": "Review backup",
+    "vault": "Selected vault",
+    "step": "Step {{step}} of 3",
+    "title": "What would you like to back up?",
+    "description": "Choose folders from this computer to add to your vault.",
+    "suggested": "Suggested folders",
+    "folders": {
+      "documents": "Documents",
+      "pictures": "Pictures",
+      "desktop": "Desktop",
+      "downloads": "Downloads",
+      "music": "Music",
+      "videos": "Videos"
+    },
+    "another": "Choose another folder",
+    "skip": "Skip for now",
+    "selected_one": "{{count}} folder selected",
+    "selected_other": "{{count}} folders selected",
+    "reviewDescription": "Start the backup to add these folders to “{{vault}}” and back them up now.",
+    "selectedTitle": "Selected folders",
+    "start": "Start backup",
+    "alreadyAdded": "Already in this vault",
+    "loading": "Finding your folders…",
+    "empty": "No suggested folders were found. You can choose a folder yourself.",
+    "loadFailed": "Couldn’t load the suggested folders.",
+    "unavailable": "Choose an accessible folder that neither contains the vault nor is inside it.",
+    "failed": "The folders shown below couldn’t be backed up. Check that they’re accessible, then try again."
+  },
   "createDialog": {
     "title": "Add file/folder",
     "description": "Choose a file or folder to back up.",

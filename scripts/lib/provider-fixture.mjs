@@ -303,7 +303,8 @@ void app.whenReady().then(async () => {
         await restartEngine(id);
         await restoreVersions(vaults[id], versions, "engine-restart");
       } else {
-        const status = await request(vaults[id], "GET", "repo/status");
+        const vault = await waitFor(() => vaults[id]);
+        const status = await request(vault, "GET", "repo/status");
         if (mode === "protected") assert.equal(status.connected, true);
         else {
           assert.equal(status.connected, false);

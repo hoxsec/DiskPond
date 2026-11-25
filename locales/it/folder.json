@@ -1,4 +1,37 @@
 {
+  "setup": {
+    "label": "Configura backup",
+    "connect": "Collega una cassaforte",
+    "choose": "Scegli le cartelle",
+    "review": "Rivedi il backup",
+    "vault": "Cassaforte selezionata",
+    "step": "Passaggio {{step}} di 3",
+    "title": "Di cosa vuoi fare il backup?",
+    "description": "Scegli le cartelle di questo computer da aggiungere alla tua cassaforte.",
+    "suggested": "Cartelle suggerite",
+    "folders": {
+      "documents": "Documenti",
+      "pictures": "Immagini",
+      "desktop": "Scrivania",
+      "downloads": "Download",
+      "music": "Musica",
+      "videos": "Video"
+    },
+    "another": "Scegli un’altra cartella",
+    "skip": "Salta per ora",
+    "selected_one": "{{count}} cartella selezionata",
+    "selected_other": "{{count}} cartelle selezionate",
+    "selected_many": "{{count}} cartelle selezionate",
+    "reviewDescription": "Avvia il backup per aggiungere queste cartelle a «{{vault}}» ed eseguirne subito il backup.",
+    "selectedTitle": "Cartelle selezionate",
+    "start": "Avvia backup",
+    "alreadyAdded": "Già in questa cassaforte",
+    "loading": "Ricerca delle cartelle…",
+    "empty": "Nessuna cartella suggerita. Puoi scegliere una cartella manualmente.",
+    "loadFailed": "Impossibile caricare le cartelle suggerite.",
+    "unavailable": "Scegli una cartella accessibile che non contenga la cassaforte e non si trovi al suo interno.",
+    "failed": "Impossibile avviare il backup delle cartelle elencate qui sotto. Verifica che siano accessibili e riprova."
+  },
   "createDialog": {
     "title": "Aggiungi file/cartella",
     "description": "Scegli un file o una cartella da sottoporre a backup.",

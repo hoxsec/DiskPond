@@ -7,7 +7,7 @@ import { ZVault, type ZVaultType } from "@diskpond/schemas/vault";
 import { writeAtomicJson } from "@electron/atomic-json";
 import { SchemaCollection } from "@electron/db/schema";
 import { globalAccountDirectory } from "@electron/path";
-import { initVaults } from "@electron/vault/manage";
+import { initVaults, stopVault } from "@electron/vault/manage";
 import createFilesystemAdapter from "@signaldb/fs";
 import { ipcMain } from "electron";
 
@@ -85,7 +85,8 @@ export function initAccountCollections(accountId: string) {
 async function initializeAccountCollections(accountId: string) {
   if (!collections[accountId]) await registerAccountCollections(accountId);
 
-  await initVaults();
+  // Home can manage the saved connections while their providers are unreachable.
+  void initVaults();
 }
 
 async function registerAccountCollections(accountId: string) {
@@ -101,12 +102,12 @@ async function registerAccountCollections(accountId: string) {
 
   bridge.addCollection(vault, { name: vaultName });
 
-  function onChange() {
-    initVaults();
+  function onChange({ id, status }: ZVaultType) {
+    if (status === "DELETED") stopVault(id);
+    else void initVaults(id);
   }
 
   vault.on("added", onChange);
-  vault.on("updateOne", onChange);
-  vault.on("updateMany", onChange);
-  vault.on("removed", onChange);
+  vault.on("changed", onChange);
+  vault.on("removed", ({ id }) => stopVault(id));
 }

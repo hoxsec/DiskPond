@@ -41,13 +41,14 @@ describe("local workspace collections", () => {
     mocks.ready.mockResolvedValue(undefined);
   });
 
-  it("loads persisted local vaults before engine reconciliation", async () => {
+  it("makes persisted vaults available before their engines finish connecting", async () => {
     mocks.initialVaults.push({ id: "existing-local-vault" });
     const db = await import("@electron/db");
-    mocks.initVaults.mockImplementationOnce(async () => {
+    mocks.initVaults.mockImplementationOnce(() => {
       expect(db.collections.local?.vault.find().fetch()).toEqual([
         { id: "existing-local-vault" },
       ]);
+      return new Promise(() => {});
     });
     await db.setupCollections();
     expect(Object.keys(db.collections)).toEqual(["local"]);
